@@ -167,14 +167,14 @@ namespace TacticalGroups
 				int num = -1;
 				bool showGroupFrames = ShowGroupFrames;
 				int reorderableGroup = -1;
-				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (Groups.Count + 1)), cachedDrawLocs[0].y, (Size.x * 2f) / 2f, Size.y / 2f);
+				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (Groups.Count + 1)), cachedDrawLocs[0].y, Size.x, Size.y / 2f);
 				GUI.DrawTexture(groupRect.ExpandedBy(5f), GroupIconBox);
 				GUI.DrawTexture(groupRect, GroupingIcon);
 				HandleGroupingClicks(groupRect);
+
 				for (int i = 0; i < Groups.Count; i++)
 				{
-					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (i + 1)), cachedDrawLocs[0].y, GroupIcon_Default.width, GroupIcon_Default.height);
-					Log.Message(groupRect.width + " - " + groupRect.height);
+					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (i + 1)), cachedDrawLocs[0].y, GroupIcon_Default.width, GroupIcon_Default.height);
 					GUI.DrawTexture(groupRect, GroupIcon_Default);
 					Groups[i].Draw(groupRect);
 				}
@@ -365,7 +365,6 @@ namespace TacticalGroups
 			tmpMaps.Clear();
 			tmpCaravans.Clear();
 			drawLocsFinder.CalculateDrawLocs(cachedDrawLocs, out cachedScale);
-			Log.Message("REcache");
 		}
 
 		public float GetEntryRectAlpha(Rect rect)
@@ -478,6 +477,7 @@ namespace TacticalGroups
 
 		public bool AnyColonistOrCorpseAt(Vector2 pos)
 		{
+			Log.Message("AnyColonistOrCorpseAt: " + pos);
 			if (!TryGetEntryAt(pos, out Entry entry))
 			{
 				return false;
@@ -499,6 +499,26 @@ namespace TacticalGroups
 				}
 			}
 			entry = default(Entry);
+			return false;
+		}
+
+		public bool TryGetGroupPawnAt(Vector2 pos, out Pawn pawn)
+        {
+			foreach (var group in Groups)
+			{
+				if (group.Visible)
+				{
+					foreach (var pawnRect in group.pawnRects)
+					{
+						if (pawnRect.Value.Contains(pos))
+						{
+							pawn = pawnRect.Key;
+							return true;
+						}
+					}
+				}
+			}
+			pawn = null;
 			return false;
 		}
 
@@ -548,6 +568,21 @@ namespace TacticalGroups
 				tmpColonists.Add(tmpColonistsWithMap[j].First);
 			}
 			tmpColonistsWithMap.Clear();
+
+			foreach (var group in Groups)
+            {
+				if (group.Visible)
+                {
+					foreach (var pawnRect in group.pawnRects)
+                    {
+						if (rect.Overlaps(pawnRect.Value))
+                        {
+							tmpColonists.Add(pawnRect.Key);
+						}
+                    }
+                }
+            }
+			Log.Message("ColonistsOrCorpsesInScreenRect: " + tmpColonists.Count);
 			return tmpColonists;
 		}
 
@@ -566,6 +601,7 @@ namespace TacticalGroups
 					tmpMapColonistsOrCorpsesInScreenRect.Add(list[i]);
 				}
 			}
+			Log.Message("MapColonistsOrCorpsesInScreenRect: " + tmpMapColonistsOrCorpsesInScreenRect.Count);
 			return tmpMapColonistsOrCorpsesInScreenRect;
 		}
 
@@ -585,6 +621,8 @@ namespace TacticalGroups
 					tmpCaravanPawns.Add(pawn);
 				}
 			}
+			Log.Message("CaravanMembersInScreenRect: " + tmpCaravanPawns.Count);
+
 			return tmpCaravanPawns;
 		}
 
@@ -600,6 +638,7 @@ namespace TacticalGroups
 			{
 				tmpCaravans.Add(list[i].GetCaravan());
 			}
+			Log.Message("CaravanMembersCaravansInScreenRect: " + tmpCaravans.Count);
 			return tmpCaravans;
 		}
 
@@ -619,12 +658,17 @@ namespace TacticalGroups
 
 		public Thing ColonistOrCorpseAt(Vector2 pos)
 		{
+			Log.Message("ColonistOrCorpseAt: " + pos);
 			if (!Visible)
 			{
 				return null;
 			}
 			if (!TryGetEntryAt(pos, out Entry entry))
 			{
+				if (TryGetGroupPawnAt(pos, out Pawn groupPawn))
+                {
+					return groupPawn;
+                }
 				return null;
 			}
 			Pawn pawn = entry.pawn;
@@ -632,6 +676,7 @@ namespace TacticalGroups
 			{
 				return pawn.Corpse;
 			}
+			Log.Message("ColonistOrCorpseAt: " + pawn);
 			return pawn;
 		}
 	}

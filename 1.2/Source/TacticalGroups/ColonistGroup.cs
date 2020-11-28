@@ -10,7 +10,8 @@ namespace TacticalGroups
     public class ColonistGroup : IExposable
     {
         public List<Pawn> pawns;
-		public bool pawnWindowIsActive;
+		private bool pawnWindowIsActive;
+		public bool Visible => pawnWindowIsActive;
         public ColonistGroup(List<Pawn> pawns)
         {
             this.pawns = pawns;
@@ -55,8 +56,8 @@ namespace TacticalGroups
         {
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows;
-			//totalRect.height += pawnRows.Count * 15;
-			totalRect = totalRect.ScaledBy(1.5f);
+			totalRect.height += pawnRows.Count * 30;
+			totalRect = totalRect.ScaledBy(1.1f);
 			if (Mouse.IsOver(rect))
             {
 				pawnWindowIsActive = true;
@@ -72,17 +73,19 @@ namespace TacticalGroups
 			}
         }
 
+		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public void DrawPawnRows(Rect rect, List<List<Pawn>> pawnRows)
         {
 			var initialRect = new Rect(rect);
-			initialRect.x -= initialRect.width / 1.5f;
-			initialRect.y += initialRect.height * 0.7f;
+			initialRect.x -= (initialRect.width / 3.3333333333f) - 1f;
+			initialRect.y += initialRect.height * 0.65f;
 			for (var i = 0; i < pawnRows.Count; i++)
 			{
 				for (var j = 0; j < pawnRows[i].Count; j++)
 				{
-					Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), initialRect.width / 2f, initialRect.height / 2f);
+					Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), 24, 24);
 					DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+					pawnRects[pawnRows[i][j]] = smallRect;
 				}
 			}
 		}
