@@ -52,16 +52,20 @@ namespace TacticalGroups
 
         public void Draw(Rect rect)
         {
-            if (Mouse.IsOver(rect))
+			var totalRect = new Rect(rect);
+			var pawnRows = GetPawnRows;
+			totalRect.height += pawnRows.Count * 30;
+            if (Mouse.IsOver(totalRect))
 			{
 				var initialRect = new Rect(rect);
-				initialRect.x -= initialRect.width;
-				for (var i = 0; i < GetPawnRows.Count; i++)
+				initialRect.x -= initialRect.width / 1.5f;
+				initialRect.y += initialRect.height * 0.7f;
+				for (var i = 0; i < pawnRows.Count; i++)
                 {
-					for (var j = 0; j < GetPawnRows[i].Count; j++)
+					for (var j = 0; j < pawnRows[i].Count; j++)
                     {
 						Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), initialRect.width / 2f, initialRect.height / 2f);
-						DrawColonist(smallRect, GetPawnRows[i][j], GetPawnRows[i][j].Map, true, false);
+						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
 					}
 				}
             }
@@ -101,7 +105,8 @@ namespace TacticalGroups
 			//{
 			//	TacticalGroups.TacticalColonistBar.drawer.DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			//}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize * 0.5f, 
+				ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			//TacticalGroups.TacticalColonistBar.drawer.DrawIcons(rect, colonist);
 			GUI.color = color2;
@@ -111,7 +116,7 @@ namespace TacticalGroups
 			}
 			float num2 = 4f * TacticalGroups.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
-			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticalGroups.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, TacticalGroups.TacticalColonistBar.drawer.pawnLabelsCache);
+			//GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticalGroups.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, TacticalGroups.TacticalColonistBar.drawer.pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 		}
@@ -120,8 +125,8 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticalGroups.TacticalColonistBar.Scale / 2f;
-			return new Rect(x + 1f, y - (vector.y - TacticalGroups.TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticalGroups.TacticalColonistBar.Scale;
+			return new Rect(x + 1f, y - ((vector.y - (TacticalGroups.TacticalColonistBar.Size.y)) * 0.5f) - 1f, vector.x * 0.5f, vector.y * 0.5f).ContractedBy(1f);
 		}
 		public void ExposeData()
         {

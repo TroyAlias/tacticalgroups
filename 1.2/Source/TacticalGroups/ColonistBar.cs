@@ -175,7 +175,7 @@ namespace TacticalGroups
 				{
 					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (i + 1)), cachedDrawLocs[0].y, Size.x, Size.y);
 					GUI.DrawTexture(groupRect, GroupIcon_Default);
-					//Groups[i].Draw(groupRect);
+					Groups[i].Draw(groupRect);
 				}
 
 				for (int i = 0; i < cachedDrawLocs.Count; i++)
