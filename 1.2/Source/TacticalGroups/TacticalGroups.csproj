@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ColonistBar.cs" />
     <Compile Include="ColonistBarColonistDrawer.cs" />
     <Compile Include="ColonistGroup.cs" />

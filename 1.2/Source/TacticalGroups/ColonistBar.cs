@@ -30,11 +30,11 @@ namespace TacticalGroups
 				this.group = group;
 				reorderAction = delegate(int from, int to)
 				{
-					Find.ColonistBar.Reorder(from, to, group);
+					TacticalGroups.TacticalColonistBar.Reorder(from, to, group);
 				};
 				extraDraggedItemOnGUI = delegate(int index, Vector2 dragStartPos)
 				{
-					Find.ColonistBar.DrawColonistMouseAttachment(index, dragStartPos, group);
+					TacticalGroups.TacticalColonistBar.DrawColonistMouseAttachment(index, dragStartPos, group);
 				};
 			}
 		}
@@ -60,7 +60,7 @@ namespace TacticalGroups
 		public static readonly Texture2D SettingsGear = ContentFinder<Texture2D>.Get("UI/ColonistBar/SettingsGear");
 		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
-		public static readonly Texture2D GroupIconGraphic = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIconGraphic");
+		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupIcon_Combat");
 
 		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
 
@@ -144,6 +144,17 @@ namespace TacticalGroups
 			entriesDirty = true;
 		}
 
+		public List<ColonistGroup> Groups
+        {
+			get
+            {
+				if (groups != null)
+                {
+					return groups;
+                }
+				return new List<ColonistGroup>();
+			}
+        }
 		public void ColonistBarOnGUI()
 		{
 			if (!Visible)
@@ -156,10 +167,17 @@ namespace TacticalGroups
 				int num = -1;
 				bool showGroupFrames = ShowGroupFrames;
 				int reorderableGroup = -1;
-				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f), cachedDrawLocs[0].y, (Size.x * 2f) / 2f, Size.y / 2f);
+				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (Groups.Count + 1)), cachedDrawLocs[0].y, (Size.x * 2f) / 2f, Size.y / 2f);
 				GUI.DrawTexture(groupRect.ExpandedBy(5f), GroupIconBox);
 				GUI.DrawTexture(groupRect, GroupingIcon);
 				HandleGroupingClicks(groupRect);
+				for (int i = 0; i < Groups.Count; i++)
+				{
+					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (i + 1)), cachedDrawLocs[0].y, Size.x, Size.y);
+					GUI.DrawTexture(groupRect, GroupIcon_Default);
+					//Groups[i].Draw(groupRect);
+				}
+
 				for (int i = 0; i < cachedDrawLocs.Count; i++)
 				{
 					Rect rect = new Rect(cachedDrawLocs[i].x, cachedDrawLocs[i].y, Size.x, Size.y);
@@ -233,20 +251,24 @@ namespace TacticalGroups
 		{
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))
 			{
-				if (this.groups is null)
-					this.groups = new List<ColonistGroup>();
-				Log.Message("Event.current.clickCount: " + Event.current.clickCount);
-				Log.Message("this.groups: " + this.groups.Count);
-				this.groups.Add(new ColonistGroup(Find.Selector.SelectedPawns));
-				foreach (var group in groups)
+				var selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
+				if (selectedPawns.Any())
                 {
-					foreach (var pawn in group.pawns)
-                    {
-						Log.Message("Pawn: " + pawn);
+					if (this.groups is null)
+						this.groups = new List<ColonistGroup>();
+					Log.Message("this.groups: " + this.groups.Count);
+
+					this.groups.Add(new ColonistGroup(selectedPawns));
+					foreach (var group in groups)
+					{
+						foreach (var pawn in group.pawns)
+						{
+							Log.Message("group: " + pawn);
+						}
 					}
-                }
-				MarkColonistsDirty();
-				CheckRecacheEntries();
+					MarkColonistsDirty();
+					CheckRecacheEntries();
+				}
 				Event.current.Use();
 			}
 		}
@@ -333,6 +355,10 @@ namespace TacticalGroups
             {
 				Log.Message("cachedEntries: null group");
 			}
+			foreach (var p in cachedEntries)
+            {
+				Log.Message("cachedEntries: " + p.pawn);
+            }
 			drawer.Notify_RecachedEntries();
 			tmpPawns.Clear();
 			tmpMaps.Clear();
@@ -352,6 +378,7 @@ namespace TacticalGroups
 
 		public void Highlight(Pawn pawn)
 		{
+			Log.Message("Highlight: " + pawn);
 			if (Visible && !colonistsToHighlight.Contains(pawn))
 			{
 				colonistsToHighlight.Add(pawn);

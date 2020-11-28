@@ -10,31 +10,31 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
-		private Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
+		public Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
 
-		private static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
+		public  static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 
-		private static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist");
+		public  static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist");
 
-		private static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan");
+		public  static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan");
 
-		private static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro");
+		public  static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro");
 
-		private static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro");
+		public  static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro");
 
-		private static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest");
+		public  static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest");
 
-		private static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping");
+		public  static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping");
 
-		private static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing");
+		public  static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing");
 
-		private static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking");
+		public  static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking");
 
-		private static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle");
+		public  static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle");
 
-		private static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning");
+		public  static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning");
 
-		private static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
+		public  static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
 
 		public static readonly Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
@@ -52,11 +52,11 @@ namespace TacticalGroups
 
 		private static Vector2[] bracketLocs = new Vector2[4];
 
-		private TacticalColonistBar ColonistBar => TacticalGroups.ColonistBar;
+		private TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
 
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-			float alpha = ColonistBar.GetEntryRectAlpha(rect);
+			float alpha = TacticalColonistBar.GetEntryRectAlpha(rect);
 			ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
 			if (reordering)
 			{
@@ -79,7 +79,7 @@ namespace TacticalGroups
 				Widgets.DrawBox(rect, thickness);
 				GUI.color = color2;
 			}
-			Rect rect2 = rect.ContractedBy(-2f * ColonistBar.Scale);
+			Rect rect2 = rect.ContractedBy(-2f * TacticalColonistBar.Scale);
 			if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
 			{
 				DrawSelectionOverlayOnGUI(colonist, rect2);
@@ -96,9 +96,9 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, DeadColonistTex);
 			}
-			float num2 = 4f * ColonistBar.Scale;
+			float num2 = 4f * TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
-			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + ColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
+			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 		}
@@ -108,29 +108,29 @@ namespace TacticalGroups
 			float num = 99999f;
 			float num2 = 0f;
 			float num3 = 0f;
-			List<TacticalColonistBar.Entry> entries = ColonistBar.Entries;
-			List<Vector2> drawLocs = ColonistBar.DrawLocs;
+			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
+			List<Vector2> drawLocs = TacticalColonistBar.DrawLocs;
 			for (int i = 0; i < entries.Count; i++)
 			{
 				if (entries[i].group == group)
 				{
 					num = Mathf.Min(num, drawLocs[i].x);
-					num2 = Mathf.Max(num2, drawLocs[i].x + ColonistBar.Size.x);
-					num3 = Mathf.Max(num3, drawLocs[i].y + ColonistBar.Size.y);
+					num2 = Mathf.Max(num2, drawLocs[i].x + TacticalColonistBar.Size.x);
+					num3 = Mathf.Max(num3, drawLocs[i].y + TacticalColonistBar.Size.y);
 				}
 			}
-			return new Rect(num, 0f, num2 - num, num3 - 0f).ContractedBy(-12f * ColonistBar.Scale);
+			return new Rect(num, 0f, num2 - num, num3 - 0f).ContractedBy(-12f * TacticalColonistBar.Scale);
 		}
 
 		public void DrawGroupFrame(int group)
 		{
 			Rect position = GroupFrameRect(group);
-			Map map = ColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group).map;
+			Map map = TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group).map;
 			float num = (map == null) ? ((!WorldRendererUtility.WorldRenderedNow) ? 0.75f : 1f) : ((map == Find.CurrentMap && !WorldRendererUtility.WorldRenderedNow) ? 1f : 0.75f);
 			Widgets.DrawRectFast(position, new Color(0.5f, 0.5f, 0.5f, 0.4f * num));
 		}
 
-		private void ApplyEntryInAnotherMapAlphaFactor(Map map, ref float alpha)
+		public void ApplyEntryInAnotherMapAlphaFactor(Map map, ref float alpha)
 		{
 			if (map == null)
 			{
@@ -150,11 +150,14 @@ namespace TacticalGroups
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
 			{
 				Event.current.Use();
+				Log.Message("Handling " + colonist);
+
 				CameraJumper.TryJump(colonist);
 			}
 			reordering = ReorderableWidget.Reorderable(reorderableGroup, rect, useRightButton: true);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Mouse.IsOver(rect))
 			{
+				Log.Message("Handling " + colonist);
 				Event.current.Use();
 			}
 		}
@@ -162,14 +165,14 @@ namespace TacticalGroups
 		public void HandleGroupFrameClicks(int group)
 		{
 			Rect rect = GroupFrameRect(group);
-			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && Mouse.IsOver(rect) && !ColonistBar.AnyColonistOrCorpseAt(UI.MousePositionOnUIInverted))
+			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && Mouse.IsOver(rect) && !TacticalColonistBar.AnyColonistOrCorpseAt(UI.MousePositionOnUIInverted))
 			{
 				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
 				if ((!worldRenderedNow && !Find.Selector.dragBox.IsValidAndActive) || (worldRenderedNow && !Find.WorldSelector.dragBox.IsValidAndActive))
 				{
 					Find.Selector.dragBox.active = false;
 					Find.WorldSelector.dragBox.active = false;
-					TacticalColonistBar.Entry entry = ColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group);
+					TacticalColonistBar.Entry entry = TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group);
 					Map map = entry.map;
 					if (map == null)
 					{
@@ -207,17 +210,17 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = PawnTextureSize * ColonistBar.Scale;
-			return new Rect(x + 1f, y - (vector.y - ColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			Vector2 vector = PawnTextureSize * TacticalColonistBar.Scale;
+			return new Rect(x + 1f, y - (vector.y - TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
 		}
 
-		private void DrawIcons(Rect rect, Pawn colonist)
+		public void DrawIcons(Rect rect, Pawn colonist)
 		{
 			if (colonist.Dead)
 			{
 				return;
 			}
-			float num = 20f * ColonistBar.Scale;
+			float num = 20f * TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			bool flag = false;
 			if (colonist.CurJob != null)
@@ -280,33 +283,33 @@ namespace TacticalGroups
 
 		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
 		{
-			float num = 20f * ColonistBar.Scale;
+			float num = 20f * TacticalColonistBar.Scale;
 			Rect rect = new Rect(pos.x, pos.y, num, num);
 			GUI.DrawTexture(rect, icon);
 			TooltipHandler.TipRegion(rect, tooltip);
 			pos.x += num;
 		}
 
-		private void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
+		public void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
 		{
 			Thing obj = colonist;
 			if (colonist.Dead)
 			{
 				obj = colonist.Corpse;
 			}
-			float num = 0.4f * ColonistBar.Scale;
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * ColonistBar.Scale);
+			float num = 0.4f * TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 
-		private void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
+		public void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
 		{
-			float num = 0.4f * ColonistBar.Scale;
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * ColonistBar.Scale);
+			float num = 0.4f * TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 
-		private void DrawSelectionOverlayOnGUI(Vector2[] bracketLocs, float selectedTexScale)
+		public void DrawSelectionOverlayOnGUI(Vector2[] bracketLocs, float selectedTexScale)
 		{
 			int num = 90;
 			for (int i = 0; i < 4; i++)

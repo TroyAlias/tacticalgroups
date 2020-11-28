@@ -10,7 +10,7 @@ namespace TacticalGroups
         public TacticalGroups(Game game)
         {
         }
-        public static TacticalColonistBar ColonistBar
+        public static TacticalColonistBar TacticalColonistBar
         {
             get
             {

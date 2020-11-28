@@ -13,13 +13,13 @@ namespace TacticalGroups
 
 		private const float MarginTop = 21f;
 
-		private TacticalColonistBar ColonistBar => TacticalGroups.ColonistBar;
+		private TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
 
 		private static float MaxColonistBarWidth => (float)UI.screenWidth - 520f;
 
 		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
 		{
-			if (ColonistBar.Entries.Count == 0)
+			if (TacticalColonistBar.Entries.Count == 0)
 			{
 				outDrawLocs.Clear();
 				scale = 1f;
@@ -35,7 +35,7 @@ namespace TacticalGroups
 		private void CalculateColonistsInGroup()
 		{
 			entriesInGroup.Clear();
-			List<TacticalColonistBar.Entry> entries = ColonistBar.Entries;
+			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
 			int num = CalculateGroupsCount();
 			for (int i = 0; i < num; i++)
 			{
@@ -49,7 +49,7 @@ namespace TacticalGroups
 
 		private int CalculateGroupsCount()
 		{
-			List<TacticalColonistBar.Entry> entries = ColonistBar.Entries;
+			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
 			int num = -1;
 			int num2 = 0;
 			for (int i = 0; i < entries.Count; i++)
@@ -66,7 +66,7 @@ namespace TacticalGroups
 		private float FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow)
 		{
 			float num = 1f;
-			List<TacticalColonistBar.Entry> entries = ColonistBar.Entries;
+			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
 			int num2 = CalculateGroupsCount();
 			while (true)
 			{
@@ -155,12 +155,12 @@ namespace TacticalGroups
 				{
 					horizontalSlotsPerGroup[i] = Mathf.Min(horizontalSlotsPerGroup[i], entriesInGroup[i]);
 				}
-				num = ColonistBar.Entries.Count;
+				num = TacticalColonistBar.Entries.Count;
 			}
 			int num2 = CalculateGroupsCount();
 			float num3 = (TacticalColonistBar.BaseSize.x + 24f) * scale;
 			float num4 = (float)num * num3 + (float)(num2 - 1) * 25f * scale;
-			List<TacticalColonistBar.Entry> entries = ColonistBar.Entries;
+			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
 			int num5 = -1;
 			int num6 = -1;
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
