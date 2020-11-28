@@ -55,8 +55,8 @@ namespace TacticalGroups
         {
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows;
-			totalRect.height += pawnRows.Count * 35;
-			totalRect = totalRect.ScaledBy(1.9f);
+			//totalRect.height += pawnRows.Count * 15;
+			totalRect = totalRect.ScaledBy(1.5f);
 			if (Mouse.IsOver(rect))
             {
 				pawnWindowIsActive = true;
@@ -112,7 +112,7 @@ namespace TacticalGroups
 			//	Widgets.DrawBox(rect, thickness);
 			//	GUI.color = color2;
 			//}
-			Rect rect2 = rect.ContractedBy(-2f * TacticalGroups.TacticalColonistBar.Scale);
+			//Rect rect2 = rect.ContractedBy(-2f * TacticalGroups.TacticalColonistBar.Scale);
 			//if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
 			//{
 			//	TacticalGroups.TacticalColonistBar.drawer.DrawSelectionOverlayOnGUI(colonist, rect2);

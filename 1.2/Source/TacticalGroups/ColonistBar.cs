@@ -60,7 +60,7 @@ namespace TacticalGroups
 		public static readonly Texture2D SettingsGear = ContentFinder<Texture2D>.Get("UI/ColonistBar/SettingsGear");
 		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
-		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupIcon_Combat");
+		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/Default");
 
 		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
 
@@ -173,7 +173,8 @@ namespace TacticalGroups
 				HandleGroupingClicks(groupRect);
 				for (int i = 0; i < Groups.Count; i++)
 				{
-					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (i + 1)), cachedDrawLocs[0].y, Size.x, Size.y);
+					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 1.5f * (i + 1)), cachedDrawLocs[0].y, GroupIcon_Default.width, GroupIcon_Default.height);
+					Log.Message(groupRect.width + " - " + groupRect.height);
 					GUI.DrawTexture(groupRect, GroupIcon_Default);
 					Groups[i].Draw(groupRect);
 				}
