@@ -10,6 +10,7 @@ namespace TacticalGroups
     public class ColonistGroup : IExposable
     {
         public List<Pawn> pawns;
+		public bool pawnWindowIsActive;
         public ColonistGroup(List<Pawn> pawns)
         {
             this.pawns = pawns;
@@ -55,21 +56,36 @@ namespace TacticalGroups
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows;
 			totalRect.height += pawnRows.Count * 35;
-            if (Mouse.IsOver(totalRect))
+			totalRect = totalRect.ScaledBy(1.9f);
+			if (Mouse.IsOver(rect))
+            {
+				pawnWindowIsActive = true;
+				DrawPawnRows(rect, pawnRows);
+			}
+			else if (Mouse.IsOver(totalRect) && pawnWindowIsActive)
 			{
-				var initialRect = new Rect(rect);
-				initialRect.x -= initialRect.width / 1.5f;
-				initialRect.y += initialRect.height * 0.7f;
-				for (var i = 0; i < pawnRows.Count; i++)
-                {
-					for (var j = 0; j < pawnRows[i].Count; j++)
-                    {
-						Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), initialRect.width / 2f, initialRect.height / 2f);
-						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
-					}
-				}
-            }
+				DrawPawnRows(rect, pawnRows);
+			}
+			else
+            {
+				pawnWindowIsActive = false;
+			}
         }
+
+		public void DrawPawnRows(Rect rect, List<List<Pawn>> pawnRows)
+        {
+			var initialRect = new Rect(rect);
+			initialRect.x -= initialRect.width / 1.5f;
+			initialRect.y += initialRect.height * 0.7f;
+			for (var i = 0; i < pawnRows.Count; i++)
+			{
+				for (var j = 0; j < pawnRows[i].Count; j++)
+				{
+					Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), initialRect.width / 2f, initialRect.height / 2f);
+					DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+				}
+			}
+		}
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 			float alpha = TacticalGroups.TacticalColonistBar.GetEntryRectAlpha(rect);
