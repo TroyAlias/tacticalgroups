@@ -115,15 +115,15 @@ namespace TacticalGroups
 			//	Widgets.DrawBox(rect, thickness);
 			//	GUI.color = color2;
 			//}
-			//Rect rect2 = rect.ContractedBy(-2f * TacticalGroups.TacticalColonistBar.Scale);
-			//if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
-			//{
-			//	TacticalGroups.TacticalColonistBar.drawer.DrawSelectionOverlayOnGUI(colonist, rect2);
-			//}
-			//else if (WorldRendererUtility.WorldRenderedNow && colonist.IsCaravanMember() && Find.WorldSelector.IsSelected(colonist.GetCaravan()))
-			//{
-			//	TacticalGroups.TacticalColonistBar.drawer.DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
-			//}
+			Rect rect2 = rect.ContractedBy(-2f * TacticalGroups.TacticalColonistBar.Scale);
+			if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
+			{
+				DrawSelectionOverlayOnGUI(colonist, rect2);
+			}
+			else if (WorldRendererUtility.WorldRenderedNow && colonist.IsCaravanMember() && Find.WorldSelector.IsSelected(colonist.GetCaravan()))
+			{
+				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
+			}
 			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize * 0.5f, 
 				ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
@@ -147,6 +147,42 @@ namespace TacticalGroups
 			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticalGroups.TacticalColonistBar.Scale;
 			return new Rect(x + 1f, y - ((vector.y - (TacticalGroups.TacticalColonistBar.Size.y)) * 0.5f) - 1f, vector.x * 0.5f, vector.y * 0.5f).ContractedBy(1f);
 		}
+
+		private static Vector2[] bracketLocs = new Vector2[4];
+
+		public void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
+		{
+			Thing obj = colonist;
+			if (colonist.Dead)
+			{
+				obj = colonist.Corpse;
+			}
+			float num = 0.4f * TacticalGroups.TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 
+				(float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, 
+				jumpDistanceFactor: 20f * TacticalGroups.TacticalColonistBar.Scale);
+			DrawSelectionOverlayOnGUI(bracketLocs, num);
+		}
+
+		public void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
+		{
+			float num = 0.4f * TacticalGroups.TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 
+				(float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes,
+				jumpDistanceFactor: 20f * TacticalGroups.TacticalColonistBar.Scale);
+			DrawSelectionOverlayOnGUI(bracketLocs, num);
+		}
+
+		public void DrawSelectionOverlayOnGUI(Vector2[] bracketLocs, float selectedTexScale)
+		{
+			int num = 90;
+			for (int i = 0; i < 4; i++)
+			{
+				Widgets.DrawTextureRotated(bracketLocs[i], SelectionDrawerUtility.SelectedTexGUI, num, selectedTexScale);
+				num += 90;
+			}
+		}
+
 		public void ExposeData()
         {
 
