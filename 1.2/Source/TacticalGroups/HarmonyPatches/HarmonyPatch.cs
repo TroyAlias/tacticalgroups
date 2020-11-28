@@ -15,6 +15,7 @@ namespace TacticalGroups
         static HarmonyPatches()
         {
             var harmony = new Harmony("Troy_Alias.TacticalGroups");
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistBarOnGUI), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistBarOnGUI)));
 

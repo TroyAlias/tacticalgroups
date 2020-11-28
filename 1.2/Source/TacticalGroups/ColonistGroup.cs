@@ -54,7 +54,7 @@ namespace TacticalGroups
         {
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows;
-			totalRect.height += pawnRows.Count * 30;
+			totalRect.height += pawnRows.Count * 35;
             if (Mouse.IsOver(totalRect))
 			{
 				var initialRect = new Rect(rect);
