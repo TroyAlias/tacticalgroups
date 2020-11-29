@@ -191,10 +191,6 @@ namespace TacticalGroups
 			if (ShowExpanded)
             {
 				var initialRect = new Rect(rect).ScaledBy(3f);
-				var backGroundRect = new Rect(initialRect);
-				backGroundRect.y += initialRect.y + 45;
-				backGroundRect.height = pawnRows.Count * 31;
-				//GUI.DrawTexture(backGroundRect, ColonistBarFloatMenuOption.BackgroundColonistLayer);
 				initialRect.x *= 0.95555f;
 				initialRect.y += initialRect.height * 0.45f;
 				for (var i = 0; i < pawnRows.Count; i++)
@@ -211,8 +207,8 @@ namespace TacticalGroups
             {
 				var initialRect = new Rect(rect);
 				var backGroundRect = new Rect(initialRect);
-				backGroundRect.y += initialRect.y + 46;
-				backGroundRect.height = pawnRows.Count * 30.5f;
+				backGroundRect.y += initialRect.y * 3.3f;
+				backGroundRect.height = pawnRows.Count * 30f;
 				GUI.DrawTexture(backGroundRect, ColonistBarFloatMenuOption.BackgroundColonistLayer);
 
 				initialRect.y += initialRect.height * 0.65f;
