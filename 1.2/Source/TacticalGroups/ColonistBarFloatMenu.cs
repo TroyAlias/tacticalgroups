@@ -52,130 +52,7 @@ namespace TacticalGroups
 		public override Vector2 InitialSize => new Vector2(DropMenuRightClick.width, DropMenuRightClick.height);
 
 		private float MaxWindowHeight => (float)UI.screenHeight * 0.9f;
-		
-		private float TotalWindowHeight => Mathf.Min(TotalViewHeight, MaxWindowHeight) + 1f;
-		
-		private float MaxViewHeight
-		{
-			get
-			{
-				if (UsingScrollbar)
-				{
-					float num = 0f;
-					float num2 = 0f;
-					for (int i = 0; i < options.Count; i++)
-					{
-						float requiredHeight = options[i].RequiredHeight;
-						if (requiredHeight > num)
-						{
-							num = requiredHeight;
-						}
-						num2 += requiredHeight + -1f;
-					}
-					int columnCount = ColumnCount;
-					num2 += (float)columnCount * num;
-					return num2 / (float)columnCount;
-				}
-				return MaxWindowHeight;
-			}
-		}
-		
-		private float TotalViewHeight
-		{
-			get
-			{
-				float num = 0f;
-				float num2 = 0f;
-				float maxViewHeight = MaxViewHeight;
-				for (int i = 0; i < options.Count; i++)
-				{
-					float requiredHeight = options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1f > maxViewHeight)
-					{
-						if (num2 > num)
-						{
-							num = num2;
-						}
-						num2 = requiredHeight;
-					}
-					else
-					{
-						num2 += requiredHeight + -1f;
-					}
-				}
-				return Mathf.Max(num, num2);
-			}
-		}
-		
-		private float TotalWidth
-		{
-			get
-			{
-				float num = (float)ColumnCount * ColumnWidth;
-				if (UsingScrollbar)
-				{
-					num += 16f;
-				}
-				return num;
-			}
-		}
-		
-		private float ColumnWidth
-		{
-			get
-			{
-				float num = 70f;
-				for (int i = 0; i < options.Count; i++)
-				{
-					float requiredWidth = options[i].RequiredWidth;
-					if (requiredWidth >= 300f)
-					{
-						return 300f;
-					}
-					if (requiredWidth > num)
-					{
-						num = requiredWidth;
-					}
-				}
-				return Mathf.Round(num);
-			}
-		}
-		
-		private int MaxColumns => Mathf.FloorToInt(((float)UI.screenWidth - 16f) / ColumnWidth);
-		
-		private bool UsingScrollbar => ColumnCountIfNoScrollbar > MaxColumns;
-		
-		private int ColumnCount => Mathf.Min(ColumnCountIfNoScrollbar, MaxColumns);
-		
-		private int ColumnCountIfNoScrollbar
-		{
-			get
-			{
-				if (options == null)
-				{
-					return 1;
-				}
-				Text.Font = GameFont.Small;
-				int num = 1;
-				float num2 = 0f;
-				float maxWindowHeight = MaxWindowHeight;
-				for (int i = 0; i < options.Count; i++)
-				{
-					float requiredHeight = options[i].RequiredHeight;
-					if (num2 + requiredHeight + -1f > maxWindowHeight)
-					{
-						num2 = requiredHeight;
-						num++;
-					}
-					else
-					{
-						num2 += requiredHeight + -1f;
-					}
-				}
-				return num;
-			}
-		}
-
+				
 		public FloatMenuSizeMode SizeMode
 		{
 			get
@@ -294,6 +171,7 @@ namespace TacticalGroups
 			{
 				onCloseCallback();
 			}
+			colonistGroup.showPawnIconsRightClickMenu = false;
 		}
 
 		public void Cancel()
@@ -313,7 +191,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			Rect r = new Rect(0f, 0f, TotalWidth, TotalWindowHeight).ContractedBy(-5f);
+			Rect r = new Rect(0f, 0f, DropMenuRightClick.width, DropMenuRightClick.height).ContractedBy(-5f);
 			if (!r.Contains(Event.current.mousePosition))
 			{
 				float num = GenUI.DistFromRect(r, Event.current.mousePosition);

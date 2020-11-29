@@ -39,10 +39,6 @@ namespace TacticalGroups
 
 		private FloatMenuSizeMode sizeMode;
 
-		private float cachedRequiredHeight;
-
-		private float cachedRequiredWidth;
-
 		private bool drawPlaceHolderIcon;
 
 		private ThingDef shownItem;
@@ -53,38 +49,30 @@ namespace TacticalGroups
 
 		public const float MaxWidth = 300f;
 
-		private const float NormalVerticalMargin = 4f;
-
-		private const float TinyVerticalMargin = 1f;
-
-		private const float NormalHorizontalMargin = 6f;
-
-		private const float TinyHorizontalMargin = 3f;
-
-		private const float MouseOverLabelShift = 4f;
-
-		private static readonly Color ColorBGActive = new ColorInt(21, 25, 29).ToColor;
-
-		private static readonly Color ColorBGActiveMouseover = new ColorInt(29, 45, 50).ToColor;
-
-		private static readonly Color ColorBGDisabled = new ColorInt(40, 40, 40).ToColor;
-
 		private static readonly Color ColorTextActive = Color.white;
 
 		private static readonly Color ColorTextDisabled = new Color(0.9f, 0.9f, 0.9f);
 
 		public const float ExtraPartHeight = 30f;
 
-		private const float ItemIconSize = 27f;
-
-		private const float ItemIconMargin = 4f;
-
 		public static readonly Texture2D RallyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyIcon");
+		public static readonly Texture2D RallyIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyIconHover");
+
 		public static readonly Texture2D ActionsIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIcon");
+		public static readonly Texture2D ActionsIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIconHover");
+		public static readonly Texture2D ActionsIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIconPress");
 		public static readonly Texture2D OrdersIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIcon");
+		public static readonly Texture2D OrdersIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIconHover");
+		public static readonly Texture2D OrdersIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIconPress");
 		public static readonly Texture2D ManageIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIcon");
+		public static readonly Texture2D ManageIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIconHover");
+		public static readonly Texture2D ManageIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIconPress");
+
+		public static Texture2D BackgroundColonistLayer = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ColonistUnderLayer");
 
 		public Texture2D curIcon;
+		public Texture2D iconHover;
+		public Texture2D iconSelected;
 		public string Label
 		{
 			get
@@ -164,11 +152,6 @@ namespace TacticalGroups
 				}
 			}
 		}
-
-		public float RequiredHeight => cachedRequiredHeight;
-
-		public float RequiredWidth => cachedRequiredWidth;
-
 		public MenuOptionPriority Priority
 		{
 			get
@@ -189,12 +172,13 @@ namespace TacticalGroups
 			}
 		}
 
-		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, 
+		public ColonistBarFloatMenuOption(Action action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon,
 			MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
 			this.curIcon = icon;
-			Label = label;
+			this.iconHover = hoverIcon;
+			this.iconSelected = selectedIcon;
 			this.action = action;
 			priorityInt = priority;
 			this.revalidateClickTarget = revalidateClickTarget;
@@ -204,33 +188,9 @@ namespace TacticalGroups
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
 
-		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, ThingDef shownItemForIcon, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, 
-				Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
-			: this(label, action, icon, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
-		{
-			shownItem = shownItemForIcon;
-			if (shownItemForIcon == null)
-			{
-				drawPlaceHolderIcon = true;
-			}
-		}
-
-		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, Texture2D itemIcon, Color iconColor, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
-			: this(label, action, icon, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
-		{
-			this.itemIcon = itemIcon;
-			this.iconColor = iconColor;
-		}
-
 		public void SetSizeMode(FloatMenuSizeMode newSizeMode)
 		{
 			sizeMode = newSizeMode;
-			GameFont font = Text.Font;
-			Text.Font = CurrentFont;
-			float width = 300f - (2f * HorizontalMargin + 4f + extraPartWidth + IconOffset);
-			cachedRequiredHeight = 2f * VerticalMargin + Text.CalcHeight(Label, width);
-			cachedRequiredWidth = HorizontalMargin + 4f + Text.CalcSize(Label).x + extraPartWidth + HorizontalMargin + IconOffset + 4f;
-			Text.Font = font;
 		}
 
 		public void Chosen(bool colonistOrdering, ColonistBarFloatMenu floatMenu)
@@ -309,10 +269,19 @@ namespace TacticalGroups
 			//	GUI.color = ColorBGActive * color;
 			//}
 			//GUI.DrawTexture(rect, BaseContent.WhiteTex);
-			if (curIcon != null)
+			if (Mouse.IsOver(rect) && iconHover != null)
+            {
+				GUI.DrawTexture(rect, iconHover);
+				Log.Message("iconHover: " + iconHover);
+			}
+			else if (curIcon != null)
             {
 				GUI.DrawTexture(rect, curIcon);
             }
+			if (Mouse.IsOver(rect))
+			{
+				Log.Message("2 iconHover: " + iconHover);
+			}
 			GUI.color = ((!Disabled) ? ColorTextActive : ColorTextDisabled) * color;
 			if (sizeMode == FloatMenuSizeMode.Tiny)
 			{
