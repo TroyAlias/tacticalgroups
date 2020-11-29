@@ -52,11 +52,9 @@ namespace TacticalGroups
 
 		private static Vector2[] bracketLocs = new Vector2[4];
 
-		private TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
-
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-			float alpha = TacticalColonistBar.GetEntryRectAlpha(rect);
+			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
 			if (reordering)
 			{
@@ -79,7 +77,7 @@ namespace TacticalGroups
 				Widgets.DrawBox(rect, thickness);
 				GUI.color = color2;
 			}
-			Rect rect2 = rect.ContractedBy(-2f * TacticalColonistBar.Scale);
+			Rect rect2 = rect.ContractedBy(-2f * TacticUtils.TacticalColonistBar.Scale);
 			if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
 			{
 				DrawSelectionOverlayOnGUI(colonist, rect2);
@@ -96,9 +94,9 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, DeadColonistTex);
 			}
-			float num2 = 4f * TacticalColonistBar.Scale;
+			float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
-			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
+			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticUtils.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 		}
@@ -108,24 +106,24 @@ namespace TacticalGroups
 			float num = 99999f;
 			float num2 = 0f;
 			float num3 = 0f;
-			List<TacticalColonistBar.Entry> entries = TacticalColonistBar.Entries;
-			List<Vector2> drawLocs = TacticalColonistBar.DrawLocs;
+			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
+			List<Vector2> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
 			for (int i = 0; i < entries.Count; i++)
 			{
 				if (entries[i].group == group)
 				{
 					num = Mathf.Min(num, drawLocs[i].x);
-					num2 = Mathf.Max(num2, drawLocs[i].x + TacticalColonistBar.Size.x);
-					num3 = Mathf.Max(num3, drawLocs[i].y + TacticalColonistBar.Size.y);
+					num2 = Mathf.Max(num2, drawLocs[i].x + TacticUtils.TacticalColonistBar.Size.x);
+					num3 = Mathf.Max(num3, drawLocs[i].y + TacticUtils.TacticalColonistBar.Size.y);
 				}
 			}
-			return new Rect(num, 0f, num2 - num, num3 - 0f).ContractedBy(-12f * TacticalColonistBar.Scale);
+			return new Rect(num, 0f, num2 - num, num3 - 0f).ContractedBy(-12f * TacticUtils.TacticalColonistBar.Scale);
 		}
 
 		public void DrawGroupFrame(int group)
 		{
 			Rect position = GroupFrameRect(group);
-			Map map = TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group).map;
+			Map map = TacticUtils.TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group).map;
 			float num = (map == null) ? ((!WorldRendererUtility.WorldRenderedNow) ? 0.75f : 1f) : ((map == Find.CurrentMap && !WorldRendererUtility.WorldRenderedNow) ? 1f : 0.75f);
 			Widgets.DrawRectFast(position, new Color(0.5f, 0.5f, 0.5f, 0.4f * num));
 		}
@@ -165,14 +163,14 @@ namespace TacticalGroups
 		public void HandleGroupFrameClicks(int group)
 		{
 			Rect rect = GroupFrameRect(group);
-			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && Mouse.IsOver(rect) && !TacticalColonistBar.AnyColonistOrCorpseAt(UI.MousePositionOnUIInverted))
+			if (Event.current.type == EventType.MouseUp && Event.current.button == 0 && Mouse.IsOver(rect) && !TacticUtils.TacticalColonistBar.AnyColonistOrCorpseAt(UI.MousePositionOnUIInverted))
 			{
 				bool worldRenderedNow = WorldRendererUtility.WorldRenderedNow;
 				if ((!worldRenderedNow && !Find.Selector.dragBox.IsValidAndActive) || (worldRenderedNow && !Find.WorldSelector.dragBox.IsValidAndActive))
 				{
 					Find.Selector.dragBox.active = false;
 					Find.WorldSelector.dragBox.active = false;
-					TacticalColonistBar.Entry entry = TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group);
+					TacticalColonistBar.Entry entry = TacticUtils.TacticalColonistBar.Entries.Find((TacticalColonistBar.Entry x) => x.group == group);
 					Map map = entry.map;
 					if (map == null)
 					{
@@ -210,8 +208,8 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = PawnTextureSize * TacticalColonistBar.Scale;
-			return new Rect(x + 1f, y - (vector.y - TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			Vector2 vector = PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
+			return new Rect(x + 1f, y - (vector.y - TacticUtils.TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
 		}
 
 		public void DrawIcons(Rect rect, Pawn colonist)
@@ -220,7 +218,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			float num = 20f * TacticalColonistBar.Scale;
+			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			bool flag = false;
 			if (colonist.CurJob != null)
@@ -283,7 +281,7 @@ namespace TacticalGroups
 
 		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
 		{
-			float num = 20f * TacticalColonistBar.Scale;
+			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
 			Rect rect = new Rect(pos.x, pos.y, num, num);
 			GUI.DrawTexture(rect, icon);
 			TooltipHandler.TipRegion(rect, tooltip);
@@ -297,15 +295,15 @@ namespace TacticalGroups
 			{
 				obj = colonist.Corpse;
 			}
-			float num = 0.4f * TacticalColonistBar.Scale;
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticalColonistBar.Scale);
+			float num = 0.4f * TacticUtils.TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 
 		public void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
 		{
-			float num = 0.4f * TacticalColonistBar.Scale;
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticalColonistBar.Scale);
+			float num = 0.4f * TacticUtils.TacticalColonistBar.Scale;
+			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 

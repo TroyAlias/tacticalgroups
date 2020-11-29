@@ -72,60 +72,60 @@ namespace TacticalGroups
         }
         public static bool ColonistBarOnGUI()
         {
-            TacticalGroups.TacticalColonistBar.ColonistBarOnGUI();
+            TacticUtils.TacticalColonistBar.ColonistBarOnGUI();
             return false;
         }
         public static void MarkColonistsDirty()
         {
-            TacticalGroups.TacticalColonistBar.MarkColonistsDirty();
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public static bool MapColonistsOrCorpsesInScreenRect(ref List<Thing> __result, Rect rect)
         {
-            __result = TacticalGroups.TacticalColonistBar.MapColonistsOrCorpsesInScreenRect(rect);
+            __result = TacticUtils.TacticalColonistBar.MapColonistsOrCorpsesInScreenRect(rect);
             return false;
         }
 
         public static bool CaravanMembersCaravansInScreenRect(ref List<Caravan> __result, Rect rect)
         {
-            __result = TacticalGroups.TacticalColonistBar.CaravanMembersCaravansInScreenRect(rect);
+            __result = TacticUtils.TacticalColonistBar.CaravanMembersCaravansInScreenRect(rect);
             return false;
         }
 
         public static bool ColonistOrCorpseAt(ref Thing __result, Vector2 pos)
         {
-            __result = TacticalGroups.TacticalColonistBar.ColonistOrCorpseAt(pos);
+            __result = TacticUtils.TacticalColonistBar.ColonistOrCorpseAt(pos);
             return false;
         }
 
         public static bool CaravanMemberCaravanAt(ref Caravan __result, Vector2 at)
         {
-            __result = TacticalGroups.TacticalColonistBar.CaravanMemberCaravanAt(at);
+            __result = TacticUtils.TacticalColonistBar.CaravanMemberCaravanAt(at);
             return false;
         }
 
         public static bool GetColonistsInOrder(ref List<Pawn> __result)
         {
-            __result = TacticalGroups.TacticalColonistBar.GetColonistsInOrder();
+            __result = TacticUtils.TacticalColonistBar.GetColonistsInOrder();
             return false;
         }
 
         public static bool Highlight(Pawn pawn)
         {
-            TacticalGroups.TacticalColonistBar.Highlight(pawn);
+            TacticUtils.TacticalColonistBar.Highlight(pawn);
             return false;
         }
 
         private static void EntriesDirty()
         {
-            TacticalGroups.TacticalColonistBar.MarkColonistsDirty();
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         private static void IsPlayingDirty_Postfix()
         {
             if (Current.ProgramState == ProgramState.Playing)
             {
-                TacticalGroups.TacticalColonistBar.MarkColonistsDirty();
+                TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             }
         }
     }

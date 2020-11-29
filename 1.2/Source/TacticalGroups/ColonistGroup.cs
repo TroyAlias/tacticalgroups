@@ -4,19 +4,42 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace TacticalGroups
 {
     public class ColonistGroup : IExposable
     {
         public List<Pawn> pawns;
+		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
+
 		private bool pawnWindowIsActive;
+		private string groupName;
 		public bool Visible => pawnWindowIsActive;
-        public ColonistGroup(List<Pawn> pawns)
+		private bool expandPawnIcons;
+		public bool ShowExpanded
+        {
+			get
+            {
+				Log.Message("expandPawnIcons: " + expandPawnIcons);
+				if (Visible && expandPawnIcons)
+                {
+					return true;
+                }
+				return false;
+			}
+		}
+		public float IconScale => ShowExpanded ? 1f : 0.5f;
+
+		public ColonistGroup(List<Pawn> pawns)
         {
             this.pawns = pawns;
         }
 
+		public ColonistGroup()
+        {
+
+        }
         public ColonistGroup(Pawn pawn)
         {
             this.pawns = new List<Pawn> { pawn } ;
@@ -52,6 +75,26 @@ namespace TacticalGroups
             }
         }
 
+		public void HandleClicks()
+        {
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+			{
+				if (Event.current.clickCount == 1)
+                {
+					expandPawnIcons = true;
+					Event.current.Use();
+				}
+				else if (Event.current.clickCount == 2)
+                {
+					Find.Selector.ClearSelection();
+					foreach (var pawn in this.pawns)
+					{
+						Find.Selector.Select(pawn);
+					}
+					Event.current.Use();
+				}
+			}
+		}
         public void Draw(Rect rect)
         {
 			var totalRect = new Rect(rect);
@@ -59,40 +102,59 @@ namespace TacticalGroups
 			totalRect.height += pawnRows.Count * 30;
 			totalRect = totalRect.ScaledBy(1.1f);
 			if (Mouse.IsOver(rect))
-            {
+			{
 				pawnWindowIsActive = true;
 				DrawPawnRows(rect, pawnRows);
+				TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(groupName)));
+				HandleClicks();
 			}
 			else if (Mouse.IsOver(totalRect) && pawnWindowIsActive)
 			{
 				DrawPawnRows(rect, pawnRows);
 			}
 			else
-            {
+			{
 				pawnWindowIsActive = false;
+				expandPawnIcons = false;
 			}
-        }
+		}
 
-		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public void DrawPawnRows(Rect rect, List<List<Pawn>> pawnRows)
         {
-			var initialRect = new Rect(rect);
-			initialRect.x -= (initialRect.width / 3.3333333333f) - 1f;
-			initialRect.y += initialRect.height * 0.65f;
-			for (var i = 0; i < pawnRows.Count; i++)
-			{
-				for (var j = 0; j < pawnRows[i].Count; j++)
+			if (ShowExpanded)
+            {
+				var initialRect = new Rect(rect).ScaledBy(3f);
+				initialRect.y += initialRect.height * 0.45f;
+				for (var i = 0; i < pawnRows.Count; i++)
 				{
-					Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), 24, 24);
-					DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
-					pawnRects[pawnRows[i][j]] = smallRect;
+					for (var j = 0; j < pawnRows[i].Count; j++)
+					{
+						Rect smallRect = new Rect(initialRect.x + ((j + 1) * 50), initialRect.y + ((i + 1) * 60), 50, 50);
+						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+						pawnRects[pawnRows[i][j]] = smallRect;
+					}
+				}
+			}
+			else
+            {
+				var initialRect = new Rect(rect);
+				initialRect.x -= (initialRect.width / 3.3333333333f) - 1f;
+				initialRect.y += initialRect.height * 0.65f;
+				for (var i = 0; i < pawnRows.Count; i++)
+				{
+					for (var j = 0; j < pawnRows[i].Count; j++)
+					{
+						Rect smallRect = new Rect(initialRect.x + ((j + 1) * 25), initialRect.y + ((i + 1) * 30), 24, 24);
+						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+						pawnRects[pawnRows[i][j]] = smallRect;
+					}
 				}
 			}
 		}
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-			float alpha = TacticalGroups.TacticalColonistBar.GetEntryRectAlpha(rect);
-			TacticalGroups.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
+			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
+			TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
 			if (reordering)
 			{
 				alpha *= 0.5f;
@@ -115,7 +177,7 @@ namespace TacticalGroups
 			//	Widgets.DrawBox(rect, thickness);
 			//	GUI.color = color2;
 			//}
-			Rect rect2 = rect.ContractedBy(-2f * TacticalGroups.TacticalColonistBar.Scale);
+			Rect rect2 = rect.ContractedBy(-2f * TacticUtils.TacticalColonistBar.Scale);
 			if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
 			{
 				DrawSelectionOverlayOnGUI(colonist, rect2);
@@ -124,8 +186,8 @@ namespace TacticalGroups
 			{
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize * 0.5f, 
-				ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+
+			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			//TacticalGroups.TacticalColonistBar.drawer.DrawIcons(rect, colonist);
 			GUI.color = color2;
@@ -133,19 +195,43 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, ColonistBarColonistDrawer.DeadColonistTex);
 			}
-			float num2 = 4f * TacticalGroups.TacticalColonistBar.Scale;
-			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
+			//float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
+			//Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
 			//GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticalGroups.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, TacticalGroups.TacticalColonistBar.drawer.pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
+
+			if (rect.Contains(Event.current.mousePosition))
+			{
+				string text = ShouldShowShotReport(colonist) ? TooltipUtility.ShotCalculationTipString(colonist) : null;
+				if (colonist.def.hasTooltip || !text.NullOrEmpty())
+				{
+					TipSignal tooltip = colonist.GetTooltip();
+					if (!text.NullOrEmpty())
+					{
+						ref string text2 = ref tooltip.text;
+						text2 = text2 + "\n\n" + text;
+					}
+					TooltipHandler.TipRegion(rect, tooltip);
+				}
+			}
+		}
+
+		private bool ShouldShowShotReport(Thing t)
+		{
+			if (!t.def.hasTooltip && !(t is Hive))
+			{
+				return t is IAttackTarget;
+			}
+			return true;
 		}
 
 		public Rect GetPawnTextureRect(Vector2 pos)
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticalGroups.TacticalColonistBar.Scale;
-			return new Rect(x + 1f, y - ((vector.y - (TacticalGroups.TacticalColonistBar.Size.y)) * 0.5f) - 1f, vector.x * 0.5f, vector.y * 0.5f).ContractedBy(1f);
+			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
+			return new Rect(x + 1f, y - ((vector.y - (TacticUtils.TacticalColonistBar.Size.y)) * IconScale) - 1f, vector.x * IconScale, vector.y * IconScale).ContractedBy(1f);
 		}
 
 		private static Vector2[] bracketLocs = new Vector2[4];
@@ -157,19 +243,19 @@ namespace TacticalGroups
 			{
 				obj = colonist.Corpse;
 			}
-			float num = 0.4f * TacticalGroups.TacticalColonistBar.Scale;
+			float num = 0.4f * TacticUtils.TacticalColonistBar.Scale;
 			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 
 				(float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, 
-				jumpDistanceFactor: 20f * TacticalGroups.TacticalColonistBar.Scale);
+				jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 
 		public void DrawCaravanSelectionOverlayOnGUI(Caravan caravan, Rect rect)
 		{
-			float num = 0.4f * TacticalGroups.TacticalColonistBar.Scale;
+			float num = 0.4f * TacticUtils.TacticalColonistBar.Scale;
 			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<WorldObject>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 
 				(float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (WorldObject)caravan, rect: rect, selectTimes: WorldSelectionDrawer.SelectTimes,
-				jumpDistanceFactor: 20f * TacticalGroups.TacticalColonistBar.Scale);
+				jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 
@@ -185,7 +271,10 @@ namespace TacticalGroups
 
 		public void ExposeData()
         {
+			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
+		}
 
-        }
-    }
+		private List<Pawn> pawnKeys;
+		private List<Rect> rectValues;
+	}
 }

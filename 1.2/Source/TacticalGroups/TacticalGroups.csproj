@@ -44,6 +44,7 @@
     <Compile Include="ColonistBar.cs" />
     <Compile Include="ColonistBarColonistDrawer.cs" />
     <Compile Include="ColonistGroup.cs" />
+    <Compile Include="TacticUtils.cs" />
     <Compile Include="TacticalGroups.cs" />
     <Compile Include="ColonistBarDrawLocsFinder.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch.cs" />

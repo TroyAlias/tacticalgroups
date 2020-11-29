@@ -30,11 +30,11 @@ namespace TacticalGroups
 				this.group = group;
 				reorderAction = delegate(int from, int to)
 				{
-					TacticalGroups.TacticalColonistBar.Reorder(from, to, group);
+					TacticUtils.TacticalColonistBar.Reorder(from, to, group);
 				};
 				extraDraggedItemOnGUI = delegate(int index, Vector2 dragStartPos)
 				{
-					TacticalGroups.TacticalColonistBar.DrawColonistMouseAttachment(index, dragStartPos, group);
+					TacticUtils.TacticalColonistBar.DrawColonistMouseAttachment(index, dragStartPos, group);
 				};
 			}
 		}
@@ -77,8 +77,6 @@ namespace TacticalGroups
 		public const float BaseSpaceBetweenColonistsVertical = 32f;
 
 		public const float FactionIconSpacing = 2f;
-
-		public List<ColonistGroup> groups;
 
 		private static List<Pawn> tmpPawns = new List<Pawn>();
 
@@ -143,18 +141,6 @@ namespace TacticalGroups
 		{
 			entriesDirty = true;
 		}
-
-		public List<ColonistGroup> Groups
-        {
-			get
-            {
-				if (groups != null)
-                {
-					return groups;
-                }
-				return new List<ColonistGroup>();
-			}
-        }
 		public void ColonistBarOnGUI()
 		{
 			if (!Visible)
@@ -167,16 +153,16 @@ namespace TacticalGroups
 				int num = -1;
 				bool showGroupFrames = ShowGroupFrames;
 				int reorderableGroup = -1;
-				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (Groups.Count + 1)), cachedDrawLocs[0].y, Size.x, Size.y / 2f);
+				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (TacticUtils.Groups.Count + 1)), cachedDrawLocs[0].y, Size.x, Size.y / 2f);
 				GUI.DrawTexture(groupRect.ExpandedBy(5f), GroupIconBox);
 				GUI.DrawTexture(groupRect, GroupingIcon);
 				HandleGroupingClicks(groupRect);
 
-				for (int i = 0; i < Groups.Count; i++)
+				for (int i = 0; i < TacticUtils.Groups.Count; i++)
 				{
 					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (i + 1)), cachedDrawLocs[0].y, GroupIcon_Default.width, GroupIcon_Default.height);
 					GUI.DrawTexture(groupRect, GroupIcon_Default);
-					Groups[i].Draw(groupRect);
+					TacticUtils.Groups[i].Draw(groupRect);
 				}
 
 				for (int i = 0; i < cachedDrawLocs.Count; i++)
@@ -255,12 +241,9 @@ namespace TacticalGroups
 				var selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
 				if (selectedPawns.Any())
                 {
-					if (this.groups is null)
-						this.groups = new List<ColonistGroup>();
-					Log.Message("this.groups: " + this.groups.Count);
-
-					this.groups.Add(new ColonistGroup(selectedPawns));
-					foreach (var group in groups)
+					Log.Message("TacticUtils.TacticalGroups.Groups: " + TacticUtils.TacticalGroups.Groups.Count);
+					TacticUtils.TacticalGroups.AddGroup(selectedPawns);
+					foreach (var group in TacticUtils.TacticalGroups.Groups)
 					{
 						foreach (var pawn in group.pawns)
 						{
@@ -346,10 +329,10 @@ namespace TacticalGroups
 				}
 			}
 
-			if (this.groups != null)
+			if (TacticUtils.Groups != null)
             {
 				Log.Message("1 cachedEntries: " + cachedEntries.Count);
-				cachedEntries.RemoveAll(x => this.groups.Where(y => y.pawns.Contains(x.pawn)).Any());
+				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => y.pawns.Contains(x.pawn)).Any());
 				Log.Message("2 cachedEntries: " + cachedEntries.Count);
 			}
 			else
@@ -504,7 +487,7 @@ namespace TacticalGroups
 
 		public bool TryGetGroupPawnAt(Vector2 pos, out Pawn pawn)
         {
-			foreach (var group in Groups)
+			foreach (var group in TacticUtils.Groups)
 			{
 				if (group.Visible)
 				{
@@ -569,7 +552,7 @@ namespace TacticalGroups
 			}
 			tmpColonistsWithMap.Clear();
 
-			foreach (var group in Groups)
+			foreach (var group in TacticUtils.Groups)
             {
 				if (group.Visible)
                 {
