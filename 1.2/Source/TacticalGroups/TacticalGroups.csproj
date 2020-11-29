@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="ColonistBar.cs" />
     <Compile Include="ColonistBarColonistDrawer.cs" />
+    <Compile Include="ColonistBarFloatMenuOption.cs" />
+    <Compile Include="ColonistBarFloatMenu.cs" />
     <Compile Include="ColonistGroup.cs" />
     <Compile Include="TacticUtils.cs" />
     <Compile Include="TacticalGroups.cs" />

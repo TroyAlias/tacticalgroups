@@ -21,7 +21,6 @@ namespace TacticalGroups
         {
 			get
             {
-				Log.Message("expandPawnIcons: " + expandPawnIcons);
 				if (Visible && expandPawnIcons)
                 {
 					return true;
@@ -75,25 +74,47 @@ namespace TacticalGroups
             }
         }
 
-		public void HandleClicks()
+		public void HandleClicks(Rect rect)
         {
-			if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+			if (Event.current.type == EventType.MouseDown)
 			{
-				if (Event.current.clickCount == 1)
+				if (Event.current.button == 0)
                 {
-					expandPawnIcons = true;
-					Event.current.Use();
-				}
-				else if (Event.current.clickCount == 2)
-                {
-					Find.Selector.ClearSelection();
-					foreach (var pawn in this.pawns)
+					if (Event.current.clickCount == 1)
 					{
-						Find.Selector.Select(pawn);
+						if (!expandPawnIcons)
+						{
+							expandPawnIcons = true;
+						}
+						else
+						{
+							expandPawnIcons = false;
+						}
+						Event.current.Use();
 					}
-					Event.current.Use();
+					else if (Event.current.clickCount == 2)
+					{
+						Find.Selector.ClearSelection();
+						foreach (var pawn in this.pawns)
+						{
+							Find.Selector.Select(pawn);
+						}
+						Event.current.Use();
+					}
+				}
+				else if (Event.current.button == 1)
+                {
+					List<ColonistBarFloatMenuOption> list = new List<ColonistBarFloatMenuOption>();
+					for (var i = 0; i < 5; i++)
+                    {
+						ColonistBarFloatMenuOption floatMenuOption = new ColonistBarFloatMenuOption("Test: " + i, null, MenuOptionPriority.High, null, null);
+						list.Add(floatMenuOption);
+					}
+					ColonistBarFloatMenu floatMenu = new ColonistBarFloatMenu(list, this, rect);
+					Find.WindowStack.Add(floatMenu);
 				}
 			}
+
 		}
         public void Draw(Rect rect)
         {
@@ -106,7 +127,7 @@ namespace TacticalGroups
 				pawnWindowIsActive = true;
 				DrawPawnRows(rect, pawnRows);
 				TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(groupName)));
-				HandleClicks();
+				HandleClicks(rect);
 			}
 			else if (Mouse.IsOver(totalRect) && pawnWindowIsActive)
 			{
