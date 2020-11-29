@@ -105,11 +105,10 @@ namespace TacticalGroups
 				else if (Event.current.button == 1)
                 {
 					List<ColonistBarFloatMenuOption> list = new List<ColonistBarFloatMenuOption>();
-					for (var i = 0; i < 5; i++)
-                    {
-						ColonistBarFloatMenuOption floatMenuOption = new ColonistBarFloatMenuOption("Test: " + i, null, MenuOptionPriority.High, null, null);
-						list.Add(floatMenuOption);
-					}
+					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.RallyIcon, MenuOptionPriority.High, null, null));
+					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ActionsIcon, MenuOptionPriority.High, null, null));
+					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.OrdersIcon, MenuOptionPriority.High, null, null));
+					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ManageIcon, MenuOptionPriority.High, null, null));
 					ColonistBarFloatMenu floatMenu = new ColonistBarFloatMenu(list, this, rect);
 					Find.WindowStack.Add(floatMenu);
 				}

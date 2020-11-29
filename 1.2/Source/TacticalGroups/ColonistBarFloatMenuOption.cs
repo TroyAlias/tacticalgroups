@@ -78,6 +78,11 @@ namespace TacticalGroups
 		private const float ItemIconMargin = 4f;
 
 		public static readonly Texture2D RallyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyIcon");
+		public static readonly Texture2D ActionsIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIcon");
+		public static readonly Texture2D OrdersIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIcon");
+		public static readonly Texture2D ManageIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIcon");
+
+		private Texture2D curIcon;
 		public string Label
 		{
 			get
@@ -182,8 +187,11 @@ namespace TacticalGroups
 			}
 		}
 
-		public ColonistBarFloatMenuOption(string label, Action action, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
+		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, 
+			MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
+			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
+			this.curIcon = icon;
 			Label = label;
 			this.action = action;
 			priorityInt = priority;
@@ -194,8 +202,9 @@ namespace TacticalGroups
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
 
-		public ColonistBarFloatMenuOption(string label, Action action, ThingDef shownItemForIcon, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
-			: this(label, action, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
+		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, ThingDef shownItemForIcon, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, 
+				Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
+			: this(label, action, icon, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
 		{
 			shownItem = shownItemForIcon;
 			if (shownItemForIcon == null)
@@ -204,8 +213,8 @@ namespace TacticalGroups
 			}
 		}
 
-		public ColonistBarFloatMenuOption(string label, Action action, Texture2D itemIcon, Color iconColor, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
-			: this(label, action, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
+		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, Texture2D itemIcon, Color iconColor, MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
+			: this(label, action, icon, priority, mouseoverGuiAction, revalidateClickTarget, extraPartWidth, extraPartOnGUI, revalidateWorldClickTarget)
 		{
 			this.itemIcon = itemIcon;
 			this.iconColor = iconColor;
@@ -245,6 +254,10 @@ namespace TacticalGroups
 
 		public virtual bool DoGUI(Rect rect, bool colonistOrdering, ColonistBarFloatMenu floatMenu)
 		{
+			if (curIcon != null)
+			{
+				rect = new Rect(rect.x, rect.y, curIcon.width, curIcon.height);
+			}
 			Rect rect2 = rect;
 			rect2.height--;
 			bool flag = !Disabled && Mouse.IsOver(rect2);
@@ -294,8 +307,11 @@ namespace TacticalGroups
 			//	GUI.color = ColorBGActive * color;
 			//}
 			//GUI.DrawTexture(rect, BaseContent.WhiteTex);
-			GUI.DrawTexture(rect, RallyIcon);
-			//GUI.color = ((!Disabled) ? ColorTextActive : ColorTextDisabled) * color;
+			if (curIcon != null)
+            {
+				GUI.DrawTexture(rect, curIcon);
+            }
+			GUI.color = ((!Disabled) ? ColorTextActive : ColorTextDisabled) * color;
 			if (sizeMode == FloatMenuSizeMode.Tiny)
 			{
 				rect4.y += 1f;
