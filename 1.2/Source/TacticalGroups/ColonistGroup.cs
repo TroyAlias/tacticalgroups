@@ -105,17 +105,44 @@ namespace TacticalGroups
 				else if (Event.current.button == 1)
                 {
 					List<ColonistBarFloatMenuOption> list = new List<ColonistBarFloatMenuOption>();
-					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.RallyIcon, MenuOptionPriority.High, null, null));
-					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ActionsIcon, MenuOptionPriority.High, null, null));
-					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.OrdersIcon, MenuOptionPriority.High, null, null));
-					list.Add(new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ManageIcon, MenuOptionPriority.High, null, null));
+					AddRallyButton(list);
+					AddActionButton(list);
+					AddOrderButton(list);
+					AddManageButton(list);
 					ColonistBarFloatMenu floatMenu = new ColonistBarFloatMenu(list, this, rect);
 					Find.WindowStack.Add(floatMenu);
 				}
 			}
-
 		}
-        public void Draw(Rect rect)
+
+		public void AddRallyButton(List<ColonistBarFloatMenuOption> list)
+        {
+			var option = new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.RallyIcon, MenuOptionPriority.High, null, null);
+			option.bottomIndent = 42;
+			list.Add(option);
+		}
+
+		public void AddActionButton(List<ColonistBarFloatMenuOption> list)
+		{
+			var option = new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ActionsIcon, MenuOptionPriority.High, null, null);
+			option.bottomIndent = ColonistBarFloatMenuOption.ActionsIcon.height;
+			list.Add(option);
+		}
+
+		public void AddOrderButton(List<ColonistBarFloatMenuOption> list)
+		{
+			var option = new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.OrdersIcon, MenuOptionPriority.High, null, null);
+			option.bottomIndent = ColonistBarFloatMenuOption.OrdersIcon.height;
+			list.Add(option);
+		}
+
+		public void AddManageButton(List<ColonistBarFloatMenuOption> list)
+		{
+			var option = new ColonistBarFloatMenuOption("Test: ", null, ColonistBarFloatMenuOption.ManageIcon, MenuOptionPriority.High, null, null);
+			list.Add(option);
+		}
+
+		public void Draw(Rect rect)
         {
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows;

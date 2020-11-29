@@ -15,6 +15,8 @@ namespace TacticalGroups
 	{
 		private string labelInt;
 
+		public float bottomIndent;
+
 		public Action action;
 
 		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
@@ -82,7 +84,7 @@ namespace TacticalGroups
 		public static readonly Texture2D OrdersIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIcon");
 		public static readonly Texture2D ManageIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIcon");
 
-		private Texture2D curIcon;
+		public Texture2D curIcon;
 		public string Label
 		{
 			get

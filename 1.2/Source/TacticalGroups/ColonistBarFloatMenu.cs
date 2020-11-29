@@ -48,12 +48,13 @@ namespace TacticalGroups
 
 		protected override float Margin => 0f;
 
-		public override Vector2 InitialSize => new Vector2(TotalWidth, TotalWindowHeight);
+		public static readonly Texture2D DropMenuRightClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DropMenuRightClick");
+		public override Vector2 InitialSize => new Vector2(DropMenuRightClick.width, DropMenuRightClick.height);
 
 		private float MaxWindowHeight => (float)UI.screenHeight * 0.9f;
-
+		
 		private float TotalWindowHeight => Mathf.Min(TotalViewHeight, MaxWindowHeight) + 1f;
-
+		
 		private float MaxViewHeight
 		{
 			get
@@ -78,7 +79,7 @@ namespace TacticalGroups
 				return MaxWindowHeight;
 			}
 		}
-
+		
 		private float TotalViewHeight
 		{
 			get
@@ -105,7 +106,7 @@ namespace TacticalGroups
 				return Mathf.Max(num, num2);
 			}
 		}
-
+		
 		private float TotalWidth
 		{
 			get
@@ -118,7 +119,7 @@ namespace TacticalGroups
 				return num;
 			}
 		}
-
+		
 		private float ColumnWidth
 		{
 			get
@@ -139,13 +140,13 @@ namespace TacticalGroups
 				return Mathf.Round(num);
 			}
 		}
-
+		
 		private int MaxColumns => Mathf.FloorToInt(((float)UI.screenWidth - 16f) / ColumnWidth);
-
+		
 		private bool UsingScrollbar => ColumnCountIfNoScrollbar > MaxColumns;
-
+		
 		private int ColumnCount => Mathf.Min(ColumnCountIfNoScrollbar, MaxColumns);
-
+		
 		private int ColumnCountIfNoScrollbar
 		{
 			get
@@ -230,30 +231,30 @@ namespace TacticalGroups
 			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
 		}
 
-		public override void ExtraOnGUI()
-		{
-			base.ExtraOnGUI();
-			if (!title.NullOrEmpty())
-			{
-				Vector2 vector = new Vector2(windowRect.x, windowRect.y);
-				Text.Font = GameFont.Small;
-				float width = Mathf.Max(150f, 15f + Text.CalcSize(title).x);
-				Rect titleRect = new Rect(vector.x + TitleOffset.x, vector.y + TitleOffset.y, width, 23f);
-				Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, delegate
-				{
-					GUI.color = baseColor;
-					Text.Font = GameFont.Small;
-					Rect position = titleRect.AtZero();
-					position.width = 150f;
-					GUI.DrawTexture(position, TexUI.TextBGBlack);
-					Rect rect = titleRect.AtZero();
-					rect.x += 15f;
-					Text.Anchor = TextAnchor.MiddleLeft;
-					Widgets.Label(rect, title);
-					Text.Anchor = TextAnchor.UpperLeft;
-				}, doBackground: false, absorbInputAroundWindow: false, 0f);
-			}
-		}
+		//public override void ExtraOnGUI()
+		//{
+		//	base.ExtraOnGUI();
+		//	if (!title.NullOrEmpty())
+		//	{
+		//		Vector2 vector = new Vector2(windowRect.x, windowRect.y);
+		//		Text.Font = GameFont.Small;
+		//		float width = Mathf.Max(150f, 15f + Text.CalcSize(title).x);
+		//		Rect titleRect = new Rect(vector.x + TitleOffset.x, vector.y + TitleOffset.y, width, 23f);
+		//		Find.WindowStack.ImmediateWindow(6830963, titleRect, WindowLayer.Super, delegate
+		//		{
+		//			GUI.color = baseColor;
+		//			Text.Font = GameFont.Small;
+		//			Rect position = titleRect.AtZero();
+		//			position.width = 150f;
+		//			GUI.DrawTexture(position, TexUI.TextBGBlack);
+		//			Rect rect = titleRect.AtZero();
+		//			rect.x += 15f;
+		//			Text.Anchor = TextAnchor.MiddleLeft;
+		//			Widgets.Label(rect, title);
+		//			Text.Anchor = TextAnchor.UpperLeft;
+		//		}, doBackground: false, absorbInputAroundWindow: false, 0f);
+		//	}
+		//}
 
 		public override void DoWindowContents(Rect rect)
 		{
@@ -263,37 +264,20 @@ namespace TacticalGroups
 				return;
 			}
 			UpdateBaseColor();
-			bool usingScrollbar = UsingScrollbar;
 			GUI.color = baseColor;
 			Text.Font = GameFont.Small;
 			Vector2 zero = Vector2.zero;
-			float maxViewHeight = MaxViewHeight;
-			float columnWidth = ColumnWidth;
-			if (usingScrollbar)
-			{
-				rect.width -= 10f;
-				Widgets.BeginScrollView(rect, ref scrollPosition, new Rect(0f, 0f, TotalWidth - 16f, TotalViewHeight));
-			}
+			GUI.DrawTexture(rect, DropMenuRightClick, ScaleMode.ScaleToFit);
 			for (int i = 0; i < options.Count; i++)
 			{
 				ColonistBarFloatMenuOption floatMenuOption = options[i];
-				float requiredHeight = floatMenuOption.RequiredHeight;
-				if (zero.y + requiredHeight + -1f > maxViewHeight)
-				{
-					zero.y = 0f;
-					zero.x += columnWidth + -1f;
-				}
-				Rect rect2 = new Rect(zero.x, zero.y, columnWidth, requiredHeight);
-				zero.y += requiredHeight + -1f;
+				Rect rect2 = new Rect(zero.x, zero.y, DropMenuRightClick.width, floatMenuOption.curIcon.height);
 				if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
 				{
 					Find.WindowStack.TryRemove(this);
 					break;
 				}
-			}
-			if (usingScrollbar)
-			{
-				Widgets.EndScrollView();
+				zero.y += floatMenuOption.bottomIndent;
 			}
 			if (Event.current.type == EventType.MouseDown)
 			{
