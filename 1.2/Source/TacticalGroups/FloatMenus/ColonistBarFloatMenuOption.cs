@@ -282,9 +282,7 @@ namespace TacticalGroups
 				rect4.y += 1f;
 			}
 			Widgets.DrawAtlas(rect, TexUI.FloatMenuOptionBG);
-			Text.Anchor = TextAnchor.MiddleLeft;
-			//Widgets.Label(rect4, Label);
-			Text.Anchor = TextAnchor.UpperLeft;
+
 			GUI.color = iconColor;
 			if (shownItem != null || drawPlaceHolderIcon)
 			{

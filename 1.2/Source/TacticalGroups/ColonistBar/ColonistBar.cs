@@ -55,13 +55,6 @@ namespace TacticalGroups
 
 		public static readonly Texture2D BGTex = Command.BGTex;
 
-		public static readonly Texture2D GroupIconBox = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIconBox");
-		public static readonly Texture2D ShowHideIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/ShowHideIcon");
-		public static readonly Texture2D SettingsGear = ContentFinder<Texture2D>.Get("UI/ColonistBar/SettingsGear");
-		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
-		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
-		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/Default");
-
 		public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
 
 		public const float BaseSelectedTexJump = 20f;
@@ -153,16 +146,32 @@ namespace TacticalGroups
 				int num = -1;
 				bool showGroupFrames = ShowGroupFrames;
 				int reorderableGroup = -1;
-				Rect groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (TacticUtils.Groups.Count + 1)), cachedDrawLocs[0].y, Size.x, Size.y / 2f);
-				GUI.DrawTexture(groupRect.ExpandedBy(5f), GroupIconBox);
-				GUI.DrawTexture(groupRect, GroupingIcon);
-				HandleGroupingClicks(groupRect);
+				Vector2 initialPos = new Vector2();
+				if (cachedDrawLocs.Any())
+                {
+					initialPos.x = cachedDrawLocs[0].x;
+					initialPos.y = cachedDrawLocs[0].y;
+				}
+				else
+                {
+					initialPos.x = UI.screenWidth / 2f;
+					initialPos.y = 21f;
+				}
+				Rect createGroupRect = new Rect(initialPos.x - (Size.x * 2f), initialPos.y, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+				if (Mouse.IsOver(createGroupRect))
+                {
+					GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
+				}
+				else
+                {
+					GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
+                }
+				HandleGroupingClicks(createGroupRect);
 
 				for (int i = 0; i < TacticUtils.Groups.Count; i++)
 				{
-					groupRect = new Rect(cachedDrawLocs[0].x - (Size.x * 2f * (i + 1)), cachedDrawLocs[0].y, GroupIcon_Default.width, GroupIcon_Default.height);
-					GUI.DrawTexture(groupRect, GroupIcon_Default);
-					TacticUtils.Groups[i].Draw(groupRect);
+					var groupIconRect = new Rect(createGroupRect.x - (Size.x * 2f * (i + 1)), createGroupRect.y, Textures.GroupIcon_Default.width, Textures.GroupIcon_Default.height);
+					TacticUtils.Groups[i].Draw(groupIconRect);
 				}
 
 				for (int i = 0; i < cachedDrawLocs.Count; i++)

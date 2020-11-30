@@ -13,6 +13,10 @@ namespace TacticalGroups
 		public Pawn pawn;
 		public bool isVisibleOnColonistBar;
 
+		public PawnIcon()
+        {
+
+        }
 		public PawnIcon(Pawn pawn, bool isVisibleOnColonistBar = false)
         {
 			this.pawn = pawn;
@@ -50,37 +54,30 @@ namespace TacticalGroups
 		}
 		public float IconScale => ShowExpanded ? 1f : 0.5f;
 
+		private int groupID;
+		public ColonistGroup()
+		{
+			this.pawns = new List<Pawn>();
+			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+		}
 		public ColonistGroup(List<Pawn> pawns)
         {
-            this.pawns = pawns;
+			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
+			this.pawns = pawns;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> {};
 			foreach (var pawn in pawns)
             {
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
-			Log.Message("TEST 2");
-			foreach (var p in pawnIcons)
-			{
-				Log.Message(p.Key + " - " + p.Value.isVisibleOnColonistBar);
-			}
-		}
-
-		public ColonistGroup()
-        {
-			this.pawns = new List<Pawn>();
-			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
-			Log.Message("TEST 1");
 		}
 		public ColonistGroup(Pawn pawn)
         {
-            this.pawns = new List<Pawn> { pawn } ;
+			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
+			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			Log.Message("TEST 2");
-			foreach (var p in pawnIcons)
-            {
-				Log.Message(p.Key + " - " + p.Value.isVisibleOnColonistBar);
-            }
         }
+
+
         public void Add(Pawn pawn)
         {
             this.pawns.Add(pawn);
@@ -93,31 +90,40 @@ namespace TacticalGroups
 			this.pawnIcons.Remove(pawn);
 		}
 
-		public List<List<Pawn>> GetPawnRows
+		public string GetGroupName()
         {
-			get
+			if (this.groupName != null)
             {
-				int num = 0;
-				List<List<Pawn>> pawnRows = new List<List<Pawn>>();
-				List<Pawn> row = new List<Pawn>();
-				foreach (var pawn in pawns)
-                {
-					if (num == 3)
-                    {
-						pawnRows.Add(row.ListFullCopy());
-						row = new List<Pawn>();
-						num = 0;
-					}
-					num++;
-					row.Add(pawn);
-                }
-				if (row.Any())
-                {
-					pawnRows.Add(row);
-                }
-				return pawnRows;
+				return this.groupName;
+            }
+			else
+            {
+				return Strings.Group + " " + this.groupID;
             }
         }
+
+		public List<List<Pawn>> GetPawnRows(int columnCount)
+        {
+			int num = 0;
+			List<List<Pawn>> pawnRows = new List<List<Pawn>>();
+			List<Pawn> row = new List<Pawn>();
+			foreach (var pawn in pawns)
+			{
+				if (num == columnCount)
+				{
+					pawnRows.Add(row.ListFullCopy());
+					row = new List<Pawn>();
+					num = 0;
+				}
+				num++;
+				row.Add(pawn);
+			}
+			if (row.Any())
+			{
+				pawnRows.Add(row);
+			}
+			return pawnRows;
+		}
 
 		public void HandleClicks(Rect rect)
         {
@@ -193,8 +199,9 @@ namespace TacticalGroups
 
 		public void Draw(Rect rect)
         {
+			GUI.DrawTexture(rect, Textures.GroupIcon_Default);
 			var totalRect = new Rect(rect);
-			var pawnRows = GetPawnRows;
+			var pawnRows = GetPawnRows(3);
 			if (ShowExpanded)
             {
 				totalRect.height += pawnRows.Count * 35;
@@ -224,6 +231,37 @@ namespace TacticalGroups
 			{
 				pawnWindowIsActive = false;
 				expandPawnIcons = false;
+				DrawOverlays(rect);
+			}
+		}
+
+		public void DrawOverlays(Rect rect)
+        {
+			var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, 20f);
+			Text.Anchor = TextAnchor.MiddleCenter;
+
+			Widgets.Label(groupLabelRect, this.GetGroupName());
+			Text.Anchor = TextAnchor.UpperLeft;
+
+			var pawnRows = GetPawnRows(8);
+			var initialRect = new Rect(rect);
+			initialRect.y += initialRect.height * 1.2f;
+			initialRect.x -= Textures.ColonistDot.width - 3f;
+			for (var i = 0; i < pawnRows.Count; i++)
+			{
+				for (var j = 0; j < pawnRows[i].Count; j++)
+				{
+					Rect dotRect = new Rect(initialRect.x + ((j + 1) * Textures.ColonistDot.width), initialRect.y + ((i + 1) * Textures.ColonistDot.height),
+						Textures.ColonistDot.width, Textures.ColonistDot.height);
+					if (pawnRows[i][j].IsDownedOrIncapable())
+					{
+						GUI.DrawTexture(dotRect, Textures.ColonistDotRed);
+					}
+					else
+                    {
+						GUI.DrawTexture(dotRect, Textures.ColonistDot);
+                    }
+				}
 			}
 		}
 
@@ -347,8 +385,13 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
-			return new Rect(x + 1f, y - ((vector.y - (TacticUtils.TacticalColonistBar.Size.y)) * IconScale) - 1f, vector.x * IconScale, vector.y * IconScale).ContractedBy(1f);
+			Vector2 vector = new Vector2(46f, 75f);
+			//Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
+			var rect = new Rect(x + 1f, y - ((vector.y - 48f) * IconScale) - 1f, vector.x * IconScale, vector.y * IconScale).ContractedBy(1f);
+			Log.Message("Rect: " + rect);
+			Log.Message("ColonistBarColonistDrawer.PawnTextureSize: " + ColonistBarColonistDrawer.PawnTextureSize);
+			Log.Message("TacticUtils.TacticalColonistBar.Size.y: " + TacticUtils.TacticalColonistBar.Size.y);
+			return rect;
 		}
 
 		private static Vector2[] bracketLocs = new Vector2[4];
