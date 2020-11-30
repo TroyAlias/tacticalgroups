@@ -58,16 +58,8 @@ namespace TacticalGroups
 			return false;
 		}
 
-		public static bool IsSick(this Pawn pawn)
-		{
-			if (HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) || HealthAIUtility.ShouldSeekMedicalRest(pawn))
-			{
-				return true;
-			}
-			if (pawn.health.hediffSet.HasImmunizableNotImmuneHediff())
-			{
-				return true;
-			}
+		public static bool IsShotOrBleeding(this Pawn pawn)
+        {
 			float num = 0f;
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
@@ -79,6 +71,14 @@ namespace TacticalGroups
 				}
 			}
 			return num > 8f * pawn.RaceProps.baseHealthScale;
+		}
+		public static bool IsSick(this Pawn pawn)
+		{
+			if (pawn.health.hediffSet.HasImmunizableNotImmuneHediff())
+			{
+				return true;
+			}
+			return false;
 		}
 
 		private static TacticalGroups tacticalGroups;

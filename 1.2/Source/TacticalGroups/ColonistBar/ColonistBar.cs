@@ -340,19 +340,19 @@ namespace TacticalGroups
 
 			if (TacticUtils.Groups != null)
             {
-				Log.Message("1 cachedEntries: " + cachedEntries.Count);
-				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false) 
+				foreach (var group in TacticUtils.Groups)
+                {
+					foreach (var pawn in group.pawns)
+                    {
+						if (pawn.Dead || pawn.Destroyed)
+                        {
+							group.Disband(pawn);
+                        }
+                    }
+                }
+				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
 				&& !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
-				Log.Message("2 cachedEntries: " + cachedEntries.Count);
 			}
-			else
-            {
-				Log.Message("cachedEntries: null group");
-			}
-			foreach (var p in cachedEntries)
-            {
-				Log.Message("cachedEntries: " + p.pawn);
-            }
 			drawer.Notify_RecachedEntries();
 			tmpPawns.Clear();
 			tmpMaps.Clear();
