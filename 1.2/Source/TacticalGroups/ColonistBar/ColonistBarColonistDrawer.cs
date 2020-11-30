@@ -149,7 +149,6 @@ namespace TacticalGroups
 			{
 				Event.current.Use();
 				Log.Message("Handling " + colonist);
-
 				CameraJumper.TryJump(colonist);
 			}
 			reordering = ReorderableWidget.Reorderable(reorderableGroup, rect, useRightButton: true);

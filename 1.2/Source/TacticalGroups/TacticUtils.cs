@@ -58,6 +58,29 @@ namespace TacticalGroups
 			return false;
 		}
 
+		public static bool IsSick(this Pawn pawn)
+		{
+			if (HealthAIUtility.ShouldSeekMedicalRestUrgent(pawn) || HealthAIUtility.ShouldSeekMedicalRest(pawn))
+			{
+				return true;
+			}
+			if (pawn.health.hediffSet.HasImmunizableNotImmuneHediff())
+			{
+				return true;
+			}
+			float num = 0f;
+			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
+			for (int i = 0; i < hediffs.Count; i++)
+			{
+				Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
+				if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+				{
+					num += hediff_Injury.Severity;
+				}
+			}
+			return num > 8f * pawn.RaceProps.baseHealthScale;
+		}
+
 		private static TacticalGroups tacticalGroups;
 		public static TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
 		public static List<ColonistGroup> Groups => TacticalGroups.Groups;

@@ -199,7 +199,14 @@ namespace TacticalGroups
 
 		public void Draw(Rect rect)
         {
-			GUI.DrawTexture(rect, Textures.GroupIcon_Default);
+			if (Mouse.IsOver(rect))
+            {
+				GUI.DrawTexture(rect, Textures.GroupIcon_DefaultHover);
+			}
+			else
+            {
+				GUI.DrawTexture(rect, Textures.GroupIcon_Default);
+			}
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows(3);
 			if (ShowExpanded)
@@ -253,7 +260,11 @@ namespace TacticalGroups
 				{
 					Rect dotRect = new Rect(initialRect.x + ((j + 1) * Textures.ColonistDot.width), initialRect.y + ((i + 1) * Textures.ColonistDot.height),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					if (pawnRows[i][j].IsDownedOrIncapable())
+					if (pawnRows[i][j].IsSick())
+                    {
+						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
+					}
+					else if (pawnRows[i][j].IsDownedOrIncapable())
 					{
 						GUI.DrawTexture(dotRect, Textures.ColonistDotRed);
 					}
@@ -261,6 +272,11 @@ namespace TacticalGroups
                     {
 						GUI.DrawTexture(dotRect, Textures.ColonistDot);
                     }
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
+					{
+						Event.current.Use();
+						CameraJumper.TryJumpAndSelect(pawnRows[i][j]);
+					}
 				}
 			}
 		}
@@ -369,6 +385,12 @@ namespace TacticalGroups
 					}
 					TooltipHandler.TipRegion(rect, tooltip);
 				}
+			}
+
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
+			{
+				Event.current.Use();
+				CameraJumper.TryJump(colonist);
 			}
 		}
 
