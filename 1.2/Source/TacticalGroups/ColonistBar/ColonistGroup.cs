@@ -21,6 +21,7 @@ namespace TacticalGroups
         {
 			this.pawn = pawn;
 			this.isVisibleOnColonistBar = isVisibleOnColonistBar;
+
         }
 
         public void ExposeData()
@@ -38,6 +39,7 @@ namespace TacticalGroups
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		private string groupName;
+		public Rect curRect;
 		public bool Visible => pawnWindowIsActive;
 		private bool expandPawnIcons;
 		public bool showPawnIconsRightClickMenu;
@@ -199,6 +201,7 @@ namespace TacticalGroups
 
 		public void Draw(Rect rect)
         {
+			this.curRect = rect;
 			if (Mouse.IsOver(rect))
             {
 				GUI.DrawTexture(rect, Textures.GroupIcon_DefaultHover);
@@ -414,9 +417,6 @@ namespace TacticalGroups
 			Vector2 vector = new Vector2(46f, 75f);
 			//Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
 			var rect = new Rect(x + 1f, y - ((vector.y - 48f) * IconScale) - 1f, vector.x * IconScale, vector.y * IconScale).ContractedBy(1f);
-			Log.Message("Rect: " + rect);
-			Log.Message("ColonistBarColonistDrawer.PawnTextureSize: " + ColonistBarColonistDrawer.PawnTextureSize);
-			Log.Message("TacticUtils.TacticalColonistBar.Size.y: " + TacticUtils.TacticalColonistBar.Size.y);
 			return rect;
 		}
 

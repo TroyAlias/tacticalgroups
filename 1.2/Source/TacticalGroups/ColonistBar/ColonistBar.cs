@@ -21,6 +21,8 @@ namespace TacticalGroups
 
 			public Action<int, int> reorderAction;
 
+			public Action releasedAction;
+
 			public Action<int, Vector2> extraDraggedItemOnGUI;
 
 			public Entry(Pawn pawn, Map map, int group)
@@ -31,6 +33,10 @@ namespace TacticalGroups
 				reorderAction = delegate(int from, int to)
 				{
 					TacticUtils.TacticalColonistBar.Reorder(from, to, group);
+				};
+				releasedAction = delegate ()
+				{
+					TacticUtils.TacticalColonistBar.TryDropColonist(group);
 				};
 				extraDraggedItemOnGUI = delegate(int index, Vector2 dragStartPos)
 				{
@@ -182,7 +188,7 @@ namespace TacticalGroups
 					num = entry.group;
 					if (flag)
 					{
-						reorderableGroup = ReorderableWidget.NewGroup(entry.reorderAction, ReorderableDirection.Horizontal, SpaceBetweenColonistsHorizontal, entry.extraDraggedItemOnGUI);
+						reorderableGroup = TacticalReorderableWidget.NewGroup(entry.reorderAction, entry.releasedAction, ReorderableDirection.Horizontal, SpaceBetweenColonistsHorizontal, entry.extraDraggedItemOnGUI);
 					}
 					bool reordering;
 					if (entry.pawn != null)
@@ -378,6 +384,29 @@ namespace TacticalGroups
 			}
 		}
 
+		public void TryDropColonist(int entryGroup)
+		{
+			Pawn pawn = null;
+			for (int i = 0; i < cachedEntries.Count; i++)
+			{
+				if (cachedEntries[i].group == entryGroup && cachedEntries[i].pawn != null)
+				{
+					pawn = cachedEntries[i].pawn;
+				}
+			}
+			if (pawn == null)
+			{
+				return;
+			}
+			var colonistGroup = TacticUtils.Groups.Where(x => x.curRect.Contains(Event.current.mousePosition)).FirstOrDefault();
+			if (colonistGroup != null)
+			{
+				colonistGroup.Add(pawn);
+				MarkColonistsDirty();
+				MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
+			}
+		}
+
 		public void Reorder(int from, int to, int entryGroup)
 		{
 			int num = 0;
@@ -404,8 +433,6 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			Log.Message("REORDERING: " + pawn);
-
 			int num2 = pawn2?.playerSettings.displayOrder ?? (pawn3.playerSettings.displayOrder + 1);
 			for (int j = 0; j < cachedEntries.Count; j++)
 			{
