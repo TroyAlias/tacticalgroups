@@ -404,6 +404,8 @@ namespace TacticalGroups
 			{
 				return;
 			}
+			Log.Message("REORDERING: " + pawn);
+
 			int num2 = pawn2?.playerSettings.displayOrder ?? (pawn3.playerSettings.displayOrder + 1);
 			for (int j = 0; j < cachedEntries.Count; j++)
 			{

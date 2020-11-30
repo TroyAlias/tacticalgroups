@@ -260,17 +260,17 @@ namespace TacticalGroups
 				{
 					Rect dotRect = new Rect(initialRect.x + ((j + 1) * Textures.ColonistDot.width), initialRect.y + ((i + 1) * Textures.ColonistDot.height),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					if (pawnRows[i][j].IsShotOrBleeding())
+					if (pawnRows[i][j].IsDownedOrIncapable())
+					{
+						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+					}
+					else if (pawnRows[i][j].IsShotOrBleeding())
 					{
 						GUI.DrawTexture(dotRect, Textures.ColonistDotRed);
 					}
 					else if (pawnRows[i][j].IsSick())
                     {
 						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
-					}
-					else if (pawnRows[i][j].IsDownedOrIncapable())
-					{
-						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
 					}
 					else
                     {
