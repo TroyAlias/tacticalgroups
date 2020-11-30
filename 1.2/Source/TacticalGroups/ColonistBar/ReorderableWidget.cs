@@ -10,12 +10,11 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public static class TacticalReorderableWidget
+	public static class ReorderableWidget
 	{
-		private struct TacticalReorderableGroup
+		private struct ReorderableGroup
 		{
 			public Action<int, int> reorderedAction;
-			public Action releasedAction;
 
 			public ReorderableDirection direction;
 
@@ -35,7 +34,7 @@ namespace TacticalGroups
 			public Rect absRect;
 		}
 
-		private static List<TacticalReorderableGroup> groups = new List<TacticalReorderableGroup>();
+		private static List<ReorderableGroup> groups = new List<ReorderableGroup>();
 
 		private static List<ReorderableInstance> reorderables = new List<ReorderableInstance>();
 
@@ -133,23 +132,20 @@ namespace TacticalGroups
 					}
 				}
 				StopDragging();
-				groups[reorderables[draggingReorderable].groupID].releasedAction();
-
 			}
 			lastFrameReorderableCount = reorderables.Count;
 			groups.Clear();
 			reorderables.Clear();
 		}
 
-		public static int NewGroup(Action<int, int> reorderedAction, Action releasedAction, ReorderableDirection direction, float drawLineExactlyBetween_space = -1f, Action<int, Vector2> extraDraggedItemOnGUI = null)
+		public static int NewGroup(Action<int, int> reorderedAction, ReorderableDirection direction, float drawLineExactlyBetween_space = -1f, Action<int, Vector2> extraDraggedItemOnGUI = null)
 		{
 			if (Event.current.type != EventType.Repaint)
 			{
 				return -1;
 			}
-			TacticalReorderableGroup item = default(TacticalReorderableGroup);
+			ReorderableGroup item = default(ReorderableGroup);
 			item.reorderedAction = reorderedAction;
-			item.releasedAction = releasedAction;
 			item.direction = direction;
 			item.drawLineExactlyBetween_space = drawLineExactlyBetween_space;
 			item.extraDraggedItemOnGUI = extraDraggedItemOnGUI;
@@ -183,7 +179,7 @@ namespace TacticalGroups
 					if (lastInsertNear == num && groupID >= 0 && groupID < groups.Count)
 					{
 						Rect rect2 = reorderables[lastInsertNear].rect;
-						TacticalReorderableGroup reorderableGroup = groups[groupID];
+						ReorderableGroup reorderableGroup = groups[groupID];
 						if (reorderableGroup.DrawLineExactlyBetween)
 						{
 							if (reorderableGroup.direction == ReorderableDirection.Horizontal)

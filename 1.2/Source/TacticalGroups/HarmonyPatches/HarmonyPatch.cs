@@ -40,6 +40,8 @@ namespace TacticalGroups
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.Highlight), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Highlight)));
 
+            harmony.Patch(AccessTools.Method(typeof(ReorderableWidget), nameof(ReorderableWidget.ReorderableWidgetOnGUI_AfterWindowStack), null, null),
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ReorderableWidgetOnGUI_AfterWindowStack)));
 
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnAdded", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnRemoved", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
@@ -69,6 +71,16 @@ namespace TacticalGroups
             //harmony.Patch(AccessTools.Method(typeof(ThingOwner), "NotifyColonistBarIfColonistCorpse", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "NotifyColonistBarIfColonistCorpse_Postfix", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(Thing), "DeSpawn", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "DeSpawn_Postfix", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(PlaySettings), "DoPlaySettingsGlobalControls", null, null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Prefix", null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Postfix", null), null, null);
+        }
+
+        public static Pawn curClickedColonist;
+        public static void ReorderableWidgetOnGUI_AfterWindowStack(bool ___released, bool ___dragBegun, int ___draggingReorderable)
+        {
+            if (___released && ___dragBegun)
+            {
+                Log.Message("___released: " + ___released + " - " + ___dragBegun + " - " + ___draggingReorderable);
+                TacticUtils.TacticalColonistBar.TryDropColonist(curClickedColonist);
+            }
         }
         public static bool ColonistBarOnGUI()
         {
