@@ -4,4 +4,8 @@
 Left click:		Expand Pawn Icons
 2x Left click:	Select All Colonists
 Right click:	Group Menu</TG.GroupInfoTooltip>
+	<TG.Rally>RALLY</TG.Rally>
+	<TG.Actions>Actions</TG.Actions>
+	<TG.Orders>Orders</TG.Orders>
+	<TG.Manage>Manage</TG.Manage>
 </LanguageData>

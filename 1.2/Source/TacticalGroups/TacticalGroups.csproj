@@ -41,14 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColonistBar.cs" />
-    <Compile Include="ColonistBarColonistDrawer.cs" />
-    <Compile Include="ColonistBarFloatMenuOption.cs" />
-    <Compile Include="ColonistBarFloatMenu.cs" />
-    <Compile Include="ColonistGroup.cs" />
+    <Compile Include="ColonistBar\ColonistBar.cs" />
+    <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
+    <Compile Include="FloatMenus\ColonistBarFloatMenuOption.cs" />
+    <Compile Include="FloatMenus\ColonistBarFloatMenu.cs" />
+    <Compile Include="ColonistBar\ColonistGroup.cs" />
+    <Compile Include="Resources\Strings.cs" />
+    <Compile Include="Resources\Textures.cs" />
     <Compile Include="TacticUtils.cs" />
     <Compile Include="TacticalGroups.cs" />
-    <Compile Include="ColonistBarDrawLocsFinder.cs" />
+    <Compile Include="ColonistBar\ColonistBarDrawLocsFinder.cs" />
     <Compile Include="HarmonyPatches\HarmonyPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

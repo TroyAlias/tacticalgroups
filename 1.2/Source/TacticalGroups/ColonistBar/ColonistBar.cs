@@ -332,7 +332,8 @@ namespace TacticalGroups
 			if (TacticUtils.Groups != null)
             {
 				Log.Message("1 cachedEntries: " + cachedEntries.Count);
-				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => y.pawns.Contains(x.pawn)).Any());
+				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false) 
+				&& !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
 				Log.Message("2 cachedEntries: " + cachedEntries.Count);
 			}
 			else

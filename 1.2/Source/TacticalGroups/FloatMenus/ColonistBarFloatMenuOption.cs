@@ -55,21 +55,6 @@ namespace TacticalGroups
 
 		public const float ExtraPartHeight = 30f;
 
-		public static readonly Texture2D RallyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyIcon");
-		public static readonly Texture2D RallyIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyIconHover");
-
-		public static readonly Texture2D ActionsIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIcon");
-		public static readonly Texture2D ActionsIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIconHover");
-		public static readonly Texture2D ActionsIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsIconPress");
-		public static readonly Texture2D OrdersIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIcon");
-		public static readonly Texture2D OrdersIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIconHover");
-		public static readonly Texture2D OrdersIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/OrdersIconPress");
-		public static readonly Texture2D ManageIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIcon");
-		public static readonly Texture2D ManageIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIconHover");
-		public static readonly Texture2D ManageIconPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ManageIconPress");
-
-		public static Texture2D BackgroundColonistLayer = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ColonistUnderLayer");
-
 		public Texture2D curIcon;
 		public Texture2D iconHover;
 		public Texture2D iconSelected;
@@ -172,10 +157,15 @@ namespace TacticalGroups
 			}
 		}
 
-		public ColonistBarFloatMenuOption(Action action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon,
-			MenuOptionPriority priority = MenuOptionPriority.Default, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
+		private TextAnchor textAnchor;
+		private float leftTextIndent;
+		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
+			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
+			this.labelInt = label;
+			this.textAnchor = textAnchor;
+			this.leftTextIndent = leftTextIndent;
 			this.curIcon = icon;
 			this.iconHover = hoverIcon;
 			this.iconSelected = selectedIcon;
@@ -278,9 +268,13 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, curIcon);
             }
-			if (Mouse.IsOver(rect))
-			{
-				Log.Message("2 iconHover: " + iconHover);
+			if (labelInt != null)
+            {
+				Text.Anchor = this.textAnchor;
+				var textRect = new Rect(rect);
+				textRect.x += this.leftTextIndent;
+				Widgets.Label(textRect, Label);
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
 			GUI.color = ((!Disabled) ? ColorTextActive : ColorTextDisabled) * color;
 			if (sizeMode == FloatMenuSizeMode.Tiny)

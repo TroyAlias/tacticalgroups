@@ -8,11 +8,30 @@ using Verse.AI;
 
 namespace TacticalGroups
 {
+	public class PawnIcon : IExposable
+    {
+		public Pawn pawn;
+		public bool isVisibleOnColonistBar;
+
+		public PawnIcon(Pawn pawn, bool isVisibleOnColonistBar = false)
+        {
+			this.pawn = pawn;
+			this.isVisibleOnColonistBar = isVisibleOnColonistBar;
+        }
+
+        public void ExposeData()
+        {
+			Scribe_References.Look(ref pawn, "pawn");
+			Scribe_Values.Look(ref isVisibleOnColonistBar, "isVisibleOnColonistBar");
+		}
+	}
+
     public class ColonistGroup : IExposable
     {
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
-
+		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
+		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		private string groupName;
 		public bool Visible => pawnWindowIsActive;
@@ -34,20 +53,45 @@ namespace TacticalGroups
 		public ColonistGroup(List<Pawn> pawns)
         {
             this.pawns = pawns;
-        }
+			this.pawnIcons = new Dictionary<Pawn, PawnIcon> {};
+			foreach (var pawn in pawns)
+            {
+				this.pawnIcons[pawn] = new PawnIcon(pawn);
+			}
+			Log.Message("TEST 2");
+			foreach (var p in pawnIcons)
+			{
+				Log.Message(p.Key + " - " + p.Value.isVisibleOnColonistBar);
+			}
+		}
 
 		public ColonistGroup()
         {
-
-        }
-        public ColonistGroup(Pawn pawn)
+			this.pawns = new List<Pawn>();
+			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+			Log.Message("TEST 1");
+		}
+		public ColonistGroup(Pawn pawn)
         {
             this.pawns = new List<Pawn> { pawn } ;
+			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
+			Log.Message("TEST 2");
+			foreach (var p in pawnIcons)
+            {
+				Log.Message(p.Key + " - " + p.Value.isVisibleOnColonistBar);
+            }
         }
         public void Add(Pawn pawn)
         {
             this.pawns.Add(pawn);
+			this.pawnIcons[pawn] = new PawnIcon(pawn);
         }
+
+		public void Disband(Pawn pawn)
+        {
+			this.pawns.Remove(pawn);
+			this.pawnIcons.Remove(pawn);
+		}
 
 		public List<List<Pawn>> GetPawnRows
         {
@@ -122,31 +166,28 @@ namespace TacticalGroups
 
 		public void AddRallyButton(List<ColonistBarFloatMenuOption> list)
         {
-			var option = new ColonistBarFloatMenuOption(null, ColonistBarFloatMenuOption.RallyIcon, ColonistBarFloatMenuOption.RallyIconHover, null, MenuOptionPriority.High, null, null);
-			option.bottomIndent = 42;
+			var option = new ColonistBarFloatMenuOption(Strings.Rally, null, Textures.RallyButton, Textures.RallyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 10f);
+			option.bottomIndent = 41;
 			list.Add(option);
 		}
 
 		public void AddActionButton(List<ColonistBarFloatMenuOption> list)
 		{
-			var option = new ColonistBarFloatMenuOption(null, ColonistBarFloatMenuOption.ActionsIcon, ColonistBarFloatMenuOption.ActionsIconHover, 
-				ColonistBarFloatMenuOption.ActionsIconPress, MenuOptionPriority.High, null, null);
-			option.bottomIndent = ColonistBarFloatMenuOption.ActionsIcon.height;
+			var option = new ColonistBarFloatMenuOption(Strings.Actions, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
+			option.bottomIndent = Textures.AOMButton.height;
 			list.Add(option);
 		}
 
 		public void AddOrderButton(List<ColonistBarFloatMenuOption> list)
 		{
-			var option = new ColonistBarFloatMenuOption(null, ColonistBarFloatMenuOption.OrdersIcon, ColonistBarFloatMenuOption.OrdersIconHover, ColonistBarFloatMenuOption.OrdersIconPress,
-				MenuOptionPriority.High, null, null);
-			option.bottomIndent = ColonistBarFloatMenuOption.OrdersIcon.height;
+			var option = new ColonistBarFloatMenuOption(Strings.Orders, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
+			option.bottomIndent = Textures.AOMButton.height;
 			list.Add(option);
 		}
 
 		public void AddManageButton(List<ColonistBarFloatMenuOption> list)
 		{
-			var option = new ColonistBarFloatMenuOption(null, ColonistBarFloatMenuOption.ManageIcon, ColonistBarFloatMenuOption.ManageIconHover, ColonistBarFloatMenuOption.ManageIconPress, 
-				MenuOptionPriority.High, null, null);
+			var option = new ColonistBarFloatMenuOption(Strings.Manage, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
 			list.Add(option);
 		}
 
@@ -209,7 +250,7 @@ namespace TacticalGroups
 				var backGroundRect = new Rect(initialRect);
 				backGroundRect.y += initialRect.y * 3.3f;
 				backGroundRect.height = pawnRows.Count * 30f;
-				GUI.DrawTexture(backGroundRect, ColonistBarFloatMenuOption.BackgroundColonistLayer);
+				GUI.DrawTexture(backGroundRect, Textures.BackgroundColonistLayer);
 
 				initialRect.y += initialRect.height * 0.65f;
 				initialRect.x -= (initialRect.width / 3.3333333333f) - 1f;
@@ -348,9 +389,10 @@ namespace TacticalGroups
 		public void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
+			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
 		}
 
 		private List<Pawn> pawnKeys;
-		private List<Rect> rectValues;
+		private List<PawnIcon> pawnIconValues;
 	}
 }
