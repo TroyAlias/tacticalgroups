@@ -76,10 +76,10 @@ namespace TacticalGroups
         public static Pawn curClickedColonist;
         public static void ReorderableWidgetOnGUI_AfterWindowStack(bool ___released, bool ___dragBegun, int ___draggingReorderable)
         {
-            if (___released && ___dragBegun)
+            if (___released && ___dragBegun && curClickedColonist != null)
             {
-                Log.Message("___released: " + ___released + " - " + ___dragBegun + " - " + ___draggingReorderable);
                 TacticUtils.TacticalColonistBar.TryDropColonist(curClickedColonist);
+                curClickedColonist = null;
             }
         }
         public static bool ColonistBarOnGUI()

@@ -14,6 +14,7 @@ namespace TacticalGroups
 	public static class Textures
 	{
 		public static readonly Texture2D DropMenuRightClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DropMenuRightClick");
+		public static readonly Texture2D ActionsDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/ActionsDropMenu");
 
 		public static readonly Texture2D RallyButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyButton");
 		public static readonly Texture2D RallyButtonHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/RallyButtonHover");
@@ -42,9 +43,10 @@ namespace TacticalGroups
 		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
 		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/Default");
-		public static readonly Texture2D GroupIcon_DefaultHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/DefaultHover");
 
 
+		public static readonly Texture2D GroupIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconHover");
+		public static readonly Texture2D GroupIconSelected = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconSelected");
 
 		public static readonly Texture2D ColonistDot = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDot");
 		public static readonly Texture2D ColonistDotRed = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotRed");
@@ -52,5 +54,15 @@ namespace TacticalGroups
 		public static readonly Texture2D ColonistDotDowned = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotDowned");
 		public static readonly Texture2D GroupOverlayColonistDown = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupOverlayColonistDown");
 
+
+		public static readonly Texture2D ManageDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ManageDropMenu");
+		public static readonly Texture2D IconMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/IconMenu");
+		public static readonly Texture2D DisbandPawnHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandPawnHover");
+		public static readonly Texture2D DisbandPawnClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandPawnClick");
+		public static readonly Texture2D DisbandPawn = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandPawn");
+		public static readonly Texture2D DisbandMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandMenu");
+		public static readonly Texture2D DisbandGroupHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroupHover");
+		public static readonly Texture2D DisbandGroupClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroupClick");
+		public static readonly Texture2D DisbandGroup = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroup");
 	}
 }

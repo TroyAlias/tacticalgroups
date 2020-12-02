@@ -11,13 +11,17 @@ using Verse.Sound;
 namespace TacticalGroups
 {
 	[StaticConstructorOnStartup]
-	public class ColonistBarFloatMenuOption
+	public class TieredFloatMenuOption
 	{
 		private string labelInt;
 
+		public bool selected;
+
 		public float bottomIndent;
 
-		public Action action;
+		public TieredFloatMenu mainMenu;
+
+		public Action<TieredFloatMenu> action;
 
 		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
 
@@ -159,7 +163,8 @@ namespace TacticalGroups
 
 		private TextAnchor textAnchor;
 		private float leftTextIndent;
-		public ColonistBarFloatMenuOption(string label, Action action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
+		public bool selectedActive;
+		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
 			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
@@ -183,7 +188,7 @@ namespace TacticalGroups
 			sizeMode = newSizeMode;
 		}
 
-		public void Chosen(bool colonistOrdering, ColonistBarFloatMenu floatMenu)
+		public void Chosen(bool colonistOrdering, TieredFloatMenu floatMenu)
 		{
 			floatMenu?.PreOptionChosen(this);
 			if (!Disabled)
@@ -194,7 +199,7 @@ namespace TacticalGroups
 					{
 						SoundDefOf.ColonistOrdered.PlayOneShotOnCamera();
 					}
-					action();
+					action(mainMenu);
 				}
 			}
 			else
@@ -204,12 +209,8 @@ namespace TacticalGroups
 		}
 
 
-		public virtual bool DoGUI(Rect rect, bool colonistOrdering, ColonistBarFloatMenu floatMenu)
+		public virtual bool DoGUI(Rect rect, bool colonistOrdering, TieredFloatMenu floatMenu)
 		{
-			if (curIcon != null)
-			{
-				rect = new Rect(rect.x, rect.y, curIcon.width, curIcon.height);
-			}
 			Rect rect2 = rect;
 			rect2.height--;
 			bool flag = !Disabled && Mouse.IsOver(rect2);
@@ -259,17 +260,20 @@ namespace TacticalGroups
 			//	GUI.color = ColorBGActive * color;
 			//}
 			//GUI.DrawTexture(rect, BaseContent.WhiteTex);
-			if (Mouse.IsOver(rect) && iconHover != null)
+			if (this.selected && iconSelected != null)
             {
+				GUI.DrawTexture(rect, iconSelected);
+			}
+			else if (Mouse.IsOver(rect) && iconHover != null)
+			{
 				GUI.DrawTexture(rect, iconHover);
-				Log.Message("iconHover: " + iconHover);
 			}
 			else if (curIcon != null)
-            {
+			{
 				GUI.DrawTexture(rect, curIcon);
-            }
+			}
 			if (labelInt != null)
-            {
+			{
 				Text.Anchor = this.textAnchor;
 				var textRect = new Rect(rect);
 				textRect.x += this.leftTextIndent;
@@ -321,14 +325,9 @@ namespace TacticalGroups
 				{
 					TutorSystem.Notify_Event(tutorTag);
 				}
-				return true;
+				//return true;
 			}
 			return false;
-		}
-
-		public override string ToString()
-		{
-			return "FloatMenuOption(" + Label + ", " + (Disabled ? "disabled" : "enabled") + ")";
 		}
 	}
 }

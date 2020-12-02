@@ -9,4 +9,17 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Orders>Orders</TG.Orders>
 	<TG.Manage>Manage</TG.Manage>
 	<TG.Group>Group</TG.Group>
+	
+	<TG.GetToWork>Get to Work</TG.GetToWork>
+	<TG.TakeABreak>Take a Break</TG.TakeABreak>
+	<TG.ChowHall>Chow Hall</TG.ChowHall>
+	<TG.SocialRelax>Social Relax</TG.SocialRelax>
+	<TG.HaveSomeFun>Have Some Fun</TG.HaveSomeFun>
+	<TG.Clean>Clean</TG.Clean>
+	<TG.Haul>Haul</TG.Haul>
+	<TG.VisitMedical>Visit Medical</TG.VisitMedical>
+	
+	<TG.Rename>Rename</TG.Rename>
+	<TG.Icon>Icon</TG.Icon>
+
 </LanguageData>

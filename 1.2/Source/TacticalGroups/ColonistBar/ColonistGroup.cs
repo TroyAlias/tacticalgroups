@@ -38,7 +38,12 @@ namespace TacticalGroups
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
-		private string groupName;
+		public bool groupButtonRightClicked;
+
+		public string groupName;
+		public Texture2D groupIcon;
+		public string groupIconName;
+
 		public Rect curRect;
 		public bool Visible => pawnWindowIsActive;
 		private bool expandPawnIcons;
@@ -61,6 +66,7 @@ namespace TacticalGroups
 		{
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+			this.groupIcon = Textures.GroupIcon_Default;
 		}
 		public ColonistGroup(List<Pawn> pawns)
         {
@@ -71,19 +77,24 @@ namespace TacticalGroups
             {
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
+			this.groupIcon = Textures.GroupIcon_Default;
 		}
 		public ColonistGroup(Pawn pawn)
         {
 			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-        }
+			this.groupIcon = Textures.GroupIcon_Default;
+		}
 
 
-        public void Add(Pawn pawn)
+		public void Add(Pawn pawn)
         {
-            this.pawns.Add(pawn);
-			this.pawnIcons[pawn] = new PawnIcon(pawn);
+			if (!this.pawns.Contains(pawn))
+            {
+				this.pawns.Add(pawn);
+				this.pawnIcons[pawn] = new PawnIcon(pawn);
+			}
         }
 
 		public void Disband(Pawn pawn)
@@ -159,56 +170,27 @@ namespace TacticalGroups
 				}
 				else if (Event.current.button == 1)
                 {
-					List<ColonistBarFloatMenuOption> list = new List<ColonistBarFloatMenuOption>();
-					AddRallyButton(list);
-					AddActionButton(list);
-					AddOrderButton(list);
-					AddManageButton(list);
 					this.showPawnIconsRightClickMenu = true;
 					this.expandPawnIcons = false;
-					ColonistBarFloatMenu floatMenu = new ColonistBarFloatMenu(list, this, rect);
+					this.groupButtonRightClicked = true;
+					var rect2 = new Rect(rect.x, rect.y + rect.height, rect.width, rect.height);
+					TieredFloatMenu floatMenu = new MainFloatMenu(null, this, rect2, Textures.DropMenuRightClick);
 					Find.WindowStack.Add(floatMenu);
 				}
 			}
 		}
 
-		public void AddRallyButton(List<ColonistBarFloatMenuOption> list)
-        {
-			var option = new ColonistBarFloatMenuOption(Strings.Rally, null, Textures.RallyButton, Textures.RallyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 10f);
-			option.bottomIndent = 41;
-			list.Add(option);
-		}
-
-		public void AddActionButton(List<ColonistBarFloatMenuOption> list)
-		{
-			var option = new ColonistBarFloatMenuOption(Strings.Actions, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
-			option.bottomIndent = Textures.AOMButton.height;
-			list.Add(option);
-		}
-
-		public void AddOrderButton(List<ColonistBarFloatMenuOption> list)
-		{
-			var option = new ColonistBarFloatMenuOption(Strings.Orders, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
-			option.bottomIndent = Textures.AOMButton.height;
-			list.Add(option);
-		}
-
-		public void AddManageButton(List<ColonistBarFloatMenuOption> list)
-		{
-			var option = new ColonistBarFloatMenuOption(Strings.Manage, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
-			list.Add(option);
-		}
-
 		public void Draw(Rect rect)
         {
 			this.curRect = rect;
-			if (Mouse.IsOver(rect))
+			GUI.DrawTexture(rect, this.groupIcon);
+			if (!groupButtonRightClicked && Mouse.IsOver(rect))
             {
-				GUI.DrawTexture(rect, Textures.GroupIcon_DefaultHover);
+				GUI.DrawTexture(rect, Textures.GroupIconHover);
 			}
-			else
+			else if (groupButtonRightClicked)
             {
-				GUI.DrawTexture(rect, Textures.GroupIcon_Default);
+				GUI.DrawTexture(rect, Textures.GroupIconSelected);
 			}
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows(3);
@@ -459,6 +441,22 @@ namespace TacticalGroups
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
+			Scribe_Values.Look(ref groupName, "groupName");
+			Scribe_Values.Look(ref groupID, "groupID");
+			Scribe_Values.Look(ref groupIconName, "groupIconName");
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+				var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
+				var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+				if (icon != null)
+                {
+					this.groupIcon = icon;
+                }
+				else 
+				{
+					this.groupIcon = Textures.GroupIcon_Default;
+                }
+			}
 		}
 
 		private List<Pawn> pawnKeys;

@@ -20,5 +20,19 @@ namespace TacticalGroups
 
 		public static readonly string Group = "TG.Group".Translate();
 
+		public static readonly string GetToWork = "TG.GetToWork".Translate();
+		public static readonly string TakeABreak = "TG.TakeABreak".Translate();
+		public static readonly string ChowHall = "TG.ChowHall".Translate();
+		public static readonly string SocialRelax = "TG.SocialRelax".Translate();
+		public static readonly string HaveSomeFun = "TG.HaveSomeFun".Translate();
+		public static readonly string Clean = "TG.Clean".Translate();
+		public static readonly string Haul = "TG.Haul".Translate();
+		public static readonly string VisitMedical = "TG.VisitMedical".Translate();
+
+		public static readonly string Rename = "TG.Rename".Translate();
+		public static readonly string Icon = "TG.Icon".Translate();
+
+
+
 	}
 }
