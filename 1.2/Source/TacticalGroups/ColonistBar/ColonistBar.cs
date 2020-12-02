@@ -158,7 +158,7 @@ namespace TacticalGroups
 					initialPos.x = UI.screenWidth / 2f;
 					initialPos.y = 21f;
 				}
-				Rect createGroupRect = new Rect(initialPos.x - (Size.x * 2f), initialPos.y, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+				Rect createGroupRect = new Rect(initialPos.x - (Size.x * 1.5f), initialPos.y, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 				if (Mouse.IsOver(createGroupRect))
                 {
 					GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
@@ -171,7 +171,7 @@ namespace TacticalGroups
 
 				for (int i = 0; i < TacticUtils.Groups.Count; i++)
 				{
-					var groupIconRect = new Rect(createGroupRect.x - (Size.x * 2f * (i + 1)), createGroupRect.y, Textures.GroupIcon_Default.width, Textures.GroupIcon_Default.height);
+					var groupIconRect = new Rect(createGroupRect.x - (Size.x * (i + 1) * 2f), createGroupRect.y, Textures.GroupIcon_Default.width, Textures.GroupIcon_Default.height);
 					TacticUtils.Groups[i].Draw(groupIconRect);
 				}
 
