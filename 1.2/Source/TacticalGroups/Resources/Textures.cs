@@ -25,8 +25,8 @@ namespace TacticalGroups
 
 		public static readonly Texture2D MenuButtonPress = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/MenuButtonPress");
 
-		public static readonly Texture2D DisbandIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DisbandIcon");
-		public static readonly Texture2D DisbandIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DisbandIconHover");
+		public static readonly Texture2D AddPawnIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/AddPawnIcon");
+		public static readonly Texture2D AddPawnIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/AddPawnIconHover");
 
 		public static readonly Texture2D EyeIconOff = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/EyeIconOff");
 		public static readonly Texture2D EyeIconOffHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/EyeIconOffHover");

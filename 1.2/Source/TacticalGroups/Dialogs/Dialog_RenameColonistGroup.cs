@@ -24,6 +24,7 @@ namespace TacticalGroups
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;
+
 			curName = colonistGroup.groupName;
 			this.option = option;
 		}

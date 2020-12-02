@@ -134,6 +134,7 @@ namespace TacticalGroups
 		{
 			entriesDirty = true;
 		}
+
 		public void ColonistBarOnGUI()
 		{
 			if (!Visible)

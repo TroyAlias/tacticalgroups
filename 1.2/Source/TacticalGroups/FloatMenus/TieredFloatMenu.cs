@@ -101,8 +101,28 @@ namespace TacticalGroups
 				}
 			}
 		}
+
+		public void OpenNewMenu(TieredFloatMenu floatMenu)
+		{
+			if (this.childWindow != null)
+			{
+				this.childWindow.Close();
+			}
+			this.childWindow = floatMenu;
+			Find.WindowStack.Add(floatMenu);
+		}
+
+		public void TryCloseChildWindow()
+        {
+			if (childWindow != null)
+			{
+				childWindow.Close();
+				this.childWindow = null;
+			}
+		}
 		public override void PostClose()
 		{
+			TryCloseChildWindow();
 			base.PostClose();
 			if (onCloseCallback != null)
 			{
@@ -114,6 +134,7 @@ namespace TacticalGroups
 
 		public void Cancel()
 		{
+			TryCloseChildWindow();
 			SoundDefOf.FloatMenu_Cancel.PlayOneShotOnCamera();
 			Find.WindowStack.TryRemove(this);
 			Log.Message("Cancel");
@@ -121,6 +142,7 @@ namespace TacticalGroups
 
         public override void Close(bool doCloseSound = true)
         {
+			TryCloseChildWindow();
 			Log.Message("Close");
 			base.Close(doCloseSound);
         }

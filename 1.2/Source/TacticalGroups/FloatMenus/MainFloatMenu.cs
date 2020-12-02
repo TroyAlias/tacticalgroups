@@ -52,8 +52,7 @@ namespace TacticalGroups
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
 			TieredFloatMenu floatMenu = new ActionsMenu(this, colonistGroup, rect, Textures.ActionsDropMenu);
-			this.childWindow = floatMenu;
-			Find.WindowStack.Add(floatMenu);
+			OpenNewMenu(floatMenu);
 		}
 
         public void AddOrderButton()
@@ -77,10 +76,8 @@ namespace TacticalGroups
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
 			TieredFloatMenu floatMenu = new ManageMenu(this, colonistGroup, rect, Textures.ManageDropMenu);
-			this.childWindow = floatMenu;
-			Find.WindowStack.Add(floatMenu);
+			OpenNewMenu(floatMenu);
 		}
-
 		public override void DoWindowContents(Rect rect)
         {
             base.DoWindowContents(rect);
@@ -154,22 +151,38 @@ namespace TacticalGroups
 			}
 
 
-			var disbandRect = new Rect(rect.x + (rect.width - Textures.DisbandIcon.width) - 7f, rect.y + (rect.height - Textures.DisbandIcon.height) - 7f, Textures.DisbandIcon.width, Textures.DisbandIcon.height);
-			if (Mouse.IsOver(disbandRect))
+			var addPawnRect = new Rect(rect.x + (rect.width - Textures.AddPawnIcon.width) - 7f, rect.y + (rect.height - Textures.AddPawnIcon.height) - 7f, Textures.AddPawnIcon.width, Textures.AddPawnIcon.height);
+			if (Mouse.IsOver(addPawnRect))
 			{
-				GUI.DrawTexture(disbandRect, Textures.DisbandIconHover);
+				GUI.DrawTexture(addPawnRect, Textures.AddPawnIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					this.Close();
-					TacticUtils.Groups.Remove(this.colonistGroup);
-					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					var pawns = Find.Selector.SelectedPawns;
+					if (pawns.Count > 0)
+                    {
+						this.colonistGroup.Add(pawns);
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
 					Event.current.Use();
 				}
 			}
 			else
 			{
-				GUI.DrawTexture(disbandRect, Textures.DisbandIcon);
+				GUI.DrawTexture(addPawnRect, Textures.AddPawnIcon);
 			}
 		}
-	}
+
+        public override void PostClose()
+        {
+            base.PostClose();
+			this.colonistGroup.groupButtonRightClicked = false;
+
+		}
+		public override void Close(bool doCloseSound = true)
+        {
+            base.Close(doCloseSound);
+			this.colonistGroup.groupButtonRightClicked = false;
+        }
+    }
 }

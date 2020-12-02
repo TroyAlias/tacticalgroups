@@ -31,6 +31,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
+				this.childWindow?.Close();
 				MarkOptionAsSelected(option);
 				Find.WindowStack.Add(new Dialog_RenameColonistGroup(this.colonistGroup, windowRect, option));
 			};
@@ -53,8 +54,7 @@ namespace TacticalGroups
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height);
 			TieredFloatMenu floatMenu = new IconMenu(this, colonistGroup, rect, Textures.IconMenu);
-			this.childWindow = floatMenu;
-			Find.WindowStack.Add(floatMenu);
+			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)
 		{

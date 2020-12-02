@@ -99,8 +99,27 @@ namespace TacticalGroups
 
 		public void Disband(Pawn pawn)
         {
-			this.pawns.Remove(pawn);
-			this.pawnIcons.Remove(pawn);
+			if (pawns.Contains(pawn))
+            {
+				this.pawns.Remove(pawn);
+				this.pawnIcons.Remove(pawn);
+			}
+		}
+
+		public void Add(List<Pawn> newPawns)
+		{
+			foreach (var pawn in newPawns)
+            {
+				Add(pawn);
+			}
+		}
+
+		public void Disband(List<Pawn> newPawns)
+		{
+			foreach (var pawn in newPawns)
+            {
+				Disband(pawn);
+			}
 		}
 
 		public string GetGroupName()
@@ -155,7 +174,6 @@ namespace TacticalGroups
 						{
 							expandPawnIcons = false;
 						}
-						Event.current.Use();
 					}
 
 					else if (Event.current.clickCount == 2)
@@ -165,7 +183,6 @@ namespace TacticalGroups
 						{
 							Find.Selector.Select(pawn);
 						}
-						Event.current.Use();
 					}
 				}
 				else if (Event.current.button == 1)
@@ -177,12 +194,27 @@ namespace TacticalGroups
 					TieredFloatMenu floatMenu = new MainFloatMenu(null, this, rect2, Textures.DropMenuRightClick);
 					Find.WindowStack.Add(floatMenu);
 				}
+				Event.current.Use();
 			}
 		}
 
 		public void Draw(Rect rect)
         {
 			this.curRect = rect;
+			if (this.groupIcon == null)
+            {
+				var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
+				var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+				if (icon != null)
+				{
+					this.groupIcon = icon;
+				}
+				else 
+				{
+					this.groupIcon = Textures.GroupIcon_Default;
+				}
+			}
+
 			GUI.DrawTexture(rect, this.groupIcon);
 			if (!groupButtonRightClicked && Mouse.IsOver(rect))
             {
@@ -345,7 +377,10 @@ namespace TacticalGroups
 			}
 			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
-			//TacticalGroups.TacticalColonistBar.drawer.DrawIcons(rect, colonist);
+			if (ShowExpanded)
+            {
+				TacticUtils.TacticalColonistBar.drawer.DrawIcons(rect, colonist);
+			}
 			GUI.color = color2;
 			if (colonist.Dead)
 			{
@@ -444,19 +479,6 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
-			if (Scribe.mode == LoadSaveMode.PostLoadInit)
-            {
-				//var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
-				//var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
-				//if (icon != null)
-                //{
-				//	this.groupIcon = icon;
-                //}
-				//else 
-				//{
-				//	this.groupIcon = Textures.GroupIcon_Default;
-                //}
-			}
 		}
 
 		private List<Pawn> pawnKeys;
