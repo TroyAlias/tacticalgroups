@@ -14,16 +14,18 @@ namespace TacticalGroups
 	{
 		private ColonistGroup colonistGroup;
 		private Rect originRect;
-        protected override void SetInitialSizeAndPosition()
+		private TieredFloatMenuOption option;
+		protected override void SetInitialSizeAndPosition()
         {
 			windowRect = new Rect(originRect.x, originRect.y, InitialSize.x, InitialSize.y);
 			windowRect = windowRect.Rounded();
 		}
-        public Dialog_RenameColonistGroup(ColonistGroup colonistGroup, Rect originRect)
+        public Dialog_RenameColonistGroup(ColonistGroup colonistGroup, Rect originRect, TieredFloatMenuOption option)
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;
 			curName = colonistGroup.groupName;
+			this.option = option;
 		}
 
 		protected override AcceptanceReport NameIsValid(string name)
@@ -34,6 +36,7 @@ namespace TacticalGroups
 		protected override void SetName(string name)
 		{
 			colonistGroup.groupName = name;
+			option.selected = false;
 		}
 	}
 }

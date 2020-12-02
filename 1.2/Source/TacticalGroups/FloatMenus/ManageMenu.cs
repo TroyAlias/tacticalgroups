@@ -28,10 +28,11 @@ namespace TacticalGroups
 
 		public void AddRenameButton()
         {
-			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				Find.WindowStack.Add(new Dialog_RenameColonistGroup(this.colonistGroup, windowRect));
+				MarkOptionAsSelected(option);
+				Find.WindowStack.Add(new Dialog_RenameColonistGroup(this.colonistGroup, windowRect, option));
 			};
 			option.bottomIndent = Textures.AOMButton.height + 5;
 			options.Add(option);

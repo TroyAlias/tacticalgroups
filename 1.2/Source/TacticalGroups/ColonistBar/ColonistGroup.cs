@@ -446,16 +446,16 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-				var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
-				var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
-				if (icon != null)
-                {
-					this.groupIcon = icon;
-                }
-				else 
-				{
-					this.groupIcon = Textures.GroupIcon_Default;
-                }
+				//var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
+				//var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+				//if (icon != null)
+                //{
+				//	this.groupIcon = icon;
+                //}
+				//else 
+				//{
+				//	this.groupIcon = Textures.GroupIcon_Default;
+                //}
 			}
 		}
 
