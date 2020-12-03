@@ -12,6 +12,7 @@ namespace TacticalGroups
 {
 	public enum WorkType
     {
+		None,
 		Construction,
 		Crafting,
 		Hauling,
@@ -31,8 +32,6 @@ namespace TacticalGroups
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 
 		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
-
-		public Dictionary<Texture2D, WorkType> workIconHoverStates = new Dictionary<Texture2D, WorkType>();
 		public GetToWorkMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -40,7 +39,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.LookBusy, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-
+				SearchForWork(WorkType.None);
 			};
 			options.Add(option);
 
@@ -118,6 +117,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
+							SearchForWork(workIconStates[iconRows[i][j]]);
 							Event.current.Use();
 						}
 					}
@@ -133,5 +133,39 @@ namespace TacticalGroups
             GUI.color = Color.white;
         }
 
+
+		public void SearchForWork(WorkType workType)
+        {
+			switch (workType)
+            {
+				case WorkType.None: SearchForWorkGeneral(); break;
+				default: return;
+			}
+
+        }
+
+		public void SearchForWorkGeneral()
+        {
+			foreach (var pawn in this.colonistGroup.pawns)
+            {
+				if (pawn.mindState.IsIdle)
+                {
+					ThinkResult result = ThinkResult.NoJob;
+					try
+					{
+						result = pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(pawn, default(JobIssueParams));
+					}
+					catch (Exception exception)
+					{
+						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
+					}
+					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
+					{
+						Log.Message(pawn + " should get " + result.Job);
+						pawn.jobs.TryTakeOrderedJob(result.Job);
+					}
+				}
+			}
+        }
 	}
 }
