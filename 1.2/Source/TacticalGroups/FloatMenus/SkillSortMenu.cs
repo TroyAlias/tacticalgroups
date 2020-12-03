@@ -13,36 +13,66 @@ namespace TacticalGroups
 	public class SkillSortMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 
 		public Dictionary<Texture2D, bool> iconStates = new Dictionary<Texture2D, bool>();
 		public SkillSortMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
+			this.options = new List<TieredFloatMenuOption>();
 
+			var option = new TieredFloatMenuOption("None".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			option.action = delegate
+			{
+				Log.Message("Test");
+			};
+			option.bottomIndent = Textures.MenuButton.height + 4;
+			options.Add(option);
+
+			foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
+            {
+				AddSkillSortButton(skillDef);
+			}
+			for (int i = 0; i < options.Count; i++)
+			{
+				options[i].SetSizeMode(SizeMode);
+			}
 		}
 
-		public List<List<Texture2D>> GetIconRows(int columnCount)
+		public void AddSkillSortButton(SkillDef skillDef)
 		{
-			int num = 0;
-			List<List<Texture2D>> iconRows = new List<List<Texture2D>>();
-			List<Texture2D> row = new List<Texture2D>();
-			foreach (var icon in iconStates.Keys)
+			var option = new TieredFloatMenuOption(skillDef.LabelCap, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			option.action = delegate
 			{
-				if (num == columnCount)
+				Log.Message("Test");
+			};
+			option.bottomIndent = Textures.MenuButton.height + 4;
+			options.Add(option);
+		}
+
+		public override void DoWindowContents(Rect rect)
+		{
+			base.DoWindowContents(rect);
+			Vector2 zero = Vector2.zero;
+			zero += InitialFloatOptionPositionShift;
+			for (int i = 0; i < options.Count; i++)
+			{
+				TieredFloatMenuOption floatMenuOption = options[i];
+				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
+				if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
 				{
-					iconRows.Add(row.ListFullCopy());
-					row = new List<Texture2D>();
-					num = 0;
+					Find.WindowStack.TryRemove(this);
+					break;
 				}
-				num++;
-				row.Add(icon);
+				zero.y += floatMenuOption.bottomIndent;
 			}
-			if (row.Any())
+			DrawExtraGui(rect);
+			if (Event.current.type == EventType.MouseDown)
 			{
-				iconRows.Add(row);
+				Event.current.Use();
+				Close();
 			}
-			return iconRows;
+			GUI.color = Color.white;
 		}
 	}
 }
