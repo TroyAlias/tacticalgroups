@@ -50,6 +50,7 @@
     <Compile Include="FloatMenus\ManageMenu.cs" />
     <Compile Include="FloatMenus\ActionsMenu.cs" />
     <Compile Include="FloatMenus\MainFloatMenu.cs" />
+    <Compile Include="FloatMenus\SkillSortFloatMenuOption.cs" />
     <Compile Include="FloatMenus\TieredFloatMenuOption.cs" />
     <Compile Include="FloatMenus\TieredFloatMenu.cs" />
     <Compile Include="ColonistBar\ColonistGroup.cs" />

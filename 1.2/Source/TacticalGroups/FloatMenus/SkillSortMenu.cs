@@ -24,7 +24,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption("None".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				Log.Message("Test");
+				this.colonistGroup.activeSortBy = SortBy.None;
 			};
 			option.bottomIndent = Textures.MenuButton.height + 4;
 			options.Add(option);
@@ -41,38 +41,40 @@ namespace TacticalGroups
 
 		public void AddSkillSortButton(SkillDef skillDef)
 		{
-			var option = new TieredFloatMenuOption(skillDef.LabelCap, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new SkillSortFloatMenuOption(skillDef, skillDef.LabelCap, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				Log.Message("Test");
+				this.colonistGroup.skillDefSort = skillDef;
+				this.colonistGroup.InitSort(SortBy.Skills);
 			};
 			option.bottomIndent = Textures.MenuButton.height + 4;
 			options.Add(option);
 		}
 
-		public override void DoWindowContents(Rect rect)
-		{
-			base.DoWindowContents(rect);
-			Vector2 zero = Vector2.zero;
-			zero += InitialFloatOptionPositionShift;
-			for (int i = 0; i < options.Count; i++)
-			{
-				TieredFloatMenuOption floatMenuOption = options[i];
-				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
-				if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
-				{
-					Find.WindowStack.TryRemove(this);
-					break;
-				}
-				zero.y += floatMenuOption.bottomIndent;
-			}
-			DrawExtraGui(rect);
-			if (Event.current.type == EventType.MouseDown)
-			{
-				Event.current.Use();
-				Close();
-			}
-			GUI.color = Color.white;
-		}
+        public override void DoWindowContents(Rect rect)
+        {
+            base.DoWindowContents(rect);
+            Vector2 zero = Vector2.zero;
+            zero += InitialFloatOptionPositionShift;
+            for (int i = 0; i < options.Count; i++)
+            {
+                TieredFloatMenuOption floatMenuOption = options[i];
+                Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
+                if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
+                {
+                    Find.WindowStack.TryRemove(this);
+                    break;
+                }
+                zero.y += floatMenuOption.bottomIndent;
+            }
+            DrawExtraGui(rect);
+            if (Event.current.type == EventType.MouseDown)
+            {
+                Event.current.Use();
+                Close();
+            }
+            GUI.color = Color.white;
+        }
+
 	}
 }

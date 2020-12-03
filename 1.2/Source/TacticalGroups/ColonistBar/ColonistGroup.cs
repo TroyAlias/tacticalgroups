@@ -94,6 +94,7 @@ namespace TacticalGroups
             {
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
+				Sort();
 			}
         }
 
@@ -103,6 +104,7 @@ namespace TacticalGroups
             {
 				this.pawns.Remove(pawn);
 				this.pawnIcons.Remove(pawn);
+				Sort();
 			}
 		}
 
@@ -472,6 +474,22 @@ namespace TacticalGroups
 			}
 		}
 
+		public SortBy activeSortBy;
+
+		public SkillDef skillDefSort;
+
+		public void InitSort(SortBy newSortBy)
+        {
+			activeSortBy = newSortBy;
+			Sort();
+		}
+		public void Sort()
+        {
+			if (activeSortBy == SortBy.Skills)
+            {
+				this.pawns.SortBy(x => x.skills.GetSkill(skillDefSort).Level);
+            }
+        }
 		public void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
@@ -479,9 +497,17 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
+			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
+			Scribe_Values.Look(ref skillDefSort, "skillDefSort");
 		}
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
+	}
+
+	public enum SortBy
+	{
+		None,
+		Skills
 	}
 }

@@ -13,7 +13,7 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public class TieredFloatMenuOption
 	{
-		private string labelInt;
+		public string labelInt;
 
 		public bool selected;
 
@@ -23,7 +23,7 @@ namespace TacticalGroups
 
 		public Action<TieredFloatMenu> action;
 
-		private MenuOptionPriority priorityInt = MenuOptionPriority.Default;
+		protected MenuOptionPriority priorityInt = MenuOptionPriority.Default;
 
 		public bool autoTakeable;
 
@@ -161,10 +161,13 @@ namespace TacticalGroups
 			}
 		}
 
-		private TextAnchor textAnchor;
-		private float leftTextIndent;
+		public TextAnchor textAnchor;
+		public float leftTextIndent;
 		public bool selectedActive;
-		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
+        private Texture2D icon;
+        private Texture2D selectedIcon;
+
+        public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
 			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
@@ -183,7 +186,15 @@ namespace TacticalGroups
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
 
-		public void SetSizeMode(FloatMenuSizeMode newSizeMode)
+        public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D selectedIcon)
+        {
+            Label = label;
+            this.action = action;
+            this.icon = icon;
+            this.selectedIcon = selectedIcon;
+        }
+
+        public void SetSizeMode(FloatMenuSizeMode newSizeMode)
 		{
 			sizeMode = newSizeMode;
 		}

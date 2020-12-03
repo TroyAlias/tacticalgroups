@@ -242,6 +242,14 @@ namespace TacticalGroups
 			{
 				colonistsToHighlight.Clear();
 			}
+
+			if (Find.TickManager.TicksGame % 1000 == 0)
+            {
+				foreach (var group in TacticUtils.Groups)
+                {
+					group.Sort();
+                }
+            }
 		}
 
 		public void HandleGroupingClicks(Rect rect)
