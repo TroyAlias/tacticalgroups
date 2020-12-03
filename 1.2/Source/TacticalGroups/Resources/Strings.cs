@@ -31,6 +31,7 @@ namespace TacticalGroups
 
 		public static readonly string Rename = "TG.Rename".Translate();
 		public static readonly string Icon = "TG.Icon".Translate();
+		public static readonly string SortGroup = "TG.SortGroup".Translate();
 
 
 

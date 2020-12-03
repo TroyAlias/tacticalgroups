@@ -12,15 +12,14 @@ namespace TacticalGroups
 {
 	public class Dialog_RenameColonistGroup : Dialog_Rename
 	{
-		private ColonistGroup colonistGroup;
-		private Rect originRect;
 		private TieredFloatMenuOption option;
 		protected override void SetInitialSizeAndPosition()
         {
 			windowRect = new Rect(originRect.x, originRect.y, InitialSize.x, InitialSize.y);
 			windowRect = windowRect.Rounded();
 		}
-        public Dialog_RenameColonistGroup(ColonistGroup colonistGroup, Rect originRect, TieredFloatMenuOption option)
+		public Dialog_RenameColonistGroup(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, TieredFloatMenuOption option)
+			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;
@@ -37,7 +36,6 @@ namespace TacticalGroups
 		protected override void SetName(string name)
 		{
 			colonistGroup.groupName = name;
-			option.selected = false;
 		}
 	}
 }

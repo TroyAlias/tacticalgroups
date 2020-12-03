@@ -20,6 +20,7 @@ namespace TacticalGroups
 			this.options = new List<TieredFloatMenuOption>();
 			AddRenameButton();
 			AddIconButton();
+			AddSortButton();
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -28,25 +29,25 @@ namespace TacticalGroups
 
 		public void AddRenameButton()
         {
-			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
 				this.childWindow?.Close();
 				MarkOptionAsSelected(option);
-				Find.WindowStack.Add(new Dialog_RenameColonistGroup(this.colonistGroup, windowRect, option));
+				Find.WindowStack.Add(new Dialog_RenameColonistGroup(this, this.colonistGroup, windowRect, Textures.RenameTab, option));
 			};
-			option.bottomIndent = Textures.AOMButton.height + 5;
+			option.bottomIndent = Textures.AOMButton.height + 15;
 			options.Add(option);
 		}
 
 		public void AddIconButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Icon, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Icon, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
 				AddIconWindow(option);
 			};
-			option.bottomIndent = Textures.AOMButton.height + 5;
+			option.bottomIndent = Textures.AOMButton.height + 25;
 			options.Add(option);
 		}
 		public void AddIconWindow(TieredFloatMenuOption option)
@@ -54,6 +55,24 @@ namespace TacticalGroups
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height);
 			TieredFloatMenu floatMenu = new IconMenu(this, colonistGroup, rect, Textures.IconMenu);
+			OpenNewMenu(floatMenu);
+		}
+
+		public void AddSortButton()
+		{
+			var option = new TieredFloatMenuOption(Strings.SortGroup, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			option.action = delegate
+			{
+				AddSortWindow(option);
+			};
+			option.bottomIndent = Textures.AOMButton.height + 5;
+			options.Add(option);
+		}
+		public void AddSortWindow(TieredFloatMenuOption option)
+		{
+			MarkOptionAsSelected(option);
+			var rect = new Rect(windowRect.x, windowRect.y, windowRect.width, windowRect.height);
+			TieredFloatMenu floatMenu = new SkillSortMenu(this, colonistGroup, rect, Textures.IconMenu);
 			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)

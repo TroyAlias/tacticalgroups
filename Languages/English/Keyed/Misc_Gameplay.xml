@@ -21,5 +21,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	
 	<TG.Rename>Rename</TG.Rename>
 	<TG.Icon>Icon</TG.Icon>
+	<TG.SortGroup>Sort Group</TG.SortGroup>
+	
 
 </LanguageData>
