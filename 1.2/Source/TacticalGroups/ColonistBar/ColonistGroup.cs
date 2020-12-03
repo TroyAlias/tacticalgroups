@@ -498,7 +498,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
-			Scribe_Values.Look(ref skillDefSort, "skillDefSort");
+			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 
 		private List<Pawn> pawnKeys;

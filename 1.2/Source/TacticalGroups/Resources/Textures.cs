@@ -74,5 +74,23 @@ namespace TacticalGroups
 		public static readonly Texture2D DisbandGroupHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroupHover");
 		public static readonly Texture2D DisbandGroupClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroupClick");
 		public static readonly Texture2D DisbandGroup = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandGroup");
+
+		public static readonly Texture2D WorkButtonHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/WorkButtonHover");
+		public static readonly Texture2D WardenButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/WardenButton");
+		public static readonly Texture2D MineButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/MineButton");
+		public static readonly Texture2D LookBusyButtonHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/LookBusyButtonHover");
+		public static readonly Texture2D LookBusyButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/LookBusyButton");
+		public static readonly Texture2D HuntButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/HuntButton");
+		public static readonly Texture2D HaulButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/HaulButton");
+		public static readonly Texture2D GetToWorkMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/GetToWorkMenu");
+		public static readonly Texture2D FarmButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/FarmButton");
+		public static readonly Texture2D DoctorButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/DoctorButton");
+		public static readonly Texture2D CraftButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/CraftButton");
+		public static readonly Texture2D CookButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/CookButton");
+		public static readonly Texture2D ConstructButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ConstructButton");
+		public static readonly Texture2D ClearSnowButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ClearSnowButton");
+		public static readonly Texture2D CleanButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/CleanButton");
+		public static readonly Texture2D ChopWoodButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ChopWoodButton");
+		public static readonly Texture2D ActionsMenuDrop = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ActionsMenuDrop");
 	}
 }

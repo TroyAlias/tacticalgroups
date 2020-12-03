@@ -15,7 +15,6 @@ namespace TacticalGroups
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 
-		public Dictionary<Texture2D, bool> iconStates = new Dictionary<Texture2D, bool>();
 		public SkillSortMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{

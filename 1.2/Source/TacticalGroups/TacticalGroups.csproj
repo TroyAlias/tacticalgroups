@@ -45,13 +45,14 @@
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
     <Compile Include="FloatMenus\Dialog_Rename.cs" />
     <Compile Include="FloatMenus\Dialog_RenameColonistGroup.cs" />
+    <Compile Include="FloatMenus\WorkActionsMenu.cs" />
     <Compile Include="FloatMenus\SkillSortMenu.cs" />
     <Compile Include="FloatMenus\IconMenu.cs" />
     <Compile Include="FloatMenus\ManageMenu.cs" />
     <Compile Include="FloatMenus\ActionsMenu.cs" />
     <Compile Include="FloatMenus\MainFloatMenu.cs" />
     <Compile Include="FloatMenus\SkillSortFloatMenuOption.cs" />
-    <Compile Include="FloatMenus\TieredFloatMenuOption.cs" />
+    <Compile Include="HarmonyPatches\TieredFloatMenuOption.cs" />
     <Compile Include="FloatMenus\TieredFloatMenu.cs" />
     <Compile Include="ColonistBar\ColonistGroup.cs" />
     <Compile Include="Resources\Strings.cs" />

@@ -23,5 +23,10 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Icon>Icon</TG.Icon>
 	<TG.SortGroup>Sort Group</TG.SortGroup>
 	
+	<TG.Disband>Disband</TG.Disband>
+	<TG.DisbandPawn>Pawn</TG.DisbandPawn>
+	<TG.DisbandGroup>Group</TG.DisbandGroup>
+	
+	<TG.LookBusy>Look Busy</TG.LookBusy>
 
 </LanguageData>

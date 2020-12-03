@@ -33,6 +33,11 @@ namespace TacticalGroups
 		public static readonly string Icon = "TG.Icon".Translate();
 		public static readonly string SortGroup = "TG.SortGroup".Translate();
 
+		public static readonly string Disband = "TG.Disband".Translate();
+		public static readonly string DisbandPawn = "TG.DisbandPawn".Translate();
+		public static readonly string DisbandGroup = "TG.DisbandGroup".Translate();
+
+		public static readonly string LookBusy = "TG.LookBusy".Translate();
 
 
 	}

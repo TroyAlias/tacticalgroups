@@ -59,8 +59,6 @@ namespace TacticalGroups
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
-			Vector2 zero = Vector2.zero;
-
 			var iconRows = GetIconRows(4);
 			var initialRect = new Rect(rect);
 			initialRect.y += 25f;
@@ -70,9 +68,6 @@ namespace TacticalGroups
 			float listHeight = iconRows.Count * iconRows[0][0].height + (iconRows.Count * 4);
 			Rect rect2 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
 			Widgets.BeginScrollView(initialRect, ref scrollPosition, rect2);
-
-			//Widgets.DrawBox(initialRect);
-			//Widgets.DrawBox(rect2, 3);
 
 			for (var i = 0; i < iconRows.Count; i++)
 			{

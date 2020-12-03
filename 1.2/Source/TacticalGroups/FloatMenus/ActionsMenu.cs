@@ -32,10 +32,17 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.GetToWork, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-
+				AddGetToWorkWindow(option);
 			};
 			option.bottomIndent = Textures.AOMButton.height + 5;
 			options.Add(option);
+		}
+
+		public void AddGetToWorkWindow(TieredFloatMenuOption option)
+		{
+			MarkOptionAsSelected(option);
+			TieredFloatMenu floatMenu = new GetToWorkMenu(this, colonistGroup, windowRect, Textures.GetToWorkMenu);
+			OpenNewMenu(floatMenu);
 		}
 
 		public void AddTakeABreak()

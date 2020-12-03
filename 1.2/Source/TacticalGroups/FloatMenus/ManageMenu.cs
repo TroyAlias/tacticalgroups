@@ -112,7 +112,52 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
+			Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.60f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
+			GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
 
+			Text.Anchor = TextAnchor.UpperCenter;
+
+			var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 10f, disbandRect.width, disbandRect.height - 10f);
+			Widgets.Label(disbandLabelRect, Strings.Disband);
+
+			var disbandPawn = new Rect(disbandRect.x / 2f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
+			if (Mouse.IsOver(disbandPawn))
+            {
+				GUI.DrawTexture(disbandPawn, Textures.DisbandPawnHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					foreach (var pawn in Find.Selector.SelectedPawns)
+                    {
+						this.colonistGroup.Disband(pawn);
+                    }
+				}
+            }
+			else
+            {
+				GUI.DrawTexture(disbandPawn, Textures.DisbandPawn);
+			}
+
+			var disbandPawnLabelRect = new Rect(disbandPawn.x, disbandPawn.y + disbandPawn.height + 3f, disbandPawn.width, disbandPawn.height - 10f);
+			Widgets.Label(disbandPawnLabelRect, Strings.DisbandPawn);
+
+			var disbandGroup = new Rect((disbandRect.x + disbandRect.width) - (Textures.DisbandGroup.width / 2f), (disbandRect.y + disbandRect.height) - (Textures.DisbandGroup.height / 2f), Textures.DisbandGroup.width, Textures.DisbandGroup.height);
+			if (Mouse.IsOver(disbandGroup))
+			{
+				GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticUtils.Groups.Remove(this.colonistGroup);
+				}
+			}
+			else
+			{
+				GUI.DrawTexture(disbandGroup, Textures.DisbandGroup);
+			}
+			var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 3f, disbandGroup.width, disbandGroup.height - 10f);
+			Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
+
+
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}
 }
