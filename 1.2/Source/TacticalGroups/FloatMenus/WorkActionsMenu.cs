@@ -139,6 +139,7 @@ namespace TacticalGroups
 			switch (workType)
             {
 				case WorkType.None: SearchForWorkGeneral(); break;
+				case WorkType.Construction: SearchForWorkGeneral(); break;
 				default: return;
 			}
 
@@ -148,7 +149,7 @@ namespace TacticalGroups
         {
 			foreach (var pawn in this.colonistGroup.pawns)
             {
-				if (pawn.mindState.IsIdle)
+				if (pawn.mindState.IsIdle || pawn.mindState.lastJobTag == JobTag.SatisfyingNeeds)
                 {
 					ThinkResult result = ThinkResult.NoJob;
 					try
@@ -165,6 +166,10 @@ namespace TacticalGroups
 						pawn.jobs.TryTakeOrderedJob(result.Job);
 					}
 				}
+				else
+                {
+					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
+                }
 			}
         }
 	}
