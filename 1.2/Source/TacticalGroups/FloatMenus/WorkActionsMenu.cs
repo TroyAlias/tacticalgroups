@@ -32,7 +32,7 @@ namespace TacticalGroups
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 
 		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
-		public GetToWorkMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
+		public GetToWorkMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
@@ -86,8 +86,8 @@ namespace TacticalGroups
 
 
 		public override void DoWindowContents(Rect rect)
-        {
-            base.DoWindowContents(rect);
+		{
+			base.DoWindowContents(rect);
 			Vector2 zero = Vector2.zero;
 			zero += InitialFloatOptionPositionShift;
 			for (int i = 0; i < options.Count; i++)
@@ -113,7 +113,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, iconRows[i][j]);
 
 					if (Mouse.IsOver(iconRect))
-                    {
+					{
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
@@ -124,33 +124,42 @@ namespace TacticalGroups
 				}
 			}
 
-            DrawExtraGui(rect);
-            if (Event.current.type == EventType.MouseDown)
-            {
-                Event.current.Use();
-                Close();
-            }
-            GUI.color = Color.white;
-        }
+			DrawExtraGui(rect);
+			if (Event.current.type == EventType.MouseDown)
+			{
+				Event.current.Use();
+				Close();
+			}
+			GUI.color = Color.white;
+		}
 
 
 		public void SearchForWork(WorkType workType)
-        {
+		{
 			switch (workType)
-            {
+			{
 				case WorkType.None: SearchForWorkGeneral(); break;
-				case WorkType.Construction: SearchForWorkGeneral(); break;
+				case WorkType.Construction: SearchForWorkConstruction(); break;
+				case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				case WorkType.Cooking: SearchForWorkCooking(); break;
+				case WorkType.Crafting: SearchForWorkCrafting(); break;
+
+				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
 				default: return;
 			}
 
-        }
+		}
 
 		public void SearchForWorkGeneral()
-        {
+		{
 			foreach (var pawn in this.colonistGroup.pawns)
-            {
+			{
 				if (pawn.mindState.IsIdle || pawn.mindState.lastJobTag == JobTag.SatisfyingNeeds)
-                {
+				{
 					ThinkResult result = ThinkResult.NoJob;
 					try
 					{
@@ -167,10 +176,174 @@ namespace TacticalGroups
 					}
 				}
 				else
-                {
+				{
 					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-                }
+				}
 			}
-        }
+		}
+
+		public void SearchForWorkConstruction()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.FinishFrame)
+				{
+					if (TryGetJobForAllItems(WorkTypeDefOf.Construction, pawn))
+                    {
+						TryGetJobForAllCells(WorkTypeDefOf.Construction, pawn);
+                    }
+				}
+			}
+		}
+
+		public void SearchForWorkCleaning()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.Clean)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cleaning");
+					if (!TryGetJobForAllItems(workType, pawn))
+                    {
+						TryGetJobForAllCells(workType, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkCooking()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.DoBill && pawn.CurJob.workGiverDef != DefDatabase<WorkGiverDef>.GetNamed("DoBillsCook"))
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cooking");
+					if (!TryGetJobForAllItems(workType, pawn))
+					{
+						TryGetJobForAllCells(workType, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkCrafting()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.DoBill)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Crafting");
+					if (!TryGetJobForAllItems(workType, pawn))
+					{
+						TryGetJobForAllCells(workType, pawn);
+					}
+				}
+			}
+		}
+
+		public bool TryGetJobForAllItems(WorkTypeDef workType, Pawn pawn)
+        {
+			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
+			{
+				foreach (Thing item in pawn.Map.listerThings.AllThings)
+				{
+					foreach (var workGiver in workType.workGiversByPriority)
+					{
+						WorkGiver_Scanner workGiver_Scanner = workGiver.Worker as WorkGiver_Scanner;
+						if (workGiver_Scanner != null && workGiver_Scanner.def.directOrderable)
+						{
+							if ((workGiver_Scanner.PotentialWorkThingRequest.Accepts(item) || (workGiver_Scanner.PotentialWorkThingsGlobal(pawn) != null && workGiver_Scanner.PotentialWorkThingsGlobal(pawn).Contains(item))) && !workGiver_Scanner.ShouldSkip(pawn, forced: true))
+							{
+								if (workGiver_Scanner.MissingRequiredCapacity(pawn) == null)
+								{
+									Job job = workGiver_Scanner.HasJobOnThing(pawn, item, forced: true) ? workGiver_Scanner.JobOnThing(pawn, item, forced: true) : null;
+									if (job != null)
+									{
+										WorkTypeDef workType2 = workGiver_Scanner.def.workType;
+										if (pawn.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
+										{
+										}
+										else if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
+										{
+										}
+										else if (pawn.workSettings.GetPriority(workType2) == 0)
+										{
+										}
+										else if (job.def == JobDefOf.Research && item is Building_ResearchBench)
+										{
+										}
+										else if (item.IsForbidden(pawn))
+										{
+										}
+										else if (!pawn.CanReach(item, workGiver_Scanner.PathEndMode, Danger.Deadly))
+										{
+										}
+										else
+										{
+											WorkGiver_Scanner localScanner2 = workGiver_Scanner;
+											job.workGiverDef = workGiver_Scanner.def;
+											pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner2, pawn.Position);
+											return true;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
+
+		public bool TryGetJobForAllCells(WorkTypeDef workType, Pawn pawn)
+		{
+			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
+			{
+				foreach (IntVec3 cell in pawn.Map.AllCells)
+				{
+					foreach (var workGiver in workType.workGiversByPriority)
+					{
+						if (!pawn.Drafted || workGiver.canBeDoneWhileDrafted)
+						{
+							WorkGiver_Scanner workGiver_Scanner2 = workGiver.Worker as WorkGiver_Scanner;
+							if (workGiver_Scanner2 != null && workGiver_Scanner2.def.directOrderable)
+							{
+								if (workGiver_Scanner2.PotentialWorkCellsGlobal(pawn).Contains(cell) && !workGiver_Scanner2.ShouldSkip(pawn, forced: true))
+								{
+									if (workGiver_Scanner2.MissingRequiredCapacity(pawn) != null)
+									{
+										Job job2 = workGiver_Scanner2.HasJobOnCell(pawn, cell, forced: true) ? workGiver_Scanner2.JobOnCell(pawn, cell, forced: true) : null;
+										if (job2 != null)
+										{
+											WorkTypeDef workType2 = workGiver_Scanner2.def.workType;
+											if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job2))
+											{
+											}
+											else if (pawn.workSettings.GetPriority(workType2) == 0)
+											{
+											}
+											else if (cell.IsForbidden(pawn))
+											{
+											}
+											else if (!pawn.CanReach(cell, PathEndMode.Touch, Danger.Deadly))
+											{
+											}
+											else
+											{
+												WorkGiver_Scanner localScanner = workGiver_Scanner2;
+												job2.workGiverDef = workGiver_Scanner2.def;
+												pawn.jobs.TryTakeOrderedJobPrioritizedWork(job2, localScanner, cell);
+												return true;
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
 	}
 }
