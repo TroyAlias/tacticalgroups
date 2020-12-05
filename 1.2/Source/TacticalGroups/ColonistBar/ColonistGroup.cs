@@ -487,7 +487,7 @@ namespace TacticalGroups
         {
 			if (activeSortBy == SortBy.Skills)
             {
-				this.pawns.SortBy(x => x.skills.GetSkill(skillDefSort).Level);
+				this.pawns.SortByDescending(x => x.skills.GetSkill(skillDefSort).Level);
             }
         }
 		public void ExposeData()

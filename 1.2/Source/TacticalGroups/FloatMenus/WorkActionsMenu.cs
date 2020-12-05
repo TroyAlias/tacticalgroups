@@ -144,11 +144,15 @@ namespace TacticalGroups
 				case WorkType.Cooking: SearchForWorkCooking(); break;
 				case WorkType.Crafting: SearchForWorkCrafting(); break;
 
-				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
-				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
-				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
-				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
-				//case WorkType.Cleaning: SearchForWorkCleaning(); break;
+				case WorkType.ClearSnow: SearchForWorkClearSnow(); break;
+				case WorkType.Doctor: SearchForWorkDoctor(); break;
+				case WorkType.Hauling: SearchForWorkHauling(); break;
+				case WorkType.Hunting: SearchForWorkHunting(); break;
+				case WorkType.Mining: SearchForWorkMining(); break;
+				case WorkType.Plants: SearchForWorkPlants(); break;
+				case WorkType.Warden: SearchForWorkWarden(); break;
+				case WorkType.WoodChopping: SearchForWorkWoodChopping(); break;
+
 				default: return;
 			}
 
@@ -188,9 +192,9 @@ namespace TacticalGroups
 			{
 				if (pawn.CurJobDef != JobDefOf.FinishFrame)
 				{
-					if (TryGetJobForAllItems(WorkTypeDefOf.Construction, pawn))
+					if (TryGetJobForAllItems(WorkTypeDefOf.Construction.workGiversByPriority, pawn))
                     {
-						TryGetJobForAllCells(WorkTypeDefOf.Construction, pawn);
+						TryGetJobForAllCells(WorkTypeDefOf.Construction.workGiversByPriority, pawn);
                     }
 				}
 			}
@@ -203,9 +207,9 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.Clean)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cleaning");
-					if (!TryGetJobForAllItems(workType, pawn))
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
                     {
-						TryGetJobForAllCells(workType, pawn);
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
 					}
 				}
 			}
@@ -218,9 +222,9 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.DoBill && pawn.CurJob.workGiverDef != DefDatabase<WorkGiverDef>.GetNamed("DoBillsCook"))
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cooking");
-					if (!TryGetJobForAllItems(workType, pawn))
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
 					{
-						TryGetJobForAllCells(workType, pawn);
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
 					}
 				}
 			}
@@ -233,21 +237,143 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.DoBill)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Crafting");
-					if (!TryGetJobForAllItems(workType, pawn))
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
 					{
-						TryGetJobForAllCells(workType, pawn);
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
 					}
 				}
 			}
 		}
 
-		public bool TryGetJobForAllItems(WorkTypeDef workType, Pawn pawn)
+		public void SearchForWorkClearSnow()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.ClearSnow)
+				{
+					var workgivers = new List<WorkGiverDef> { DefDatabase<WorkGiverDef>.GetNamed("CleanClearSnow") };
+					if (!TryGetJobForAllItems(workgivers, pawn))
+					{
+						TryGetJobForAllCells(workgivers, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkDoctor()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.TendPatient)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Doctor");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkHauling()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.HaulToCell && pawn.CurJobDef != JobDefOf.HaulToContainer && pawn.CurJobDef != JobDefOf.HaulToTransporter)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hauling");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkHunting()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.Hunt)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hunting");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+		public void SearchForWorkMining()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.Mine)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Mining");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+		public void SearchForWorkPlants()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.CutPlantDesignated && pawn.CurJobDef != JobDefOf.Sow)
+				{
+					var growingWorkType = DefDatabase<WorkTypeDef>.GetNamed("Growing");
+					var plantCuttingWorkType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
+
+					var workgivers = new List<WorkGiverDef>();
+					workgivers.AddRange(growingWorkType.workGiversByPriority);
+					workgivers.AddRange(plantCuttingWorkType.workGiversByPriority);
+					if (!TryGetJobForAllItems(workgivers, pawn))
+					{
+						TryGetJobForAllCells(workgivers, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkWarden()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.jobs?.curJob?.workGiverDef?.workType != WorkTypeDefOf.Warden)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("Warden");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+
+		public void SearchForWorkWoodChopping()
+		{
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.CurJobDef != JobDefOf.CutPlantDesignated)
+				{
+					var workType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
+					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
+					{
+						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
+					}
+				}
+			}
+		}
+		public bool TryGetJobForAllItems(List<WorkGiverDef> workGiverDefs, Pawn pawn)
         {
 			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
 			{
 				foreach (Thing item in pawn.Map.listerThings.AllThings)
 				{
-					foreach (var workGiver in workType.workGiversByPriority)
+					foreach (var workGiver in workGiverDefs)
 					{
 						WorkGiver_Scanner workGiver_Scanner = workGiver.Worker as WorkGiver_Scanner;
 						if (workGiver_Scanner != null && workGiver_Scanner.def.directOrderable)
@@ -295,13 +421,13 @@ namespace TacticalGroups
 			return false;
 		}
 
-		public bool TryGetJobForAllCells(WorkTypeDef workType, Pawn pawn)
+		public bool TryGetJobForAllCells(List<WorkGiverDef> workGiverDefs, Pawn pawn)
 		{
 			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
 			{
 				foreach (IntVec3 cell in pawn.Map.AllCells)
 				{
-					foreach (var workGiver in workType.workGiversByPriority)
+					foreach (var workGiver in workGiverDefs)
 					{
 						if (!pawn.Drafted || workGiver.canBeDoneWhileDrafted)
 						{
