@@ -200,21 +200,25 @@ namespace TacticalGroups
 			}
 		}
 
+		public void InitIcon()
+        {
+			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
+			var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+			if (icon != null)
+			{
+				this.groupIcon = icon;
+			}
+			else
+			{
+				this.groupIcon = Textures.GroupIcon_Default;
+			}
+		}
 		public void Draw(Rect rect)
         {
 			this.curRect = rect;
 			if (this.groupIcon == null)
             {
-				var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
-				var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
-				if (icon != null)
-				{
-					this.groupIcon = icon;
-				}
-				else 
-				{
-					this.groupIcon = Textures.GroupIcon_Default;
-				}
+				InitIcon();
 			}
 
 			GUI.DrawTexture(rect, this.groupIcon);
