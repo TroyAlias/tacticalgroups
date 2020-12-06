@@ -62,6 +62,14 @@ namespace TacticalGroups
 			options.Add(option);
 		}
 
+		public void AddOrderWindow(TieredFloatMenuOption option)
+		{
+			MarkOptionAsSelected(option);
+			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
+			TieredFloatMenu floatMenu = new OrderMenu(this, colonistGroup, rect, Textures.OrdersDropMenu);
+			OpenNewMenu(floatMenu);
+		}
+
 		public void AddManageButton()
 		{
 			var option = new TieredFloatMenuOption(Strings.Manage, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);

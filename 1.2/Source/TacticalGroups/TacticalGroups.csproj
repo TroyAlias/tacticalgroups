@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
+    <Compile Include="FloatMenus\OrderMenu.cs" />
     <Compile Include="FloatMenus\OptionsMenu.cs" />
     <Compile Include="FloatMenus\Dialog_Rename.cs" />
     <Compile Include="FloatMenus\Dialog_RenameColonistGroup.cs" />
