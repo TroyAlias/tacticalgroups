@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
+    <Compile Include="FloatMenus\OptionsMenu.cs" />
     <Compile Include="FloatMenus\Dialog_Rename.cs" />
     <Compile Include="FloatMenus\Dialog_RenameColonistGroup.cs" />
     <Compile Include="FloatMenus\WorkActionsMenu.cs" />
@@ -57,6 +58,9 @@
     <Compile Include="ColonistBar\ColonistGroup.cs" />
     <Compile Include="Resources\Strings.cs" />
     <Compile Include="Resources\Textures.cs" />
+    <Compile Include="SettingsHelper.cs" />
+    <Compile Include="TacticalGroupsSettings.cs" />
+    <Compile Include="TacticalGroupsMod.cs" />
     <Compile Include="TacticUtils.cs" />
     <Compile Include="TacticalGroups.cs" />
     <Compile Include="ColonistBar\ColonistBarDrawLocsFinder.cs" />

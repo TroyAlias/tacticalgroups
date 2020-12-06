@@ -40,5 +40,14 @@ namespace TacticalGroups
 		public static readonly string LookBusy = "TG.LookBusy".Translate();
 
 
+		public static readonly string ShowAllColonists = "TG.ShowAllColonists".Translate();
+		public static readonly string DisplayFood = "TG.DisplayFood".Translate();
+		public static readonly string DisplayRest = "TG.DisplayFood".Translate();
+		public static readonly string DisplayHealth = "TG.DisplayHealth".Translate();
+		public static readonly string PawnIconScale = "TG.PawnIconScale".Translate();
+		public static readonly string GroupIconScale = "TG.GroupIconScale".Translate();
+
+
+
 	}
 }

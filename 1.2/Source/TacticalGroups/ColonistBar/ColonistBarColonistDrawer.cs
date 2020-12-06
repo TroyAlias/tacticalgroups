@@ -99,8 +99,69 @@ namespace TacticalGroups
 			GenMapUI.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticUtils.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
+
+			var simpleMaterialTex = SolidColorMaterials.NewSolidColorTexture(Color.white);
+			var replacedFG_LTex = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/NL_Bar_L", true);
+			var replacedFG_RTex = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/NL_Bar_R", true);
+			var replacedBG_LTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.098f, 0.149f, 0.1803f, 1f));
+
+			DrawHealthBar(colonist, rect, simpleMaterialTex);
+			DrawRestAndFoodBars(colonist, rect, simpleMaterialTex);
+		}
+		public static void DrawHealthBar(Pawn p, Rect rect, Texture tex)
+		{
+			if (TacticalGroupsSettings.DisplayHealth)
+			{
+				Color color = GUI.color;
+				GUI.color = Color.white;
+				Rect healthBar = new Rect(rect.x - Textures.HealthBar.width, rect.y, Textures.HealthBar.width, rect.height);
+				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
+				float num = Mathf.Clamp(p.health.summaryHealth.SummaryHealthPercent, 0f, 1f);
+				Color color2 = new ColorInt(154, 55, 55, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				Rect rect3 = GenUI.ContractedBy(healthBar, 1f);
+				float num5 = rect3.height * num;
+				rect3.yMin = rect3.yMax - num5;
+				rect3.height = num5;
+				GUI.DrawTexture(rect3, tex, ScaleMode.ScaleAndCrop);
+				GUI.color = color;
+			}
 		}
 
+		public static void DrawRestAndFoodBars(Pawn p, Rect rect, Texture tex)
+		{
+			Color color = GUI.color;
+			GUI.color = Color.white;
+			Rect needBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
+			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
+            {
+				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
+				float num = Mathf.Clamp(p.needs.food.CurLevelPercentage, 0f, 1f);
+				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
+				float num5 = rect3.height * num;
+				rect3.yMin = rect3.yMax - num5;
+				rect3.height = num5;
+				GUI.DrawTexture(rect3, tex, ScaleMode.ScaleAndCrop);
+				needBar.x += Textures.RestFood.width;
+			}
+
+			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
+			{
+				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
+				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
+				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
+				float num5 = rect3.height * num;
+				rect3.yMin = rect3.yMax - num5;
+				rect3.height = num5;
+				GUI.DrawTexture(rect3, tex, ScaleMode.ScaleAndCrop);
+			}
+
+			GUI.color = color;
+		}
 		private Rect GroupFrameRect(int group)
 		{
 			float num = 99999f;

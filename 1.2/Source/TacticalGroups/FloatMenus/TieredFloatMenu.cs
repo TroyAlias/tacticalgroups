@@ -128,8 +128,10 @@ namespace TacticalGroups
 			{
 				onCloseCallback();
 			}
-			colonistGroup.showPawnIconsRightClickMenu = false;
-			Log.Message("PostClose");
+			if (colonistGroup != null)
+            {
+				colonistGroup.showPawnIconsRightClickMenu = false;
+			}
 		}
 
 		public void Cancel()
@@ -154,7 +156,7 @@ namespace TacticalGroups
 		private void UpdateBaseColor()
 		{
 			if (!Selected && !HasActiveParent)
-            {
+			{
 				baseColor = Color.white;
 				if (!vanishIfMouseDistant)
 				{

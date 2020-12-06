@@ -169,6 +169,21 @@ namespace TacticalGroups
                 }
 				HandleGroupingClicks(createGroupRect);
 
+				Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
+				if (Mouse.IsOver(optionsGearRect))
+                {
+					GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+                    {
+						TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
+						Find.WindowStack.Add(floatMenu);
+					}
+				}
+				else
+                {
+					GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
+				}
+
 				for (int i = 0; i < TacticUtils.Groups.Count; i++)
 				{
 					var groupIconRect = new Rect(createGroupRect.x - (Size.x * (i + 1) * 2f), createGroupRect.y, Textures.GroupIcon_Default.width, Textures.GroupIcon_Default.height);

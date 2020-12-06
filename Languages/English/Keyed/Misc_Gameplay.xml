@@ -9,7 +9,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Orders>Orders</TG.Orders>
 	<TG.Manage>Manage</TG.Manage>
 	<TG.Group>Group</TG.Group>
-	
+
 	<TG.GetToWork>Get to Work</TG.GetToWork>
 	<TG.TakeABreak>Take a Break</TG.TakeABreak>
 	<TG.ChowHall>Chow Hall</TG.ChowHall>
@@ -18,15 +18,22 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Clean>Clean</TG.Clean>
 	<TG.Haul>Haul</TG.Haul>
 	<TG.VisitMedical>Visit Medical</TG.VisitMedical>
-	
+
 	<TG.Rename>Rename</TG.Rename>
 	<TG.Icon>Icon</TG.Icon>
 	<TG.SortGroup>Sort Group</TG.SortGroup>
-	
+
 	<TG.Disband>Disband</TG.Disband>
 	<TG.DisbandPawn>Pawn</TG.DisbandPawn>
 	<TG.DisbandGroup>Group</TG.DisbandGroup>
-	
+
 	<TG.LookBusy>Look Busy</TG.LookBusy>
+
+	<TG.ShowAllColonists>Show All Colonists</TG.ShowAllColonists>
+	<TG.DisplayFood>Display Food</TG.DisplayFood>
+	<TG.DisplayRest>Display Rest</TG.DisplayRest>
+	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
+	<TG.PawnIconScale>Pawn Icon Scale</TG.PawnIconScale>
+	<TG.GroupIconScale>Group Icon Scale</TG.GroupIconScale>
 
 </LanguageData>

@@ -90,15 +90,5 @@ namespace TacticalGroups
 			}
 			GUI.color = Color.white;
 		}
-
-		public override void DrawExtraGui(Rect rect)
-		{
-
-		}
-
-        public override void PostClose()
-        {
-            base.PostClose();
-        }
     }
 }
