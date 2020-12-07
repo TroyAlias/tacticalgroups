@@ -33,6 +33,15 @@ namespace TacticalGroups
 		{
 			var option = new TieredFloatMenuOption(Strings.Rally, null, Textures.RallyButton, Textures.RallyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 10f);
 			option.bottomIndent = 41;
+			option.action = delegate
+			{
+				Find.Selector.ClearSelection();
+				foreach (var pawn in this.colonistGroup.pawns)
+                {
+					Find.Selector.Select(pawn);
+					pawn.drafter.Drafted = true;
+				}
+			};
 			options.Add(option);
 		}
 
@@ -58,6 +67,10 @@ namespace TacticalGroups
         public void AddOrderButton()
 		{
 			var option = new TieredFloatMenuOption(Strings.Orders, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
+			option.action = delegate
+			{
+				AddOrderWindow(option);
+			};
 			option.bottomIndent = Textures.AOMButton.height;
 			options.Add(option);
 		}

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<DutyDef>
+		<defName>AssaultThingsStrongest</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesStrongest">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<DutyDef>
+		<defName>AssaultThingsWeakest</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesWeakest">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<DutyDef>
+		<defName>AssaultThingsFleeing</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesFleeing">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+</Defs>

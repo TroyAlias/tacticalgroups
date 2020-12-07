@@ -149,6 +149,12 @@ namespace TacticalGroups
 			base.Close(doCloseSound);
         }
 
+		public void CloseAllWindows()
+        {
+			this.Close();
+			this.parentWindow?.CloseAllWindows();
+        }
+
         public virtual void PreOptionChosen(TieredFloatMenuOption opt)
 		{
 		}

@@ -47,6 +47,20 @@ namespace TacticalGroups
 		public static readonly string PawnIconScale = "TG.PawnIconScale".Translate();
 		public static readonly string GroupIconScale = "TG.GroupIconScale".Translate();
 
+		public static readonly string Attack = "TG.Attack".Translate();
+		public static readonly string Regroup = "TG.Regroup".Translate();
+		public static readonly string BattleStations = "TG.BattleStations".Translate();
+		public static readonly string Set = "TG.Set".Translate();
+		public static readonly string Clear = "TG.Clear".Translate();
+		public static readonly string Formation = "TG.Formation".Translate();
+		public static readonly string Medical = "TG.Medical".Translate();
+
+		public static readonly string FireAtWill = "TG.FireAtWill".Translate();
+		public static readonly string Strongest = "TG.Strongest".Translate();
+		public static readonly string Weakest = "TG.Weakest".Translate();
+		public static readonly string PursueFleeing = "TG.PursueFleeing".Translate();
+
+
 
 
 	}

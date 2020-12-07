@@ -35,5 +35,16 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
 	<TG.PawnIconScale>Pawn Icon Scale</TG.PawnIconScale>
 	<TG.GroupIconScale>Group Icon Scale</TG.GroupIconScale>
-
+	
+	<TG.Attack>Attack</TG.Attack>
+	<TG.Regroup>Regroup</TG.Regroup>
+	<TG.BattleStations>Battle Stations</TG.BattleStations>
+	<TG.Set>Set</TG.Set>
+	<TG.Clear>Clear</TG.Clear>
+	<TG.Formation>Formation</TG.Formation>
+	<TG.Medical>Medical</TG.Medical>
+	<TG.FireAtWill>Fire At Will</TG.FireAtWill>
+	<TG.Strongest>Strongest</TG.Strongest>
+	<TG.Weakest>Weakest</TG.Weakest>
+	<TG.PursueFleeing>Pursue Fleeing</TG.PursueFleeing>
 </LanguageData>

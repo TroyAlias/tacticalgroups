@@ -363,17 +363,18 @@ namespace TacticalGroups
 			}
 
 			if (TacticUtils.Groups != null)
-            {
-				foreach (var group in TacticUtils.Groups)
+			{
+				for (int num = TacticUtils.Groups.Count - 1; num >= 0; num--)
                 {
-					foreach (var pawn in group.pawns)
+					for (int num2 = TacticUtils.Groups[num].pawns.Count - 1; num2 >= 0; num2--)
                     {
-						if (pawn.Dead || pawn.Destroyed)
+						if (TacticUtils.Groups[num].pawns[num2].Dead || TacticUtils.Groups[num].pawns[num2].Destroyed)
                         {
-							group.Disband(pawn);
+							TacticUtils.Groups[num].Disband(TacticUtils.Groups[num].pawns[num2]);
                         }
                     }
                 }
+
 				cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
 				&& !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
 			}

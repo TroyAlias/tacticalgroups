@@ -36,6 +36,7 @@ namespace TacticalGroups
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
+		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -48,6 +49,8 @@ namespace TacticalGroups
 		public bool Visible => pawnWindowIsActive;
 		private bool expandPawnIcons;
 		public bool showPawnIconsRightClickMenu;
+
+		public Map Map => this.pawns.First().Map;
 		public bool ShowExpanded
         {
 			get
@@ -67,6 +70,7 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.groupIcon = Textures.GroupIcon_Default;
+			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
 		public ColonistGroup(List<Pawn> pawns)
         {
@@ -78,6 +82,7 @@ namespace TacticalGroups
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupIcon = Textures.GroupIcon_Default;
+			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
 		public ColonistGroup(Pawn pawn)
         {
@@ -85,8 +90,8 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupIcon = Textures.GroupIcon_Default;
+			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
-
 
 		public void Add(Pawn pawn)
         {
@@ -494,10 +499,13 @@ namespace TacticalGroups
 				this.pawns.SortByDescending(x => x.skills.GetSkill(skillDefSort).Level);
             }
         }
+
+
 		public void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
+			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Deep, ref pawnKeys2, ref intVecValues);
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
@@ -507,11 +515,8 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
-	}
 
-	public enum SortBy
-	{
-		None,
-		Skills
+		private List<Pawn> pawnKeys2;
+		private List<IntVec3> intVecValues;
 	}
 }

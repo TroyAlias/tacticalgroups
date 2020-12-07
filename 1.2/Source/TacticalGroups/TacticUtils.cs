@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.AI.Group;
 
 namespace TacticalGroups
 {
@@ -79,6 +80,70 @@ namespace TacticalGroups
 				return true;
 			}
 			return false;
+		}
+
+
+		public static void Draft(this ColonistGroup colonistGroup)
+        {
+			foreach (var pawn in colonistGroup.pawns)
+            {
+				if (pawn.drafter != null)
+                {
+					pawn.drafter.Drafted = true;
+				}
+			}
+        }
+
+		public static void Undraft(this ColonistGroup colonistGroup)
+		{
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				if (pawn.drafter != null)
+				{
+					pawn.drafter.Drafted = false;
+				}
+			}
+		}
+
+		public static void SwitchToAttackMode(this ColonistGroup colonistGroup)
+		{
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				if (pawn.playerSettings != null)
+				{
+					pawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
+				}
+			}
+		}
+
+		public static void RemoveOldLord(this ColonistGroup colonistGroup)
+		{
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				var lord = pawn.GetLord();
+				if (lord != null)
+				{
+					Log.Message("lord cleanup: " + lord.LordJob);
+					lord.ownedPawns.Remove(pawn);
+					pawn.Map.lordManager.RemoveLord(lord);
+				}
+			}
+		}
+
+		public static void SetBattleStations(this ColonistGroup colonistGroup)
+		{
+			if (colonistGroup.formations is null) colonistGroup.formations = new Dictionary<Pawn, IntVec3>();
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				colonistGroup.formations[pawn] = pawn.Position;
+			}
+		}
+		public static void ClearBattleStations(this ColonistGroup colonistGroup)
+		{
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				colonistGroup.formations.Remove(pawn);
+			}
 		}
 
 		private static TacticalGroups tacticalGroups;
