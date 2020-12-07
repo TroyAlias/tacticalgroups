@@ -1,9 +1,12 @@
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 using Verse.AI.Group;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -144,6 +147,354 @@ namespace TacticalGroups
 			{
 				colonistGroup.formations.Remove(pawn);
 			}
+		}
+
+		public static Thing PickBestWeaponFor(Pawn pawn)
+		{
+			if (pawn.equipment == null)
+			{
+				return null;
+			}
+			if (pawn.Faction != Faction.OfPlayer)
+			{
+				return null;
+			}
+			if (pawn.IsQuestLodger())
+			{
+				return null;
+			}
+			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)
+				|| pawn.WorkTagIsDisabled(WorkTags.Violent))
+			{
+				return null;
+			}
+
+			if (pawn.Map == null)
+			{
+				return null;
+			}
+			bool isBrawler = pawn.story?.traits?.HasTrait(TraitDefOf.Brawler) ?? false;
+			bool preferRanged = !isBrawler && (!pawn.equipment.Primary?.def.IsMeleeWeapon ?? false || pawn.equipment.Primary == null);
+				
+			Predicate<Thing> validator = delegate (Thing t)
+			{
+				if (!t.def.IsWeapon)
+                {
+					return false;
+                }
+				if (isBrawler && t.def.IsRangedWeapon)
+                {
+					return false;
+                }
+				if (preferRanged && t.def.IsMeleeWeapon)
+                {
+					return false;
+                }
+				if (!preferRanged && t.def.IsRangedWeapon)
+                {
+					return false;
+                }
+				if (t.def.weaponTags != null && t.def.weaponTags.Where(x => x.ToLower().Contains("grenade")).Any())
+                {
+					return false;
+                }
+				if (t.def.IsRangedWeapon && t.def.Verbs.Where(x => x.verbClass == typeof(Verb_ShootOneUse)).Any())
+                {
+					return false;
+                }
+				return true;
+			};
+
+			Thing thing = null;
+			float num2 = 0f;
+			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Weapon).Where(x => validator(x)).ToList();
+			if (list.Count == 0)
+			{
+				return null;
+			}
+
+			List<Thing> weapons = pawn.inventory.innerContainer.InnerListForReading.Where(x => validator(x)).ToList();
+			list.AddRange(weapons);
+			if (pawn.equipment.Primary != null)
+            {
+				list.Add(pawn.equipment.Primary);
+			}
+			for (int j = 0; j < list.Count; j++)
+			{
+				Thing weapon = list[j];
+				if (!weapon.IsBurning())
+				{
+					float num3 = WeaponScoreGain(weapon);
+					Log.Message(weapon.def + " - " + num3);
+					if (!(num3 < 0.05f) && !(num3 < num2) && (!EquipmentUtility.IsBiocoded(weapon) || EquipmentUtility.IsBiocodedFor(weapon, pawn))
+						&& EquipmentUtility.CanEquip(weapon, pawn) && pawn.CanReserveAndReach(weapon, PathEndMode.OnCell, pawn.NormalMaxDanger()))
+					{
+						thing = weapon;
+						num2 = num3;
+					}
+				}
+			}
+			Log.Message(thing + " - BEST Weapon FOR " + pawn);
+			return thing;
+		}
+
+		private static float WeaponScoreGain(Thing weapon)
+        {
+			if (weapon.def.IsRangedWeapon)
+            {
+				var verbProperties = weapon.def.Verbs.Where(x => x.range > 0).First();
+				double num = (verbProperties.defaultProjectile.projectile.GetDamageAmount(weapon, null) * (float)verbProperties.burstShotCount);
+				float num2 = (StatExtension.GetStatValue(weapon, StatDefOf.RangedWeapon_Cooldown, true) + verbProperties.warmupTime) * 60f;
+				float num3 = (verbProperties.burstShotCount * verbProperties.ticksBetweenBurstShots);
+				float num4 = (num2 + num3) / 60f;
+				var dps = (float)Math.Round(num / num4, 2);
+				var accuracyMedium = StatExtension.GetStatValue(weapon, StatDefOf.AccuracyMedium, true) * 100f;
+				return (float)Math.Round(dps * accuracyMedium / 100f, 1);
+			}
+			else if (weapon.def.IsMeleeWeapon)
+            {
+				return StatExtension.GetStatValue(weapon, StatDefOf.MeleeWeapon_AverageDPS, true);
+			}
+			return 0f;
+        }
+
+		public static void TrySwitchToWeapon(ThingWithComps newEq, Pawn pawn)
+		{
+			if (newEq == null || pawn.equipment == null || !pawn.inventory.innerContainer.Contains(newEq))
+			{
+				return;
+			}
+
+			if (newEq.def.stackLimit > 1 && newEq.stackCount > 1)
+			{
+				newEq = (ThingWithComps)newEq.SplitOff(1);
+			}
+
+			if (pawn.equipment.Primary != null)
+			{
+				if (MassUtility.FreeSpace(pawn) > 0)
+				{
+					pawn.equipment.TryTransferEquipmentToContainer(pawn.equipment.Primary, pawn.inventory.innerContainer);
+				}
+				else
+				{
+					pawn.equipment.MakeRoomFor(newEq);
+				}
+			}
+
+			pawn.equipment.GetDirectlyHeldThings().TryAddOrTransfer(newEq);
+			if (newEq.def.soundInteract != null)
+				newEq.def.soundInteract.PlayOneShot(new TargetInfo(pawn.Position, pawn.MapHeld, false));
+		}
+
+		private static NeededWarmth neededWarmth;
+		private static List<float> wornApparelScores = new List<float>();
+
+		private const int ApparelOptimizeCheckIntervalMin = 6000;
+
+		private const int ApparelOptimizeCheckIntervalMax = 9000;
+
+		private const float MinScoreGainToCare = 0.05f;
+
+		private const float ScoreFactorIfNotReplacing = 10f;
+
+		private static readonly SimpleCurve InsulationColdScoreFactorCurve_NeedWarm = new SimpleCurve
+		{
+			new CurvePoint(0f, 1f),
+			new CurvePoint(30f, 8f)
+		};
+
+		private static readonly SimpleCurve HitPointsPercentScoreFactorCurve = new SimpleCurve
+		{
+			new CurvePoint(0f, 0f),
+			new CurvePoint(0.2f, 0.2f),
+			new CurvePoint(0.22f, 0.6f),
+			new CurvePoint(0.5f, 0.6f),
+			new CurvePoint(0.52f, 1f)
+		};
+
+		private static HashSet<BodyPartGroupDef> tmpBodyPartGroupsWithRequirement = new HashSet<BodyPartGroupDef>();
+
+		private static HashSet<ThingDef> tmpAllowedApparels = new HashSet<ThingDef>();
+
+		private static HashSet<ThingDef> tmpRequiredApparels = new HashSet<ThingDef>();
+		public static Thing PickBestArmorFor(Pawn pawn)
+        {
+			if (pawn.outfits == null)
+			{
+				return null;
+			}
+			if (pawn.Faction != Faction.OfPlayer)
+			{
+				return null;
+			}
+			if (pawn.IsQuestLodger())
+			{
+				return null;
+			}
+
+			Outfit currentOutfit = pawn.outfits.CurrentOutfit;
+			Thing thing = null;
+			float num2 = 0f;
+			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Apparel);
+			if (list.Count == 0)
+			{
+				return null;
+			}
+			neededWarmth = PawnApparelGenerator.CalculateNeededWarmth(pawn, pawn.Map.Tile, GenLocalDate.Twelfth(pawn));
+			wornApparelScores = new List<float>();
+			List<Apparel> wornApparel = pawn.apparel.WornApparel;
+			for (int i = 0; i < wornApparel.Count; i++)
+			{
+				wornApparelScores.Add(ApparelScoreRaw(pawn, wornApparel[i]));
+			}
+			for (int j = 0; j < list.Count; j++)
+			{
+				Apparel apparel = (Apparel)list[j]; //currentOutfit.filter.Allows(apparel) && apparel.IsInAnyStorage() && !apparel.IsForbidden(pawn) &&
+				if (!apparel.IsBurning() 
+					&& (apparel.def.apparel.gender == Gender.None || apparel.def.apparel.gender == pawn.gender))
+				{
+					float num3 = ApparelScoreGain_NewTmp(pawn, apparel, wornApparelScores);
+					if (!(num3 < 0.05f) && !(num3 < num2) && (!EquipmentUtility.IsBiocoded(apparel) || EquipmentUtility.IsBiocodedFor(apparel, pawn)) 
+						&& ApparelUtility.HasPartsToWear(pawn, apparel.def) 
+						&& pawn.CanReserveAndReach(apparel, PathEndMode.OnCell, pawn.NormalMaxDanger()))
+					{
+						thing = apparel;
+						num2 = num3;
+					}
+				}
+			}
+
+			Log.Message(thing + " - BEST GEAR FOR " + pawn);
+			return thing;
+		}
+		public static float ApparelScoreGain_NewTmp(Pawn pawn, Apparel ap, List<float> wornScoresCache)
+		{
+			if (ap is ShieldBelt && pawn.equipment.Primary != null && pawn.equipment.Primary.def.IsWeaponUsingProjectiles)
+			{
+				return -1000f;
+			}
+			float num = ApparelScoreRaw(pawn, ap);
+			List<Apparel> wornApparel = pawn.apparel.WornApparel;
+			bool flag = false;
+			for (int i = 0; i < wornApparel.Count; i++)
+			{
+				if (!ApparelUtility.CanWearTogether(wornApparel[i].def, ap.def, pawn.RaceProps.body))
+				{
+					if (!pawn.outfits.forcedHandler.AllowedToAutomaticallyDrop(wornApparel[i]) || pawn.apparel.IsLocked(wornApparel[i]))
+					{
+						return -1000f;
+					}
+					num -= wornScoresCache[i];
+					flag = true;
+				}
+			}
+			if (!flag)
+			{
+				num *= 10f;
+			}
+			return num;
+		}
+
+		public static float ApparelScoreGain(Pawn pawn, Apparel ap)
+		{
+			wornApparelScores.Clear();
+			for (int i = 0; i < pawn.apparel.WornApparel.Count; i++)
+			{
+				wornApparelScores.Add(ApparelScoreRaw(pawn, pawn.apparel.WornApparel[i]));
+			}
+			return ApparelScoreGain_NewTmp(pawn, ap, wornApparelScores);
+		}
+
+		public static float ApparelScoreRaw(Pawn pawn, Apparel ap)
+		{
+			float num = 0.1f + ap.def.apparel.scoreOffset;
+			float num2 = ap.GetStatValue(StatDefOf.ArmorRating_Sharp) + ap.GetStatValue(StatDefOf.ArmorRating_Blunt) + ap.GetStatValue(StatDefOf.ArmorRating_Heat);
+			num += num2;
+			if (ap.def.useHitPoints)
+			{
+				float x = (float)ap.HitPoints / (float)ap.MaxHitPoints;
+				num *= HitPointsPercentScoreFactorCurve.Evaluate(x);
+			}
+			num += ap.GetSpecialApparelScoreOffset();
+			float num3 = 1f;
+			//if (neededWarmth == NeededWarmth.Warm)
+			//{
+			//	float statValue = ap.GetStatValue(StatDefOf.Insulation_Cold);
+			//	num3 *= InsulationColdScoreFactorCurve_NeedWarm.Evaluate(statValue);
+			//}
+			num *= num3;
+			if (ap.WornByCorpse && (pawn == null || ThoughtUtility.CanGetThought_NewTemp(pawn, ThoughtDefOf.DeadMansApparel, checkIfNullified: true)))
+			{
+				num -= 0.5f;
+				if (num > 0f)
+				{
+					num *= 0.1f;
+				}
+			}
+			if (ap.Stuff == ThingDefOf.Human.race.leatherDef)
+			{
+				if (pawn == null || ThoughtUtility.CanGetThought_NewTemp(pawn, ThoughtDefOf.HumanLeatherApparelSad, checkIfNullified: true))
+				{
+					num -= 0.5f;
+					if (num > 0f)
+					{
+						num *= 0.1f;
+					}
+				}
+				if (pawn != null && ThoughtUtility.CanGetThought_NewTemp(pawn, ThoughtDefOf.HumanLeatherApparelHappy, checkIfNullified: true))
+				{
+					num += 0.12f;
+				}
+			}
+			if (pawn != null && !ap.def.apparel.CorrectGenderForWearing(pawn.gender))
+			{
+				num *= 0.01f;
+			}
+			if (pawn != null && pawn.royalty != null && pawn.royalty.AllTitlesInEffectForReading.Count > 0)
+			{
+				tmpAllowedApparels.Clear();
+				tmpRequiredApparels.Clear();
+				tmpBodyPartGroupsWithRequirement.Clear();
+				QualityCategory qualityCategory = QualityCategory.Awful;
+				foreach (RoyalTitle item in pawn.royalty.AllTitlesInEffectForReading)
+				{
+					if (item.def.requiredApparel != null)
+					{
+						for (int i = 0; i < item.def.requiredApparel.Count; i++)
+						{
+							tmpAllowedApparels.AddRange(item.def.requiredApparel[i].AllAllowedApparelForPawn(pawn, ignoreGender: false, includeWorn: true));
+							tmpRequiredApparels.AddRange(item.def.requiredApparel[i].AllRequiredApparelForPawn(pawn, ignoreGender: false, includeWorn: true));
+							tmpBodyPartGroupsWithRequirement.AddRange(item.def.requiredApparel[i].bodyPartGroupsMatchAny);
+						}
+					}
+					if ((int)item.def.requiredMinimumApparelQuality > (int)qualityCategory)
+					{
+						qualityCategory = item.def.requiredMinimumApparelQuality;
+					}
+				}
+				bool num4 = ap.def.apparel.bodyPartGroups.Any((BodyPartGroupDef bp) => tmpBodyPartGroupsWithRequirement.Contains(bp));
+				if (ap.TryGetQuality(out QualityCategory qc) && (int)qc < (int)qualityCategory)
+				{
+					num *= 0.25f;
+				}
+				if (num4)
+				{
+					foreach (ThingDef tmpRequiredApparel in tmpRequiredApparels)
+					{
+						tmpAllowedApparels.Remove(tmpRequiredApparel);
+					}
+					if (tmpAllowedApparels.Contains(ap.def))
+					{
+						num *= 10f;
+					}
+					if (tmpRequiredApparels.Contains(ap.def))
+					{
+						num *= 25f;
+					}
+				}
+			}
+			return num;
 		}
 
 		private static TacticalGroups tacticalGroups;

@@ -243,6 +243,59 @@ namespace TacticalGroups
 			}
 
 			Text.Anchor = TextAnchor.UpperLeft;
+
+			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
+			GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeArmorIcon);
+			if (Mouse.IsOver(upgradeArmorRect))
+            {
+				GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeIconHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					foreach (var pawn in this.colonistGroup.pawns)
+                    {
+						var thing = TacticUtils.PickBestArmorFor(pawn);
+						if (thing != null)
+                        {
+							var job = JobMaker.MakeJob(JobDefOf.Wear, thing);
+							job.locomotionUrgency = LocomotionUrgency.Sprint;
+							pawn.jobs.TryTakeOrderedJob(job);
+							CameraJumper.TryJumpAndSelect(pawn);
+                        }
+					}
+					Event.current.Use();
+					CloseAllWindows();
+				}
+			}
+
+			var upgradeWeaponRect = new Rect((rect.x + rect.width) - (rect.x + (upgradeArmorRect.width * 2)), rect.height / 1.26f, Textures.UpgradeWeaponIcon.width, Textures.UpgradeWeaponIcon.height);
+			GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeWeaponIcon);
+			if (Mouse.IsOver(upgradeWeaponRect))
+			{
+				GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeIconHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					foreach (var pawn in this.colonistGroup.pawns)
+					{
+						var thing = TacticUtils.PickBestWeaponFor(pawn);
+						if (thing != null)
+						{
+							if (pawn.inventory?.innerContainer?.InnerListForReading?.Contains(thing) ?? false)
+                            {
+								TacticUtils.TrySwitchToWeapon(thing as ThingWithComps, pawn);
+							}
+							else if (thing != pawn.equipment?.Primary)
+                            {
+								var job = JobMaker.MakeJob(JobDefOf.Equip, thing);
+								job.locomotionUrgency = LocomotionUrgency.Sprint;
+								pawn.jobs.TryTakeOrderedJob(job);
+								CameraJumper.TryJumpAndSelect(pawn);
+							}
+						}
+					}
+					Event.current.Use();
+					CloseAllWindows();
+				}
+			}
 		}
 	}
 }
