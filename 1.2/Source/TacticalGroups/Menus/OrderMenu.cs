@@ -14,10 +14,37 @@ namespace TacticalGroups
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 63f);
+
+		public Dictionary<float, Texture2D> ranks;
+		public Texture2D GetCurRank(float curRankValue)
+		{
+			var keys = ranks.Keys.OrderBy(x => x);
+			Texture2D result = Textures.Rank_7;
+			foreach (var key in keys)
+			{
+				if (curRankValue >= key)
+				{
+					result = ranks[key];
+				}
+			}
+			Log.Message("Getting rank: " + curRankValue + " - " + result);
+			return result;
+		}
 		public OrderMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
+			this.ranks = new Dictionary<float, Texture2D>
+			{
+				{0, Textures.Rank_0},
+				{10, Textures.Rank_1},
+				{20, Textures.Rank_2},
+				{30, Textures.Rank_3},
+				{40, Textures.Rank_4},
+				{50, Textures.Rank_5},
+				{60, Textures.Rank_6},
+				{70, Textures.Rank_7},
+			};
 			AddAttackButton();
 			AddRegroupButton();
 			AddBattleStationsButton();
@@ -75,17 +102,12 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.BattleStations, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				Log.Message(" - AddBattleStationsButton - foreach (var pawn in this.colonistGroup.pawns) - 2", true);
 				foreach (var pawn in this.colonistGroup.pawns)
 				{
-					Log.Message(" - AddBattleStationsButton - if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false) - 3", true);
 					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false)
 					{
-						Log.Message(" - AddBattleStationsButton - var job = JobMaker.MakeJob(JobDefOf.Goto, this.colonistGroup.formations[pawn]); - 4", true);
 						var job = JobMaker.MakeJob(JobDefOf.Goto, this.colonistGroup.formations[pawn]);
-						Log.Message(" - AddBattleStationsButton - job.locomotionUrgency = LocomotionUrgency.Sprint; - 5", true);
 						job.locomotionUrgency = LocomotionUrgency.Sprint;
-						Log.Message(" - AddBattleStationsButton - pawn.jobs.TryTakeOrderedJob(job); - 6", true);
 						pawn.jobs.TryTakeOrderedJob(job);
 					}
 				}
@@ -242,7 +264,6 @@ namespace TacticalGroups
 				}
 			}
 
-			Text.Anchor = TextAnchor.UpperLeft;
 			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
 			GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeArmorIcon);
 			if (Mouse.IsOver(upgradeArmorRect))
@@ -294,8 +315,46 @@ namespace TacticalGroups
 				}
 			}
 
-			var totalArmorRect = new Rect(rect.x + 5f, rect.height - 20, Textures.ArmorIcon.width, Textures.ArmorIcon.height);
+			var totalArmorRect = new Rect(rect.x + 10f, rect.height - 43, Textures.ArmorIcon.width, Textures.ArmorIcon.height);
 			GUI.DrawTexture(totalArmorRect, Textures.ArmorIcon);
+			Text.Anchor = TextAnchor.LowerLeft;
+			var totalArmorLabel = new Rect(totalArmorRect.x + totalArmorRect.width + 2, totalArmorRect.y - 3, 30, 24);
+			var armorValues = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+            {
+				if (pawn.apparel.WornApparel != null)
+                {
+					foreach (var ap in pawn.apparel.WornApparel)
+                    {
+						armorValues.Add(TacticUtils.ApparelScoreRaw(pawn, ap));
+                    }
+                }
+            }
+			var averageArmor = armorValues.Average();
+			Widgets.Label(totalArmorLabel, averageArmor.ToStringDecimalIfSmall());
+
+			Text.Anchor = TextAnchor.MiddleCenter;
+			var totalDPSLabel = new Rect(totalArmorRect.x + totalArmorRect.width + 50, totalArmorRect.y - 3, 30, 24);
+			var dpsValues = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.equipment.Primary != null)
+				{
+					dpsValues.Add(TacticUtils.WeaponScoreGain(pawn.equipment.Primary));
+				}
+				else
+                {
+					dpsValues.Add(pawn.GetStatValue(StatDefOf.MeleeDPS));
+                }
+			}
+
+			var averageDPS = dpsValues.Average();
+			Widgets.Label(totalDPSLabel, averageDPS.ToStringDecimalIfSmall());
+			var rankTexture = GetCurRank(averageDPS + averageArmor);
+			var rankRect = new Rect((rect.x + rect.width) - (rankTexture.width + 5f), totalArmorRect.y - 5f, rankTexture.width, rankTexture.height);
+			GUI.DrawTexture(rankRect, rankTexture);
+
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}
 }

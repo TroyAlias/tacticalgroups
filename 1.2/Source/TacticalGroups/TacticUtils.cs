@@ -224,7 +224,7 @@ namespace TacticalGroups
 				Thing weapon = list[j];
 				if (!weapon.IsBurning())
 				{
-					float num3 = WeaponScoreGain(weapon);
+					float num3 = WeaponScoreGain(weapon, StatDefOf.AccuracyMedium);
 					Log.Message(weapon.def + " - " + num3);
 					if (!(num3 < 0.05f) && !(num3 < num2) && (!EquipmentUtility.IsBiocoded(weapon) || EquipmentUtility.IsBiocodedFor(weapon, pawn))
 						&& EquipmentUtility.CanEquip(weapon, pawn) && pawn.CanReserveAndReach(weapon, PathEndMode.OnCell, pawn.NormalMaxDanger()))
@@ -237,8 +237,26 @@ namespace TacticalGroups
 			Log.Message(thing + " - BEST Weapon FOR " + pawn);
 			return thing;
 		}
+		public static float WeaponScoreGain(Thing weapon)
+		{
+			if (weapon.def.IsRangedWeapon)
+			{
+				var verbProperties = weapon.def.Verbs.Where(x => x.range > 0).First();
+				double num = (verbProperties.defaultProjectile.projectile.GetDamageAmount(weapon, null) * (float)verbProperties.burstShotCount);
+				float num2 = (StatExtension.GetStatValue(weapon, StatDefOf.RangedWeapon_Cooldown, true) + verbProperties.warmupTime) * 60f;
+				float num3 = (verbProperties.burstShotCount * verbProperties.ticksBetweenBurstShots);
+				float num4 = (num2 + num3) / 60f;
+				var dps = (float)Math.Round(num / num4, 2);
+				return (float)Math.Round(dps, 1);
+			}
+			else if (weapon.def.IsMeleeWeapon)
+			{
+				return StatExtension.GetStatValue(weapon, StatDefOf.MeleeWeapon_AverageDPS, true);
+			}
+			return 0f;
+		}
 
-		private static float WeaponScoreGain(Thing weapon)
+		private static float WeaponScoreGain(Thing weapon, StatDef accuracyDef)
         {
 			if (weapon.def.IsRangedWeapon)
             {
@@ -248,8 +266,8 @@ namespace TacticalGroups
 				float num3 = (verbProperties.burstShotCount * verbProperties.ticksBetweenBurstShots);
 				float num4 = (num2 + num3) / 60f;
 				var dps = (float)Math.Round(num / num4, 2);
-				var accuracyMedium = StatExtension.GetStatValue(weapon, StatDefOf.AccuracyMedium, true) * 100f;
-				return (float)Math.Round(dps * accuracyMedium / 100f, 1);
+				var accuracy = StatExtension.GetStatValue(weapon, accuracyDef, true) * 100f;
+				return (float)Math.Round(dps * accuracy / 100f, 1);
 			}
 			else if (weapon.def.IsMeleeWeapon)
             {
