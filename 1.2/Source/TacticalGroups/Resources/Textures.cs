@@ -104,5 +104,21 @@ namespace TacticalGroups
 		public static readonly Texture2D OrdersDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/OrdersDropMenu");
 		public static readonly Texture2D MedicalDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/MedicalDropMenu");
 		public static readonly Texture2D AttackMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/AttackMenu");
+
+		public static readonly Texture2D UpgradeWeaponIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/UpgradeWeaponIcon");
+		public static readonly Texture2D UpgradeIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/UpgradeIconHover");
+		public static readonly Texture2D UpgradeArmorIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/UpgradeArmorIcon");
+		public static readonly Texture2D ShootingMeleeHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ShootingMeleeHover");
+		public static readonly Texture2D ShootingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ShootingIcon");
+		public static readonly Texture2D Rank_7 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_7");
+		public static readonly Texture2D Rank_6 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_6");
+		public static readonly Texture2D Rank_5 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_5");
+		public static readonly Texture2D Rank_4 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_4");
+		public static readonly Texture2D Rank_3 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_3");
+		public static readonly Texture2D Rank_2 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_2");
+		public static readonly Texture2D Rank_1 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_1");
+		public static readonly Texture2D Rank_0 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_0");
+		public static readonly Texture2D MeleeIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/MeleeIcon");
+		public static readonly Texture2D ArmorIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ArmorIcon");
 	}
 }
