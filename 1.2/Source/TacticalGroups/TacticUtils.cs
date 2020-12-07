@@ -182,6 +182,10 @@ namespace TacticalGroups
                 {
 					return false;
                 }
+				if (t.IsForbidden(pawn))
+                {
+					return false;
+                }
 				if (isBrawler && t.def.IsRangedWeapon)
                 {
 					return false;
@@ -368,8 +372,8 @@ namespace TacticalGroups
 			}
 			for (int j = 0; j < list.Count; j++)
 			{
-				Apparel apparel = (Apparel)list[j]; //currentOutfit.filter.Allows(apparel) && apparel.IsInAnyStorage() && !apparel.IsForbidden(pawn) &&
-				if (!apparel.IsBurning() 
+				Apparel apparel = (Apparel)list[j]; // && apparel.IsInAnyStorage() 
+				if (!apparel.IsBurning() && currentOutfit.filter.Allows(apparel) && !apparel.IsForbidden(pawn)
 					&& (apparel.def.apparel.gender == Gender.None || apparel.def.apparel.gender == pawn.gender))
 				{
 					float num3 = ApparelScoreGain_NewTmp(pawn, apparel, wornApparelScores);
