@@ -243,7 +243,6 @@ namespace TacticalGroups
 			}
 
 			Text.Anchor = TextAnchor.UpperLeft;
-
 			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
 			GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeArmorIcon);
 			if (Mouse.IsOver(upgradeArmorRect))
@@ -259,7 +258,6 @@ namespace TacticalGroups
 							var job = JobMaker.MakeJob(JobDefOf.Wear, thing);
 							job.locomotionUrgency = LocomotionUrgency.Sprint;
 							pawn.jobs.TryTakeOrderedJob(job);
-							CameraJumper.TryJumpAndSelect(pawn);
                         }
 					}
 					Event.current.Use();
@@ -288,7 +286,6 @@ namespace TacticalGroups
 								var job = JobMaker.MakeJob(JobDefOf.Equip, thing);
 								job.locomotionUrgency = LocomotionUrgency.Sprint;
 								pawn.jobs.TryTakeOrderedJob(job);
-								CameraJumper.TryJumpAndSelect(pawn);
 							}
 						}
 					}
@@ -296,6 +293,9 @@ namespace TacticalGroups
 					CloseAllWindows();
 				}
 			}
+
+			var totalArmorRect = new Rect(rect.x + 5f, rect.height - 20, Textures.ArmorIcon.width, Textures.ArmorIcon.height);
+			GUI.DrawTexture(totalArmorRect, Textures.ArmorIcon);
 		}
 	}
 }
