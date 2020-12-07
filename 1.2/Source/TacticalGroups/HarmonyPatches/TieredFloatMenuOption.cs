@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -199,28 +198,20 @@ namespace TacticalGroups
 			sizeMode = newSizeMode;
 		}
 
-		public void Chosen(bool colonistOrdering, TieredFloatMenu floatMenu)
+		public void Chosen(TieredFloatMenu floatMenu)
 		{
 			floatMenu?.PreOptionChosen(this);
 			if (!Disabled)
 			{
 				if (action != null)
 				{
-					if (colonistOrdering)
-					{
-						SoundDefOf.ColonistOrdered.PlayOneShotOnCamera();
-					}
 					action(mainMenu);
 				}
-			}
-			else
-			{
-				SoundDefOf.ClickReject.PlayOneShotOnCamera();
 			}
 		}
 
 
-		public virtual bool DoGUI(Rect rect, bool colonistOrdering, TieredFloatMenu floatMenu)
+		public virtual bool DoGUI(Rect rect, TieredFloatMenu floatMenu)
 		{
 			Rect rect2 = rect;
 			rect2.height--;
@@ -252,10 +243,6 @@ namespace TacticalGroups
 				float num = Mathf.Min(Text.CalcSize(Label).x, rect4.width - 4f);
 				rect5 = new Rect(rect4.xMin + num, rect4.yMin, extraPartWidth, 30f);
 				flag2 = Mouse.IsOver(rect5);
-			}
-			if (!Disabled)
-			{
-				MouseoverSounds.DoRegion(rect2);
 			}
 			Color color = GUI.color;
 			//if (Disabled)
@@ -331,7 +318,7 @@ namespace TacticalGroups
 				{
 					return false;
 				}
-				Chosen(colonistOrdering, floatMenu);
+				Chosen(floatMenu);
 				if (tutorTag != null)
 				{
 					TutorSystem.Notify_Event(tutorTag);

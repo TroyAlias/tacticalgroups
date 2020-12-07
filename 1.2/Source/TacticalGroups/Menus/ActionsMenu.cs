@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -75,7 +74,7 @@ namespace TacticalGroups
 			{
 				TieredFloatMenuOption floatMenuOption = options[i];
 				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
-				if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
+				if (floatMenuOption.DoGUI(rect2, this))
 				{
 					Find.WindowStack.TryRemove(this);
 					break;

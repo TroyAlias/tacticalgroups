@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<SoundDef>
+		<defName>TG_RenameSFX</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>RenameSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_RallySFX</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>RallySFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+	<SoundDef>
+		<defName>TG_BattleStationsSFX</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>BattleStationsSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+</Defs>

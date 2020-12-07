@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -21,8 +20,6 @@ namespace TacticalGroups
 		public bool HasActiveParent => parentWindow != null; 
 
 		public Rect originRect;
-
-		public bool givesColonistOrders;
 
 		public bool vanishIfMouseDistant = true;
 
@@ -60,7 +57,6 @@ namespace TacticalGroups
 			doWindowBackground = false;
 			drawShadow = false;
 			preventCameraMotion = false;
-			SoundDefOf.FloatMenu_Open.PlayOneShotOnCamera();
 		}
 
 		protected override void SetInitialSizeAndPosition()
@@ -137,7 +133,6 @@ namespace TacticalGroups
 		public void Cancel()
 		{
 			TryCloseChildWindow();
-			SoundDefOf.FloatMenu_Cancel.PlayOneShotOnCamera();
 			Find.WindowStack.TryRemove(this);
 			Log.Message("Cancel");
 		}

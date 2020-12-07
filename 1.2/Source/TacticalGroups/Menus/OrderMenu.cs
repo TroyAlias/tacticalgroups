@@ -6,7 +6,6 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
-using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -15,11 +14,21 @@ namespace TacticalGroups
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 63f);
 
-		public Dictionary<float, Texture2D> ranks;
+		public Dictionary<float, Texture2D> ranks = new Dictionary<float, Texture2D>
+			{
+				{0, Textures.Rank_0},
+				{14, Textures.Rank_1},
+				{29, Textures.Rank_2},
+				{44, Textures.Rank_3},
+				{59, Textures.Rank_4},
+				{74, Textures.Rank_5},
+				{89, Textures.Rank_6},
+				{104, Textures.Rank_7},
+			};
 		public Texture2D GetCurRank(float curRankValue)
 		{
 			var keys = ranks.Keys.OrderBy(x => x);
-			Texture2D result = Textures.Rank_7;
+			Texture2D result = Textures.Rank_0;
 			foreach (var key in keys)
 			{
 				if (curRankValue >= key)
@@ -34,17 +43,6 @@ namespace TacticalGroups
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
-			this.ranks = new Dictionary<float, Texture2D>
-			{
-				{0, Textures.Rank_0},
-				{10, Textures.Rank_1},
-				{20, Textures.Rank_2},
-				{30, Textures.Rank_3},
-				{40, Textures.Rank_4},
-				{50, Textures.Rank_5},
-				{60, Textures.Rank_6},
-				{70, Textures.Rank_7},
-			};
 			AddAttackButton();
 			AddRegroupButton();
 			AddBattleStationsButton();
@@ -147,7 +145,7 @@ namespace TacticalGroups
 			{
 				TieredFloatMenuOption floatMenuOption = options[i];
 				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
-				if (floatMenuOption.DoGUI(rect2, givesColonistOrders, this))
+				if (floatMenuOption.DoGUI(rect2, this))
 				{
 					Find.WindowStack.TryRemove(this);
 					break;
@@ -351,9 +349,8 @@ namespace TacticalGroups
 			var averageDPS = dpsValues.Average();
 			Widgets.Label(totalDPSLabel, averageDPS.ToStringDecimalIfSmall());
 			var rankTexture = GetCurRank(averageDPS + averageArmor);
-			var rankRect = new Rect((rect.x + rect.width) - (rankTexture.width + 5f), totalArmorRect.y - 5f, rankTexture.width, rankTexture.height);
+			var rankRect = new Rect((rect.x + rect.width) - (rankTexture.width + 12f), totalArmorRect.y - 10f, rankTexture.width, rankTexture.height);
 			GUI.DrawTexture(rankRect, rankTexture);
-
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}
