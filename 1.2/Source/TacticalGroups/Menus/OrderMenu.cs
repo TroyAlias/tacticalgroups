@@ -13,7 +13,7 @@ namespace TacticalGroups
 	public class OrderMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 30f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 63f);
 		public OrderMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -144,11 +144,82 @@ namespace TacticalGroups
         public override void DrawExtraGui(Rect rect)
         {
             base.DrawExtraGui(rect);
-			Text.Anchor = TextAnchor.MiddleCenter;
 			Vector2 zero = Vector2.zero + InitialFloatOptionPositionShift;
-			var setRect = new Rect(zero.x, (rect.height / 2f) + 5f, Textures.SetClearButton.width, Textures.SetClearButton.height);
+
+			var shooterIconRect = new Rect(rect.x + 10, rect.y + 25f, Textures.ShootingIcon.width, Textures.ShootingIcon.height);
+			GUI.DrawTexture(shooterIconRect, Textures.ShootingIcon);
+			if (Mouse.IsOver(shooterIconRect))
+			{
+				GUI.DrawTexture(shooterIconRect, Textures.ShootingMeleeHover);
+			}
+			var shooters = this.colonistGroup.pawns.Where(x => x.equipment?.Primary?.def.IsRangedWeapon ?? false);
+			var shooterCountRect = new Rect(shooterIconRect.x + shooterIconRect.width + 2f, shooterIconRect.y, 30, shooterIconRect.height);
+
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Widgets.Label(shooterCountRect, shooters.Count().ToString());
+			var totalShooterRect = new Rect(shooterIconRect.x, shooterIconRect.y, Textures.ShootingIcon.width + 25, shooterIconRect.height).ExpandedBy(5f);
+			if (Mouse.IsOver(totalShooterRect))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					Find.Selector.ClearSelection();
+					foreach (var shooter in shooters)
+                    {
+						Find.Selector.Select(shooter);
+                    }
+					Event.current.Use();
+				}
+			}
+			Text.Anchor = TextAnchor.MiddleCenter;
+			var middlePawnCountRect = new Rect(totalShooterRect.x + totalShooterRect.width, totalShooterRect.y, 70, totalShooterRect.height);
+			var capablePawns = this.colonistGroup.pawns.Where(x => !x.IsDownedOrIncapable());
+			Widgets.Label(middlePawnCountRect, capablePawns.Count() + " / " + this.colonistGroup.pawns.Count);
+			if (Mouse.IsOver(middlePawnCountRect))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					Find.Selector.ClearSelection();
+					foreach (var pawn in capablePawns)
+					{
+						Find.Selector.Select(pawn);
+					}
+					Event.current.Use();
+				}
+			}
+
+			var meleeIconRect = new Rect((rect.x + rect.width) - 35, rect.y + 25f, Textures.MeleeIcon.width, Textures.MeleeIcon.height);
+			GUI.DrawTexture(meleeIconRect, Textures.MeleeIcon);
+			if (Mouse.IsOver(meleeIconRect))
+            {
+				GUI.DrawTexture(meleeIconRect, Textures.ShootingMeleeHover);
+			}
+
+			var melees = this.colonistGroup.pawns.Where(x => x.equipment?.Primary?.def.IsMeleeWeapon ?? false);
+			var meleeCountRect = new Rect(meleeIconRect.x - (Textures.MeleeIcon.width + 5f), meleeIconRect.y, 30, meleeIconRect.height);
+
+			Text.Anchor = TextAnchor.MiddleRight;
+			Widgets.Label(meleeCountRect, melees.Count().ToString());
+
+			var totalMeleeRect = new Rect(meleeCountRect.x, meleeIconRect.y, meleeIconRect.width + meleeCountRect.width, meleeIconRect.height).ExpandedBy(5f);
+			if (Mouse.IsOver(totalMeleeRect))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					Find.Selector.ClearSelection();
+					foreach (var melee in melees)
+					{
+						Find.Selector.Select(melee);
+					}
+					Event.current.Use();
+				}
+			}
+			Text.Anchor = TextAnchor.MiddleCenter;
+
+			var rectY = (rect.height / 2f) - 30f;
+			var setRect = new Rect(zero.x, rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(setRect, Textures.SetClearButton);
 			Widgets.Label(setRect, Strings.Set);
+
 			if (Mouse.IsOver(setRect))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -158,7 +229,7 @@ namespace TacticalGroups
 					CloseAllWindows();
 				}
 			}
-			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), (rect.height / 2f) + 5f, Textures.SetClearButton.width, Textures.SetClearButton.height);
+			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(clearRect, Textures.SetClearButton);
 			Widgets.Label(clearRect, Strings.Clear);
 			if (Mouse.IsOver(clearRect))
