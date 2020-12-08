@@ -48,7 +48,7 @@ namespace TacticalGroups
 		public static readonly Texture2D SettingsGear = ContentFinder<Texture2D>.Get("UI/ColonistBar/SettingsGear");
 		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
-		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/Blue/Default");
+		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default");
 
 
 		public static readonly Texture2D GroupIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconHover");
@@ -120,5 +120,26 @@ namespace TacticalGroups
 		public static readonly Texture2D Rank_0 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_0");
 		public static readonly Texture2D MeleeIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/MeleeIcon");
 		public static readonly Texture2D ArmorIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ArmorIcon");
+
+		public static readonly Texture2D YellowGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/YellowGroupIcon");
+		public static readonly Texture2D RedGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/RedGroupIcon");
+		public static readonly Texture2D GreenGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GreenGroupIcon");
+		public static readonly Texture2D DarkGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DarkGroupIcon");
+		public static readonly Texture2D BlueGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BlueGroupIcon");
+
+		public static readonly Texture2D StatMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/StatMenu");
+		public static readonly Texture2D TiredIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/TiredIcon");
+		public static readonly Texture2D StarvingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/StarvingIcon");
+		public static readonly Texture2D SadIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/SadIcon");
+		public static readonly Texture2D RestedIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/RestedIcon");
+		public static readonly Texture2D OkayIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/OkayIcon");
+		public static readonly Texture2D HurtIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/HurtIcon");
+		public static readonly Texture2D HungryIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/HungryIcon");
+		public static readonly Texture2D HappyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/HappyIcon");
+		public static readonly Texture2D HealthyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/HealthyIcon");
+		public static readonly Texture2D FullIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/FullIcon");
+		public static readonly Texture2D AwakeIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/AwakeIcon");
+		public static readonly Texture2D AliveIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/AliveIcon");
+		public static readonly Texture2D ZoneMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ZoneMenu");
 	}
 }

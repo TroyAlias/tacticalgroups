@@ -44,6 +44,7 @@ namespace TacticalGroups
 		public string groupName;
 		public Texture2D groupIcon;
 		public string groupIconName;
+		public string groupIconFolder;
 
 		public Rect curRect;
 		public bool Visible => pawnWindowIsActive;
@@ -207,7 +208,7 @@ namespace TacticalGroups
 
 		public void InitIcon()
         {
-			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons");
+			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder);
 			var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
 			if (icon != null)
 			{
@@ -509,6 +510,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
+			Scribe_Values.Look(ref groupIconFolder, "groupIconFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}

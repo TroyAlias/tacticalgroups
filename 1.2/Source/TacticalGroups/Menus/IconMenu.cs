@@ -16,18 +16,28 @@ namespace TacticalGroups
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
 
 		public Dictionary<Texture2D, bool> iconStates = new Dictionary<Texture2D, bool>();
+
+		public string groupIconFolder;
 		public IconMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
-			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons").OrderBy(x => x.name);
+			groupIconFolder = colonistGroup.groupIconFolder;
+			ReInitIcons("GroupBlue");
+		}
+
+		public void ReInitIcons(string folderName)
+        {
+			this.groupIconFolder = folderName;
+			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder).OrderBy(x => x.name).ToList();
+			iconStates.Clear();
 			foreach (var icon in icons)
-            {
+			{
 				if (this.colonistGroup.groupIcon.name == icon.name)
-                {
+				{
 					iconStates[icon] = true;
 				}
 				else
-                {
+				{
 					iconStates[icon] = false;
 				}
 			}
@@ -64,11 +74,10 @@ namespace TacticalGroups
 			initialRect.y += 25f;
 			initialRect.x += 10f;
 			initialRect.height -= 45f;
-			initialRect.width -= 16f;
+			initialRect.width -= 97f;
 			float listHeight = iconRows.Count * iconRows[0][0].height + (iconRows.Count * 4);
 			Rect rect2 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
 			Widgets.BeginScrollView(initialRect, ref scrollPosition, rect2);
-
 			for (var i = 0; i < iconRows.Count; i++)
 			{
 				for (var j = 0; j < iconRows[i].Count; j++)
@@ -81,6 +90,7 @@ namespace TacticalGroups
 						Event.current.Use();
 						this.colonistGroup.groupIcon = iconRows[i][j];
 						this.colonistGroup.groupIconName = iconRows[i][j].name;
+						this.colonistGroup.groupIconFolder = groupIconFolder;
 					}
 				}
 			}
@@ -93,6 +103,55 @@ namespace TacticalGroups
 				Close();
 			}
 			GUI.color = Color.white;
+		}
+
+        public override void DrawExtraGui(Rect rect)
+        {
+            base.DrawExtraGui(rect);
+			float xPos = rect.x + (rect.width - (Textures.BlueGroupIcon.width + 12));
+			float yPos = 25f;
+			var blueRect = new Rect(xPos, yPos, Textures.BlueGroupIcon.width, Textures.BlueGroupIcon.height);
+			GUI.DrawTexture(blueRect, Textures.BlueGroupIcon);
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(blueRect))
+            {
+				ReInitIcons("GroupBlue");
+				Event.current.Use();
+			}
+			yPos += Textures.BlueGroupIcon.height + 5;
+			var redRect = new Rect(xPos, yPos, Textures.RedGroupIcon.width, Textures.RedGroupIcon.height);
+			GUI.DrawTexture(redRect, Textures.RedGroupIcon);
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(redRect))
+			{
+				ReInitIcons("GroupRed");
+				Event.current.Use();
+			}
+
+			yPos += Textures.BlueGroupIcon.height + 5;
+			var darkRect = new Rect(xPos, yPos, Textures.DarkGroupIcon.width, Textures.DarkGroupIcon.height);
+			GUI.DrawTexture(darkRect, Textures.DarkGroupIcon);
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(darkRect))
+			{
+				ReInitIcons("GroupDark");
+				Event.current.Use();
+			}
+
+			yPos += Textures.BlueGroupIcon.height + 5;
+			var yellowRect = new Rect(xPos, yPos, Textures.YellowGroupIcon.width, Textures.YellowGroupIcon.height);
+			GUI.DrawTexture(yellowRect, Textures.YellowGroupIcon);
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(yellowRect))
+			{
+				ReInitIcons("GroupYellow");
+				Event.current.Use();
+			}
+
+			yPos += Textures.BlueGroupIcon.height + 5;
+			var greenRect = new Rect(xPos, yPos, Textures.GreenGroupIcon.width, Textures.GreenGroupIcon.height);
+			GUI.DrawTexture(greenRect, Textures.GreenGroupIcon);
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(greenRect))
+			{
+				ReInitIcons("GroupGreen");
+				Event.current.Use();
+			}
 		}
 
 		private Vector2 scrollPosition;
