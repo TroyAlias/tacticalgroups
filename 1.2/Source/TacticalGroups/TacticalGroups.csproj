@@ -55,7 +55,7 @@
     <Compile Include="Menus\ActionsMenu.cs" />
     <Compile Include="Menus\MainFloatMenu.cs" />
     <Compile Include="Menus\SkillSortFloatMenuOption.cs" />
-    <Compile Include="HarmonyPatches\TieredFloatMenuOption.cs" />
+    <Compile Include="Menus\TieredFloatMenuOption.cs" />
     <Compile Include="Menus\TieredFloatMenu.cs" />
     <Compile Include="ColonistGroup\ColonistGroup.cs" />
     <Compile Include="Jobs\JobGiver_AIFightEnemiesFleeing.cs" />

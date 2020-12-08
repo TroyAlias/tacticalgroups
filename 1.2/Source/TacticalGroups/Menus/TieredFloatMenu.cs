@@ -48,6 +48,9 @@ namespace TacticalGroups
 
 		public TieredFloatMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 		{
+			this.soundAmbient = null;
+			this.soundAppear = null;
+			this.soundClose = null;
 			this.parentWindow = parentWindow;
 			this.colonistGroup = colonistGroup;
 			this.originRect = originRect;
@@ -108,7 +111,11 @@ namespace TacticalGroups
 			Find.WindowStack.Add(floatMenu);
 		}
 
-		public void TryCloseChildWindow()
+        public override void PostOpen()
+        {
+            base.PostOpen();
+        }
+        public void TryCloseChildWindow()
         {
 			if (childWindow != null)
 			{
