@@ -70,7 +70,7 @@ namespace TacticalGroups
 		{
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
-			this.groupIcon = Textures.GroupIcon_Default;
+			this.groupIcon = null;
 			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
 		public ColonistGroup(List<Pawn> pawns)
@@ -82,7 +82,7 @@ namespace TacticalGroups
             {
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
-			this.groupIcon = Textures.GroupIcon_Default;
+			this.groupIcon = null;
 			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
 		public ColonistGroup(Pawn pawn)
@@ -90,7 +90,7 @@ namespace TacticalGroups
 			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			this.groupIcon = Textures.GroupIcon_Default;
+			this.groupIcon = null;
 			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
 
