@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -265,6 +266,7 @@ namespace TacticalGroups
 			else if (Mouse.IsOver(rect) && iconHover != null)
 			{
 				GUI.DrawTexture(rect, iconHover);
+				TacticDefOf.TG_HoverSFX.PlayOneShotOnCamera();
 			}
 			else if (curIcon != null)
 			{
