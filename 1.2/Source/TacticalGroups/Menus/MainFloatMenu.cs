@@ -116,11 +116,6 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 			DrawExtraGui(rect);
-			if (Event.current.type == EventType.MouseDown)
-			{
-				Event.current.Use();
-				Close();
-			}
 			GUI.color = Color.white;
 		}
         public override void DrawExtraGui(Rect rect)
@@ -133,7 +128,6 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOffHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
-						this.Close();
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
 							pawnIcon.Value.isVisibleOnColonistBar = false;
@@ -155,7 +149,6 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOnHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
-						this.Close();
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
 							pawnIcon.Value.isVisibleOnColonistBar = true;
@@ -197,12 +190,14 @@ namespace TacticalGroups
         {
             base.PostClose();
 			this.colonistGroup.groupButtonRightClicked = false;
+			this.colonistGroup.showPawnIconsRightClickMenu = false;
 
 		}
 		public override void Close(bool doCloseSound = true)
         {
             base.Close(doCloseSound);
 			this.colonistGroup.groupButtonRightClicked = false;
+			this.colonistGroup.showPawnIconsRightClickMenu = false;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace TacticalGroups
 			Vector2 topLeft = new Vector2(rect.x + (rect.width - 30f), rect.y + 25f);
 
 
-			var showAllColonistsRect = new Rect(rect.x + 20, topLeft.y, rect.width, 25f);
+			var showAllColonistsRect = new Rect(rect.x + 10, topLeft.y, Textures.MenuButton.width, 25f);
 			GUI.DrawTexture(showAllColonistsRect, Textures.MenuButton);
 			if (Mouse.IsOver(showAllColonistsRect))
 			{

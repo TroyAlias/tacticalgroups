@@ -226,7 +226,8 @@ namespace TacticalGroups
             {
 				InitIcon();
 			}
-
+			GUI.color = Color.white;
+			Text.Font = GameFont.Tiny;
 			GUI.DrawTexture(rect, this.groupIcon);
 			if (!groupButtonRightClicked && Mouse.IsOver(rect))
             {
@@ -269,6 +270,7 @@ namespace TacticalGroups
 				expandPawnIcons = false;
 				DrawOverlays(rect);
 			}
+
 		}
 
 		public void DrawOverlays(Rect rect)

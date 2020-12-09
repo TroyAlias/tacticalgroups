@@ -124,11 +124,6 @@ namespace TacticalGroups
 			}
 
 			DrawExtraGui(rect);
-			if (Event.current.type == EventType.MouseDown)
-			{
-				Event.current.Use();
-				Close();
-			}
 			GUI.color = Color.white;
 		}
 

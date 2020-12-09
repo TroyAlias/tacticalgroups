@@ -131,10 +131,6 @@ namespace TacticalGroups
 			{
 				onCloseCallback();
 			}
-			if (colonistGroup != null)
-            {
-				colonistGroup.showPawnIconsRightClickMenu = false;
-			}
 		}
 
 		public void Cancel()

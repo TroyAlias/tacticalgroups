@@ -274,15 +274,7 @@ namespace TacticalGroups
 				var selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
 				if (selectedPawns.Any())
                 {
-					Log.Message("TacticUtils.TacticalGroups.Groups: " + TacticUtils.TacticalGroups.Groups.Count);
 					TacticUtils.TacticalGroups.AddGroup(selectedPawns);
-					foreach (var group in TacticUtils.TacticalGroups.Groups)
-					{
-						foreach (var pawn in group.pawns)
-						{
-							Log.Message("group: " + pawn);
-						}
-					}
 					MarkColonistsDirty();
 					CheckRecacheEntries();
 				}

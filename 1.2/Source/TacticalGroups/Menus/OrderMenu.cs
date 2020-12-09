@@ -152,11 +152,6 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 			DrawExtraGui(rect);
-			if (Event.current.type == EventType.MouseDown)
-			{
-				Event.current.Use();
-				Close();
-			}
 			GUI.color = Color.white;
 		}
 
