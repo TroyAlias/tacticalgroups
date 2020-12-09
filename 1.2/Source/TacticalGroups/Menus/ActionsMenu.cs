@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -31,6 +32,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.GetToWork, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
+				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 				AddGetToWorkWindow(option);
 			};
 			option.bottomIndent = Textures.AOMButton.height + 5;

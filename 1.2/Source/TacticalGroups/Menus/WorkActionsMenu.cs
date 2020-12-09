@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -116,6 +117,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
+							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 							SearchForWork(workIconStates[iconRows[i][j]]);
 							Event.current.Use();
 						}

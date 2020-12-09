@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -99,6 +100,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.BattleStations, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
+				TacticDefOf.TG_BattleStationsSFX.PlayOneShotOnCamera();
 				foreach (var pawn in this.colonistGroup.pawns)
 				{
 					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false && pawn.Drafted)
@@ -176,6 +178,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					Find.Selector.ClearSelection();
 					foreach (var shooter in shooters)
                     {
@@ -192,6 +195,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					Find.Selector.ClearSelection();
 					foreach (var pawn in capablePawns)
 					{
@@ -219,6 +223,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					Find.Selector.ClearSelection();
 					foreach (var melee in melees)
 					{
@@ -238,6 +243,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					this.colonistGroup.SetBattleStations();
 					Event.current.Use();
 				}
@@ -249,6 +255,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					this.colonistGroup.ClearBattleStations();
 					Event.current.Use();
 				}
@@ -261,6 +268,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
                     {
 						var thing = TacticUtils.PickBestArmorFor(pawn);
@@ -282,6 +290,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
 					{
 						var thing = TacticUtils.PickBestWeaponFor(pawn);

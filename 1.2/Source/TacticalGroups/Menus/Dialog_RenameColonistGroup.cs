@@ -36,6 +36,7 @@ namespace TacticalGroups
 		protected override void SetName(string name)
 		{
 			colonistGroup.groupName = name;
+			TacticDefOf.TG_RenameSFX.PlayOneShotOnCamera();
 		}
 	}
 }

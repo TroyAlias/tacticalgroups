@@ -35,12 +35,15 @@ namespace TacticalGroups
 			option.bottomIndent = 41;
 			option.action = delegate
 			{
+				TacticDefOf.TG_RallySFX.PlayOneShotOnCamera();
 				Find.Selector.ClearSelection();
 				foreach (var pawn in this.colonistGroup.pawns)
                 {
 					Find.Selector.Select(pawn);
 					pawn.drafter.Drafted = true;
 				}
+				this.CloseAllWindows();
+
 			};
 			options.Add(option);
 		}

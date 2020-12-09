@@ -101,8 +101,9 @@ namespace TacticalGroups
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 				Sort();
+				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
-        }
+		}
 
 		public void Disband(Pawn pawn)
         {
@@ -111,6 +112,7 @@ namespace TacticalGroups
 				this.pawns.Remove(pawn);
 				this.pawnIcons.Remove(pawn);
 				Sort();
+				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
 		}
 

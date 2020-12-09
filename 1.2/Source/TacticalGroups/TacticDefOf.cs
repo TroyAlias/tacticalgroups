@@ -13,5 +13,12 @@ namespace TacticalGroups
 		public static DutyDef AssaultThingsStrongest;
 		public static DutyDef AssaultThingsWeakest;
 		public static DutyDef AssaultThingsFleeing;
+
+		public static SoundDef TG_RenameSFX;
+		public static SoundDef TG_RallySFX;
+		public static SoundDef TG_BattleStationsSFX;
+		public static SoundDef TG_MenuButtonOpenMenus;
+		public static SoundDef TG_ClickSFX;
+		public static SoundDef TG_HoverSFX;
 	}
 }

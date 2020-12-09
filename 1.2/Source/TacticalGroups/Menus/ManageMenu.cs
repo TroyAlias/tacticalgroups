@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -120,6 +121,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(disbandPawn, Textures.DisbandPawnHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					foreach (var pawn in Find.Selector.SelectedPawns)
                     {
 						this.colonistGroup.Disband(pawn);
@@ -141,6 +143,8 @@ namespace TacticalGroups
 				GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 					TacticUtils.Groups.Remove(this.colonistGroup);
 					Event.current.Use();
 				}

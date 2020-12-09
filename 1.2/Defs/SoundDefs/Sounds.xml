@@ -72,4 +72,77 @@
 			</li>
 		</subSounds>
 	</SoundDef>
+	
+		<SoundDef>
+		<defName>TG_MenuButtonOpenMenus</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>MenuButtonOpenMenus</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+		<SoundDef>
+		<defName>TG_ClickSFX</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>ClickSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+		<SoundDef>
+		<defName>TG_HoverSFX</defName>  
+		<context>MapOnly</context>
+		<eventNames />  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>HoverSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>
+					<min>20</min>        
+					<max>20</max>
+				</volumeRange>      
+				<pitchRange>
+					<min>0.9541177</min>        
+					<max>1.068824</max>
+				</pitchRange>      
+			</li>
+		</subSounds>
+	</SoundDef>
+
 </Defs>

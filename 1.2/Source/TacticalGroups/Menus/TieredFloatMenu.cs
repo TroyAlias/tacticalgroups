@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -114,8 +115,9 @@ namespace TacticalGroups
         public override void PostOpen()
         {
             base.PostOpen();
-        }
-        public void TryCloseChildWindow()
+			TacticDefOf.TG_MenuButtonOpenMenus.PlayOneShotOnCamera();
+		}
+		public void TryCloseChildWindow()
         {
 			if (childWindow != null)
 			{
