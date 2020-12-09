@@ -178,7 +178,6 @@ namespace TacticalGroups
 				GUI.DrawTexture(addPawnRect, Textures.AddPawnIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					this.Close();
 					var pawns = Find.Selector.SelectedPawns;
 					if (pawns.Count > 0)
                     {

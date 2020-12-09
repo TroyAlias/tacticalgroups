@@ -129,8 +129,9 @@ namespace TacticalGroups
                     {
 						this.colonistGroup.Disband(pawn);
                     }
+					Event.current.Use();
 				}
-            }
+			}
 			else
             {
 				GUI.DrawTexture(disbandPawn, Textures.DisbandPawn);
@@ -146,6 +147,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticUtils.Groups.Remove(this.colonistGroup);
+					Event.current.Use();
 				}
 			}
 			else
@@ -154,8 +156,6 @@ namespace TacticalGroups
 			}
 			var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 3f, disbandGroup.width, disbandGroup.height - 10f);
 			Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
-
-
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}

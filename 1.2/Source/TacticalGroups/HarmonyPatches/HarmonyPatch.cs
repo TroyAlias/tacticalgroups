@@ -52,7 +52,6 @@ namespace TacticalGroups
             harmony.Patch(AccessTools.Method(typeof(Pawn), "SetFaction", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Window), "Notify_ResolutionChanged", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Game), "DeinitAndRemoveMap", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(SoundStarter), "PlayOneShotOnCamera", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Check", null), null, null);
 
             //harmony.Patch(AccessTools.Method(typeof(Pawn), "SpawnSetup", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(Pawn), "Kill", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Kill_Postfix", null), null, null);
@@ -141,11 +140,6 @@ namespace TacticalGroups
             {
                 TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             }
-        }
-
-        private static void Check()
-        {
-            Log.Message("Check");
         }
     }
 }

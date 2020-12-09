@@ -89,7 +89,6 @@ namespace TacticalGroups
 						pawn.jobs.TryTakeOrderedJob(job);
                     }
                 }
-				this.CloseAllWindows();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 25;
 			options.Add(option);
@@ -102,7 +101,7 @@ namespace TacticalGroups
 			{
 				foreach (var pawn in this.colonistGroup.pawns)
 				{
-					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false)
+					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false && pawn.Drafted)
 					{
 						var job = JobMaker.MakeJob(JobDefOf.Goto, this.colonistGroup.formations[pawn]);
 						job.locomotionUrgency = LocomotionUrgency.Sprint;
@@ -246,7 +245,6 @@ namespace TacticalGroups
                 {
 					this.colonistGroup.SetBattleStations();
 					Event.current.Use();
-					CloseAllWindows();
 				}
 			}
 			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
@@ -258,7 +256,6 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.ClearBattleStations();
 					Event.current.Use();
-					CloseAllWindows();
 				}
 			}
 
@@ -280,7 +277,6 @@ namespace TacticalGroups
                         }
 					}
 					Event.current.Use();
-					CloseAllWindows();
 				}
 			}
 
@@ -309,7 +305,6 @@ namespace TacticalGroups
 						}
 					}
 					Event.current.Use();
-					CloseAllWindows();
 				}
 			}
 
