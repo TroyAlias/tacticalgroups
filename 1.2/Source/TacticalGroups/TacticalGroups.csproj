@@ -41,9 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WidgetsWorkGroup.cs" />
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
+    <Compile Include="AreaAllowedGUIGroup.cs" />
+    <Compile Include="DrugPolicyUIUtilityGroup.cs" />
+    <Compile Include="MedicalCareUtilityGroup.cs" />
     <Compile Include="Menus\AttackMenu.cs" />
+    <Compile Include="Menus\ManagementMenu.cs" />
     <Compile Include="Menus\OrderMenu.cs" />
     <Compile Include="Menus\OptionsMenu.cs" />
     <Compile Include="Menus\Dialog_Rename.cs" />
@@ -75,6 +80,7 @@
     <Compile Include="TacticDefOf.cs" />
     <Compile Include="TacticAttackTargetFinder.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="HostilityResponseModeUtilityGroup.cs" />
     <Compile Include="TacticUtils.cs" />
     <Compile Include="TacticalGroups.cs" />
     <Compile Include="ColonistBar\ColonistBarDrawLocsFinder.cs" />

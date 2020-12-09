@@ -52,6 +52,7 @@ namespace TacticalGroups
         public override void FinalizeInit()
         {
             base.FinalizeInit();
+            MedicalCareUtilityGroup.Reset();
         }
 
         public override void StartedNewGame()

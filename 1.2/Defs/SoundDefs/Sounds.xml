@@ -3,144 +3,97 @@
 
 	<SoundDef>
 		<defName>TG_RenameSFX</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>RenameSFX</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange> 
 			</li>
 		</subSounds>
 	</SoundDef>
 
 	<SoundDef>
 		<defName>TG_RallySFX</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>RallySFX</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange>
+
 			</li>
 		</subSounds>
 	</SoundDef>
-	
+
 	<SoundDef>
 		<defName>TG_BattleStationsSFX</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>BattleStationsSFX</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange>
 			</li>
 		</subSounds>
 	</SoundDef>
-	
-		<SoundDef>
+
+	<SoundDef>
 		<defName>TG_MenuButtonOpenMenus</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>MenuButtonOpenMenus</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange>
 			</li>
 		</subSounds>
 	</SoundDef>
-	
-		<SoundDef>
+
+	<SoundDef>
 		<defName>TG_ClickSFX</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>ClickSFX</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange>
 			</li>
 		</subSounds>
 	</SoundDef>
-	
-		<SoundDef>
+
+	<SoundDef>
 		<defName>TG_HoverSFX</defName>  
-		<context>MapOnly</context>
-		<eventNames />  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
 			<li>
+				<onCamera>True</onCamera>      
 				<grains>
 					<li Class="AudioGrain_Clip">
 						<clipPath>HoverSFX</clipPath>
 					</li>
 				</grains>      
-				<volumeRange>
-					<min>20</min>        
-					<max>20</max>
-				</volumeRange>      
-				<pitchRange>
-					<min>0.9541177</min>        
-					<max>1.068824</max>
-				</pitchRange>      
+				<volumeRange>30~30</volumeRange>
 			</li>
 		</subSounds>
 	</SoundDef>

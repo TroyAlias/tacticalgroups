@@ -59,6 +59,7 @@ namespace TacticalGroups
 		public static readonly string Strongest = "TG.Strongest".Translate();
 		public static readonly string Weakest = "TG.Weakest".Translate();
 		public static readonly string PursueFleeing = "TG.PursueFleeing".Translate();
+		public static readonly string Management = "TG.Management".Translate();
 
 
 

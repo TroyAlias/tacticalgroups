@@ -21,6 +21,7 @@ namespace TacticalGroups
 			AddRenameButton();
 			AddIconButton();
 			AddSortButton();
+			AddManagementButton();
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -52,7 +53,7 @@ namespace TacticalGroups
 			{
 				AddIconWindow(option);
 			};
-			option.bottomIndent = Textures.MenuButton.height + 23;
+			option.bottomIndent = Textures.MenuButton.height + 17;
 			options.Add(option);
 		}
 		public void AddIconWindow(TieredFloatMenuOption option)
@@ -69,13 +70,31 @@ namespace TacticalGroups
 			{
 				AddSortWindow(option);
 			};
-			option.bottomIndent = Textures.MenuButton.height + 5;
+			option.bottomIndent = Textures.MenuButton.height + 10;
 			options.Add(option);
 		}
 		public void AddSortWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
 			TieredFloatMenu floatMenu = new SkillSortMenu(this, colonistGroup, windowRect, Textures.SortMenu);
+			OpenNewMenu(floatMenu);
+		}
+
+		public void AddManagementButton()
+		{
+			var option = new TieredFloatMenuOption(Strings.Management, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			option.action = delegate
+			{
+				AddManagementWindow(option);
+			};
+			option.bottomIndent = Textures.MenuButton.height + 5;
+			options.Add(option);
+		}
+
+		public void AddManagementWindow(TieredFloatMenuOption option)
+		{
+			MarkOptionAsSelected(option);
+			TieredFloatMenu floatMenu = new ManagementMenu(this, colonistGroup, windowRect, Textures.StatMenu);
 			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)
@@ -107,12 +126,12 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
-			Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.60f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
+			Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.66f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
 			GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
 
 			Text.Anchor = TextAnchor.UpperCenter;
 
-			var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 10f, disbandRect.width, disbandRect.height - 10f);
+			var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 25f, disbandRect.width, disbandRect.height - 10f);
 			Widgets.Label(disbandLabelRect, Strings.Disband);
 
 			var disbandPawn = new Rect(disbandRect.x / 2f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
@@ -134,7 +153,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(disbandPawn, Textures.DisbandPawn);
 			}
 
-			var disbandPawnLabelRect = new Rect(disbandPawn.x, disbandPawn.y + disbandPawn.height + 3f, disbandPawn.width, disbandPawn.height - 10f);
+			var disbandPawnLabelRect = new Rect(disbandPawn.x, disbandPawn.y + disbandPawn.height + 1f, disbandPawn.width, disbandPawn.height - 10f);
 			Widgets.Label(disbandPawnLabelRect, Strings.DisbandPawn);
 
 			var disbandGroup = new Rect((disbandRect.x + disbandRect.width) - (Textures.DisbandGroup.width / 2f), (disbandRect.y + disbandRect.height) - (Textures.DisbandGroup.height / 2f), Textures.DisbandGroup.width, Textures.DisbandGroup.height);
@@ -153,7 +172,7 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(disbandGroup, Textures.DisbandGroup);
 			}
-			var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 3f, disbandGroup.width, disbandGroup.height - 10f);
+			var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 1f, disbandGroup.width, disbandGroup.height - 10f);
 			Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
 			Text.Anchor = TextAnchor.UpperLeft;
 		}

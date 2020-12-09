@@ -141,5 +141,9 @@ namespace TacticalGroups
 		public static readonly Texture2D AwakeIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/AwakeIcon");
 		public static readonly Texture2D AliveIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/AliveIcon");
 		public static readonly Texture2D ZoneMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ZoneMenu");
+		public static readonly Texture2D StatListButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/StatListButton");
+		public static readonly Texture2D ManageStatButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/ManageStatButton");
+		public static readonly Texture2D EditButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/EditButton");
+
 	}
 }
