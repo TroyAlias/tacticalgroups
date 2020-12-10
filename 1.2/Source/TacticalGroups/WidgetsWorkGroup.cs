@@ -115,7 +115,10 @@ namespace TacticalGroups
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ManualWorkPriorities, KnowledgeAmount.SmallInteraction);
 				return;
 			}
-			GUI.DrawTexture(rect, WorkBoxCheckTex);
+			if (group.pawns.Where(p => p.workSettings.GetPriority(wType) > 0).Any())
+			{
+				GUI.DrawTexture(rect, WorkBoxCheckTex);
+			}
 			if (!Widgets.ButtonInvisible(rect))
 			{
 				return;

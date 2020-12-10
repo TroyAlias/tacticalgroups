@@ -31,7 +31,7 @@ namespace TacticalGroups
 			int num = 0;
 			List<List<WorkTypeDef>> workTypeRows = new List<List<WorkTypeDef>>();
 			List<WorkTypeDef> row = new List<WorkTypeDef>();
-			foreach (WorkTypeDef workType in WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where((WorkTypeDef d) => d.visible).Reverse())
+			foreach (WorkTypeDef workType in WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where((WorkTypeDef d) => d.visible))
 			{
 				if (num == columnCount)
 				{
@@ -85,47 +85,24 @@ namespace TacticalGroups
 			var foodRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 315, policyButtonWidth, 30f);
 			DoFoodCell(foodRect);
 
-			DoManualPrioritiesCheckbox();
 			var workRows = GetWorkTypeRows(2);
-			var initialRect = new Rect(rect);
-			initialRect.y += 25f;
-			initialRect.x += initialRect.width - 206;
-			initialRect.height -= 45f;
-			float listHeight = workRows.Count * 30 + (workRows.Count * 2);
+			var initialRect = new Rect((rect.x + rect.width) - 245, rect.y + 75, 240, rect.height - 95);
+			DoManualPrioritiesCheckbox(new Rect(initialRect.x, rect.y + 30, initialRect.width, 40));
+			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
 			Rect rect2 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
 			Widgets.BeginScrollView(initialRect, ref scrollPosition, rect2);
+
 			for (var i = 0; i < workRows.Count; i++)
 			{
 				for (var j = 0; j < workRows[i].Count; j++)
 				{
-					Rect workRect = new Rect((rect2.x - 20) + (j * 20) + j * 100, rect2.y + 50 + (i * 20) + i * 20, 24, 24);
+					Rect workRect = new Rect(rect2.x + (j * 20) + j * 91.5f, rect2.y + (i * 17) + i * 17, 24, 24);
 					this.DoWorkCell(workRect, workRows[i][j]);
 					this.DoWorkHeader(workRect, workRows[i][j]);
 				}
 			}
-
 			Widgets.EndScrollView();
 			GUI.color = Color.white;
-		}
-
-		private void DoManualPrioritiesCheckbox()
-		{
-			Text.Font = GameFont.Small;
-			GUI.color = Color.white;
-			Text.Anchor = TextAnchor.UpperLeft;
-			Rect rect = new Rect(105f, 5f, 140f, 30f);
-			bool useWorkPriorities = Current.Game.playSettings.useWorkPriorities;
-			Widgets.CheckboxLabeled(rect, "ManualPriorities".Translate(), ref Current.Game.playSettings.useWorkPriorities);
-			if (useWorkPriorities != Current.Game.playSettings.useWorkPriorities)
-			{
-				foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
-				{
-					if (item.Faction == Faction.OfPlayer && item.workSettings != null)
-					{
-						item.workSettings.Notify_UseWorkPrioritiesChanged();
-					}
-				}
-			}
 		}
 
 		private Vector2 scrollPosition;
@@ -217,7 +194,6 @@ namespace TacticalGroups
 
 		public void DoOutfitCell(Rect rect)
 		{
-
 			int num = Mathf.FloorToInt((rect.width - 4f) * 0.714285731f);
 			int num2 = Mathf.FloorToInt((rect.width - 4f) * 0.2857143f);
 			float x = rect.x;
@@ -346,87 +322,48 @@ namespace TacticalGroups
 			x += (float)num2;
 		}
 
-		private Vector2 cachedWorkLabelSize;
-
+		private void DoManualPrioritiesCheckbox(Rect rect)
+		{
+			Text.Font = GameFont.Small;
+			GUI.color = Color.white;
+			Text.Anchor = TextAnchor.UpperLeft;
+			Rect rect2 = new Rect(rect.x + 5, rect.y, 140f, 30f);
+			bool useWorkPriorities = Current.Game.playSettings.useWorkPriorities;
+			Widgets.CheckboxLabeled(rect2, "ManualPriorities".Translate(), ref Current.Game.playSettings.useWorkPriorities);
+			if (useWorkPriorities != Current.Game.playSettings.useWorkPriorities)
+			{
+				foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
+				{
+					if (item.Faction == Faction.OfPlayer && item.workSettings != null)
+					{
+						item.workSettings.Notify_UseWorkPrioritiesChanged();
+					}
+				}
+			}
+		}
 		public void DoWorkCell(Rect rect, WorkTypeDef workType)
 		{
-			Widgets.DrawBox(rect);
-			//Text.Font = GameFont.Medium;
-			//float x = rect.x + (rect.width - 25f) / 2f;
-			//float y = rect.y + 2.5f;
-			//WidgetsWorkGroup.DrawWorkBoxFor(x, y, workType, this.colonistGroup);
-			//Text.Font = GameFont.Small;
+			Text.Font = GameFont.Medium;
+			float x = rect.x + 5 + (rect.width - 25f) / 2f;
+			float y = rect.y + 2.5f;
+			WidgetsWorkGroup.DrawWorkBoxFor(x, y, workType, this.colonistGroup);
+			Text.Font = GameFont.Small;
 		}
 
 		public void DoWorkHeader(Rect rect, WorkTypeDef workType)
 		{
-			//Text.Font = GameFont.Small;
-			//if (cachedWorkLabelSize == default(Vector2))
-			//{
-			//	cachedWorkLabelSize = Text.CalcSize(workType.labelShort);
-			//}
-			//Rect labelRect = GetLabelRect(rect);
-			//MouseoverSounds.DoRegion(labelRect);
-			//Text.Anchor = TextAnchor.MiddleCenter;
-			//Widgets.Label(labelRect, workType.labelShort);
-			//GUI.color = new Color(1f, 1f, 1f, 0.3f);
-			//Widgets.DrawLineVertical(labelRect.center.x, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
-			//Widgets.DrawLineVertical(labelRect.center.x + 1f, labelRect.yMax - 3f, rect.y + 50f - labelRect.yMax + 3f);
-			//GUI.color = Color.white;
-			//Text.Anchor = TextAnchor.UpperLeft;
-		}
-
-		public int GetMinHeaderHeight(PawnTable table)
-		{
-			return 50;
-		}
-
-		public int GetMinWidth(PawnTable table)
-		{
-			return Mathf.Max(32);
-		}
-
-		public int GetOptimalWidth(PawnTable table)
-		{
-			return 39;
-		}
-
-		public int GetMaxWidth(PawnTable table)
-		{
-			return Mathf.Min(80);
-		}
-
-		private bool IsIncapableOfWholeWorkType(Pawn p, WorkTypeDef work)
-		{
-			for (int i = 0; i < work.workGiversByPriority.Count; i++)
-			{
-				bool flag = true;
-				for (int j = 0; j < work.workGiversByPriority[i].requiredCapacities.Count; j++)
-				{
-					PawnCapacityDef capacity = work.workGiversByPriority[i].requiredCapacities[j];
-					if (!p.health.capacities.CapableOf(capacity))
-					{
-						flag = false;
-						break;
-					}
-				}
-				if (flag)
-				{
-					return false;
-				}
-			}
-			return true;
-		}
-
-		protected Rect GetInteractableHeaderRect(Rect headerRect, PawnTable table)
-		{
-			return GetLabelRect(headerRect);
+			Text.Font = GameFont.Small;
+			Rect labelRect = GetLabelRect(rect);
+			MouseoverSounds.DoRegion(labelRect);
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Widgets.Label(labelRect, workType.labelShort);
+			GUI.color = Color.white;
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private Rect GetLabelRect(Rect headerRect)
 		{
-			float x = headerRect.center.x;
-			Rect result = new Rect(x - cachedWorkLabelSize.x / 2f, headerRect.y, cachedWorkLabelSize.x, cachedWorkLabelSize.y);
+			Rect result = new Rect(headerRect.x + 33f, headerRect.y + 3, 80, 25);
 			return result;
 		}
 
