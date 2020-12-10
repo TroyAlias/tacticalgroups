@@ -144,6 +144,11 @@ namespace TacticalGroups
 		public static readonly Texture2D StatListButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/StatListButton");
 		public static readonly Texture2D ManageStatButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/ManageStatButton");
 		public static readonly Texture2D EditButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/EditButton");
+		public static readonly Texture2D SocializeButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/SocializeButton");
+		public static readonly Texture2D LightsOutButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/LightsOutButton");
+		public static readonly Texture2D EntertainmentButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/EntertainmentButton");
+		public static readonly Texture2D ChowHallButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/ChowHallButton");
+
 
 	}
 }

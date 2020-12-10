@@ -20,7 +20,6 @@ namespace TacticalGroups
 			this.options = new List<TieredFloatMenuOption>();
 			AddGetToWork();
 			AddTakeABreak();
-			AddChowHall();
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -51,21 +50,18 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.TakeABreak, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-
+				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+				AddTakeABreakWindow(option);
 			};
 			option.bottomIndent = Textures.AOMButton.height + 5;
 			options.Add(option);
 		}
 
-		public void AddChowHall()
+		public void AddTakeABreakWindow(TieredFloatMenuOption option)
 		{
-			var option = new TieredFloatMenuOption(Strings.ChowHall, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
-			option.action = delegate
-			{
-
-			};
-			option.bottomIndent = Textures.AOMButton.height + 5;
-			options.Add(option);
+			MarkOptionAsSelected(option);
+			TieredFloatMenu floatMenu = new TakeABreakMenu(this, colonistGroup, windowRect, Textures.GetToWorkMenu);
+			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)
 		{

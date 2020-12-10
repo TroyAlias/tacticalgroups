@@ -67,5 +67,6 @@ namespace TacticalGroups
 
 		public static readonly string RescueFallen = "TG.RescueFallen".Translate();
 		public static readonly string TendWounded = "TG.TendWounded".Translate();
+		public static readonly string TakeFive = "TG.TakeFive".Translate();
 	}
 }
