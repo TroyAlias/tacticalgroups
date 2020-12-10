@@ -61,6 +61,12 @@ namespace TacticalGroups
 		public static readonly string PursueFleeing = "TG.PursueFleeing".Translate();
 		public static readonly string Management = "TG.Management".Translate();
 
+		public static readonly string Happy = "TG.Happy".Translate();
+		public static readonly string Okay = "TG.Okay".Translate();
+		public static readonly string Sad = "TG.Sad".Translate();
+
+
+
 
 
 

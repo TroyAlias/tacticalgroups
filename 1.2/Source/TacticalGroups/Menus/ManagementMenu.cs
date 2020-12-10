@@ -57,7 +57,7 @@ namespace TacticalGroups
 			var medicalCareRect = new Rect(rect.x + 50, rect.y + 25, 24, 24);
 			MedicalCareUtilityGroup.MedicalCareSelectButton(medicalCareRect, this.colonistGroup);
 
-			var timeAssignmentSelectorGridRect = new Rect(rect.x + 100, rect.y + 20, 191f, 65f);
+			var timeAssignmentSelectorGridRect = new Rect(rect.x + 80, rect.y + 20, 191f, 65f);
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(timeAssignmentSelectorGridRect);
 			var timeTableHeaderRect = new Rect(rect.x + 10, rect.y + 85f, rect.width * 0.675f, 20f);
 			DoTimeTableHeader(timeTableHeaderRect);
@@ -102,7 +102,129 @@ namespace TacticalGroups
 				}
 			}
 			Widgets.EndScrollView();
+
+			Text.Anchor = TextAnchor.MiddleCenter;
+
+			var moodTexture = GetMoodTexture(out string moodLabel);
+			var moodRect = new Rect(rect.x + policyButtonWidth + 125f, rect.y + 25, moodTexture.width, moodTexture.height);
+			GUI.DrawTexture(moodRect, moodTexture);
+			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 40, 24);
+			Widgets.Label(moodLabelRect, moodLabel);
+
+			var healthTexture = GetHealthTexture(out string healthPercent);
+			var healthRect = new Rect(moodRect.x + 45f, moodRect.y, healthTexture.width, healthTexture.height);
+			GUI.DrawTexture(healthRect, healthTexture);
+			var healthLabelRect = new Rect(healthRect.x, healthRect.y + healthRect.height, 40, 24);
+			Widgets.Label(healthLabelRect, healthPercent);
+
+			var restTexture = GetRestTexture(out string restPercent);
+			var restRect = new Rect(healthRect.x + 45f, healthRect.y, restTexture.width, restTexture.height);
+			GUI.DrawTexture(restRect, restTexture);
+			var restLabelRect = new Rect(restRect.x, restRect.y + restRect.height, 40, 24);
+			Widgets.Label(restLabelRect, restPercent);
+
+			var foodTexture = GetFoodTexture(out string foodPercent);
+			var foodStatRect = new Rect(restRect.x + 45f, restRect.y, foodTexture.width, foodTexture.height);
+			GUI.DrawTexture(foodStatRect, foodTexture);
+			var foodLabelRect = new Rect(foodStatRect.x, foodStatRect.y + foodStatRect.height, 40, 24);
+			Widgets.Label(foodLabelRect, foodPercent);
+
+			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;
+		}
+
+		public Texture2D GetMoodTexture(out string moodString)
+        {
+			var moodAverage = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+            {
+				if (pawn.needs?.mood != null)
+                {
+					moodAverage.Add(pawn.needs.mood.CurLevelPercentage);
+				}
+            }
+			var averageValue = moodAverage.Average();
+			if (averageValue < 0.33)
+            {
+				moodString = Strings.Sad;
+				return Textures.SadIcon;
+            }
+			else if (averageValue < 0.66)
+            {
+				moodString = Strings.Okay;
+				return Textures.OkayIcon;
+            }
+			moodString = Strings.Happy;
+			return Textures.HappyIcon;
+        }
+
+		public Texture2D GetHealthTexture(out string healthPercent)
+		{
+			var healthAverage = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.health?.summaryHealth != null)
+				{
+					healthAverage.Add(pawn.health.summaryHealth.SummaryHealthPercent);
+				}
+			}
+			var averageValue = healthAverage.Average() * 100f;
+			healthPercent = averageValue.ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33)
+			{
+				return Textures.HurtIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				return Textures.AliveIcon;
+			}
+			return Textures.HealthyIcon;
+		}
+
+		public Texture2D GetRestTexture(out string restPercent)
+		{
+			var restAverage = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.needs?.rest != null)
+				{
+					restAverage.Add(pawn.needs.rest.CurLevelPercentage);
+				}
+			}
+			var averageValue = restAverage.Average() * 100f;
+			restPercent = averageValue.ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33)
+			{
+				return Textures.TiredIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				return Textures.AwakeIcon;
+			}
+			return Textures.RestedIcon;
+		}
+
+		public Texture2D GetFoodTexture(out string foodPercent)
+		{
+			var foodAverage = new List<float>();
+			foreach (var pawn in this.colonistGroup.pawns)
+			{
+				if (pawn.needs?.food != null)
+				{
+					foodAverage.Add(pawn.needs.food.CurLevelPercentage);
+				}
+			}
+			var averageValue = foodAverage.Average() * 100f;
+			foodPercent = averageValue.ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33)
+			{
+				return Textures.StarvingIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				return Textures.HungryIcon;
+			}
+			return Textures.FullIcon;
 		}
 
 		private Vector2 scrollPosition;

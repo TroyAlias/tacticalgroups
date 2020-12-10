@@ -47,6 +47,10 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Strongest>Strongest</TG.Strongest>
 	<TG.Weakest>Weakest</TG.Weakest>
 	<TG.PursueFleeing>Pursue Fleeing</TG.PursueFleeing>
-	
+
 	<TG.Management>Management</TG.Management>
+	<TG.Okay>Okay</TG.Okay>
+	<TG.Sad>Sad</TG.Sad>
+	<TG.Happy>Happy</TG.Happy>
+	
 </LanguageData>
