@@ -133,6 +133,22 @@ namespace TacticalGroups
 			}
 		}
 
+		public static void SearchForJob(this ColonistGroup colonistGroup)
+		{
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				try
+                {
+					var job = pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(pawn, default(JobIssueParams));
+					if (job.Job != null)
+                    {
+						pawn.jobs.TryTakeOrderedJob(job.Job);
+                    }
+				}
+				catch { };
+			}
+		}
+
 		public static void SetBattleStations(this ColonistGroup colonistGroup)
 		{
 			if (colonistGroup.formations is null) colonistGroup.formations = new Dictionary<Pawn, IntVec3>();

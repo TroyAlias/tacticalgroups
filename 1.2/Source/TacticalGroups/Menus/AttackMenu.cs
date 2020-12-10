@@ -53,11 +53,12 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.Strongest, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				this.colonistGroup.Undraft();
+				this.colonistGroup.Draft();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsStrongest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
+				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 10;
@@ -69,11 +70,12 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.Weakest, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				this.colonistGroup.Undraft();
+				this.colonistGroup.Draft();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsWeakest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
+				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 35;
@@ -85,11 +87,12 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.PursueFleeing, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				this.colonistGroup.Undraft();
+				this.colonistGroup.Draft();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsPursueFleeing(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
+				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 15;

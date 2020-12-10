@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="WidgetsWorkGroup.cs" />
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />

@@ -37,7 +37,6 @@ namespace TacticalGroups
 					result = ranks[key];
 				}
 			}
-			Log.Message("Getting rank: " + curRankValue + " - " + result);
 			return result;
 		}
 		public OrderMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
