@@ -65,10 +65,7 @@ namespace TacticalGroups
 		public static readonly string Okay = "TG.Okay".Translate();
 		public static readonly string Sad = "TG.Sad".Translate();
 
-
-
-
-
-
+		public static readonly string RescueFallen = "TG.RescueFallen".Translate();
+		public static readonly string TendWounded = "TG.TendWounded".Translate();
 	}
 }

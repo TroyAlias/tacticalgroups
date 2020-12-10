@@ -131,10 +131,17 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.Medical, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-
+				AddMedicalWindow(option);
 			};
 			option.bottomIndent = Textures.MenuButton.height + 5;
 			options.Add(option);
+		}
+
+		public void AddMedicalWindow(TieredFloatMenuOption option)
+		{
+			MarkOptionAsSelected(option);
+			TieredFloatMenu floatMenu = new MedicalMenu(this, colonistGroup, windowRect, Textures.MedicalDropMenu);
+			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)
 		{

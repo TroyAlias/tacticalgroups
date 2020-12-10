@@ -11,21 +11,15 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class LordToil_AssaultThingsStrongest : LordToil
+	public class LordToil_TendWounded : LordToil
 	{
-		private List<Thing> things;
-
 		public const int UpdateIntervalTicks = 300;
-
 		public override bool ForceHighStoryDanger => true;
-
 		public override bool AllowSatisfyLongNeeds => false;
 
-		public LordToil_AssaultThingsStrongest(IEnumerable<Thing> things)
+		public LordToil_TendWounded()
 		{
-			this.things = new List<Thing>(things);
 		}
-
 		public override void Notify_ReachedDutyLocation(Pawn pawn)
 		{
 			UpdateAllDuties();
@@ -36,13 +30,9 @@ namespace TacticalGroups
 			for (int i = 0; i < lord.ownedPawns.Count; i++)
 			{
 				PawnDuty duty = lord.ownedPawns[i].mindState.duty;
-				if (duty == null || duty.def != TacticDefOf.TG_AssaultThingsStrongest || duty.focus.ThingDestroyed)
+				if (duty == null || duty.def != TacticDefOf.TG_TendWounded)
 				{
-					if (!things.Where((Thing t) => t?.Spawned ?? false).TryRandomElement(out Thing result))
-					{
-						break;
-					}
-					lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsStrongest, result);
+					lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_TendWounded);
 				}
 			}
 		}

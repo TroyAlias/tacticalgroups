@@ -2,7 +2,7 @@
 <Defs>
 
 	<DutyDef>
-		<defName>AssaultThingsStrongest</defName>
+		<defName>TG_AssaultThingsStrongest</defName>
 		<alwaysShowWeapon>true</alwaysShowWeapon>
 		<thinkNode Class="ThinkNode_Priority">
 			<subNodes>
@@ -18,7 +18,7 @@
 	</DutyDef>
 
 	<DutyDef>
-		<defName>AssaultThingsWeakest</defName>
+		<defName>TG_AssaultThingsWeakest</defName>
 		<alwaysShowWeapon>true</alwaysShowWeapon>
 		<thinkNode Class="ThinkNode_Priority">
 			<subNodes>
@@ -34,7 +34,7 @@
 	</DutyDef>
 
 	<DutyDef>
-		<defName>AssaultThingsFleeing</defName>
+		<defName>TG_AssaultThingsFleeing</defName>
 		<alwaysShowWeapon>true</alwaysShowWeapon>
 		<thinkNode Class="ThinkNode_Priority">
 			<subNodes>
@@ -45,6 +45,30 @@
 				</li>
 				<li Class="JobGiver_AITrashDutyFocus" /> 
 				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+	
+	<DutyDef>
+		<defName>TG_RescueFallen</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="TacticalGroups.JobGiver_RescueNearby">
+				<radius>75</radius>
+				</li>
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+	
+	<DutyDef>
+		<defName>TG_TendWounded</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="TacticalGroups.JobGiver_TendWounded">
+				<radius>75</radius>
+				</li>
 			</subNodes>
 		</thinkNode>
 	</DutyDef>
