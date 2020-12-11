@@ -26,18 +26,7 @@ namespace TacticalGroups
             }
         }
 
-        private List<ColonistGroup> groups;
-        public List<ColonistGroup> Groups
-        {
-            get
-            {
-                if (groups is null)
-                {
-                    groups = new List<ColonistGroup>();
-                }
-                return groups;
-            }
-        }
+        public List<PawnGroup> pawnGroups;
 
         public Dictionary<Caravan, CaravanGroup> caravanGroups;
 
@@ -45,19 +34,19 @@ namespace TacticalGroups
 
         public void PreInit()
         {
-            if (groups is null) groups = new List<ColonistGroup>();
+            if (pawnGroups is null) pawnGroups = new List<PawnGroup>();
             if (colonyGroups is null) colonyGroups = new Dictionary<Map, ColonyGroup>();
             if (caravanGroups is null) caravanGroups = new Dictionary<Caravan, CaravanGroup>();
         }
 
         public void AddGroup(List<Pawn> pawns)
         {
-            this.groups.Insert(0, new ColonistGroup(pawns));
+            this.pawnGroups.Insert(0, new PawnGroup(pawns));
         }
 
         public void AddCaravanGroup(Caravan caravan)
         {
-            this.caravanGroups[caravan] = new CaravanGroup(caravan.pawns.InnerListForReading);
+            this.caravanGroups[caravan] = new CaravanGroup(caravan);
             foreach (var colonyGroup in colonyGroups.Values)
             {
                 colonyGroup.pawns.RemoveAll(x => caravan.pawns.InnerListForReading.Contains(x));
@@ -66,9 +55,6 @@ namespace TacticalGroups
         public override void FinalizeInit()
         {
             base.FinalizeInit();
-            this.groups = new List<ColonistGroup>();
-            this.colonyGroups = new Dictionary<Map, ColonyGroup>();
-            this.caravanGroups = new Dictionary<Caravan, CaravanGroup>();
             TacticUtils.ResetTacticGroups();
             PreInit();
             MedicalCareUtilityGroup.Reset();
@@ -76,7 +62,7 @@ namespace TacticalGroups
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Collections.Look(ref groups, "groups", LookMode.Deep);
+            Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
             Scribe_Collections.Look(ref caravanGroups, "caravanGroups", LookMode.Reference, LookMode.Deep, ref caravanKeys, ref caravanValues);
             Scribe_Collections.Look(ref colonyGroups, "colonyGroups", LookMode.Reference, LookMode.Deep, ref mapKeys, ref groupValues);
         }

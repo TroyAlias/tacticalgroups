@@ -33,14 +33,7 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					foreach (var group in TacticUtils.Groups)
-                    {
-						group.entireGroupIsVisible = true;
-						foreach (var pawn in group.pawnIcons)
-                        {
-							pawn.Value.isVisibleOnColonistBar = true;
-                        }
-                    }
+					TacticUtils.ShowAllColonists();
 					Event.current.Use();
 				}
 			}

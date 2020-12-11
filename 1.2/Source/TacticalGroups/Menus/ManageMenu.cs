@@ -164,7 +164,7 @@ namespace TacticalGroups
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-					TacticUtils.Groups.Remove(this.colonistGroup);
+					this.colonistGroup.Disband();
 					Event.current.Use();
 				}
 			}

@@ -25,6 +25,18 @@ namespace TacticalGroups
 				return tacticalGroups;
 			}
 		}
+
+		public static List<ColonistGroup> AllGroups
+        {
+			get
+            {
+				var list = new List<ColonistGroup>();
+				list.AddRange(TacticalGroups.pawnGroups);
+				list.AddRange(TacticalGroups.caravanGroups.Values);
+				list.AddRange(TacticalGroups.colonyGroups.Values);
+				return list;
+			}
+		}
 		public static void ResetTacticGroups()
 		{
 			tacticalGroups = Find.World.GetComponent<TacticalGroups>();
@@ -565,9 +577,36 @@ namespace TacticalGroups
 			return num;
 		}
 
+		public static void ShowAllColonists()
+        {
+			foreach (var group in TacticalGroups.pawnGroups)
+			{
+				group.entireGroupIsVisible = true;
+				foreach (var pawn in group.pawnIcons)
+				{
+					pawn.Value.isVisibleOnColonistBar = true;
+				}
+			}
+
+			foreach (var group in TacticalGroups.caravanGroups)
+			{
+				group.Value.entireGroupIsVisible = true;
+				foreach (var pawn in group.Value.pawnIcons)
+				{
+					pawn.Value.isVisibleOnColonistBar = true;
+				}
+			}
+			foreach (var group in TacticalGroups.colonyGroups)
+			{
+				group.Value.entireGroupIsVisible = true;
+				foreach (var pawn in group.Value.pawnIcons)
+				{
+					pawn.Value.isVisibleOnColonistBar = true;
+				}
+			}
+		}
+
 		private static TacticalGroups tacticalGroups;
 		public static TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
-		public static List<ColonistGroup> Groups => TacticalGroups.Groups;
-
 	}
 }

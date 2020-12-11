@@ -159,7 +159,7 @@ namespace TacticalGroups
 					initialPos.x = UI.screenWidth / 2f;
 					initialPos.y = 21f;
 				}
-				Rect createGroupRect = new Rect(initialPos.x - (Size.x * 1.5f), initialPos.y, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+				Rect createGroupRect = new Rect(initialPos.x - (Textures.CreateGroupIcon.width + 10f), initialPos.y, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 				if (Mouse.IsOver(createGroupRect))
 				{
 					GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
@@ -186,27 +186,41 @@ namespace TacticalGroups
 					GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
 				}
 
-				for (int i = 0; i < TacticUtils.Groups.Count; i++)
+				var xGroupPos = createGroupRect.x;
+				var yGroupPos = createGroupRect.y;
+				var minXGroupPos = createGroupRect.x;
+				for (int i = 0; i < TacticUtils.TacticalGroups.pawnGroups.Count; i++)
 				{
-					var groupIconRect = new Rect(createGroupRect.x - (Size.x * (i + 1) * 2f), createGroupRect.y, TacticUtils.Groups[i].groupIcon.width, TacticUtils.Groups[i].groupIcon.height);
-					TacticUtils.Groups[i].Draw(groupIconRect);
+					if (xGroupPos < 300)
+					{
+						xGroupPos = createGroupRect.x - 90f;
+						yGroupPos += 100f;
+					}
+					else
+					{
+						xGroupPos -= 90f;
+					}
+					var groupIconRect = new Rect(xGroupPos, yGroupPos, TacticUtils.TacticalGroups.pawnGroups[i].groupIcon.width, TacticUtils.TacticalGroups.pawnGroups[i].groupIcon.height);
+					TacticUtils.TacticalGroups.pawnGroups[i].Draw(groupIconRect);
+					if (minXGroupPos > xGroupPos)
+					{
+						minXGroupPos = xGroupPos;
+					}
 				}
 
 				if (WorldRendererUtility.WorldRenderedNow)
 				{
-					var xPos = createGroupRect.x - ((Size.x * (TacticUtils.Groups.Count + 1) * 2f) + 30f);
 					if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup))
 					{
-						var colonyGroupRect = new Rect(xPos, createGroupRect.y, colonyGroup.groupIcon.width, colonyGroup.groupIcon.height);
+						var colonyGroupRect = new Rect(minXGroupPos - (colonyGroup.groupIcon.width + 10), createGroupRect.y, colonyGroup.groupIcon.width, colonyGroup.groupIcon.height);
 						colonyGroup.Draw(colonyGroupRect);
 					}
 				}
 				else
 				{
-					var xPos = createGroupRect.x - ((Size.x * (TacticUtils.Groups.Count + 1) * 2f) + 30f);
 					if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup))
 					{
-						var colonyGroupRect = new Rect(xPos, createGroupRect.y, colonyGroup.groupIcon.width, colonyGroup.groupIcon.height);
+						var colonyGroupRect = new Rect(minXGroupPos - (colonyGroup.groupIcon.width + 10), createGroupRect.y, colonyGroup.groupIcon.width, colonyGroup.groupIcon.height);
 						colonyGroup.Draw(colonyGroupRect);
 					}
 					else
@@ -214,7 +228,7 @@ namespace TacticalGroups
 						var map = Find.CurrentMap;
 						var newColonyGroup = new ColonyGroup(map.mapPawns.FreeColonists);
 						TacticUtils.TacticalGroups.colonyGroups[map] = newColonyGroup;
-						var colonyGroupRect = new Rect(xPos, createGroupRect.y, newColonyGroup.groupIcon.width, newColonyGroup.groupIcon.height);
+						var colonyGroupRect = new Rect((colonyGroup.groupIcon.width + 10), createGroupRect.y, newColonyGroup.groupIcon.width, newColonyGroup.groupIcon.height);
 						newColonyGroup.Draw(colonyGroupRect);
 					}
 				}
@@ -301,7 +315,7 @@ namespace TacticalGroups
 
 			if (Find.TickManager.TicksGame % 1000 == 0)
 			{
-				foreach (var group in TacticUtils.Groups)
+				foreach (var group in TacticUtils.AllGroups)
 				{
 					group.Sort();
 				}
@@ -403,21 +417,21 @@ namespace TacticalGroups
 				}
 			}
 
-			if (TacticUtils.Groups != null)
+			if (TacticUtils.AllGroups != null)
 			{
-				for (int num = TacticUtils.Groups.Count - 1; num >= 0; num--)
+				for (int num = TacticUtils.AllGroups.Count - 1; num >= 0; num--)
 				{
-					for (int num2 = TacticUtils.Groups[num].pawns.Count - 1; num2 >= 0; num2--)
+					for (int num2 = TacticUtils.AllGroups[num].pawns.Count - 1; num2 >= 0; num2--)
 					{
-						if (TacticUtils.Groups[num].pawns[num2].Dead || TacticUtils.Groups[num].pawns[num2].Destroyed)
+						if (TacticUtils.AllGroups[num].pawns[num2].Dead || TacticUtils.AllGroups[num].pawns[num2].Destroyed)
 						{
-							TacticUtils.Groups[num].Disband(TacticUtils.Groups[num].pawns[num2]);
+							TacticUtils.AllGroups[num].Disband(TacticUtils.AllGroups[num].pawns[num2]);
 						}
 					}
 				}
 
-				//cachedEntries.RemoveAll(x => TacticUtils.Groups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
-				//&& !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
+				cachedEntries.RemoveAll(x => TacticUtils.AllGroups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
+				&& !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
 			}
 			drawer.Notify_RecachedEntries();
 			tmpPawns.Clear();
@@ -444,7 +458,7 @@ namespace TacticalGroups
 
 		public void TryDropColonist(Pawn pawn)
 		{
-			var colonistGroup = TacticUtils.Groups.Where(x => x.curRect.Contains(Event.current.mousePosition)).FirstOrDefault();
+			var colonistGroup = TacticUtils.AllGroups.Where(x => x.curRect.Contains(Event.current.mousePosition)).FirstOrDefault();
 			if (colonistGroup != null)
 			{
 				colonistGroup.Add(pawn);
@@ -570,7 +584,7 @@ namespace TacticalGroups
 
 		public bool TryGetGroupPawnAt(Vector2 pos, out Pawn pawn)
 		{
-			foreach (var group in TacticUtils.Groups)
+			foreach (var group in TacticUtils.AllGroups)
 			{
 				if (group.Visible)
 				{
@@ -584,22 +598,6 @@ namespace TacticalGroups
 					}
 				}
 			}
-
-			foreach (var colonyGroup in TacticUtils.TacticalGroups.colonyGroups.Values)
-			{
-				if (colonyGroup.Visible)
-				{
-					foreach (var pawnRect in colonyGroup.pawnRects)
-					{
-						if (pawnRect.Value.Contains(pos))
-						{
-							pawn = pawnRect.Key;
-							return true;
-						}
-					}
-				}
-			}
-
 			pawn = null;
 			return false;
 		}
@@ -650,7 +648,7 @@ namespace TacticalGroups
 			}
 			tmpColonistsWithMap.Clear();
 
-			foreach (var group in TacticUtils.Groups)
+			foreach (var group in TacticUtils.AllGroups)
 			{
 				if (group.Visible)
 				{
@@ -663,21 +661,6 @@ namespace TacticalGroups
 					}
 				}
 			}
-
-			foreach (var colonyGroup in TacticUtils.TacticalGroups.colonyGroups.Values)
-			{
-				if (colonyGroup.Visible)
-				{
-					foreach (var pawnRect in colonyGroup.pawnRects)
-					{
-						if (rect.Overlaps(pawnRect.Value))
-						{
-							tmpColonists.Add(pawnRect.Key);
-						}
-					}
-				}
-			}
-			Log.Message("ColonistsOrCorpsesInScreenRect: " + tmpColonists.Count);
 			return tmpColonists;
 		}
 

@@ -10,6 +10,7 @@ namespace TacticalGroups
 {
     public class CaravanGroup : ColonistGroup
 	{
+		private Caravan caravan;
         public override void Init()
         {
             base.Init();
@@ -17,6 +18,8 @@ namespace TacticalGroups
 			this.groupIconFolder = "CaravanGroup";
 			this.groupIconName = "Caravan_GroupIcon";
 			this.defaultGroupName = Strings.Caravan;
+			this.pawnRowCount = 4;
+			this.entireGroupIsVisible = true;
 			this.updateIcon = true;
 		}
 		public CaravanGroup()
@@ -24,10 +27,10 @@ namespace TacticalGroups
 			this.Init();
 		}
 
-		public CaravanGroup(List<Pawn> pawns)
+		public CaravanGroup(Caravan caravan)
         {
 			this.Init();
-			this.pawns = pawns;
+			this.pawns = caravan.PawnsListForReading;
 			foreach (var pawn in pawns)
             {
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
@@ -43,9 +46,24 @@ namespace TacticalGroups
 			this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
 		}
 
-		public override void ExposeData()
+        public override void Disband(Pawn pawn)
+        {
+            base.Disband(pawn);
+			if (this.pawns.Count == 0)
+            {
+				TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
+			}
+		}
+        public override void Disband()
+        {
+            base.Disband();
+			TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
+        }
+
+        public override void ExposeData()
         {
             base.ExposeData();
+			Scribe_References.Look(ref caravan, "caravan");
         }
     }
 }

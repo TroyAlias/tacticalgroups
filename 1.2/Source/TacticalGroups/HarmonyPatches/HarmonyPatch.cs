@@ -174,20 +174,46 @@ namespace TacticalGroups
         }
         private static void Pawn_Destroy_Prefix(Pawn __instance)
         {
-            foreach (var group in TacticUtils.TacticalGroups.Groups)
+            for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
             {
+                var group = TacticUtils.TacticalGroups.pawnGroups[num];
                 group.pawnIcons.Remove(__instance);
                 group.pawns.Remove(__instance);
+                if (group.pawns.Count == 0)
+                {
+                    TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
+                }
             }
-            foreach (var group in TacticUtils.TacticalGroups.caravanGroups.Values)
+
+            var caravanKeysToRemove = new List<Caravan>();
+            foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
             {
-                group.pawnIcons.Remove(__instance);
-                group.pawns.Remove(__instance);
+                group.Value.pawnIcons.Remove(__instance);
+                group.Value.pawns.Remove(__instance);
+                if (group.Value.pawns.Count == 0)
+                {
+                    caravanKeysToRemove.Add(group.Key);
+                }
             }
-            foreach (var group in TacticUtils.TacticalGroups.colonyGroups.Values)
+
+            foreach (var key in caravanKeysToRemove)
             {
-                group.pawnIcons.Remove(__instance);
-                group.pawns.Remove(__instance);
+                TacticUtils.TacticalGroups.caravanGroups.Remove(key);
+            }
+
+            var colonyKeysToRemove = new List<Map>();
+            foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
+            {
+                group.Value.pawnIcons.Remove(__instance);
+                group.Value.pawns.Remove(__instance);
+                if (group.Value.pawns.Count == 0)
+                {
+                    colonyKeysToRemove.Add(group.Key);
+                }
+            }
+            foreach (var key in colonyKeysToRemove)
+            {
+                TacticUtils.TacticalGroups.colonyGroups.Remove(key);
             }
         }
     }

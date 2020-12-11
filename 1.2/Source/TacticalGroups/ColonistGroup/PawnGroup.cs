@@ -8,24 +8,23 @@ using Verse.AI;
 
 namespace TacticalGroups
 {
-    public class ColonyGroup : ColonistGroup
+    public class PawnGroup : ColonistGroup
 	{
         public override void Init()
         {
             base.Init();
-			this.pawnRowCount = 4;
-			this.groupIcon = Textures.Default_ColonyIcon;
-			this.groupIconFolder = "ColonyBlue";
-			this.groupIconName = "Default_ColonyIcon";
-			this.defaultGroupName = Strings.Colony;
-			this.entireGroupIsVisible = true;
+			this.groupIcon = Textures.GroupIcon_Default;
+			this.pawnRowCount = 3;
+			this.pawnRowXPosShift = 2f;
+			this.defaultGroupName = Strings.Group;
 			this.updateIcon = true;
 		}
-		public ColonyGroup()
+		public PawnGroup()
 		{
 			this.Init();
 		}
-		public ColonyGroup(List<Pawn> pawns)
+
+		public PawnGroup(List<Pawn> pawns)
         {
 			this.Init();
 			this.pawns = pawns;
@@ -33,16 +32,17 @@ namespace TacticalGroups
             {
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
-			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
-
+			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
 		}
-		public ColonyGroup(Pawn pawn)
+
+		public PawnGroup(Pawn pawn)
         {
 			this.Init();
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
+			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
 		}
+
 		public override void ExposeData()
         {
             base.ExposeData();

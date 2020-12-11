@@ -74,11 +74,7 @@ namespace TacticalGroups
         {
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
-			this.groupIcon = Textures.GroupIcon_Default;
 			this.formations = new Dictionary<Pawn, IntVec3>();
-			this.pawnRowCount = 3;
-			this.pawnRowXPosShift = 2f;
-			this.defaultGroupName = Strings.Group;
 		}
 		public ColonistGroup()
 		{
@@ -87,7 +83,6 @@ namespace TacticalGroups
 		public ColonistGroup(List<Pawn> pawns)
         {
 			this.Init();
-			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
 			this.pawns = pawns;
 			foreach (var pawn in pawns)
             {
@@ -97,7 +92,6 @@ namespace TacticalGroups
 		public ColonistGroup(Pawn pawn)
         {
 			this.Init();
-			this.groupID = TacticUtils.TacticalGroups.Groups.Count + 1;
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 		}
@@ -113,7 +107,15 @@ namespace TacticalGroups
 			}
 		}
 
-		public void Disband(Pawn pawn)
+		public void Add(List<Pawn> newPawns)
+		{
+			foreach (var pawn in newPawns)
+			{
+				Add(pawn);
+			}
+		}
+
+		public virtual void Disband(Pawn pawn)
         {
 			if (pawns.Contains(pawn))
             {
@@ -124,20 +126,16 @@ namespace TacticalGroups
 			}
 		}
 
-		public void Add(List<Pawn> newPawns)
+		public virtual void Disband(List<Pawn> newPawns)
 		{
 			foreach (var pawn in newPawns)
-            {
-				Add(pawn);
-			}
-		}
-
-		public void Disband(List<Pawn> newPawns)
-		{
-			foreach (var pawn in newPawns)
-            {
+			{
 				Disband(pawn);
 			}
+		}
+		public virtual void Disband()
+		{
+
 		}
 
 		public string GetGroupName()
@@ -181,7 +179,6 @@ namespace TacticalGroups
 			{
 				if (Event.current.button == 0)
                 {
-					Log.Message("Event.current.clickCount: " + Event.current.clickCount);
 					if (Event.current.clickCount == 1)
 					{
 						if (!expandPawnIcons)

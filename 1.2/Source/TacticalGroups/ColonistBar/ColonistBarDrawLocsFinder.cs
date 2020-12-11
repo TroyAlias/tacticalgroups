@@ -25,6 +25,7 @@ namespace TacticalGroups
 			{
 				CalculateColonistsInGroup();
 				scale = FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow);
+				Log.Message("Scale: " + scale + " - " + maxPerGlobalRow);
 				CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
 			}
 		}
@@ -67,8 +68,11 @@ namespace TacticalGroups
 			int num2 = CalculateGroupsCount();
 			while (true)
 			{
+				float scaleMultiplier = 1;
+				scaleMultiplier += (float)TacticUtils.AllGroups.Count / 10f;
 				float num3 = (TacticalColonistBar.BaseSize.x + 24f) * num;
-				float num4 = MaxColonistBarWidth - (float)(num2 - 1) * 25f * num;
+				float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
+				Log.Message("Num4: " + num4 + " - " + scaleMultiplier); ;
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
