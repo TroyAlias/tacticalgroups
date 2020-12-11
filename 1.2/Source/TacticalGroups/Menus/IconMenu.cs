@@ -91,6 +91,7 @@ namespace TacticalGroups
 						this.colonistGroup.groupIcon = iconRows[i][j];
 						this.colonistGroup.groupIconName = iconRows[i][j].name;
 						this.colonistGroup.groupIconFolder = groupIconFolder;
+						this.colonistGroup.updateIcon = true;
 					}
 				}
 			}

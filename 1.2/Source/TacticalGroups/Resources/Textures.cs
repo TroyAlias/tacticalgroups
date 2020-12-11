@@ -126,6 +126,8 @@ namespace TacticalGroups
 		public static readonly Texture2D GreenGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GreenGroupIcon");
 		public static readonly Texture2D DarkGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DarkGroupIcon");
 		public static readonly Texture2D BlueGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BlueGroupIcon");
+		public static readonly Texture2D Default_ColonyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyBlue/Default_ColonyIcon");
+
 
 		public static readonly Texture2D StatMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/StatMenu");
 		public static readonly Texture2D TiredIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/TiredIcon");
