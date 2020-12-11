@@ -19,6 +19,8 @@ namespace TacticalGroups
 		public static readonly string Manage = "TG.Manage".Translate();
 
 		public static readonly string Group = "TG.Group".Translate();
+		public static readonly string Colony = "TG.Colony".Translate();
+		public static readonly string Caravan = "TG.Caravan".Translate();
 
 		public static readonly string GetToWork = "TG.GetToWork".Translate();
 		public static readonly string TakeABreak = "TG.TakeABreak".Translate();

@@ -19,6 +19,7 @@ namespace TacticalGroups
 		public bool groupButtonRightClicked;
 
 		public string groupName;
+		public string defaultGroupName;
 		public Texture2D groupIcon;
 		public string groupIconName;
 		public string groupIconFolder;
@@ -29,7 +30,27 @@ namespace TacticalGroups
 		public bool showPawnIconsRightClickMenu;
 
 		public bool updateIcon = true;
-		public Map Map => this.pawns.First().Map;
+		public Map Map
+        {
+			get
+            {
+				if (this.pawns?.Count > 0)
+                {
+					foreach (var pawn in this.pawns)
+                    {
+						if (pawn?.Map != null)
+                        {
+							return pawn.Map;
+                        }
+                    }
+                }
+				else
+                {
+					Log.Error(this + " has empty or null pawns, this shouldn't happen.");
+                }
+				return null;
+			}
+        }
 		public bool ShowExpanded
         {
 			get
@@ -43,7 +64,7 @@ namespace TacticalGroups
 		}
 		public float IconScale => ShowExpanded ? 1f : 0.5f;
 
-		private int groupID;
+		protected int groupID;
 
 		protected int pawnRowCount;
 
@@ -57,6 +78,7 @@ namespace TacticalGroups
 			this.formations = new Dictionary<Pawn, IntVec3>();
 			this.pawnRowCount = 3;
 			this.pawnRowXPosShift = 2f;
+			this.defaultGroupName = Strings.Group;
 		}
 		public ColonistGroup()
 		{
@@ -126,7 +148,7 @@ namespace TacticalGroups
             }
 			else
             {
-				return Strings.Group + " " + this.groupID;
+				return this.defaultGroupName + " " + this.groupID;
             }
         }
 

@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColonistGroup\CaravanGroup.cs" />
     <Compile Include="ColonistGroup\ColonyGroup.cs" />
     <Compile Include="ColonistGroup\PawnIcon.cs" />
     <Compile Include="Jobs\JobGiver_TendWounded.cs" />

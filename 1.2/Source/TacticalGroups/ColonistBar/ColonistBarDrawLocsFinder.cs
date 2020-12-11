@@ -142,6 +142,7 @@ namespace TacticalGroups
 			return 3;
 		}
 
+		public static Dictionary<CaravanGroup, Vector2> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Vector2>();
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -169,6 +170,11 @@ namespace TacticalGroups
 					{
 						num7 += 25f * scale;
 						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + 24f);
+						if (entries[j].caravanGroup != null)
+						{
+							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (12 * scale), 21f);
+						}
+						num7 += 100f;
 					}
 					num6 = 0;
 					num5 = entries[j].group;

@@ -19,7 +19,7 @@ namespace TacticalGroups
 			{
 				if (tacticalGroups == null)
 				{
-					tacticalGroups = Current.Game.GetComponent<TacticalGroups>();
+					tacticalGroups = Find.World.GetComponent<TacticalGroups>();
 					return tacticalGroups;
 				}
 				return tacticalGroups;
@@ -27,7 +27,7 @@ namespace TacticalGroups
 		}
 		public static void ResetTacticGroups()
 		{
-			tacticalGroups = Current.Game.GetComponent<TacticalGroups>();
+			tacticalGroups = Find.World.GetComponent<TacticalGroups>();
 		}
 
 		public static bool IsDownedOrIncapable(this Pawn pawn)

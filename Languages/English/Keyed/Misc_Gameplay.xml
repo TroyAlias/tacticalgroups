@@ -9,6 +9,8 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Orders>Orders</TG.Orders>
 	<TG.Manage>Manage</TG.Manage>
 	<TG.Group>Group</TG.Group>
+	<TG.Colony>Colony</TG.Colony>
+	<TG.Caravan>Caravan</TG.Caravan>
 
 	<TG.GetToWork>Get to Work</TG.GetToWork>
 	<TG.TakeABreak>Take a Break</TG.TakeABreak>
