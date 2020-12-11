@@ -296,7 +296,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageAreas(this.colonistGroup.Map);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 220f;
 			}
 		}
 
@@ -308,7 +307,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageOutfits(null);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Outfits, KnowledgeAmount.Total);
 			}
 			UIHighlighter.HighlightOpportunity(rect2, "ManageOutfits");
@@ -348,7 +346,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageOutfits(colonistGroup.pawns.First().outfits.CurrentOutfit);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 			}
 			x += (float)num2;
 		}
@@ -379,7 +376,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageDrugPolicies(null);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 			}
 			UIHighlighter.HighlightOpportunity(rect2, "ManageDrugPolicies");
 			UIHighlighter.HighlightOpportunity(rect2, "ButtonAssignDrugs");
@@ -397,7 +393,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageFoodRestrictions(null);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 			}
 		}
 
@@ -439,7 +434,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageFoodRestrictions(group.pawns.First().foodRestriction.CurrentFoodRestriction);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 			}
 			x += (float)num2;
 		}

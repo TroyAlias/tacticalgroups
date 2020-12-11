@@ -327,13 +327,11 @@ namespace TacticalGroups
             {
 				if (pawn.apparel.WornApparel != null)
                 {
-					foreach (var ap in pawn.apparel.WornApparel)
-                    {
-						armorValues.Add(TacticUtils.ApparelScoreRaw(pawn, ap));
-                    }
+					var armorValue = TacticUtils.OverallArmorValue(pawn);
+					armorValues.Add(armorValue);
                 }
             }
-			var averageArmor = armorValues.Average();
+			var averageArmor = armorValues.Sum() / this.colonistGroup.pawns.Count();
 			Widgets.Label(totalArmorLabel, averageArmor.ToStringDecimalIfSmall());
 
 			Text.Anchor = TextAnchor.MiddleCenter;
