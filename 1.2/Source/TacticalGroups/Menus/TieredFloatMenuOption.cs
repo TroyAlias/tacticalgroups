@@ -266,7 +266,6 @@ namespace TacticalGroups
 			else if (Mouse.IsOver(rect) && iconHover != null)
 			{
 				GUI.DrawTexture(rect, iconHover);
-				TacticDefOf.TG_HoverSFX.PlayOneShotOnCamera();
 			}
 			else if (curIcon != null)
 			{

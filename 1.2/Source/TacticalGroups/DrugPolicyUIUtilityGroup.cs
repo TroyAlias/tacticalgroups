@@ -35,7 +35,6 @@ namespace TacticalGroups
 			{
 				var window = new Dialog_ManageDrugPolicies(group.pawns.First().drugs.CurrentPolicy);
 				Find.WindowStack.Add(window);
-				window.windowRect.y += 350f;
 			}
 			UIHighlighter.HighlightOpportunity(rect2, "ButtonAssignDrugs");
 			UIHighlighter.HighlightOpportunity(rect3, "ButtonAssignDrugs");

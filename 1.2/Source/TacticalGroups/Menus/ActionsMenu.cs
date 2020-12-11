@@ -28,7 +28,7 @@ namespace TacticalGroups
 
 		public void AddGetToWork()
 		{
-			var option = new TieredFloatMenuOption(Strings.GetToWork, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.GetToWork, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
 				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
@@ -47,7 +47,7 @@ namespace TacticalGroups
 
 		public void AddTakeABreak()
 		{
-			var option = new TieredFloatMenuOption(Strings.TakeABreak, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.TakeABreak, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
 				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
