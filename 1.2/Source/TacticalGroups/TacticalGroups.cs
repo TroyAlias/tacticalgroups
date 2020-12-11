@@ -37,7 +37,13 @@ namespace TacticalGroups
             }
         }
 
+        public Dictionary<Map, ColonyGroup> colonyGroups;
 
+        public void PreInit()
+        {
+            if (groups is null) groups = new List<ColonistGroup>();
+            if (colonyGroups is null) colonyGroups = new Dictionary<Map, ColonyGroup>();
+        }
 
         public void CreateGroup(List<Pawn> pawns)
         {
@@ -46,7 +52,7 @@ namespace TacticalGroups
 
         public void AddGroup(List<Pawn> pawns)
         {
-            this.groups.Add(new ColonistGroup(pawns));
+            this.groups.Insert(0, new ColonistGroup(pawns));
         }
 
         public override void FinalizeInit()
@@ -59,18 +65,23 @@ namespace TacticalGroups
         {
             base.StartedNewGame();
             TacticUtils.ResetTacticGroups();
-
+            PreInit();
         }
 
         public override void LoadedGame()
         {
             base.LoadedGame();
             TacticUtils.ResetTacticGroups();
+            PreInit();
         }
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Collections.Look(ref groups, "groups", LookMode.Deep);
+            Scribe_Collections.Look(ref colonyGroups, "colonyGroups", LookMode.Reference, LookMode.Deep, ref mapKeys, ref groupValues);
         }
+
+        private List<Map> mapKeys;
+        private List<ColonyGroup> groupValues;
     }
 }
