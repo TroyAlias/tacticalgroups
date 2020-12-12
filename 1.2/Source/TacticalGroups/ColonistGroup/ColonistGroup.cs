@@ -119,6 +119,7 @@ namespace TacticalGroups
         {
 			if (pawns.Contains(pawn))
             {
+				Log.Message("Remove 9");
 				this.pawns.Remove(pawn);
 				this.pawnIcons.Remove(pawn);
 				Sort();
@@ -338,18 +339,14 @@ namespace TacticalGroups
 			}
 			else
             {
-				var initialRect = new Rect(rect);
-				var backGroundRect = new Rect(initialRect);
-				backGroundRect.y += initialRect.y * 3.3f;
-				backGroundRect.height = pawnRows.Count * 30f;
+				var backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
+				Widgets.DrawBox(backGroundRect);
 				GUI.DrawTexture(backGroundRect, Textures.BackgroundColonistLayer);
-				initialRect.y += rect.height + 5f;
-
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
 					for (var j = 0; j < pawnRows[i].Count; j++)
 					{
-						Rect smallRect = new Rect(initialRect.x + (j * 25) + 2f, initialRect.y + (i * 30) + 3f, 24, 24);
+						Rect smallRect = new Rect(backGroundRect.x + (j * 25) + 2f, backGroundRect.y + (i * 30) + 3f, 24, 24);
 						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
 					}
@@ -524,5 +521,10 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys2;
 		private List<IntVec3> intVecValues;
-	}
+
+        public override string ToString()
+        {
+			return GetGroupName() + " - " + this.pawns.Count;
+        }
+    }
 }

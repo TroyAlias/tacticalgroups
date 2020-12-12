@@ -54,6 +54,14 @@ namespace TacticalGroups
                 typeof(bool)
             }), postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ExitMapAndCreateCaravan)));
 
+            harmony.Patch(AccessTools.Method(typeof(CaravanEnterMapUtility), nameof(CaravanEnterMapUtility.Enter), parameters: new Type[]
+            {
+                typeof(Caravan),
+                typeof(Map),
+                typeof(Func<Pawn, IntVec3>),
+                typeof(CaravanDropInventoryMode),
+                typeof(bool)
+            }), prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanEnter)));
 
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnAdded", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnRemoved", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
@@ -156,65 +164,76 @@ namespace TacticalGroups
 
         private static void ExitMapAndCreateCaravan(Caravan __result, IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile, bool sendMessage = true)
         {
-            TacticUtils.TacticalGroups.AddCaravanGroup(__result);
+            //TacticUtils.TacticalGroups.AddCaravanGroup(__result);
+        }
+
+        private static void CaravanEnter(Caravan caravan, Map map, Func<Pawn, IntVec3> spawnCellGetter, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, 
+            bool draftColonists = false)
+        {
+            TacticUtils.TacticalGroups.RemoveCaravanGroup(caravan);
+            TacticUtils.TacticalGroups.CreateOrJoinColony(caravan.PawnsListForReading, map);
         }
 
         private static void Pawn_SpawnSetup_Postfix(Pawn __instance)
         {
-            if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
-            {
-                foreach (var group in TacticUtils.TacticalGroups.colonyGroups.Values)
-                {
-                    if (group.Map == __instance.Map)
-                    {
-                        group.Add(__instance);
-                    }
-                }
-            }
+            //if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
+            //{
+            //    foreach (var group in TacticUtils.TacticalGroups.colonyGroups.Values)
+            //    {
+            //        if (group.Map == __instance.Map)
+            //        {
+            //            group.Add(__instance);
+            //        }
+            //    }
+            //}
         }
         private static void Pawn_Destroy_Prefix(Pawn __instance)
         {
-            for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
-            {
-                var group = TacticUtils.TacticalGroups.pawnGroups[num];
-                group.pawnIcons.Remove(__instance);
-                group.pawns.Remove(__instance);
-                if (group.pawns.Count == 0)
-                {
-                    TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
-                }
-            }
+            //for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
+            //{
+            //    var group = TacticUtils.TacticalGroups.pawnGroups[num];
+            //    Log.Message("Remove 1");
+            //    group.pawnIcons.Remove(__instance);
+            //    group.pawns.Remove(__instance);
+            //    if (group.pawns.Count == 0)
+            //    {
+            //        TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
+            //    }
+            //}
 
-            var caravanKeysToRemove = new List<Caravan>();
-            foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
-            {
-                group.Value.pawnIcons.Remove(__instance);
-                group.Value.pawns.Remove(__instance);
-                if (group.Value.pawns.Count == 0)
-                {
-                    caravanKeysToRemove.Add(group.Key);
-                }
-            }
+            //var caravanKeysToRemove = new List<Caravan>();
+            //foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
+            //{
+            //    group.Value.pawnIcons.Remove(__instance);
+            //    Log.Message("Remove 2");
+            //    group.Value.pawns.Remove(__instance);
+            //    if (group.Value.pawns.Count == 0)
+            //    {
+            //        caravanKeysToRemove.Add(group.Key);
+            //    }
+            //}
+            //
+            //foreach (var key in caravanKeysToRemove)
+            //{
+            //    TacticUtils.TacticalGroups.caravanGroups.Remove(key);
+            //}
+            //
+            //var colonyKeysToRemove = new List<Map>();
+            //foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
+            //{
+            //    group.Value.pawnIcons.Remove(__instance);
+            //    Log.Message("Remove 3");
+            //    group.Value.pawns.Remove(__instance);
+            //    if (group.Value.pawns.Count == 0)
+            //    {
+            //        colonyKeysToRemove.Add(group.Key);
+            //    }
+            //}
 
-            foreach (var key in caravanKeysToRemove)
-            {
-                TacticUtils.TacticalGroups.caravanGroups.Remove(key);
-            }
-
-            var colonyKeysToRemove = new List<Map>();
-            foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
-            {
-                group.Value.pawnIcons.Remove(__instance);
-                group.Value.pawns.Remove(__instance);
-                if (group.Value.pawns.Count == 0)
-                {
-                    colonyKeysToRemove.Add(group.Key);
-                }
-            }
-            foreach (var key in colonyKeysToRemove)
-            {
-                TacticUtils.TacticalGroups.colonyGroups.Remove(key);
-            }
+            //foreach (var key in colonyKeysToRemove)
+            //{
+            //    TacticUtils.TacticalGroups.colonyGroups.Remove(key);
+            //}
         }
     }
 }

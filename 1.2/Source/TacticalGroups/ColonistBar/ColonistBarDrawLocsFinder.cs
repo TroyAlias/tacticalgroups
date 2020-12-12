@@ -177,8 +177,8 @@ namespace TacticalGroups
 						if (entries[j].caravanGroup != null)
 						{
 							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (12 * scale), 21f);
+							num7 += 100f;
 						}
-						num7 += 100f;
 					}
 					num6 = 0;
 					num5 = entries[j].group;
