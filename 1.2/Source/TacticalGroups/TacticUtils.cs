@@ -48,6 +48,16 @@ namespace TacticalGroups
 			}
 		}
 
+		public static List<CaravanGroup> AllCaravanGroups
+		{
+			get
+			{
+				var list = new List<CaravanGroup>();
+				list.AddRange(TacticalGroups.caravanGroups.Values);
+				return list;
+			}
+		}
+
 		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
         {
 			return TacticalGroups.pawnGroups.Where(x => x.Map == colonyGroup.Map).ToList();

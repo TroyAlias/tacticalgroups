@@ -160,10 +160,18 @@ namespace TacticalGroups
         {
 			if (Event.current.type == EventType.MouseDown)
 			{
+				foreach (var group in TacticUtils.AllGroups)
+                {
+					if (group != this && group.pawnWindowIsActive)
+                    {
+						return;
+                    }
+                }
 				if (Event.current.button == 0)
                 {
 					if (Event.current.clickCount == 1)
 					{
+						Log.Message("HandleClicks");
 						if (!expandPawnIcons)
 						{
 							expandPawnIcons = true;
@@ -213,8 +221,6 @@ namespace TacticalGroups
             {
 				UpdateIcon();
 			}
-			GUI.color = Color.white;
-			Text.Font = GameFont.Tiny;
 			GUI.DrawTexture(rect, this.groupIcon);
 			if (!groupButtonRightClicked && Mouse.IsOver(rect))
             {
@@ -224,15 +230,21 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.GroupIconSelected);
 			}
+		}
+
+		public void DrawExtra(Rect rect)
+        {
+			GUI.color = Color.white;
+			Text.Font = GameFont.Tiny;
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows(this.pawnRowCount);
 			if (ShowExpanded)
-            {
+			{
 				totalRect.height += pawnRows.Count * 35;
 				totalRect = totalRect.ScaledBy(2f);
 			}
 			else
-            {
+			{
 				totalRect.height += pawnRows.Count * 30;
 				totalRect = totalRect.ScaledBy(1.1f);
 			}
@@ -242,9 +254,9 @@ namespace TacticalGroups
 				pawnWindowIsActive = true;
 				DrawPawnRows(rect, pawnRows);
 				if (!ShowExpanded)
-                {
+				{
 					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(groupName)));
-                }
+				}
 				HandleClicks(rect);
 			}
 			else if (Mouse.IsOver(totalRect) && pawnWindowIsActive || showPawnIconsRightClickMenu)
@@ -257,7 +269,6 @@ namespace TacticalGroups
 				expandPawnIcons = false;
 				DrawOverlays(rect);
 			}
-
 		}
 
 		public void DrawOverlays(Rect rect)

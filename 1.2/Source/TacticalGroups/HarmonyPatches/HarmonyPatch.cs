@@ -77,11 +77,16 @@ namespace TacticalGroups
 
             harmony.Patch(AccessTools.PropertySetter(typeof(Game), "CurrentMap"), null, postfix: new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null);
 
-            //harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), "Notify_Resurrected", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Resurrected_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(WorldCameraDriver), "JumpTo", new Type[]
-            //{
-            //    typeof(Vector3)
-            //}, null), new HarmonyMethod(typeof(HarmonyPatches), "StopFollow_Prefix", null), null, null, null);
+            harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), "Notify_Resurrected", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryJumpInternal", new Type[]
+            {
+                typeof(Thing)
+            }, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(WorldCameraDriver), "JumpTo", new Type[]
+            {
+                typeof(Vector3)
+            }, null), new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null, null);
+
             //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectNextColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectPreviousColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(CameraDriver), "JumpToCurrentMapLoc", new Type[]

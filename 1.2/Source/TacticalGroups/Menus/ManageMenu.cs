@@ -126,6 +126,10 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
+			if (this.colonistGroup is ColonyGroup)
+            {
+				return;
+            }
 			Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.66f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
 			GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
 
@@ -145,6 +149,7 @@ namespace TacticalGroups
                     {
 						this.colonistGroup.Disband(pawn);
                     }
+
 					Event.current.Use();
 				}
 			}
@@ -165,6 +170,7 @@ namespace TacticalGroups
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 					this.colonistGroup.Disband();
+					this.CloseAllWindows();
 					Event.current.Use();
 				}
 			}
