@@ -76,26 +76,6 @@ namespace TacticalGroups
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
 		}
-		public ColonistGroup()
-		{
-			Init();
-		}
-		public ColonistGroup(List<Pawn> pawns)
-        {
-			this.Init();
-			this.pawns = pawns;
-			foreach (var pawn in pawns)
-            {
-				this.pawnIcons[pawn] = new PawnIcon(pawn);
-			}
-		}
-		public ColonistGroup(Pawn pawn)
-        {
-			this.Init();
-			this.pawns = new List<Pawn> { pawn } ;
-			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-		}
-
 		public void Add(Pawn pawn)
         {
 			if (!this.pawns.Contains(pawn))
@@ -138,6 +118,8 @@ namespace TacticalGroups
 		{
 
 		}
+
+
 
 		public string GetGroupName()
         {
@@ -521,10 +503,5 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys2;
 		private List<IntVec3> intVecValues;
-
-        public override string ToString()
-        {
-			return GetGroupName() + " - " + this.pawns.Count;
-        }
     }
 }

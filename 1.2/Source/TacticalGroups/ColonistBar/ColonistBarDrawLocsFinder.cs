@@ -1,3 +1,4 @@
+using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,8 +15,15 @@ namespace TacticalGroups
 		private const float MarginTop = 21f;
 		private static float MaxColonistBarWidth => (float)UI.screenWidth - 520f;
 
+		public static Dictionary<CaravanGroup, Vector2> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Vector2>();
+		public static Dictionary<ColonyGroup, Vector2> colonyGroupDrawLoc = new Dictionary<ColonyGroup, Vector2>();
+		public static Dictionary<PawnGroup, Vector2> pawnGroupDrawLoc = new Dictionary<PawnGroup, Vector2>();
+		public static Rect createGroupRect;
 		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
 		{
+			caravanGroupDrawLoc.Clear();
+			colonyGroupDrawLoc.Clear();
+			pawnGroupDrawLoc.Clear();
 			if (TacticUtils.TacticalColonistBar.Entries.Count == 0)
 			{
 				outDrawLocs.Clear();
@@ -25,7 +33,6 @@ namespace TacticalGroups
 			{
 				CalculateColonistsInGroup();
 				scale = FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow);
-				Log.Message("Scale: " + scale + " - " + maxPerGlobalRow);
 				CalculateDrawLocs(outDrawLocs, scale, onlyOneRow, maxPerGlobalRow);
 			}
 		}
@@ -69,10 +76,20 @@ namespace TacticalGroups
 			while (true)
 			{
 				float scaleMultiplier = 1;
-				scaleMultiplier += (float)TacticUtils.AllGroups.Count / 10f;
-				float num3 = (TacticalColonistBar.BaseSize.x + 24f) * num;
+
+				var count = TacticUtils.AllColonyGroups.Count;
+				if (!WorldRendererUtility.WorldRenderedNow && count > 0)
+				{
+					var activeColony = TacticUtils.AllColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
+					if (activeColony != null)
+					{
+						count += TacticUtils.GetAllPawnGroupFor(activeColony).Take(4).Count();
+					}
+				}
+
+				scaleMultiplier += (float)count / 10f;
+				float num3 = ((TacticalColonistBar.BaseSize.x + 24f) * num);
 				float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
-				Log.Message("Num4: " + num4 + " - " + scaleMultiplier); ;
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
@@ -145,8 +162,6 @@ namespace TacticalGroups
 			}
 			return 3;
 		}
-
-		public static Dictionary<CaravanGroup, Vector2> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Vector2>();
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -161,7 +176,23 @@ namespace TacticalGroups
 			}
 			int num2 = CalculateGroupsCount();
 			float num3 = (TacticalColonistBar.BaseSize.x + 24f) * scale;
-			float num4 = (float)num * num3 + (float)(num2 - 1) * 25f * scale;
+
+			//float scaleMultiplier = 1;
+			//scaleMultiplier += (float)TacticUtils.AllGroups.Count / 50f;
+
+			float num4 = ((float)num * num3 + (float)(num2 - 1) * 25f * scale);
+
+			var allColonyGroups = TacticUtils.AllColonyGroups;
+			num4 += allColonyGroups.Sum(x => x.groupIcon.width + 10f);
+			if (!WorldRendererUtility.WorldRenderedNow)
+			{
+				var activeColony = TacticUtils.AllColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
+				if (activeColony != null)
+				{
+					num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(4).Sum(x => x.groupIcon.width + 10);
+				}
+			}
+
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
 			int num5 = -1;
 			int num6 = -1;
@@ -174,10 +205,40 @@ namespace TacticalGroups
 					{
 						num7 += 25f * scale;
 						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + 24f);
-						if (entries[j].caravanGroup != null)
+					}
+					if (entries[j].caravanGroup != null)
+					{
+						caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (12 * scale), 21f);
+						num7 += 100f;
+					}
+					else if (entries[j].colonyGroup != null)
+					{
+						colonyGroupDrawLoc[entries[j].colonyGroup] = new Vector2(num7, 21f);
+						num7 += entries[j].colonyGroup.groupIcon.width + 10;
+						if (entries[j].colonyGroup.Map == Find.CurrentMap)
 						{
-							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (12 * scale), 21f);
-							num7 += 100f;
+							var list = TacticUtils.TacticalGroups.pawnGroups.Where(x => x.Map == entries[j].colonyGroup.Map).ToList();
+							list.Reverse();
+							foreach (var g in list)
+							{
+							}
+							var initPos = num7;
+							var xPos = num7;
+							var yPos = 21f;
+							for (var groupID = 0; groupID < list.Count(); groupID++)
+							{
+								if (groupID > 0 && groupID % 4 == 0)
+								{
+									xPos = initPos;
+									yPos += list[groupID].groupIcon.height + 25;
+								}
+								pawnGroupDrawLoc[list[groupID]] = new Vector2(xPos, yPos);
+								xPos += list[groupID].groupIcon.width + 10;
+							}
+							list = list.Take(4).ToList();
+							num7 += list.Sum(x => x.groupIcon.width + 10);
+							createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+							num7 += Textures.CreateGroupIcon.width + 20f;
 						}
 					}
 					num6 = 0;
@@ -191,6 +252,8 @@ namespace TacticalGroups
 				outDrawLocs.Add(drawLoc);
 			}
 		}
+
+
 
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{

@@ -27,9 +27,10 @@ namespace TacticalGroups
 		public PawnGroup(List<Pawn> pawns)
         {
 			this.Init();
-			this.pawns = pawns;
+			this.pawns = new List<Pawn>();
 			foreach (var pawn in pawns)
             {
+				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
@@ -43,7 +44,14 @@ namespace TacticalGroups
 			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
 		}
 
-		public override void ExposeData()
+        public override void Disband()
+        {
+            base.Disband();
+			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+		}
+
+        public override void ExposeData()
         {
             base.ExposeData();
         }

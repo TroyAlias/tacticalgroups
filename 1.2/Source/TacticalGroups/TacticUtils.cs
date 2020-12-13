@@ -37,6 +37,22 @@ namespace TacticalGroups
 				return list;
 			}
 		}
+
+		public static List<ColonyGroup> AllColonyGroups
+		{
+			get
+			{
+				var list = new List<ColonyGroup>();
+				list.AddRange(TacticalGroups.colonyGroups.Values);
+				return list;
+			}
+		}
+
+		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
+        {
+			return TacticalGroups.pawnGroups.Where(x => x.Map == colonyGroup.Map).ToList();
+		}
+
 		public static void ResetTacticGroups()
 		{
 			tacticalGroups = Find.World.GetComponent<TacticalGroups>();

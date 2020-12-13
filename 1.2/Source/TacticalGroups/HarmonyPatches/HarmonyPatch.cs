@@ -19,28 +19,28 @@ namespace TacticalGroups
 
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistBarOnGUI), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistBarOnGUI)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MarkColonistsDirty), null, null), 
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MarkColonistsDirty)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.GetColonistsInOrder), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.GetColonistsInOrder)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MapColonistsOrCorpsesInScreenRect), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MapColonistsOrCorpsesInScreenRect)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMembersCaravansInScreenRect), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMembersCaravansInScreenRect)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistOrCorpseAt), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistOrCorpseAt)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMemberCaravanAt), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMemberCaravanAt)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.Highlight), null, null), 
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Highlight)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ReorderableWidget), nameof(ReorderableWidget.ReorderableWidgetOnGUI_AfterWindowStack), null, null),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ReorderableWidgetOnGUI_AfterWindowStack)));
 
@@ -71,10 +71,12 @@ namespace TacticalGroups
             harmony.Patch(AccessTools.Method(typeof(Pawn), "SetFaction", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Window), "Notify_ResolutionChanged", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Game), "DeinitAndRemoveMap", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(Pawn), "SpawnSetup", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Destroy", null, null), prefix: new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Destroy_Prefix", null), null, null);
-            
+
+            harmony.Patch(AccessTools.PropertySetter(typeof(Game), "CurrentMap"), null, postfix: new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null);
+
             //harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), "Notify_Resurrected", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Resurrected_Postfix", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(WorldCameraDriver), "JumpTo", new Type[]
             //{
@@ -93,7 +95,6 @@ namespace TacticalGroups
             //harmony.Patch(AccessTools.Method(typeof(Thing), "DeSpawn", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "DeSpawn_Postfix", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(PlaySettings), "DoPlaySettingsGlobalControls", null, null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Prefix", null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Postfix", null), null, null);
         }
-
         public static Pawn curClickedColonist;
         public static void ReorderableWidgetOnGUI_AfterWindowStack(bool ___released, bool ___dragBegun, int ___draggingReorderable)
         {
@@ -164,7 +165,7 @@ namespace TacticalGroups
 
         private static void ExitMapAndCreateCaravan(Caravan __result, IEnumerable<Pawn> pawns, Faction faction, int exitFromTile, int directionTile, int destinationTile, bool sendMessage = true)
         {
-            //TacticUtils.TacticalGroups.AddCaravanGroup(__result);
+            TacticUtils.TacticalGroups.AddCaravanGroup(__result);
         }
 
         private static void CaravanEnter(Caravan caravan, Map map, Func<Pawn, IntVec3> spawnCellGetter, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, 
@@ -176,64 +177,58 @@ namespace TacticalGroups
 
         private static void Pawn_SpawnSetup_Postfix(Pawn __instance)
         {
-            //if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
-            //{
-            //    foreach (var group in TacticUtils.TacticalGroups.colonyGroups.Values)
-            //    {
-            //        if (group.Map == __instance.Map)
-            //        {
-            //            group.Add(__instance);
-            //        }
-            //    }
-            //}
+            if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
+            {
+                TacticUtils.TacticalGroups.CreateOrJoinColony(__instance, __instance.Map);
+            }
         }
         private static void Pawn_Destroy_Prefix(Pawn __instance)
         {
-            //for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
-            //{
-            //    var group = TacticUtils.TacticalGroups.pawnGroups[num];
-            //    Log.Message("Remove 1");
-            //    group.pawnIcons.Remove(__instance);
-            //    group.pawns.Remove(__instance);
-            //    if (group.pawns.Count == 0)
-            //    {
-            //        TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
-            //    }
-            //}
+            for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
+            {
+                var group = TacticUtils.TacticalGroups.pawnGroups[num];
+                Log.Message("Remove 1");
+                group.pawnIcons.Remove(__instance);
+                group.pawns.Remove(__instance);
+                if (group.pawns.Count == 0)
+                {
+                    TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
+                }
+            }
 
-            //var caravanKeysToRemove = new List<Caravan>();
-            //foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
-            //{
-            //    group.Value.pawnIcons.Remove(__instance);
-            //    Log.Message("Remove 2");
-            //    group.Value.pawns.Remove(__instance);
-            //    if (group.Value.pawns.Count == 0)
-            //    {
-            //        caravanKeysToRemove.Add(group.Key);
-            //    }
-            //}
-            //
-            //foreach (var key in caravanKeysToRemove)
-            //{
-            //    TacticUtils.TacticalGroups.caravanGroups.Remove(key);
-            //}
-            //
-            //var colonyKeysToRemove = new List<Map>();
-            //foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
-            //{
-            //    group.Value.pawnIcons.Remove(__instance);
-            //    Log.Message("Remove 3");
-            //    group.Value.pawns.Remove(__instance);
-            //    if (group.Value.pawns.Count == 0)
-            //    {
-            //        colonyKeysToRemove.Add(group.Key);
-            //    }
-            //}
+            var caravanKeysToRemove = new List<Caravan>();
+            foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
+            {
+                group.Value.pawnIcons.Remove(__instance);
+                Log.Message("Remove 2");
+                group.Value.pawns.Remove(__instance);
+                if (group.Value.pawns.Count == 0)
+                {
+                    caravanKeysToRemove.Add(group.Key);
+                }
+            }
+            
+            foreach (var key in caravanKeysToRemove)
+            {
+                TacticUtils.TacticalGroups.caravanGroups.Remove(key);
+            }
+            
+            var colonyKeysToRemove = new List<Map>();
+            foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
+            {
+                group.Value.pawnIcons.Remove(__instance);
+                Log.Message("Remove 3");
+                group.Value.pawns.Remove(__instance);
+                if (group.Value.pawns.Count == 0)
+                {
+                    colonyKeysToRemove.Add(group.Key);
+                }
+            }
 
-            //foreach (var key in colonyKeysToRemove)
-            //{
-            //    TacticUtils.TacticalGroups.colonyGroups.Remove(key);
-            //}
+            foreach (var key in colonyKeysToRemove)
+            {
+                TacticUtils.TacticalGroups.colonyGroups.Remove(key);
+            }
         }
     }
 }

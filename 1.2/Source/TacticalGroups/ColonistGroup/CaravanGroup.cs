@@ -30,9 +30,10 @@ namespace TacticalGroups
 		public CaravanGroup(Caravan caravan)
         {
 			this.Init();
-			this.pawns = caravan.PawnsListForReading;
-			foreach (var pawn in pawns)
-            {
+			this.pawns = new List<Pawn>();
+			foreach (var pawn in caravan.PawnsListForReading)
+			{
+				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
@@ -58,6 +59,7 @@ namespace TacticalGroups
         {
             base.Disband();
 			TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public override void ExposeData()
