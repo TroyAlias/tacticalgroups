@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef ParentName="MoteBase">
+    <altitudeLayer>MoteOverhead</altitudeLayer>
+    <defName>TC_Mote_ColonistDowned</defName>
+    <mote>
+      <fadeInTime>0</fadeInTime>
+      <solidTime>0.1</solidTime>
+      <fadeOutTime>0</fadeOutTime>
+    </mote>
+    <graphicData>
+      <drawSize>1.1</drawSize>
+      <drawOffset>(0,0,0.65)</drawOffset>
+      <color>(235, 75, 40, 150)</color>
+      <texPath>UI/ColonistBar/GroupOverlays/ColonistDotDowned</texPath>
+      <shaderType>MoteGlow</shaderType>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

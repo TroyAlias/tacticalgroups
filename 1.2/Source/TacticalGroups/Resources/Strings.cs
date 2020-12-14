@@ -44,10 +44,10 @@ namespace TacticalGroups
 
 		public static readonly string ShowAllColonists = "TG.ShowAllColonists".Translate();
 		public static readonly string DisplayFood = "TG.DisplayFood".Translate();
-		public static readonly string DisplayRest = "TG.DisplayFood".Translate();
+		public static readonly string DisplayRest = "TG.DisplayRest".Translate();
 		public static readonly string DisplayHealth = "TG.DisplayHealth".Translate();
-		public static readonly string PawnIconScale = "TG.PawnIconScale".Translate();
-		public static readonly string GroupIconScale = "TG.GroupIconScale".Translate();
+		public static readonly string DisplayWeapons = "TG.DisplayWeapons".Translate();
+		public static readonly string DisplayColorBars = "TG.DisplayColorBars".Translate();
 
 		public static readonly string Attack = "TG.Attack".Translate();
 		public static readonly string Regroup = "TG.Regroup".Translate();

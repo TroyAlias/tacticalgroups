@@ -16,6 +16,8 @@ namespace TacticalGroups
 			this.pawnRowCount = 4;
 			this.groupIcon = Textures.Default_ColonyIcon;
 			this.groupIconFolder = "ColonyBlue";
+			this.defaultIconFolder = "ColonyBlue";
+			this.colorFolder = "Colony";
 			this.groupIconName = "Default_ColonyIcon";
 			this.defaultGroupName = Strings.Colony;
 			this.entireGroupIsVisible = true;

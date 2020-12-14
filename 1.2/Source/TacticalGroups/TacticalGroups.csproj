@@ -54,6 +54,7 @@
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="Menus\MedicalMenu.cs" />
     <Compile Include="Menus\TakeABreakMenu.cs" />
+    <Compile Include="TacticDefOf - Copy.cs" />
     <Compile Include="WidgetsWorkGroup.cs" />
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />

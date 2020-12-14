@@ -28,6 +28,12 @@ namespace TacticalGroups
 			}
 		}
 
+        public override void PostOpen()
+        {
+            base.PostOpen();
+			AddManagementWindow(options[3]);
+		}
+
 		public void AddRenameButton()
         {
 			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);

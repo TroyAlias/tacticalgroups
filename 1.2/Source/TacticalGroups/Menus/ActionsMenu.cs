@@ -25,7 +25,11 @@ namespace TacticalGroups
 				options[i].SetSizeMode(SizeMode);
 			}
 		}
-
+		public override void PostOpen()
+		{
+			base.PostOpen();
+			AddGetToWorkWindow(options[0]);
+		}
 		public void AddGetToWork()
 		{
 			var option = new TieredFloatMenuOption(Strings.GetToWork, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);

@@ -70,6 +70,9 @@ namespace TacticalGroups
 
 		protected float pawnRowXPosShift;
 
+		public string defaultIconFolder;
+		public string colorFolder;
+
 		public virtual void Init()
         {
 			this.pawns = new List<Pawn>();
@@ -271,6 +274,8 @@ namespace TacticalGroups
 			}
 		}
 
+		private int mentalStateBlink;
+		private int downedStateBlink;
 		public void DrawOverlays(Rect rect)
         {
 			var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, 20f);
@@ -283,19 +288,42 @@ namespace TacticalGroups
 			var initialRect = new Rect(rect);
 			initialRect.y += initialRect.height * 1.2f;
 			initialRect.x -= Textures.ColonistDot.width - 3f;
+
+			bool showDownedState = false;
 			for (var i = 0; i < pawnRows.Count; i++)
 			{
 				for (var j = 0; j < pawnRows[i].Count; j++)
 				{
 					Rect dotRect = new Rect(initialRect.x + ((j + 1) * Textures.ColonistDot.width), initialRect.y + ((i + 1) * Textures.ColonistDot.height),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					if (pawnRows[i][j].IsDownedOrIncapable())
+					if (pawnRows[i][j].MentalState != null)
+                    {
+						mentalStateBlink++;
+						if (mentalStateBlink < 30)
+                        {
+							GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
+                        }
+						else if (mentalStateBlink > 60)
+                        {
+							mentalStateBlink = 0;
+						}
+					}
+					else if (pawnRows[i][j].IsDownedOrIncapable())
 					{
-						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+						showDownedState = true;
+						downedStateBlink++;
+						if (downedStateBlink < 30)
+						{
+							GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+						}
+						else if (downedStateBlink > 60)
+						{
+							downedStateBlink = 0;
+						}
 					}
 					else if (pawnRows[i][j].IsShotOrBleeding())
 					{
-						GUI.DrawTexture(dotRect, Textures.ColonistDotRed);
+						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
 					}
 					else if (pawnRows[i][j].IsSick())
                     {
@@ -310,6 +338,19 @@ namespace TacticalGroups
 						Event.current.Use();
 						CameraJumper.TryJumpAndSelect(pawnRows[i][j]);
 					}
+				}
+			}
+
+			if (showDownedState)
+            {
+
+				if (downedStateBlink < 30)
+				{
+					GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
+				}
+				else if (downedStateBlink > 60)
+				{
+					downedStateBlink = 0;
 				}
 			}
 		}

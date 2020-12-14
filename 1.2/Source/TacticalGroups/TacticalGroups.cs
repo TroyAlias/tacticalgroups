@@ -132,32 +132,6 @@ namespace TacticalGroups
             PreInit();
             MedicalCareUtilityGroup.Reset();
         }
-
-        public override void WorldComponentTick()
-        {
-            base.WorldComponentTick();
-            if (Find.TickManager.TicksGame % 60 == 0)
-            {
-                for (int num = pawnGroups.Count - 1; num >= 0; num--)
-                {
-                    Log.Message("Pawn group: " + pawnGroups[num]);
-                }
-                
-                foreach (var group in caravanGroups)
-                {
-                    Log.Message("Caravan group: " + group.Value);
-
-                }
-
-
-                foreach (var group in colonyGroups)
-                {
-                    Log.Message("Colony group: " + group.Value);
-                }
-
-            }
-        }
-
         public void RemoveAllNullPawns()
         {
             for (int num = pawnGroups.Count - 1; num >= 0; num--)

@@ -55,11 +55,13 @@ namespace TacticalGroups
 		public static readonly Texture2D GroupIconSelected = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconSelected");
 
 		public static readonly Texture2D ColonistDot = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDot");
-		public static readonly Texture2D ColonistDotRed = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotRed");
-		public static readonly Texture2D ColonistDotToxic = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotToxic");
 		public static readonly Texture2D ColonistDotDowned = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotDowned");
+		public static readonly Texture2D ColonistDotToxic = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotToxic");
+		public static readonly Texture2D ColonistDotMentalState = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotMentalState");
 		public static readonly Texture2D GroupOverlayColonistDown = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupOverlayColonistDown");
 
+		public static readonly Texture2D TendWounded = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/TendWounded");
+		public static readonly Texture2D RescueFallen = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/RescueFallen");
 
 		public static readonly Texture2D ManageDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ManageDropMenu");
 		public static readonly Texture2D IconMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/IconMenu");
@@ -151,6 +153,7 @@ namespace TacticalGroups
 		public static readonly Texture2D EntertainmentButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/EntertainmentButton");
 		public static readonly Texture2D ChowHallButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/ChowHallButton");
 
-
+		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(95, 63, 65, 255).ToColor);
+		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
 	}
 }

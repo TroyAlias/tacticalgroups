@@ -11,12 +11,16 @@ namespace TacticalGroups
         public static bool DisplayFood;
         public static bool DisplayRest;
         public static bool DisplayHealth;
+        public static bool DisplayWeapons;
+        public static bool DisplayColorBars;
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref DisplayFood, "DisplayFood");
             Scribe_Values.Look(ref DisplayRest, "DisplayRest");
             Scribe_Values.Look(ref DisplayHealth, "DisplayHealth");
+            Scribe_Values.Look(ref DisplayWeapons, "DisplayWeapons");
+            Scribe_Values.Look(ref DisplayColorBars, "DisplayColorBars");
         }
         public void DoSettingsWindowContents(Rect inRect)
         {
@@ -26,6 +30,8 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.DisplayFood, ref DisplayFood);
             listingStandard.CheckboxLabeled(Strings.DisplayRest, ref DisplayRest);
             listingStandard.CheckboxLabeled(Strings.DisplayHealth, ref DisplayHealth);
+            listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
+            listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
             listingStandard.End();
             base.Write();
         }

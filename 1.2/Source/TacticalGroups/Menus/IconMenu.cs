@@ -22,7 +22,7 @@ namespace TacticalGroups
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			groupIconFolder = colonistGroup.groupIconFolder;
-			ReInitIcons("GroupBlue");
+			ReInitIcons(this.colonistGroup.defaultIconFolder);
 		}
 
 		public void ReInitIcons(string folderName)
@@ -82,9 +82,8 @@ namespace TacticalGroups
 			{
 				for (var j = 0; j < iconRows[i].Count; j++)
 				{
-					Rect iconRect = new Rect(rect2.x + (j * iconRows[i][j].width) + j * 4, rect2.y + (i * iconRows[i][j].height) + i * 4,
-						iconRows[i][j].width, iconRows[i][j].height);
-					GUI.DrawTexture(iconRect, iconRows[i][j]);
+					Rect iconRect = new Rect(rect2.x + (j * 80) + j * 4, rect2.y + (i * 64) + i * 4, 80, 64);
+					GUI.DrawTexture(iconRect, iconRows[i][j], ScaleMode.ScaleToFit);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(iconRect))
 					{
 						Event.current.Use();
@@ -110,7 +109,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(blueRect, Textures.BlueGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(blueRect))
             {
-				ReInitIcons("GroupBlue");
+				ReInitIcons(this.colonistGroup.colorFolder + "Blue");
 				Event.current.Use();
 			}
 			yPos += Textures.BlueGroupIcon.height + 5;
@@ -118,7 +117,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(redRect, Textures.RedGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(redRect))
 			{
-				ReInitIcons("GroupRed");
+				ReInitIcons(this.colonistGroup.colorFolder + "Red");
 				Event.current.Use();
 			}
 
@@ -127,7 +126,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(darkRect, Textures.DarkGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(darkRect))
 			{
-				ReInitIcons("GroupDark");
+				ReInitIcons(this.colonistGroup.colorFolder + "Dark");
 				Event.current.Use();
 			}
 
@@ -136,7 +135,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(yellowRect, Textures.YellowGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(yellowRect))
 			{
-				ReInitIcons("GroupYellow");
+				ReInitIcons(this.colonistGroup.colorFolder + "Yellow");
 				Event.current.Use();
 			}
 
@@ -145,7 +144,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(greenRect, Textures.GreenGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(greenRect))
 			{
-				ReInitIcons("GroupGreen");
+				ReInitIcons(this.colonistGroup.colorFolder + "Green");
 				Event.current.Use();
 			}
 		}

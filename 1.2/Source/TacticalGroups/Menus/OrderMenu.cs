@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.AI.Group;
 using Verse.Sound;
 
 namespace TacticalGroups
@@ -18,13 +19,13 @@ namespace TacticalGroups
 		public Dictionary<float, Texture2D> ranks = new Dictionary<float, Texture2D>
 			{
 				{0, Textures.Rank_0},
-				{14, Textures.Rank_1},
-				{29, Textures.Rank_2},
-				{44, Textures.Rank_3},
-				{59, Textures.Rank_4},
-				{74, Textures.Rank_5},
-				{89, Textures.Rank_6},
-				{104, Textures.Rank_7},
+				{37, Textures.Rank_1},
+				{74, Textures.Rank_2},
+				{111, Textures.Rank_3},
+				{148, Textures.Rank_4},
+				{185, Textures.Rank_5},
+				{222, Textures.Rank_6},
+				{300, Textures.Rank_7},
 			};
 		public Texture2D GetCurRank(float curRankValue)
 		{
@@ -46,12 +47,17 @@ namespace TacticalGroups
 			AddAttackButton();
 			AddRegroupButton();
 			AddBattleStationsButton();
-			AddFormationsButton();
 			AddMedicalButton();
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
 			}
+		}
+
+		public override void PostOpen()
+		{
+			base.PostOpen();
+			AddAttackWindow(options[0]);
 		}
 
 		public void AddAttackButton()
@@ -114,35 +120,28 @@ namespace TacticalGroups
 			options.Add(option);
 		}
 
-
-		public void AddFormationsButton()
-		{
-			var option = new TieredFloatMenuOption(Strings.Formation, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
-			option.action = delegate
-			{
-
-			};
-			option.bottomIndent = Textures.MenuButton.height + 10;
-			options.Add(option);
-		}
-
 		public void AddMedicalButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Medical, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.ReportToMedical, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
-				AddMedicalWindow(option);
+				JobGiver_PatientGoToBed jgp = new JobGiver_PatientGoToBed
+				{
+					respectTimetable = false
+				};
+				foreach (var pawn in this.colonistGroup.pawns)
+				{
+					ThinkResult thinkResult = jgp.TryIssueJobPackage(pawn, default(JobIssueParams));
+					if (thinkResult.IsValid)
+					{
+						pawn.jobs.TryTakeOrderedJob(thinkResult.Job);
+					}
+				}
 			};
-			option.bottomIndent = Textures.MenuButton.height + 5;
+			option.bottomIndent = Textures.MenuButton.height + 25;
 			options.Add(option);
 		}
 
-		public void AddMedicalWindow(TieredFloatMenuOption option)
-		{
-			MarkOptionAsSelected(option);
-			TieredFloatMenu floatMenu = new MedicalMenu(this, colonistGroup, windowRect, Textures.MedicalDropMenu);
-			OpenNewMenu(floatMenu);
-		}
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -167,6 +166,33 @@ namespace TacticalGroups
         {
             base.DrawExtraGui(rect);
 			Vector2 zero = Vector2.zero + InitialFloatOptionPositionShift;
+			var tendWounded = new Rect(zero.x, rect.y + 330, Textures.TendWounded.width, Textures.TendWounded.height);
+			GUI.DrawTexture(tendWounded, Textures.TendWounded);
+			if (Mouse.IsOver(tendWounded))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					this.colonistGroup.RemoveOldLord();
+					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_TendWounded(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
+					this.colonistGroup.SearchForJob();
+					Event.current.Use();
+				}
+			}
+
+			var rescureFallen = new Rect((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 4f), tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
+			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
+			if (Mouse.IsOver(rescureFallen))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					this.colonistGroup.RemoveOldLord();
+					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_RescueFallen(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
+					this.colonistGroup.SearchForJob();
+					Event.current.Use();
+				}
+			}
 
 			var shooterIconRect = new Rect(rect.x + 10, rect.y + 25f, Textures.ShootingIcon.width, Textures.ShootingIcon.height);
 			GUI.DrawTexture(shooterIconRect, Textures.ShootingIcon);

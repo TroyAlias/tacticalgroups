@@ -16,6 +16,8 @@ namespace TacticalGroups
 			this.groupIcon = Textures.GroupIcon_Default;
 			this.pawnRowCount = 3;
 			this.pawnRowXPosShift = 2f;
+			this.defaultIconFolder = "GroupBlue";
+			this.colorFolder = "Group";
 			this.defaultGroupName = Strings.Group;
 			this.updateIcon = true;
 		}

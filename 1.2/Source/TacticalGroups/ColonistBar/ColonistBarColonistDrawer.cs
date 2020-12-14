@@ -51,7 +51,6 @@ namespace TacticalGroups
 		public const float DoubleClickTime = 0.5f;
 
 		private static Vector2[] bracketLocs = new Vector2[4];
-
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
@@ -64,11 +63,19 @@ namespace TacticalGroups
 			GUI.DrawTexture(rect, TacticalColonistBar.BGTex);
 			if (colonist.needs != null && colonist.needs.mood != null)
 			{
+
 				Rect position = rect.ContractedBy(2f);
 				float num = position.height * colonist.needs.mood.CurLevelPercentage;
 				position.yMin = position.yMax - num;
 				position.height = num;
-				GUI.DrawTexture(position, MoodBGTex);
+				if (TacticalGroupsSettings.DisplayColorBars)
+                {
+					GUI.DrawTexture(position, GetMoodBarTexture(colonist));
+				}
+				else
+                {
+					GUI.DrawTexture(position, MoodBGTex);
+                }
 			}
 			if (highlight)
 			{
@@ -102,6 +109,7 @@ namespace TacticalGroups
 
 			DrawHealthBar(colonist, rect);
 			DrawRestAndFoodBars(colonist, rect);
+			ShowDrafteesWeapon(rect, colonist);
 		}
 		public static void DrawHealthBar(Pawn p, Rect rect)
 		{
@@ -156,6 +164,25 @@ namespace TacticalGroups
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
 			}
 			GUI.color = color;
+		}
+
+		private static Texture2D GetMoodBarTexture(Pawn colonist)
+		{
+			float curLevel = colonist.needs.mood.CurLevel;
+			Texture2D result;
+			if (curLevel <= 0.35f)
+			{
+				result = Textures.RedMoodBar;
+			}
+			else if (curLevel <= 0.69f)
+			{
+				result = Textures.YellowMoodBar;
+			}
+			else
+			{
+				result = MoodBGTex;
+			}
+			return result;
 		}
 		private Rect GroupFrameRect(int group)
 		{
@@ -372,5 +399,111 @@ namespace TacticalGroups
 				num += 90;
 			}
 		}
+
+		private static void ShowDrafteesWeapon(Rect rect, Pawn colonist)
+		{
+			if (!TacticalGroupsSettings.DisplayWeapons)
+            {
+				return;
+            }
+			if (colonist == null)
+			{
+				return;
+			}
+			if (colonist.Dead)
+			{
+				return;
+			}
+			if (colonist.Downed)
+			{
+				return;
+			}
+
+			if (colonist.equipment.GetDirectlyHeldThings() == null || colonist.equipment.GetDirectlyHeldThings().Count <= 0)
+			{
+				return;
+			}
+			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
+			if (colonist.Map != Find.CurrentMap || WorldRendererUtility.WorldRenderedNow)
+			{
+				alpha = 0.4f;
+			}
+			DrawColonistsBarWeaponIcon(new Rect(rect)
+			{
+				y = rect.yMax
+			}, colonist.equipment.GetDirectlyHeldThings()[0], alpha);
+			Thing thingWeapon = (colonist.equipment.GetDirectlyHeldThings().Count > 1) ? colonist.equipment.GetDirectlyHeldThings()[1] : null;
+			DrawColonistsBarWeaponIcon(new Rect(rect)
+			{
+				y = rect.yMax + secondaryWeaponYOffset * Prefs.UIScale
+			}, thingWeapon, alpha);
+		}
+
+		private static bool ExcludeFromDrawing(Thing thingWeapon)
+		{
+			return thingWeapon == null || thingWeapon.def == null;//|| (thingWeapon.def.HasModExtension<WeaponBarDefModExt>() && thingWeapon.def.GetModExtension<WeaponBarDefModExt>().excludeFromDrawing);
+		}
+		private static float GetRotationAngle(Thing thingWeapon)
+		{
+			return 0f;
+			//if (thingWeapon == null)
+			//{
+			//	return 0f;
+			//}
+			//if (thingWeapon.def == null)
+			//{
+			//	return 0f;
+			//}
+			//if (!thingWeapon.def.HasModExtension<WeaponBarDefModExt>())
+			//{
+			//}
+			//return thingWeapon.def.GetModExtension<WeaponBarDefModExt>().weaponBarAngleOffset;
+		}
+		private static void DrawColonistsBarWeaponIcon(Rect rect, Thing thingWeapon, float alpha = 1f)
+		{
+			if (thingWeapon == null)
+			{
+				return;
+			}
+			if (thingWeapon.def == null)
+			{
+				return;
+			}
+			if (!thingWeapon.def.IsWeapon)
+			{
+				return;
+			}
+			if (thingWeapon.def.uiIcon == null)
+			{
+				return;
+			}
+			if (ExcludeFromDrawing(thingWeapon))
+			{
+				return;
+			}
+			Texture2D weaponIcon = ((Texture2D)thingWeapon.Graphic.ExtractInnerGraphicFor(thingWeapon).MatSingleFor(thingWeapon).mainTexture) ?? thingWeapon.def.uiIcon;
+			Color color = new Color(thingWeapon.DrawColor.r, thingWeapon.DrawColor.g, thingWeapon.DrawColor.b, alpha);
+			DrawColonistBarWeaponIcon(rect, weaponIcon, color, GetRotationAngle(thingWeapon));
+		}
+		private static void DrawColonistBarWeaponIcon(Rect rect, Texture weaponIcon, Color color, float rotationAngle = 0f)
+		{
+			if (weaponIcon == null)
+			{
+				return;
+			}
+			Matrix4x4 matrix = GUI.matrix;
+			if (!rotationAngle.Equals(0f))
+			{
+				Vector2 pivotPoint = new Vector2((rect.xMin + rect.width / 2f) * Prefs.UIScale, (rect.yMin + rect.height / 2f) * Prefs.UIScale);
+				GUIUtility.RotateAroundPivot(rotationAngle, pivotPoint);
+			}
+			Color color2 = GUI.color;
+			GUI.color = color;
+			GUI.DrawTexture(rect, weaponIcon);
+			GUI.color = color2;
+			GUI.matrix = matrix;
+		}
+
+		private static float secondaryWeaponYOffset = 8f;
 	}
 }

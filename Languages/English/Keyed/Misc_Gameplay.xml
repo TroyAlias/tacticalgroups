@@ -35,8 +35,8 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DisplayFood>Display Food</TG.DisplayFood>
 	<TG.DisplayRest>Display Rest</TG.DisplayRest>
 	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
-	<TG.PawnIconScale>Pawn Icon Scale</TG.PawnIconScale>
-	<TG.GroupIconScale>Group Icon Scale</TG.GroupIconScale>
+	<TG.DisplayWeapons>Display Weapons</TG.DisplayWeapons>
+	<TG.DisplayColorBars>Display Color Bars</TG.DisplayColorBars>
 	
 	<TG.Attack>Attack</TG.Attack>
 	<TG.Regroup>Regroup</TG.Regroup>

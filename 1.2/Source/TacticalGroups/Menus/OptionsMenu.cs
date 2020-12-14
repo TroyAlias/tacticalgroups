@@ -51,6 +51,14 @@ namespace TacticalGroups
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayHealth);
 			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayHealth);
 
+			topLeft.y += 25f;
+			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayWeapons);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayWeapons);
+
+			topLeft.y += 25f;
+			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayColorBars);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayColorBars);
+
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 			var mod = LoadedModManager.GetMod(typeof(TacticalGroupsMod));

@@ -23,5 +23,7 @@ namespace TacticalGroups
 		public static SoundDef TG_ClickSFX;
 		public static SoundDef TG_HoverSFX;
 
+		public static ThingDef TC_Mote_ColonistDowned;
+
 	}
 }
