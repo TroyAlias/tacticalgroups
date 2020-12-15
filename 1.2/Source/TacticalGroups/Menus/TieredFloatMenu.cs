@@ -66,18 +66,38 @@ namespace TacticalGroups
 		protected override void SetInitialSizeAndPosition()
 		{
 			Vector2 vector = new Vector2(originRect.x + originRect.width, originRect.y) + InitialPositionShift;
-
+			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
 			if (vector.x + InitialSize.x > (float)UI.screenWidth)
 			{
-				vector.x = (float)UI.screenWidth - InitialSize.x;
+				var toShift = (vector.x + InitialSize.x) - (float)UI.screenWidth;
+				this.windowRect.x -= toShift;
+				ShiftParentWindowsX(toShift);
 			}
 			if (vector.y + InitialSize.y > (float)UI.screenHeight)
 			{
-				vector.y = (float)UI.screenHeight - InitialSize.y;
+				var toShift = (vector.x + InitialSize.y) - (float)UI.screenHeight;
+				this.windowRect.y -= toShift;
+				ShiftParentWindowsY(toShift);
 			}
-			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
 		}
 
+		private void ShiftParentWindowsX(float toShift)
+		{
+			if (this.parentWindow != null)
+			{
+				this.parentWindow.windowRect.x -= toShift;
+				this.parentWindow.ShiftParentWindowsX(toShift);
+			}
+		}
+
+		private void ShiftParentWindowsY(float toShift)
+		{
+			if (this.parentWindow != null)
+			{
+				this.parentWindow.windowRect.y -= toShift;
+				this.parentWindow.ShiftParentWindowsY(toShift);
+			}
+		}
 		public override void DoWindowContents(Rect rect)
 		{
 			UpdateBaseColor();
