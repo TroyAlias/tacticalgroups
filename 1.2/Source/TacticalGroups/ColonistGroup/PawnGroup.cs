@@ -15,6 +15,7 @@ namespace TacticalGroups
             base.Init();
 			this.groupIcon = Textures.GroupIcon_Default;
 			this.pawnRowCount = 3;
+			this.pawnDocRowCount = 8;
 			this.pawnRowXPosShift = 2f;
 			this.defaultIconFolder = "GroupBlue";
 			this.colorFolder = "Group";
@@ -32,6 +33,10 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			foreach (var pawn in pawns)
             {
+				if (this.Map == null)
+				{
+					this.Map = pawn.Map;
+				}
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
@@ -41,6 +46,10 @@ namespace TacticalGroups
 		public PawnGroup(Pawn pawn)
         {
 			this.Init();
+			if (this.Map == null)
+			{
+				this.Map = pawn.Map;
+			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;

@@ -13,6 +13,7 @@ namespace TacticalGroups
         public static bool DisplayHealth;
         public static bool DisplayWeapons;
         public static bool DisplayColorBars;
+        public static bool HidePawnsWhenOffMap;
         public override void ExposeData()
         {
             base.ExposeData();
@@ -21,6 +22,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref DisplayHealth, "DisplayHealth");
             Scribe_Values.Look(ref DisplayWeapons, "DisplayWeapons");
             Scribe_Values.Look(ref DisplayColorBars, "DisplayColorBars");
+            Scribe_Values.Look(ref HidePawnsWhenOffMap, "HidePawnsWhenOffMap");
         }
         public void DoSettingsWindowContents(Rect inRect)
         {
@@ -32,6 +34,7 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.DisplayHealth, ref DisplayHealth);
             listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
             listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
+            listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
             listingStandard.End();
             base.Write();
         }

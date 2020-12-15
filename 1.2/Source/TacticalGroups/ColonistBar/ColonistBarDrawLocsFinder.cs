@@ -197,6 +197,7 @@ namespace TacticalGroups
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
 			for (int j = 0; j < entries.Count; j++)
 			{
+				Log.Message(entries[j].pawn + " - " + entries[j].caravanGroup);
 				if (num5 != entries[j].group)
 				{
 					if (num5 >= 0)
@@ -204,7 +205,6 @@ namespace TacticalGroups
 						num7 += 25f * scale;
 						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + 24f);
 					}
-
 					if (entries[j].caravanGroup != null)
 					{
 						caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (25f * scale), 21f);

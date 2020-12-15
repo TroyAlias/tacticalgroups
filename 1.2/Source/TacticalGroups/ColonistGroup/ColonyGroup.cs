@@ -14,6 +14,7 @@ namespace TacticalGroups
         {
             base.Init();
 			this.pawnRowCount = 4;
+			this.pawnDocRowCount = 11;
 			this.groupIcon = Textures.Default_ColonyIcon;
 			this.groupIconFolder = "ColonyBlue";
 			this.defaultIconFolder = "ColonyBlue";
@@ -33,6 +34,10 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			foreach (var pawn in pawns)
             {
+				if (this.Map == null)
+				{
+					this.Map = pawn.Map;
+				}
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
@@ -42,6 +47,10 @@ namespace TacticalGroups
 		public ColonyGroup(Pawn pawn)
         {
 			this.Init();
+			if (this.Map == null)
+			{
+				this.Map = pawn.Map;
+			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;

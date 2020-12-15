@@ -25,29 +25,6 @@ namespace TacticalGroups
 				options[i].SetSizeMode(SizeMode);
 			}
 		}
-
-		public List<List<WorkTypeDef>> GetWorkTypeRows(int columnCount)
-		{
-			int num = 0;
-			List<List<WorkTypeDef>> workTypeRows = new List<List<WorkTypeDef>>();
-			List<WorkTypeDef> row = new List<WorkTypeDef>();
-			foreach (WorkTypeDef workType in WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.Where((WorkTypeDef d) => d.visible))
-			{
-				if (num == columnCount)
-				{
-					workTypeRows.Add(row.ListFullCopy());
-					row = new List<WorkTypeDef>();
-					num = 0;
-				}
-				num++;
-				row.Add(workType);
-			}
-			if (row.Any())
-			{
-				workTypeRows.Add(row);
-			}
-			return workTypeRows;
-		}
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -59,12 +36,12 @@ namespace TacticalGroups
 
 			var timeAssignmentSelectorGridRect = new Rect(rect.x + 80, rect.y + 20, 191f, 65f);
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(timeAssignmentSelectorGridRect);
-			var timeTableHeaderRect = new Rect(rect.x + 10, rect.y + 85f, rect.width * 0.675f, 20f);
+			var timeTableHeaderRect = new Rect(rect.x + 10, rect.y + 85f, rect.width - 20f, 20f);
 			DoTimeTableHeader(timeTableHeaderRect);
-			var timeTableRect = new Rect(rect.x + 10, rect.y + 105, rect.width * 0.675f, 30f);
+			var timeTableRect = new Rect(rect.x + 10, rect.y + 105, rect.width - 20f, 30f);
 			DoTimeTableCell(timeTableRect);
 
-			var policyButtonWidth = rect.width * 0.325f;
+			var policyButtonWidth = rect.width * 0.45f;
 			var areaHeaderRect = new Rect(rect.x + 10, rect.y + 195f, policyButtonWidth, 20f);
 			DoAreaHeader(areaHeaderRect);
 			var areaRect = new Rect(rect.x + 10, rect.y + 205, policyButtonWidth, 30f);
@@ -85,28 +62,9 @@ namespace TacticalGroups
 			var foodRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 315, policyButtonWidth, 30f);
 			DoFoodCell(foodRect);
 
-			var workRows = GetWorkTypeRows(2);
-			var initialRect = new Rect((rect.x + rect.width) - 245, rect.y + 75, 240, rect.height - 95);
-			DoManualPrioritiesCheckbox(new Rect(initialRect.x, rect.y + 30, initialRect.width, 40));
-			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
-			Rect rect2 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
-			Widgets.BeginScrollView(initialRect, ref scrollPosition, rect2);
-
-			for (var i = 0; i < workRows.Count; i++)
-			{
-				for (var j = 0; j < workRows[i].Count; j++)
-				{
-					Rect workRect = new Rect(rect2.x + (j * 20) + j * 91.5f, rect2.y + (i * 17) + i * 17, 24, 24);
-					this.DoWorkCell(workRect, workRows[i][j]);
-					this.DoWorkHeader(workRect, workRows[i][j]);
-				}
-			}
-			Widgets.EndScrollView();
-
 			Text.Anchor = TextAnchor.MiddleCenter;
-
 			var moodTexture = GetMoodTexture(out string moodLabel);
-			var moodRect = new Rect(rect.x + policyButtonWidth + 125f, rect.y + 25, moodTexture.width, moodTexture.height);
+			var moodRect = new Rect(rect.x + policyButtonWidth + 135f, rect.y + 25, moodTexture.width, moodTexture.height);
 			GUI.DrawTexture(moodRect, moodTexture);
 			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 40, 24);
 			Widgets.Label(moodLabelRect, moodLabel);
@@ -227,7 +185,6 @@ namespace TacticalGroups
 			return Textures.FullIcon;
 		}
 
-		private Vector2 scrollPosition;
 		public void DoTimeTableCell(Rect rect)
 		{
 			float num = rect.x;
@@ -436,143 +393,6 @@ namespace TacticalGroups
 				Find.WindowStack.Add(window);
 			}
 			x += (float)num2;
-		}
-
-		private void DoManualPrioritiesCheckbox(Rect rect)
-		{
-			Text.Font = GameFont.Small;
-			GUI.color = Color.white;
-			Text.Anchor = TextAnchor.UpperLeft;
-			Rect rect2 = new Rect(rect.x + 5, rect.y, 140f, 30f);
-			bool useWorkPriorities = Current.Game.playSettings.useWorkPriorities;
-			Widgets.CheckboxLabeled(rect2, "ManualPriorities".Translate(), ref Current.Game.playSettings.useWorkPriorities);
-			if (useWorkPriorities != Current.Game.playSettings.useWorkPriorities)
-			{
-				foreach (Pawn item in PawnsFinder.AllMapsWorldAndTemporary_Alive)
-				{
-					if (item.Faction == Faction.OfPlayer && item.workSettings != null)
-					{
-						item.workSettings.Notify_UseWorkPrioritiesChanged();
-					}
-				}
-			}
-		}
-		public void DoWorkCell(Rect rect, WorkTypeDef workType)
-		{
-			Text.Font = GameFont.Medium;
-			float x = rect.x + 5 + (rect.width - 25f) / 2f;
-			float y = rect.y + 2.5f;
-			WidgetsWorkGroup.DrawWorkBoxFor(x, y, workType, this.colonistGroup);
-			Text.Font = GameFont.Small;
-		}
-
-		public void DoWorkHeader(Rect rect, WorkTypeDef workType)
-		{
-			Text.Font = GameFont.Small;
-			Rect labelRect = GetLabelRect(rect);
-			MouseoverSounds.DoRegion(labelRect);
-			Text.Anchor = TextAnchor.MiddleLeft;
-			Widgets.Label(labelRect, workType.labelShort);
-			GUI.color = Color.white;
-			Text.Anchor = TextAnchor.UpperLeft;
-		}
-
-		private Rect GetLabelRect(Rect headerRect)
-		{
-			Rect result = new Rect(headerRect.x + 33f, headerRect.y + 3, 80, 25);
-			return result;
-		}
-
-		protected string GetHeaderTip(WorkTypeDef workType)
-		{
-			string str = workType.gerundLabel.CapitalizeFirst() + "\n\n" + workType.description + "\n\n" + SpecificWorkListString(workType);
-			str += "\n";
-			str += "\n" + "ClickToSortByThisColumn".Translate();
-			if (Find.PlaySettings.useWorkPriorities)
-			{
-				return str + ("\n" + "WorkPriorityShiftClickTip".Translate());
-			}
-			return str + ("\n" + "WorkPriorityShiftClickEnableDisableTip".Translate());
-		}
-
-		private static string SpecificWorkListString(WorkTypeDef def)
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			for (int i = 0; i < def.workGiversByPriority.Count; i++)
-			{
-				stringBuilder.Append(def.workGiversByPriority[i].LabelCap);
-				if (def.workGiversByPriority[i].emergency)
-				{
-					stringBuilder.Append(" (" + "EmergencyWorkMarker".Translate() + ")");
-				}
-				if (i < def.workGiversByPriority.Count - 1)
-				{
-					stringBuilder.AppendLine();
-				}
-			}
-			return stringBuilder.ToString();
-		}
-
-		protected void HeaderClicked(WorkTypeDef workType)
-		{
-			if (!Event.current.shift)
-			{
-				return;
-			}
-			List<Pawn> pawnsListForReading = colonistGroup.pawns; ;
-			for (int i = 0; i < pawnsListForReading.Count; i++)
-			{
-				Pawn pawn = pawnsListForReading[i];
-				if (pawn.workSettings == null || !pawn.workSettings.EverWork || pawn.WorkTypeIsDisabled(workType))
-				{
-					continue;
-				}
-				if (Find.PlaySettings.useWorkPriorities)
-				{
-					int priority = pawn.workSettings.GetPriority(workType);
-					if (Event.current.button == 0 && priority != 1)
-					{
-						int num = priority - 1;
-						if (num < 0)
-						{
-							num = 4;
-						}
-						pawn.workSettings.SetPriority(workType, num);
-					}
-					if (Event.current.button == 1 && priority != 0)
-					{
-						int num2 = priority + 1;
-						if (num2 > 4)
-						{
-							num2 = 0;
-						}
-						pawn.workSettings.SetPriority(workType, num2);
-					}
-				}
-				else if (pawn.workSettings.GetPriority(workType) > 0)
-				{
-					if (Event.current.button == 1)
-					{
-						pawn.workSettings.SetPriority(workType, 0);
-					}
-				}
-				else if (Event.current.button == 0)
-				{
-					pawn.workSettings.SetPriority(workType, 3);
-				}
-			}
-			if (Find.PlaySettings.useWorkPriorities)
-			{
-				SoundDefOf.DragSlider.PlayOneShotOnCamera();
-			}
-			else if (Event.current.button == 0)
-			{
-				SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
-			}
-			else if (Event.current.button == 1)
-			{
-				SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
-			}
 		}
 	}
 }

@@ -166,9 +166,9 @@ namespace TacticalGroups
 		public bool selectedActive;
         private Texture2D icon;
         private Texture2D selectedIcon;
-
-        public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
-			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
+		private float maxFloatMenuWidth;
+		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
+			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, float maxFloatMenuWidth = -1f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
 			this.labelInt = label;
@@ -177,6 +177,7 @@ namespace TacticalGroups
 			this.curIcon = icon;
 			this.iconHover = hoverIcon;
 			this.iconSelected = selectedIcon;
+			this.maxFloatMenuWidth = maxFloatMenuWidth;
 			this.action = action;
 			priorityInt = priority;
 			this.revalidateClickTarget = revalidateClickTarget;
@@ -214,6 +215,10 @@ namespace TacticalGroups
 
 		public virtual bool DoGUI(Rect rect, TieredFloatMenu floatMenu)
 		{
+			if (maxFloatMenuWidth != -1f)
+            {
+				rect.width = maxFloatMenuWidth;
+			}
 			Rect rect2 = rect;
 			rect2.height--;
 			bool flag = !Disabled && Mouse.IsOver(rect2);
