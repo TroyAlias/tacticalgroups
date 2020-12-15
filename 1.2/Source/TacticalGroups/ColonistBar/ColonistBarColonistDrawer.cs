@@ -63,7 +63,6 @@ namespace TacticalGroups
 			GUI.DrawTexture(rect, TacticalColonistBar.BGTex);
 			if (colonist.needs != null && colonist.needs.mood != null)
 			{
-
 				Rect position = rect.ContractedBy(2f);
 				float num = position.height * colonist.needs.mood.CurLevelPercentage;
 				position.yMin = position.yMax - num;
@@ -77,6 +76,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(position, MoodBGTex);
                 }
 			}
+
 			if (highlight)
 			{
 				int thickness = (rect.width <= 22f) ? 2 : 3;
@@ -166,7 +166,7 @@ namespace TacticalGroups
 			GUI.color = color;
 		}
 
-		private static Texture2D GetMoodBarTexture(Pawn colonist)
+		public static Texture2D GetMoodBarTexture(Pawn colonist)
 		{
 			float curLevel = colonist.needs.mood.CurLevel;
 			Texture2D result;
@@ -400,7 +400,7 @@ namespace TacticalGroups
 			}
 		}
 
-		private static void ShowDrafteesWeapon(Rect rect, Pawn colonist)
+		public static void ShowDrafteesWeapon(Rect rect, Pawn colonist)
 		{
 			if (!TacticalGroupsSettings.DisplayWeapons)
             {

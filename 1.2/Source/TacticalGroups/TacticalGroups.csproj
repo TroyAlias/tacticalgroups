@@ -53,8 +53,6 @@
     <Compile Include="Lords\LordToil_RescueFallen.cs" />
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="Menus\MedicalMenu.cs" />
-    <Compile Include="Menus\TakeABreakMenu.cs" />
-    <Compile Include="TacticDefOf - Copy.cs" />
     <Compile Include="WidgetsWorkGroup.cs" />
     <Compile Include="ColonistBar\ColonistBar.cs" />
     <Compile Include="ColonistBar\ColonistBarColonistDrawer.cs" />
@@ -67,11 +65,10 @@
     <Compile Include="Menus\OptionsMenu.cs" />
     <Compile Include="Menus\Dialog_Rename.cs" />
     <Compile Include="Menus\Dialog_RenameColonistGroup.cs" />
-    <Compile Include="Menus\WorkActionsMenu.cs" />
+    <Compile Include="Menus\ActionsMenu.cs" />
     <Compile Include="Menus\SkillSortMenu.cs" />
     <Compile Include="Menus\IconMenu.cs" />
     <Compile Include="Menus\ManageMenu.cs" />
-    <Compile Include="Menus\ActionsMenu.cs" />
     <Compile Include="Menus\MainFloatMenu.cs" />
     <Compile Include="Menus\SkillSortFloatMenuOption.cs" />
     <Compile Include="Menus\TieredFloatMenuOption.cs" />

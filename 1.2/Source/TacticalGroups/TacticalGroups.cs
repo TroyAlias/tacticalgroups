@@ -42,6 +42,7 @@ namespace TacticalGroups
         public void AddGroup(List<Pawn> pawns)
         {
             this.pawnGroups.Insert(0, new PawnGroup(pawns));
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public void AddCaravanGroup(Caravan caravan)
@@ -49,9 +50,9 @@ namespace TacticalGroups
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
             foreach (var colonyGroup in colonyGroups.Values)
             {
-                Log.Message("Remove 7");
                 colonyGroup.pawns.RemoveAll(x => caravan.pawns.InnerListForReading.Contains(x));
             }
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public void RemoveCaravanGroup(Caravan caravan)
@@ -72,6 +73,7 @@ namespace TacticalGroups
                 this.colonyGroups[map] = new ColonyGroup(pawns);
             }
             RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }
 
@@ -86,6 +88,7 @@ namespace TacticalGroups
                 this.colonyGroups[map] = new ColonyGroup(pawn);
             }
             RemovePawnFromOtherColonies(this.colonyGroups[map], pawn);
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }
 
@@ -200,6 +203,7 @@ namespace TacticalGroups
             {
                 colonyGroups.Remove(key);
             }
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public override void ExposeData()

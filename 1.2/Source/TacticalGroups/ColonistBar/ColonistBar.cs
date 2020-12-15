@@ -151,6 +151,7 @@ namespace TacticalGroups
                 int num = -1;
                 bool showGroupFrames = ShowGroupFrames;
                 int reorderableGroup = -1;
+
                 var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
                 if (Mouse.IsOver(createGroupRect))
                 {
@@ -160,9 +161,7 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
                 }
-
                 HandleGroupingClicks(createGroupRect);
-
                 Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
                 if (Mouse.IsOver(optionsGearRect))
                 {
@@ -180,48 +179,25 @@ namespace TacticalGroups
 
                 if (!WorldRendererUtility.WorldRenderedNow)
                 {
-
-                    for (int i = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count - 1; i >= 0; i--)
+                    for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                     {
                         var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
                         var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
                         data.Key.Draw(pawnGroupIconRect);
                     }
-
-                    for (int i = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count - 1; i >= 0; i--)
-                    {
-                        var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                        var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
-                        data.Key.DrawExtra(pawnGroupIconRect);
-                    }
                 }
 
-                for (int i = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count - 1; i >= 0; i--)
+                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
                     var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
                     data.Key.Draw(colonyGroupIconRect);
                 }
-
-                for (int i = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count - 1; i >= 0; i--)
-                {
-                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
-                    data.Key.DrawExtra(colonyGroupIconRect);
-                }
-
-                for (int i = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count - 1; i >= 0; i--)
+                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
                     var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
                     data.Key.Draw(caravanIconRect);
-                }
-
-                for (int i = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count - 1; i >= 0; i--)
-                {
-                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
-                    data.Key.DrawExtra(caravanIconRect);
                 }
 
                 for (int i = 0; i < cachedDrawLocs.Count; i++)
@@ -412,15 +388,17 @@ namespace TacticalGroups
             {
                 for (int i = cachedEntries.Count - 1; i >= 0; i--)
                 {
-                    if (!pawnGroup.entireGroupIsVisible && pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false)
-                            && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar)
+                    if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                     {
-                        var group = cachedEntries[i].group;
-                        cachedEntries.RemoveAt(i);
-                        if (!cachedEntries.Where(x => x.group == group).Any())
+                        if (!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
                         {
-                            var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == pawnGroup.Map).FirstOrDefault();
-                            cachedEntries.Add(new Entry(null, pawnGroup.Map, group, null, colonyGroup));
+                            var group = cachedEntries[i].group;
+                            cachedEntries.RemoveAt(i);
+                            if (!cachedEntries.Where(x => x.group == group).Any())
+                            {
+                                var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == pawnGroup.Map).FirstOrDefault();
+                                cachedEntries.Add(new Entry(null, pawnGroup.Map, group, null, colonyGroup));
+                            }
                         }
                     }
                 }

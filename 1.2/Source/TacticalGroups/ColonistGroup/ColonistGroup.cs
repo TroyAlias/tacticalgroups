@@ -30,27 +30,8 @@ namespace TacticalGroups
 		public bool showPawnIconsRightClickMenu;
 
 		public bool updateIcon = true;
-		public Map Map
-        {
-			get
-            {
-				if (this.pawns?.Count > 0)
-                {
-					foreach (var pawn in this.pawns)
-                    {
-						if (pawn?.Map != null)
-                        {
-							return pawn.Map;
-                        }
-                    }
-                }
-				else
-                {
-					Log.Error(this + " has empty or null pawns, this shouldn't happen.");
-                }
-				return null;
-			}
-        }
+
+		public Map Map;
 		public bool ShowExpanded
         {
 			get
@@ -67,11 +48,24 @@ namespace TacticalGroups
 		protected int groupID;
 
 		protected int pawnRowCount;
+		protected int pawnDocRowCount;
 
 		protected float pawnRowXPosShift;
 
 		public string defaultIconFolder;
 		public string colorFolder;
+
+		public List<Pawn> VisiblePawns
+        {
+			get
+            {
+				if (TacticalGroupsSettings.HidePawnsWhenOffMap)
+                {
+					return this.pawns.Where(x => x.Map == this.Map).ToList();
+                }
+				return this.pawns;
+            }
+        }
 
 		public virtual void Init()
         {
@@ -81,6 +75,10 @@ namespace TacticalGroups
 		}
 		public void Add(Pawn pawn)
         {
+			if (this.Map == null)
+            {
+				this.Map = pawn.Map;
+            }
 			if (!this.pawns.Contains(pawn))
             {
 				this.pawns.Add(pawn);
@@ -141,7 +139,7 @@ namespace TacticalGroups
 			int num = 0;
 			List<List<Pawn>> pawnRows = new List<List<Pawn>>();
 			List<Pawn> row = new List<Pawn>();
-			foreach (var pawn in pawns)
+			foreach (var pawn in VisiblePawns)
 			{
 				if (num == columnCount)
 				{
@@ -233,10 +231,7 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.GroupIconSelected);
 			}
-		}
 
-		public void DrawExtra(Rect rect)
-        {
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
 			var totalRect = new Rect(rect);
@@ -284,7 +279,7 @@ namespace TacticalGroups
 			Widgets.Label(groupLabelRect, this.GetGroupName());
 			Text.Anchor = TextAnchor.UpperLeft;
 
-			var pawnRows = GetPawnRows(8);
+			var pawnRows = GetPawnRows(this.pawnDocRowCount);
 			var initialRect = new Rect(rect);
 			initialRect.y += initialRect.height * 1.2f;
 			initialRect.x -= Textures.ColonistDot.width - 3f;
@@ -360,13 +355,13 @@ namespace TacticalGroups
 			if (ShowExpanded)
             {
 				var initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
-				initialRect.x -= initialRect.width / 2;
+				initialRect.x -= initialRect.width / 1.5f;
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
 					for (var j = 0; j < pawnRows[i].Count; j++)
 					{
-						Rect smallRect = new Rect(initialRect.x + (j * 60), initialRect.y + (i * 70), 50, 50);
-						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+						Rect smallRect = new Rect(initialRect.x + (j * 65), initialRect.y + (i * 70), 50, 50);
+						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
 					}
 				}
@@ -381,13 +376,13 @@ namespace TacticalGroups
 					for (var j = 0; j < pawnRows[i].Count; j++)
 					{
 						Rect smallRect = new Rect(backGroundRect.x + (j * 25) + 2f, backGroundRect.y + (i * 30) + 3f, 24, 24);
-						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, true, false);
+						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
 					}
 				}
 			}
 		}
-		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
+		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool reordering)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
@@ -403,16 +398,16 @@ namespace TacticalGroups
 				float num = position.height * colonist.needs.mood.CurLevelPercentage;
 				position.yMin = position.yMax - num;
 				position.height = num;
-				GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+				if (TacticalGroupsSettings.DisplayColorBars && ShowExpanded)
+				{
+					GUI.DrawTexture(position, ColonistBarColonistDrawer.GetMoodBarTexture(colonist));
+				}
+				else
+				{
+					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+				}
 			}
 
-			//if (highlight)
-			//{
-			//	int thickness = (rect.width <= 22f) ? 2 : 3;
-			//	GUI.color = Color.white;
-			//	Widgets.DrawBox(rect, thickness);
-			//	GUI.color = color2;
-			//}
 			Rect rect2 = rect.ContractedBy(-2f * TacticUtils.TacticalColonistBar.Scale);
 			if ((colonist.Dead ? Find.Selector.SelectedObjects.Contains(colonist.Corpse) : Find.Selector.SelectedObjects.Contains(colonist)) && !WorldRendererUtility.WorldRenderedNow)
 			{
@@ -442,6 +437,12 @@ namespace TacticalGroups
 			}
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
+			if (ShowExpanded)
+            {
+				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect);
+				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist);
+			}
 
 			if (rect.Contains(Event.current.mousePosition))
 			{
@@ -542,6 +543,7 @@ namespace TacticalGroups
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Deep, ref pawnKeys2, ref intVecValues);
+			Scribe_References.Look(ref Map, "Map");
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");

@@ -37,27 +37,31 @@ namespace TacticalGroups
 					Event.current.Use();
 				}
 			}
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.ShowAllColonists);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.ShowAllColonists);
 
 			topLeft.y += 35f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayFood);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayFood);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayFood);
 
 			topLeft.y += 25f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayRest);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayRest);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayRest);
 
 			topLeft.y += 25f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayHealth);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayHealth);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayHealth);
 
 			topLeft.y += 25f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayWeapons);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayWeapons);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayWeapons);
 
 			topLeft.y += 25f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayColorBars);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width, 25f), Strings.DisplayColorBars);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
+
+			topLeft.y += 25f;
+			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HidePawnsWhenOffMap);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y + 5, rect.width - 55f, 35f), Strings.HidePawnsWhenOffMap);
 
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
