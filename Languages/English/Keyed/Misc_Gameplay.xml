@@ -60,7 +60,60 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.RescueFallen>Rescue Fallen</TG.RescueFallen>
 	<TG.TendWounded>Tend Wounded</TG.TendWounded>
 	<TG.TakeFive>Take Five</TG.TakeFive>
+	
+	<TG.CreateGroupTooltip>Form group with selected colonists</TG.CreateGroupTooltip>
+	<TG.OptionsGearTooltip>Open the options menu</TG.OptionsGearTooltip>
+	<TG.LookBusyTooltip>Tell group to work any task</TG.LookBusyTooltip>
 
+
+	<TG.WorkTaskTooltipConstruction>Tell group to build</TG.WorkTaskTooltipConstruction>
+	<TG.WorkTaskTooltipCraft>Tell group to craft</TG.WorkTaskTooltipCraft>
+	<TG.WorkTaskTooltipHaul>Tell group to haul</TG.WorkTaskTooltipHaul>
+	<TG.WorkTaskTooltipClean>Tell group to clean</TG.WorkTaskTooltipClean>
+	<TG.WorkTaskTooltipHunt>Tell group to hunt</TG.WorkTaskTooltipHunt>
+	<TG.WorkTaskTooltipCook>Tell group to cook</TG.WorkTaskTooltipCook>
+	<TG.WorkTaskTooltipMine>Tell group to mine</TG.WorkTaskTooltipMine>
+	<TG.WorkTaskTooltipChopWood>Tell group to chop wood</TG.WorkTaskTooltipChopWood>
+	<TG.WorkTaskTooltipFarm>Tell group to farm</TG.WorkTaskTooltipFarm>
+	<TG.WorkTaskTooltipClearSnow>Tell group to clear snow</TG.WorkTaskTooltipClearSnow>
+	<TG.WorkTaskTooltipDoctor>Tell group to perform medical</TG.WorkTaskTooltipDoctor>
+	<TG.WorkTaskTooltipWarden>Tell group to warden prisoners</TG.WorkTaskTooltipWarden>
+	<TG.TakeFiveTooltip>Tell group to take a break</TG.TakeFiveTooltip>
+	<TG.SocialRelaxTooltip>Tell group to socialize</TG.SocialRelaxTooltip>
+	<TG.EntertainmentTooltip>Tell group to entertain</TG.EntertainmentTooltip>
+	<TG.ChowHallToolTip>Tell group to go eat</TG.ChowHallToolTip>
+	<TG.SleepTooltip>Tell group to go to sleep</TG.SleepTooltip>
+	<TG.RallyToolTip>Select and draft entire group</TG.RallyToolTip>
+	<TG.ShootersToolTip>Number of shooters in group.
+	Click to select.</TG.ShootersToolTip>
+	<TG.MeleeToolTip>Number of Melee in group.
+	Click to select.</TG.MeleeToolTip>
+	<TG.ShowHideTooltip>Show/Hide pawns from top bar</TG.ShowHideTooltip>
+	<TG.AddColonistTooltip>Will add selected colonists to group</TG.AddColonistTooltip>
+	<TG.RegroupTooltip>Tell group to go to Leader's potition.
+	Squad leader is first pawn in group</TG.RegroupTooltip>
+	<TG.BattleStationsTooltip>Send group to battle positions</TG.BattleStationsTooltip>
+	<TG.BattleStationsSetTooltip>Set selected pawns before position</TG.BattleStationsSetTooltip>
+	<TG.BattleStationsClearTooltip>Clear selected pawns battle position</TG.BattleStationsClearTooltip>
+	<TG.FireAtWillTooltip>Toggle default combat mode</TG.FireAtWillTooltip>
+	<TG.StrongestTooltip>Group will target strongest enemy</TG.StrongestTooltip>
+	<TG.WeakestTooltip>Group will target wealest enemy</TG.WeakestTooltip>
+	<TG.PursueFleeingTooltip>Group will pursue fleeing enemies</TG.PursueFleeingTooltip>
+	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest</TG.ReportToMedicalTooltip>
+	<TG.RescueDownedTooltip>Rescue downed colonists</TG.RescueDownedTooltip>
+	<TG.TendWoundedTooltip>Tend downed colonists</TG.TendWoundedTooltip>
+	<TG.ArmorTooltip>Average group armor rating</TG.ArmorTooltip>
+	<TG.DPSTooltip>Average group Damage-per-Second</TG.DPSTooltip>
+
+
+	<TG.MiddlePawnCountToolTip>Average group Damage-per-Second</TG.MiddlePawnCountToolTip>
+	<TG.RankTooltip>Average group Damage-per-Second</TG.RankTooltip>
+	<TG.UpgradeWeaponTooltip>Average group Damage-per-Second</TG.UpgradeWeaponTooltip>
+	<TG.UpgradeArmorTooltip>Average group Damage-per-Second</TG.UpgradeArmorTooltip>
 	
-	
+	<TG.MoodIconTooltip>Group's overall mood.</TG.MoodIconTooltip>
+	<TG.HealthIconTooltip>Group's overall health.</TG.HealthIconTooltip>
+	<TG.RestIconTooltip>Group's overall rest.</TG.RestIconTooltip>
+	<TG.HungerIconTooltip>Group's overall hunger.</TG.HungerIconTooltip>
+
 </LanguageData>

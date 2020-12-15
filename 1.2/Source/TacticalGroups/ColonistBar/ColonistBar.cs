@@ -161,6 +161,8 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
                 }
+                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
+
                 HandleGroupingClicks(createGroupRect);
                 Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
                 if (Mouse.IsOver(optionsGearRect))
@@ -176,6 +178,7 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
                 }
+                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
 
                 if (!WorldRendererUtility.WorldRenderedNow)
                 {

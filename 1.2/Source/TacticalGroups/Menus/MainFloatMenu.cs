@@ -31,7 +31,7 @@ namespace TacticalGroups
 
 		public void AddRallyButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Rally, null, Textures.RallyButton, Textures.RallyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 10f);
+			var option = new TieredFloatMenuOption(Strings.Rally, null, Textures.RallyButton, Textures.RallyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 10f, -1f, Strings.RallyToolTip);
 			option.bottomIndent = 41;
 			option.action = delegate
 			{
@@ -167,6 +167,7 @@ namespace TacticalGroups
 				}
 			}
 
+			TooltipHandler.TipRegion(iconRect, Strings.ShowHideTooltip);
 
 			var addPawnRect = new Rect(rect.x + (rect.width - Textures.AddPawnIcon.width) - 7f, rect.y + (rect.height - Textures.AddPawnIcon.height) - 7f, Textures.AddPawnIcon.width, Textures.AddPawnIcon.height);
 			if (Mouse.IsOver(addPawnRect))
@@ -187,9 +188,10 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(addPawnRect, Textures.AddPawnIcon);
 			}
+			TooltipHandler.TipRegion(addPawnRect, Strings.AddColonistTooltip);
 		}
 
-        public override void PostClose()
+		public override void PostClose()
         {
             base.PostClose();
 			this.colonistGroup.groupButtonRightClicked = false;

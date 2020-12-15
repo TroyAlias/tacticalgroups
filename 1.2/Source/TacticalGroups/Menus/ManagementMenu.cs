@@ -68,24 +68,28 @@ namespace TacticalGroups
 			GUI.DrawTexture(moodRect, moodTexture);
 			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 45, 24);
 			Widgets.Label(moodLabelRect, moodLabel);
+			TooltipHandler.TipRegion(moodRect, Strings.MoodIconTooltip);
 
 			var healthTexture = GetHealthTexture(out string healthPercent);
 			var healthRect = new Rect(moodRect.x + 45f, moodRect.y, healthTexture.width, healthTexture.height);
 			GUI.DrawTexture(healthRect, healthTexture);
 			var healthLabelRect = new Rect(healthRect.x, healthRect.y + healthRect.height, 40, 24);
 			Widgets.Label(healthLabelRect, healthPercent);
+			TooltipHandler.TipRegion(healthRect, Strings.HealthIconTooltip);
 
 			var restTexture = GetRestTexture(out string restPercent);
 			var restRect = new Rect(healthRect.x + 45f, healthRect.y, restTexture.width, restTexture.height);
 			GUI.DrawTexture(restRect, restTexture);
 			var restLabelRect = new Rect(restRect.x, restRect.y + restRect.height, 40, 24);
 			Widgets.Label(restLabelRect, restPercent);
+			TooltipHandler.TipRegion(restRect, Strings.RestIconTooltip);
 
 			var foodTexture = GetFoodTexture(out string foodPercent);
 			var foodStatRect = new Rect(restRect.x + 45f, restRect.y, foodTexture.width, foodTexture.height);
 			GUI.DrawTexture(foodStatRect, foodTexture);
 			var foodLabelRect = new Rect(foodStatRect.x, foodStatRect.y + foodStatRect.height, 40, 24);
 			Widgets.Label(foodLabelRect, foodPercent);
+			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
 
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;

@@ -42,14 +42,15 @@ namespace TacticalGroups
 
 		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
 		public Dictionary<Texture2D, BreakType> breakIconStates = new Dictionary<Texture2D, BreakType>();
+		public Dictionary<Texture2D, string> tooltips = new Dictionary<Texture2D, string>();
 
 		public ActionsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
 
-			var lookBusy = new TieredFloatMenuOption(Strings.LookBusy, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, 
-				Textures.LookBusyButton.width - 2f);
+			var lookBusy = new TieredFloatMenuOption(Strings.LookBusy, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, 
+				MenuOptionPriority.High, 0f, Textures.LookBusyButton.width - 2f, Strings.LookBusyTooltip);
 			lookBusy.action = delegate
 			{
 				SearchForWork(WorkType.None);
@@ -58,7 +59,7 @@ namespace TacticalGroups
 			options.Add(lookBusy);
 
 			var takeFive = new TieredFloatMenuOption(Strings.TakeFive, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f,
-				Textures.LookBusyButton.width - 2f);
+				Textures.LookBusyButton.width - 2f, Strings.TakeFiveTooltip);
 			takeFive.action = delegate
 			{
 				TakeABreak(BreakType.None);
@@ -83,6 +84,25 @@ namespace TacticalGroups
 			breakIconStates[Textures.ChowHallButton] = BreakType.ChowHall;
 			breakIconStates[Textures.LightsOutButton] = BreakType.LightsOut;
 
+			tooltips[Textures.ConstructButton] = Strings.WorkTaskTooltipConstruction;
+			tooltips[Textures.CraftButton] = Strings.WorkTaskTooltipCraft;
+			tooltips[Textures.HaulButton] = Strings.WorkTaskTooltipHaul;
+			tooltips[Textures.CleanButton] = Strings.WorkTaskTooltipClean;
+			tooltips[Textures.HuntButton] = Strings.WorkTaskTooltipHunt;
+			tooltips[Textures.CookButton] = Strings.WorkTaskTooltipCook;
+			tooltips[Textures.MineButton] = Strings.WorkTaskTooltipMine;
+			tooltips[Textures.ChopWoodButton] = Strings.WorkTaskTooltipChopWood;
+			tooltips[Textures.FarmButton] = Strings.WorkTaskTooltipFarm;
+			tooltips[Textures.ClearSnowButton] = Strings.WorkTaskTooltipClearSnow;
+			tooltips[Textures.DoctorButton] = Strings.WorkTaskTooltipDoctor;
+			tooltips[Textures.WardenButton] = Strings.WorkTaskTooltipWarden;
+
+			tooltips[Textures.SocializeButton] = Strings.SocialRelaxTooltip;
+			tooltips[Textures.EntertainmentButton] = Strings.EntertainmentTooltip;
+			tooltips[Textures.ChowHallButton] = Strings.ChowHallToolTip;
+			tooltips[Textures.LightsOutButton] = Strings.SleepTooltip;
+			
+			
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -157,6 +177,7 @@ namespace TacticalGroups
 			return workTypeRows;
 		}
 
+
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -183,7 +204,7 @@ namespace TacticalGroups
 					Rect iconRect = new Rect(rect3.x + (j * iconRows[i][j].width) + j * 10, rect3.y + (i * iconRows[i][j].height) + i * 7,
 						iconRows[i][j].width, iconRows[i][j].height);
 					GUI.DrawTexture(iconRect, iconRows[i][j]);
-			
+					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]]);
 					if (Mouse.IsOver(iconRect))
 					{
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
@@ -207,7 +228,8 @@ namespace TacticalGroups
 					Rect iconRect = new Rect(rect4.x + (j * iconRows2[i][j].width) + j * 10, rect4.y + (i * iconRows2[i][j].height) + i * 7,
 						iconRows2[i][j].width, iconRows2[i][j].height);
 					GUI.DrawTexture(iconRect, iconRows2[i][j]);
-			
+					TooltipHandler.TipRegion(iconRect, tooltips[iconRows2[i][j]]);
+
 					if (Mouse.IsOver(iconRect))
 					{
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);

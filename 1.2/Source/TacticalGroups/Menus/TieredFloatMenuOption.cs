@@ -167,8 +167,9 @@ namespace TacticalGroups
         private Texture2D icon;
         private Texture2D selectedIcon;
 		protected float maxFloatMenuWidth;
+		protected string toolTip;
 		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
-			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, float maxFloatMenuWidth = -1f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
+			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, float maxFloatMenuWidth = -1f, string toolTip = "", Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)
 		{
 			this.labelInt = label;
@@ -178,6 +179,7 @@ namespace TacticalGroups
 			this.iconHover = hoverIcon;
 			this.iconSelected = selectedIcon;
 			this.maxFloatMenuWidth = maxFloatMenuWidth;
+			this.toolTip = toolTip;
 			this.action = action;
 			priorityInt = priority;
 			this.revalidateClickTarget = revalidateClickTarget;
@@ -275,6 +277,10 @@ namespace TacticalGroups
 			else if (curIcon != null)
 			{
 				GUI.DrawTexture(rect, curIcon);
+			}
+			if (toolTip.Length > 0)
+            {
+				TooltipHandler.TipRegion(rect, toolTip);
 			}
 			if (labelInt != null)
 			{

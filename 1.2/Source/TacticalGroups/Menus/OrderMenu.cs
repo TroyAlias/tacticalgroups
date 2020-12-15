@@ -80,7 +80,7 @@ namespace TacticalGroups
 
 		public void AddRegroupButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Regroup, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Regroup, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, -1f, Strings.RegroupTooltip);
 			option.action = delegate
 			{
 				this.colonistGroup.RemoveOldLord();
@@ -102,7 +102,7 @@ namespace TacticalGroups
 
 		public void AddBattleStationsButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.BattleStations, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.BattleStations, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, -1f, Strings.BattleStationsTooltip);
 			option.action = delegate
 			{
 				TacticDefOf.TG_BattleStationsSFX.PlayOneShotOnCamera();
@@ -122,7 +122,8 @@ namespace TacticalGroups
 
 		public void AddMedicalButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.ReportToMedical, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.ReportToMedical, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, 
+				MenuOptionPriority.High, 0f, -1f, Strings.ReportToMedicalTooltip);
 			option.action = delegate
 			{
 				JobGiver_PatientGoToBed jgp = new JobGiver_PatientGoToBed
@@ -179,7 +180,7 @@ namespace TacticalGroups
 					Event.current.Use();
 				}
 			}
-
+			TooltipHandler.TipRegion(tendWounded, Strings.TendWoundedTooltip);
 			var rescureFallen = new Rect((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 4f), tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
 			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
 			if (Mouse.IsOver(rescureFallen))
@@ -193,6 +194,7 @@ namespace TacticalGroups
 					Event.current.Use();
 				}
 			}
+			TooltipHandler.TipRegion(rescureFallen, Strings.RescueDownedTooltip);
 
 			var shooterIconRect = new Rect(rect.x + 10, rect.y + 25f, Textures.ShootingIcon.width, Textures.ShootingIcon.height);
 			GUI.DrawTexture(shooterIconRect, Textures.ShootingIcon);
@@ -206,6 +208,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.MiddleLeft;
 			Widgets.Label(shooterCountRect, shooters.Count().ToString());
 			var totalShooterRect = new Rect(shooterIconRect.x, shooterIconRect.y, Textures.ShootingIcon.width + 25, shooterIconRect.height).ExpandedBy(5f);
+			TooltipHandler.TipRegion(totalShooterRect, Strings.ShootersToolTip);
 			if (Mouse.IsOver(totalShooterRect))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -223,6 +226,8 @@ namespace TacticalGroups
 			var middlePawnCountRect = new Rect(totalShooterRect.x + totalShooterRect.width, totalShooterRect.y, 70, totalShooterRect.height);
 			var capablePawns = this.colonistGroup.pawns.Where(x => !x.IsDownedOrIncapable());
 			Widgets.Label(middlePawnCountRect, capablePawns.Count() + " / " + this.colonistGroup.pawns.Count);
+			
+			TooltipHandler.TipRegion(middlePawnCountRect, Strings.MiddlePawnCountToolTip);
 			if (Mouse.IsOver(middlePawnCountRect))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -251,6 +256,8 @@ namespace TacticalGroups
 			Widgets.Label(meleeCountRect, melees.Count().ToString());
 
 			var totalMeleeRect = new Rect(meleeCountRect.x, meleeIconRect.y, meleeIconRect.width + meleeCountRect.width, meleeIconRect.height).ExpandedBy(5f);
+			TooltipHandler.TipRegion(totalMeleeRect, Strings.MeleeToolTip);
+
 			if (Mouse.IsOver(totalMeleeRect))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -270,6 +277,7 @@ namespace TacticalGroups
 			var setRect = new Rect(zero.x, rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(setRect, Textures.SetClearButton);
 			Widgets.Label(setRect, Strings.Set);
+			TooltipHandler.TipRegion(setRect, Strings.BattleStationsSetTooltip);
 
 			if (Mouse.IsOver(setRect))
 			{
@@ -283,6 +291,7 @@ namespace TacticalGroups
 			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(clearRect, Textures.SetClearButton);
 			Widgets.Label(clearRect, Strings.Clear);
+			TooltipHandler.TipRegion(clearRect, Strings.BattleStationsClearTooltip);
 			if (Mouse.IsOver(clearRect))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -295,6 +304,8 @@ namespace TacticalGroups
 
 			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
 			GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeArmorIcon);
+			TooltipHandler.TipRegion(upgradeArmorRect, Strings.UpgradeArmorTooltip);
+
 			if (Mouse.IsOver(upgradeArmorRect))
             {
 				GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeIconHover);
@@ -317,6 +328,7 @@ namespace TacticalGroups
 
 			var upgradeWeaponRect = new Rect((rect.x + rect.width) - (rect.x + (upgradeArmorRect.width * 2)), rect.height / 1.26f, Textures.UpgradeWeaponIcon.width, Textures.UpgradeWeaponIcon.height);
 			GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeWeaponIcon);
+			TooltipHandler.TipRegion(upgradeWeaponRect, Strings.UpgradeWeaponTooltip);
 			if (Mouse.IsOver(upgradeWeaponRect))
 			{
 				GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeIconHover);
@@ -359,6 +371,7 @@ namespace TacticalGroups
             }
 			var averageArmor = armorValues.Sum() / this.colonistGroup.pawns.Count();
 			Widgets.Label(totalArmorLabel, averageArmor.ToStringDecimalIfSmall());
+			TooltipHandler.TipRegion(totalArmorLabel, Strings.ArmorTooltip);
 
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var totalDPSLabel = new Rect(totalArmorRect.x + totalArmorRect.width + 50, totalArmorRect.y - 3, 30, 24);
@@ -377,9 +390,11 @@ namespace TacticalGroups
 
 			var averageDPS = dpsValues.Average();
 			Widgets.Label(totalDPSLabel, averageDPS.ToStringDecimalIfSmall());
+			TooltipHandler.TipRegion(totalDPSLabel, Strings.DPSTooltip);
 			var rankTexture = GetCurRank(averageDPS + averageArmor);
 			var rankRect = new Rect((rect.x + rect.width) - (rankTexture.width + 12f), totalArmorRect.y - 10f, rankTexture.width, rankTexture.height);
 			GUI.DrawTexture(rankRect, rankTexture);
+			TooltipHandler.TipRegion(rankRect, Strings.RankTooltip);
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}

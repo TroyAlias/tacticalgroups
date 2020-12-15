@@ -31,7 +31,8 @@ namespace TacticalGroups
 
 		public void AddFireAtWillButton()
         {
-			var option = new TieredFloatMenuOption(Strings.FireAtWill, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.FireAtWill, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter,
+				MenuOptionPriority.High, 0f, -1f, Strings.FireAtWillTooltip);
 			option.action = delegate
 			{
 				foreach (var pawn in this.colonistGroup.pawns)
@@ -50,7 +51,8 @@ namespace TacticalGroups
 
 		public void AddStrongestButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Strongest, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Strongest, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, 
+				MenuOptionPriority.High, 0f, -1f, Strings.StrongestTooltip);
 			option.action = delegate
 			{
 				this.colonistGroup.Draft();
@@ -67,7 +69,8 @@ namespace TacticalGroups
 
 		public void AddWeakestButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Weakest, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.Weakest, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, 
+				MenuOptionPriority.High, 0f, -1f, Strings.WeakestTooltip);
 			option.action = delegate
 			{
 				this.colonistGroup.Draft();
@@ -84,7 +87,8 @@ namespace TacticalGroups
 
 		public void AddPursueFleeingButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.PursueFleeing, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new TieredFloatMenuOption(Strings.PursueFleeing, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, 
+				MenuOptionPriority.High, 0f, -1f, Strings.PursueFleeingTooltip);
 			option.action = delegate
 			{
 				this.colonistGroup.Draft();

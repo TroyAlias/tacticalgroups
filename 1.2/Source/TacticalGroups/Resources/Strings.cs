@@ -72,5 +72,54 @@ namespace TacticalGroups
 		public static readonly string RescueFallen = "TG.RescueFallen".Translate();
 		public static readonly string TendWounded = "TG.TendWounded".Translate();
 		public static readonly string TakeFive = "TG.TakeFive".Translate();
+
+		public static readonly string CreateGroupTooltip = "TG.CreateGroupTooltip".Translate();
+		public static readonly string OptionsGearTooltip = "TG.OptionsGearTooltip".Translate();
+		public static readonly string LookBusyTooltip = "TG.LookBusyTooltip".Translate();
+
+		public static readonly string WorkTaskTooltipConstruction = "TG.WorkTaskTooltipConstruction".Translate();
+		public static readonly string WorkTaskTooltipCraft = "TG.WorkTaskTooltipCraft".Translate();
+		public static readonly string WorkTaskTooltipHaul = "TG.WorkTaskTooltipHaul".Translate();
+		public static readonly string WorkTaskTooltipClean = "TG.WorkTaskTooltipClean".Translate();
+		public static readonly string WorkTaskTooltipHunt = "TG.WorkTaskTooltipHunt".Translate();
+		public static readonly string WorkTaskTooltipCook = "TG.WorkTaskTooltipCook".Translate();
+		public static readonly string WorkTaskTooltipMine = "TG.WorkTaskTooltipMine".Translate();
+		public static readonly string WorkTaskTooltipChopWood = "TG.WorkTaskTooltipChopWood".Translate();
+		public static readonly string WorkTaskTooltipFarm = "TG.WorkTaskTooltipFarm".Translate();
+		public static readonly string WorkTaskTooltipClearSnow = "TG.WorkTaskTooltipClearSnow".Translate();
+		public static readonly string WorkTaskTooltipDoctor = "TG.WorkTaskTooltipDoctor".Translate();
+		public static readonly string WorkTaskTooltipWarden = "TG.WorkTaskTooltipWarden".Translate();
+
+		public static readonly string TakeFiveTooltip = "TG.TakeFiveTooltip".Translate();
+		public static readonly string SocialRelaxTooltip = "TG.SocialRelaxTooltip".Translate();
+		public static readonly string EntertainmentTooltip = "TG.EntertainmentTooltip".Translate();
+		public static readonly string ChowHallToolTip = "TG.ChowHallToolTip".Translate();
+		public static readonly string SleepTooltip = "TG.SleepTooltip".Translate();
+		public static readonly string RallyToolTip = "TG.RallyToolTip".Translate();
+		public static readonly string ShootersToolTip = "TG.ShootersToolTip".Translate();
+		public static readonly string MeleeToolTip = "TG.MeleeToolTip".Translate();
+		public static readonly string ShowHideTooltip = "TG.ShowHideTooltip".Translate();
+		public static readonly string AddColonistTooltip = "TG.AddColonistTooltip".Translate();
+		public static readonly string MiddlePawnCountToolTip = "TG.MiddlePawnCountToolTip".Translate();
+		public static readonly string RegroupTooltip = "TG.RegroupTooltip".Translate();
+		public static readonly string BattleStationsTooltip = "TG.BattleStationsTooltip".Translate();
+		public static readonly string BattleStationsSetTooltip = "TG.BattleStationsSetTooltip".Translate();
+		public static readonly string BattleStationsClearTooltip = "TG.BattleStationsClearTooltip".Translate();
+		public static readonly string FireAtWillTooltip = "TG.FireAtWillTooltip".Translate();
+		public static readonly string StrongestTooltip = "TG.StrongestTooltip".Translate();
+		public static readonly string WeakestTooltip = "TG.WeakestTooltip".Translate();
+		public static readonly string PursueFleeingTooltip = "TG.PursueFleeingTooltip".Translate();
+		public static readonly string ReportToMedicalTooltip = "TG.ReportToMedicalTooltip".Translate();
+		public static readonly string RescueDownedTooltip = "TG.RescueDownedTooltip".Translate();
+		public static readonly string TendWoundedTooltip = "TG.TendWoundedTooltip".Translate();
+		public static readonly string ArmorTooltip = "TG.ArmorTooltip".Translate();
+		public static readonly string DPSTooltip = "TG.DPSTooltip".Translate();
+		public static readonly string RankTooltip = "TG.RankTooltip".Translate();
+		public static readonly string UpgradeWeaponTooltip = "TG.UpgradeWeaponTooltip".Translate();
+		public static readonly string UpgradeArmorTooltip = "TG.UpgradeArmorTooltip".Translate();
+		public static readonly string MoodIconTooltip = "TG.MoodIconTooltip".Translate();
+		public static readonly string HealthIconTooltip = "TG.HealthIconTooltip".Translate();
+		public static readonly string RestIconTooltip = "TG.RestIconTooltip".Translate();
+		public static readonly string HungerIconTooltip = "TG.HungerIconTooltip".Translate();
 	}
 }
