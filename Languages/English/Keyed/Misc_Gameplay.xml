@@ -37,8 +37,9 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
 	<TG.DisplayWeapons>Display Weapons</TG.DisplayWeapons>
 	<TG.DisplayColorBars>Display Color Bars</TG.DisplayColorBars>
-	<TG.HidePawnsWhenOffMap>Hide Pawns When Off Map</TG.HidePawnsWhenOffMap>
-	
+	<TG.HidePawnsWhenOffMap>Hide Pawns Off Map</TG.HidePawnsWhenOffMap>
+	<TG.HideGroups>Hide Groups</TG.HideGroups>
+
 	<TG.Attack>Attack</TG.Attack>
 	<TG.Regroup>Regroup</TG.Regroup>
 	<TG.BattleStations>Battle Stations</TG.BattleStations>

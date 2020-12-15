@@ -14,6 +14,7 @@ namespace TacticalGroups
         public static bool DisplayWeapons;
         public static bool DisplayColorBars;
         public static bool HidePawnsWhenOffMap;
+        public static bool HideGroups;
         public override void ExposeData()
         {
             base.ExposeData();
@@ -23,6 +24,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref DisplayWeapons, "DisplayWeapons");
             Scribe_Values.Look(ref DisplayColorBars, "DisplayColorBars");
             Scribe_Values.Look(ref HidePawnsWhenOffMap, "HidePawnsWhenOffMap");
+            Scribe_Values.Look(ref HideGroups, "HideGroups");
         }
         public void DoSettingsWindowContents(Rect inRect)
         {
@@ -35,6 +37,7 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
             listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
             listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
+            listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.End();
             base.Write();
         }

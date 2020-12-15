@@ -61,7 +61,12 @@ namespace TacticalGroups
 
 			topLeft.y += 25f;
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HidePawnsWhenOffMap);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y + 5, rect.width - 55f, 35f), Strings.HidePawnsWhenOffMap);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HidePawnsWhenOffMap);
+
+			topLeft.y += 25f;
+			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HideGroups);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HideGroups);
+
 
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
