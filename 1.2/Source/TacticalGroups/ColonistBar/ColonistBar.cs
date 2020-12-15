@@ -387,25 +387,29 @@ namespace TacticalGroups
             //cachedEntries.RemoveAll(x => TacticUtils.AllPawnGroups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
             //    && !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
 
-            foreach (var pawnGroup in TacticUtils.AllPawnGroups)
+            if (!TacticalGroupsSettings.HideGroups)
             {
-                for (int i = cachedEntries.Count - 1; i >= 0; i--)
+                foreach (var pawnGroup in TacticUtils.AllPawnGroups)
                 {
-                    if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
+                    for (int i = cachedEntries.Count - 1; i >= 0; i--)
                     {
-                        if (!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
+                        if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            var group = cachedEntries[i].group;
-                            cachedEntries.RemoveAt(i);
-                            if (!cachedEntries.Where(x => x.group == group).Any())
+                            if (!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
                             {
-                                var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == pawnGroup.Map).FirstOrDefault();
-                                cachedEntries.Add(new Entry(null, pawnGroup.Map, group, null, colonyGroup));
+                                var group = cachedEntries[i].group;
+                                cachedEntries.RemoveAt(i);
+                                if (!cachedEntries.Where(x => x.group == group).Any())
+                                {
+                                    var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == pawnGroup.Map).FirstOrDefault();
+                                    cachedEntries.Add(new Entry(null, pawnGroup.Map, group, null, colonyGroup));
+                                }
                             }
                         }
                     }
                 }
             }
+
 
             cachedEntries.SortBy(x => x.group);
             drawer.Notify_RecachedEntries();
