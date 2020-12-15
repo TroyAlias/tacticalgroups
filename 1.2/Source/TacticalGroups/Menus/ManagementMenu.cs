@@ -235,7 +235,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			Widgets.DrawBox(rect, 2);
+
 			if (mouseButton && assignment != TimeAssignmentSelector.selectedAssignment && TimeAssignmentSelector.selectedAssignment != null)
 			{
 				SoundDefOf.Designate_DragStandard_Changed.PlayOneShotOnCamera();

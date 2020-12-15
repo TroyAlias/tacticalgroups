@@ -184,17 +184,24 @@ namespace TacticalGroups
 			if (!TacticalGroupsSettings.HideGroups)
             {
 				var allColonyGroups = TacticUtils.AllColonyGroups;
-				num4 += allColonyGroups.Sum(x => x.groupIcon.width + 10f);
-				num4 += TacticUtils.AllCaravanGroups.Sum(x => x.groupIcon.width + 10f);
+				if (allColonyGroups != null)
+                {
+					num4 += allColonyGroups.Sum(x => x.groupIcon.width + 10f);
+					if (TacticUtils.AllCaravanGroups != null)
+                    {
+						num4 += TacticUtils.AllCaravanGroups.Sum(x => x.groupIcon.width + 10f);
+                    }
 
-				if (!WorldRendererUtility.WorldRenderedNow)
-				{
-					var activeColony = TacticUtils.AllColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
-					if (activeColony != null)
+					if (!WorldRendererUtility.WorldRenderedNow)
 					{
-						num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(4).Sum(x => x.groupIcon.width + 10);
+						var activeColony = allColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
+						if (activeColony != null)
+						{
+							num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(4).Sum(x => x.groupIcon.width + 10);
+						}
 					}
 				}
+
 			}
 
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
@@ -203,7 +210,6 @@ namespace TacticalGroups
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
 			for (int j = 0; j < entries.Count; j++)
 			{
-				Log.Message(entries[j].pawn + " - " + entries[j].caravanGroup);
 				if (num5 != entries[j].group)
 				{
 					if (num5 >= 0)
@@ -247,11 +253,20 @@ namespace TacticalGroups
 							}
 						}
 					}
-					if (entries[j].colonyGroup.Map == Find.CurrentMap)
+					if (entries[j].colonyGroup != null)
+                    {
+						if (entries[j].colonyGroup?.Map == Find.CurrentMap)
+						{
+							createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+							num7 += Textures.CreateGroupIcon.width + 20f;
+						}
+					}
+					else
                     {
 						createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 						num7 += Textures.CreateGroupIcon.width + 20f;
 					}
+
 
 					num6 = 0;
 					num5 = entries[j].group;

@@ -369,7 +369,6 @@ namespace TacticalGroups
 			else
             {
 				var backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
-				Widgets.DrawBox(backGroundRect);
 				GUI.DrawTexture(backGroundRect, Textures.BackgroundColonistLayer);
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
@@ -523,7 +522,7 @@ namespace TacticalGroups
 			rect.x += diff.x;
 			rect.y += diff.z;
 			Log.Message("2 drawLoc: " + rect);
-			Widgets.DrawBox(rect);
+
 			Mesh mesh = null;
 			float num = aimAngle - 90f;
 			if (aimAngle > 20f && aimAngle < 160f)
