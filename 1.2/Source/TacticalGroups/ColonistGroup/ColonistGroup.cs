@@ -417,7 +417,8 @@ namespace TacticalGroups
 			{
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			var pawnTextureRect = GetPawnTextureRect(rect.position);
+			GUI.DrawTexture(pawnTextureRect, PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			if (ShowExpanded)
             {
@@ -464,6 +465,104 @@ namespace TacticalGroups
 				Event.current.Use();
 				CameraJumper.TryJump(colonist);
 			}
+		}
+
+		private static void DrawEquipment(Pawn pawn, Vector3 rootLoc, Rect rect)
+		{
+			Vector3 originRootLoc = rootLoc;
+			if (pawn.Dead || !pawn.Spawned || pawn.equipment == null || pawn.equipment.Primary == null || (pawn.CurJob != null && pawn.CurJob.def.neverShowWeapon))
+			{
+				return;
+			}
+			Stance_Busy stance_Busy = pawn.stances.curStance as Stance_Busy;
+			if (stance_Busy != null && !stance_Busy.neverAimWeapon && stance_Busy.focusTarg.IsValid)
+			{
+				Vector3 a = (!stance_Busy.focusTarg.HasThing) ? stance_Busy.focusTarg.Cell.ToVector3Shifted() : stance_Busy.focusTarg.Thing.DrawPos;
+				float num = 0f;
+				if ((a - pawn.DrawPos).MagnitudeHorizontalSquared() > 0.001f)
+				{
+					num = (a - pawn.DrawPos).AngleFlat();
+				}
+				Vector3 drawLoc = rootLoc + new Vector3(0f, 0f, 0.4f).RotatedBy(num);
+				drawLoc.y += 9f / 245f;
+				DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc, num, rect);
+			}
+			else
+			{
+				if (pawn.Rotation == Rot4.South)
+				{
+					Vector3 drawLoc2 = rootLoc + new Vector3(0f, 0f, -0.22f);
+					drawLoc2.y += 9f / 245f;
+					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc2, 143f, rect);
+				}
+				else if (pawn.Rotation == Rot4.North)
+				{
+					Vector3 drawLoc3 = rootLoc + new Vector3(0f, 0f, -0.11f);
+					drawLoc3.y += 0f;
+					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc3, 143f, rect);
+				}
+				else if (pawn.Rotation == Rot4.East)
+				{
+					Vector3 drawLoc4 = rootLoc + new Vector3(0.2f, 0f, -0.22f);
+					drawLoc4.y += 9f / 245f;
+					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc4, 143f, rect);
+				}
+				else if (pawn.Rotation == Rot4.West)
+				{
+					Vector3 drawLoc5 = rootLoc + new Vector3(-0.2f, 0f, -0.22f);
+					drawLoc5.y += 9f / 245f;
+					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc5, 217f, rect);
+				}
+			}
+		}
+
+		public static void DrawEquipmentAiming(Thing eq, Vector3 originRootLoc, Vector3 drawLoc, float aimAngle, Rect rect)
+		{
+			var diff = (originRootLoc - drawLoc);
+			Log.Message("1 drawLoc: " + rect);
+			rect.x += diff.x;
+			rect.y += diff.z;
+			Log.Message("2 drawLoc: " + rect);
+			Widgets.DrawBox(rect);
+			Mesh mesh = null;
+			float num = aimAngle - 90f;
+			if (aimAngle > 20f && aimAngle < 160f)
+			{
+				mesh = MeshPool.plane10;
+				num += eq.def.equippedAngleOffset;
+			}
+			else if (aimAngle > 200f && aimAngle < 340f)
+			{
+				mesh = MeshPool.plane10Flip;
+				num -= 180f;
+				num -= eq.def.equippedAngleOffset;
+			}
+			else
+			{
+				mesh = MeshPool.plane10;
+				num += eq.def.equippedAngleOffset;
+			}
+			num %= 360f;
+			Texture2D weaponIcon = ((Texture2D)eq.Graphic.ExtractInnerGraphicFor(eq).MatSingleFor(eq).mainTexture) ?? eq.def.uiIcon;
+			Color color = eq.DrawColor;
+
+			Matrix4x4 matrix = GUI.matrix;
+			if (!num.Equals(0f))
+			{
+				Vector2 pivotPoint = new Vector2((rect.xMin + rect.width / 2f) * Prefs.UIScale, (rect.yMin + rect.height / 2f) * Prefs.UIScale);
+				GUIUtility.RotateAroundPivot(num, pivotPoint);
+			}
+			Color color2 = GUI.color;
+			GUI.color = color;
+			GUI.DrawTexture(rect, weaponIcon);
+			GUI.color = color2;
+			GUI.matrix = matrix;
+
+
+			//Material material = null;
+			//Graphic_StackCount graphic_StackCount = eq.Graphic as Graphic_StackCount;
+			//Graphics.DrawMesh(material: (graphic_StackCount == null) ? eq.Graphic.MatSingle : graphic_StackCount.SubGraphicForStackCount(1, eq.def).MatSingle,
+			//	mesh: mesh, position: drawLoc, rotation: Quaternion.AngleAxis(num, Vector3.up), layer: 10);
 		}
 
 		private bool ShouldShowShotReport(Thing t)

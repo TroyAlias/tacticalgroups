@@ -306,19 +306,26 @@ namespace TacticalGroups
 		}
 		public static float WeaponScoreGain(Thing weapon)
 		{
-			if (weapon.def.IsRangedWeapon)
-			{
-				var verbProperties = weapon.def.Verbs.Where(x => x.range > 0).First();
-				double num = (verbProperties.defaultProjectile.projectile.GetDamageAmount(weapon, null) * (float)verbProperties.burstShotCount);
-				float num2 = (StatExtension.GetStatValue(weapon, StatDefOf.RangedWeapon_Cooldown, true) + verbProperties.warmupTime) * 60f;
-				float num3 = (verbProperties.burstShotCount * verbProperties.ticksBetweenBurstShots);
-				float num4 = (num2 + num3) / 60f;
-				var dps = (float)Math.Round(num / num4, 2);
-				return (float)Math.Round(dps, 1);
-			}
-			else if (weapon.def.IsMeleeWeapon)
-			{
-				return StatExtension.GetStatValue(weapon, StatDefOf.MeleeWeapon_AverageDPS, true);
+			if (weapon?.def != null)
+            {
+				if (weapon.def.IsRangedWeapon)
+				{
+					var verbProperties = weapon.def.Verbs?.Where(x => x.range > 0).FirstOrDefault();
+                    if (verbProperties?.defaultProjectile?.projectile != null)
+                    {
+						double num = (verbProperties.defaultProjectile.projectile.GetDamageAmount(weapon, null) * (float)verbProperties.burstShotCount);
+						float num2 = (StatExtension.GetStatValue(weapon, StatDefOf.RangedWeapon_Cooldown, true) + verbProperties.warmupTime) * 60f;
+						float num3 = (verbProperties.burstShotCount * verbProperties.ticksBetweenBurstShots);
+						float num4 = (num2 + num3) / 60f;
+						var dps = (float)Math.Round(num / num4, 2);
+						return (float)Math.Round(dps, 1);
+					}
+
+				}
+				else if (weapon.def.IsMeleeWeapon)
+				{
+					return StatExtension.GetStatValue(weapon, StatDefOf.MeleeWeapon_AverageDPS, true);
+				}
 			}
 			return 0f;
 		}

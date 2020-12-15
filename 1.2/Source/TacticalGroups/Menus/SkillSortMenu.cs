@@ -57,8 +57,8 @@ namespace TacticalGroups
             for (int i = 0; i < options.Count; i++)
             {
                 TieredFloatMenuOption floatMenuOption = options[i];
-                Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
-                if (floatMenuOption.DoGUI(rect2, this))
+				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
+				if (floatMenuOption.DoGUI(rect2, this))
                 {
                     Find.WindowStack.TryRemove(this);
                     break;

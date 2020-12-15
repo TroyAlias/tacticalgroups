@@ -166,7 +166,7 @@ namespace TacticalGroups
 		public bool selectedActive;
         private Texture2D icon;
         private Texture2D selectedIcon;
-		private float maxFloatMenuWidth;
+		protected float maxFloatMenuWidth;
 		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,
 			MenuOptionPriority priority = MenuOptionPriority.Default, float leftTextIndent = 0f, float maxFloatMenuWidth = -1f, Action mouseoverGuiAction = null, Thing revalidateClickTarget = null, 
 			float extraPartWidth = 0f, Func<Rect, bool> extraPartOnGUI = null, WorldObject revalidateWorldClickTarget = null)

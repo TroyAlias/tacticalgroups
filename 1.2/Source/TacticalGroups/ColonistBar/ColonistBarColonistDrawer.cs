@@ -428,15 +428,7 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			DrawColonistsBarWeaponIcon(new Rect(rect)
-			{
-				y = rect.yMax
-			}, colonist.equipment.GetDirectlyHeldThings()[0], alpha);
-			Thing thingWeapon = (colonist.equipment.GetDirectlyHeldThings().Count > 1) ? colonist.equipment.GetDirectlyHeldThings()[1] : null;
-			DrawColonistsBarWeaponIcon(new Rect(rect)
-			{
-				y = rect.yMax + secondaryWeaponYOffset * Prefs.UIScale
-			}, thingWeapon, alpha);
+			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + 10, rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
 		}
 
 		private static bool ExcludeFromDrawing(Thing thingWeapon)

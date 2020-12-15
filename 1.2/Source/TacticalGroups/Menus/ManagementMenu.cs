@@ -66,7 +66,7 @@ namespace TacticalGroups
 			var moodTexture = GetMoodTexture(out string moodLabel);
 			var moodRect = new Rect(rect.x + policyButtonWidth + 135f, rect.y + 25, moodTexture.width, moodTexture.height);
 			GUI.DrawTexture(moodRect, moodTexture);
-			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 40, 24);
+			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 45, 24);
 			Widgets.Label(moodLabelRect, moodLabel);
 
 			var healthTexture = GetHealthTexture(out string healthPercent);
