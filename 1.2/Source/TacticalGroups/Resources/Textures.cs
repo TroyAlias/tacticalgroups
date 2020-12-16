@@ -155,5 +155,11 @@ namespace TacticalGroups
 
 		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(95, 63, 65, 255).ToColor);
 		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
+
+		public static readonly Texture2D PawnDrafted = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnDrafted");
+		public static readonly Texture2D GroupArrowRightHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRightHover");
+		public static readonly Texture2D GroupArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRight");
+		public static readonly Texture2D GroupArrowLeftHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowLeftHover");
+		public static readonly Texture2D GroupArrowLeft = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowLeft");
 	}
 }

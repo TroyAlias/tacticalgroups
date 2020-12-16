@@ -94,6 +94,9 @@ namespace TacticalGroups
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
 			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, PawnTextureSize, PawnTextureCameraOffset, 1.28205f));
+
+			GUI.DrawTexture(rect, Textures.PawnDrafted);
+
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			DrawIcons(rect, colonist);
 			GUI.color = color2;
@@ -136,6 +139,19 @@ namespace TacticalGroups
 			Color color = GUI.color;
 			GUI.color = Color.white;
 			Rect needBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
+			GUI.color = Color.white;
+			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
+			{
+				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
+				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
+				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
+				float num5 = rect3.height * num;
+				rect3.yMin = rect3.yMax - num5;
+				rect3.height = num5;
+				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+			}
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
             {
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
@@ -149,19 +165,6 @@ namespace TacticalGroups
 				rect3.height = num5;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
 				needBar.x += Textures.RestFood.width;
-			}
-			GUI.color = Color.white;
-			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
-			{
-				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
-				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
-				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
-				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
-				float num5 = rect3.height * num;
-				rect3.yMin = rect3.yMax - num5;
-				rect3.height = num5;
-				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
 			}
 			GUI.color = color;
 		}

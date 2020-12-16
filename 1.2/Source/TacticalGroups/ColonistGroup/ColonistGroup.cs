@@ -215,7 +215,7 @@ namespace TacticalGroups
 			}
 			this.updateIcon = false;
 		}
-		public void Draw(Rect rect)
+		public virtual void Draw(Rect rect)
         {
 			this.curRect = rect;
 			if (this.updateIcon)
@@ -231,7 +231,6 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.GroupIconSelected);
 			}
-
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
 			var totalRect = new Rect(rect);

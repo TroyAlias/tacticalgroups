@@ -62,7 +62,78 @@ namespace TacticalGroups
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
-        public override void ExposeData()
+		private int curHoverPeriod;
+        public override void Draw(Rect rect)
+        {
+            base.Draw(rect);
+			bool reset = true;
+			if (Mouse.IsOver(rect))
+            {
+				curHoverPeriod++;
+				reset = false;
+			}
+			if (curHoverPeriod > 30)
+            {
+				var rightGroupArrowRect = new Rect(rect.x + rect.width, ((rect.y + rect.height) / 2f) - 5f, Textures.GroupArrowRight.width, Textures.GroupArrowRight.height);
+				if (Mouse.IsOver(rightGroupArrowRect))
+                {
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						var indexOf = TacticUtils.TacticalGroups.pawnGroups.IndexOf(this);
+						if (indexOf > 0)
+						{
+							TacticUtils.TacticalGroups.pawnGroups.RemoveAt(indexOf);
+							TacticUtils.TacticalGroups.pawnGroups.Insert(indexOf - 1, this);
+						}
+						else if (indexOf != TacticUtils.TacticalGroups.pawnGroups.Count)
+						{
+							TacticUtils.TacticalGroups.pawnGroups.RemoveAt(indexOf);
+							TacticUtils.TacticalGroups.pawnGroups.Insert(TacticUtils.TacticalGroups.pawnGroups.Count, this);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					GUI.DrawTexture(rightGroupArrowRect, Textures.GroupArrowRightHover);
+					reset = false;
+				}
+				else
+				{
+					GUI.DrawTexture(rightGroupArrowRect, Textures.GroupArrowRight);
+				}
+
+				var leftGroupArrowRect = new Rect(rect.x - Textures.GroupArrowLeft.width, ((rect.y + rect.height) / 2f) - 5f, Textures.GroupArrowLeft.width, Textures.GroupArrowLeft.height);
+				if (Mouse.IsOver(leftGroupArrowRect))
+				{
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						var indexOf = TacticUtils.TacticalGroups.pawnGroups.IndexOf(this);
+						Log.Message("Index of " + indexOf + " - " + TacticUtils.TacticalGroups.pawnGroups.Count);
+						if (TacticUtils.TacticalGroups.pawnGroups.Count > indexOf + 1)
+						{
+							TacticUtils.TacticalGroups.pawnGroups.RemoveAt(indexOf);
+							TacticUtils.TacticalGroups.pawnGroups.Insert(indexOf + 1, this);
+						}
+						else if (indexOf != 0)
+						{
+							TacticUtils.TacticalGroups.pawnGroups.RemoveAt(indexOf);
+							TacticUtils.TacticalGroups.pawnGroups.Insert(0, this);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					GUI.DrawTexture(leftGroupArrowRect, Textures.GroupArrowLeftHover);
+					reset = false;
+				}
+				else
+				{
+					GUI.DrawTexture(leftGroupArrowRect, Textures.GroupArrowLeft);
+				}
+			}
+
+			if (reset)
+			{
+				curHoverPeriod = 0;
+			}
+		}
+		public override void ExposeData()
         {
             base.ExposeData();
         }
