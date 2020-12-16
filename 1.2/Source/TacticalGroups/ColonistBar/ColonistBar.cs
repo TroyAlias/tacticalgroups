@@ -390,7 +390,8 @@ namespace TacticalGroups
                     {
                         if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar) && cachedEntries[i].pawn.Map != null)
+                            if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
+                                || TacticalGroupsSettings.HidePawnsWhenOffMap && cachedEntries[i].pawn.Map != Find.CurrentMap)
                             {
                                 var group = cachedEntries[i].group;
                                 cachedEntries.RemoveAt(i);
@@ -410,7 +411,8 @@ namespace TacticalGroups
                     {
                         if (colonyGroup.pawns.Contains(cachedEntries[i].pawn) && (colonyGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar)
+                            if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar 
+                                || TacticalGroupsSettings.HidePawnsWhenOffMap && cachedEntries[i].pawn.Map != Find.CurrentMap)
                             {
                                 var group = cachedEntries[i].group;
                                 cachedEntries.RemoveAt(i);
@@ -429,7 +431,7 @@ namespace TacticalGroups
                     {
                         if (caravanGroup.pawns.Contains(cachedEntries[i].pawn) && (caravanGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar)
+                            if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar || TacticalGroupsSettings.HidePawnsWhenOffMap)
                             {
                                 var group = cachedEntries[i].group;
                                 cachedEntries.RemoveAt(i);

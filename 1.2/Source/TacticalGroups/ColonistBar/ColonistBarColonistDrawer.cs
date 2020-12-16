@@ -94,9 +94,10 @@ namespace TacticalGroups
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
 			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, PawnTextureSize, PawnTextureCameraOffset, 1.28205f));
-
-			GUI.DrawTexture(rect, Textures.PawnDrafted);
-
+			if (colonist.Drafted)
+            {
+				GUI.DrawTexture(rect, Textures.PawnDrafted);
+			}
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			DrawIcons(rect, colonist);
 			GUI.color = color2;

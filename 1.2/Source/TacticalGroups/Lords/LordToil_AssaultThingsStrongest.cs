@@ -31,21 +31,24 @@ namespace TacticalGroups
 			UpdateAllDuties();
 		}
 
-		public override void UpdateAllDuties()
-		{
-			for (int i = 0; i < lord.ownedPawns.Count; i++)
-			{
-				PawnDuty duty = lord.ownedPawns[i].mindState.duty;
-				if (duty == null || duty.def != TacticDefOf.TG_AssaultThingsStrongest || duty.focus.ThingDestroyed)
-				{
-					if (!things.Where((Thing t) => t?.Spawned ?? false).TryRandomElement(out Thing result))
-					{
-						break;
-					}
-					lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsStrongest, result);
-				}
-			}
-		}
+        public override void UpdateAllDuties()
+        {
+            for (int i = 0; i < lord.ownedPawns.Count; i++)
+            {
+                PawnDuty duty = lord.ownedPawns[i].mindState.duty;
+                if (duty == null || duty.def != TacticDefOf.TG_AssaultThingsStrongest || duty.focus.ThingDestroyed)
+                {
+                    if (things.Where((Thing t) => t?.Spawned ?? false).TryRandomElement(out Thing result))
+                    {
+                        lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsStrongest, result);
+                    }
+                    else
+                    {
+                        lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsStrongest);
+                    }
+                }
+            }
+        }
 
 		public override void LordToilTick()
 		{

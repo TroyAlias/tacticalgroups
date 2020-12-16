@@ -38,11 +38,14 @@ namespace TacticalGroups
 				PawnDuty duty = lord.ownedPawns[i].mindState.duty;
 				if (duty == null || duty.def != TacticDefOf.TG_AssaultThingsWeakest || duty.focus.ThingDestroyed)
 				{
-					if (!things.Where((Thing t) => t?.Spawned ?? false).TryRandomElement(out Thing result))
+					if (things.Where((Thing t) => t?.Spawned ?? false).TryRandomElement(out Thing result))
 					{
-						break;
+						lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsWeakest, result);
 					}
-					lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsWeakest, result);
+					else
+                    {
+						lord.ownedPawns[i].mindState.duty = new PawnDuty(TacticDefOf.TG_AssaultThingsWeakest);
+					}
 				}
 			}
 		}

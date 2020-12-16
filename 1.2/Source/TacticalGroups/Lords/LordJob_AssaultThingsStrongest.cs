@@ -42,14 +42,6 @@ namespace TacticalGroups
 				lordToil.useAvoidGrid = true;
 			}
 			stateGraph.AddToil(lordToil);
-			LordToil_ExitMapAndDefendSelf lordToil_ExitMapAndDefendSelf = new LordToil_ExitMapAndDefendSelf
-			{
-				useAvoidGrid = true
-			};
-			stateGraph.AddToil(lordToil_ExitMapAndDefendSelf);
-			Transition transition = new Transition(lordToil, lordToil_ExitMapAndDefendSelf);
-			transition.AddTrigger(new Trigger_ThingsDamageTaken(things, damageFraction));
-			stateGraph.AddTransition(transition);
 			return stateGraph;
 		}
 

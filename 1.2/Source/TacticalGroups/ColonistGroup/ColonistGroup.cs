@@ -357,6 +357,7 @@ namespace TacticalGroups
 						Rect smallRect = new Rect(initialRect.x + (j * 65), initialRect.y + (i * 70), 50, 50);
 						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
+						DrawPawnArrows(smallRect, pawnRows[i][j]);
 					}
 				}
 			}
@@ -371,8 +372,84 @@ namespace TacticalGroups
 						Rect smallRect = new Rect(backGroundRect.x + (j * 25) + 2f, backGroundRect.y + (i * 30) + 3f, 24, 24);
 						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
+						DrawPawnArrows(smallRect, pawnRows[i][j]);
 					}
 				}
+			}
+		}
+
+		public Dictionary<Pawn, bool> pawnReorderingMode = new Dictionary<Pawn, bool>();
+		public void DrawPawnArrows(Rect rect, Pawn pawn)
+		{
+			bool reset = true;
+			if (Mouse.IsOver(rect))
+			{
+				reset = false;
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+                {
+					Event.current.Use();
+					pawnReorderingMode[pawn] = true;
+				}
+			}
+
+			if (pawnReorderingMode.TryGetValue(pawn, out bool value) && value)
+			{
+				var rightPawnArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.PawnArrowRight.width, Textures.PawnArrowRight.height);
+				if (Mouse.IsOver(rightPawnArrowRect))
+				{
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						var indexOf = this.pawns.IndexOf(pawn);
+						if (this.pawns.Count > indexOf + 1)
+						{
+							this.pawns.RemoveAt(indexOf);
+							this.pawns.Insert(indexOf + 1, pawn);
+						}
+						else if (indexOf != 0)
+						{
+							this.pawns.RemoveAt(indexOf);
+							this.pawns.Insert(0, pawn);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
+					reset = false;
+				}
+				else
+				{
+					GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
+				}
+
+				var leftPawnArrowRect = new Rect(rect.x - Textures.PawnArrowLeft.width, rect.y, Textures.PawnArrowLeft.width, Textures.PawnArrowLeft.height);
+				if (Mouse.IsOver(leftPawnArrowRect))
+				{
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						var indexOf = this.pawns.IndexOf(pawn);
+						if (indexOf > 0)
+						{
+							this.pawns.RemoveAt(indexOf);
+							this.pawns.Insert(indexOf - 1, pawn);
+						}
+						else if (indexOf != this.pawns.Count)
+						{
+							this.pawns.RemoveAt(indexOf);
+							this.pawns.Insert(this.pawns.Count, pawn);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
+					reset = false;
+				}
+				else
+				{
+					GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
+				}
+			}
+
+			if (reset)
+            {
+				pawnReorderingMode[pawn] = false;
 			}
 		}
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool reordering)
@@ -412,6 +489,10 @@ namespace TacticalGroups
 			}
 			var pawnTextureRect = GetPawnTextureRect(rect.position);
 			GUI.DrawTexture(pawnTextureRect, PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			if (colonist.Drafted)
+			{
+				GUI.DrawTexture(rect, Textures.PawnDrafted);
+			}
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			if (ShowExpanded)
             {
