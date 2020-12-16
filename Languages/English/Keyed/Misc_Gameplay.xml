@@ -84,7 +84,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.EntertainmentTooltip>Tell group to entertain</TG.EntertainmentTooltip>
 	<TG.ChowHallToolTip>Tell group to go eat</TG.ChowHallToolTip>
 	<TG.SleepTooltip>Tell group to go to sleep</TG.SleepTooltip>
-	<TG.RallyToolTip>Select and draft entire group</TG.RallyToolTip>
+	<TG.RallyToolTip>Select and Draft entire group</TG.RallyToolTip>
 	<TG.ShootersToolTip>Number of shooters in group.
 	Click to select.</TG.ShootersToolTip>
 	<TG.MeleeToolTip>Number of Melee in group.
@@ -94,11 +94,11 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.RegroupTooltip>Tell group to go to Leader's potition.
 	Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.BattleStationsTooltip>Send group to battle positions</TG.BattleStationsTooltip>
-	<TG.BattleStationsSetTooltip>Set selected pawns before position</TG.BattleStationsSetTooltip>
-	<TG.BattleStationsClearTooltip>Clear selected pawns battle position</TG.BattleStationsClearTooltip>
+	<TG.BattleStationsSetTooltip>Set selected pawns' before position</TG.BattleStationsSetTooltip>
+	<TG.BattleStationsClearTooltip>Clear selected pawns' battle position</TG.BattleStationsClearTooltip>
 	<TG.FireAtWillTooltip>Toggle default combat mode</TG.FireAtWillTooltip>
 	<TG.StrongestTooltip>Group will target strongest enemy</TG.StrongestTooltip>
-	<TG.WeakestTooltip>Group will target wealest enemy</TG.WeakestTooltip>
+	<TG.WeakestTooltip>Group will target weakest enemy</TG.WeakestTooltip>
 	<TG.PursueFleeingTooltip>Group will pursue fleeing enemies</TG.PursueFleeingTooltip>
 	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest</TG.ReportToMedicalTooltip>
 	<TG.RescueDownedTooltip>Rescue downed colonists</TG.RescueDownedTooltip>
@@ -107,10 +107,10 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DPSTooltip>Average group Damage-per-Second</TG.DPSTooltip>
 
 
-	<TG.MiddlePawnCountToolTip>Average group Damage-per-Second</TG.MiddlePawnCountToolTip>
-	<TG.RankTooltip>Average group Damage-per-Second</TG.RankTooltip>
-	<TG.UpgradeWeaponTooltip>Average group Damage-per-Second</TG.UpgradeWeaponTooltip>
-	<TG.UpgradeArmorTooltip>Average group Damage-per-Second</TG.UpgradeArmorTooltip>
+	<TG.MiddlePawnCountToolTip>Number of combat-ready pawns</TG.MiddlePawnCountToolTip>
+	<TG.RankTooltip>Average group combat rank</TG.RankTooltip>
+	<TG.UpgradeWeaponTooltip>Tell group to upgrade weapons if any are available</TG.UpgradeWeaponTooltip>
+	<TG.UpgradeArmorTooltip>Tell group to upgrade armor if any is available</TG.UpgradeArmorTooltip>
 	
 	<TG.MoodIconTooltip>Group's overall mood.</TG.MoodIconTooltip>
 	<TG.HealthIconTooltip>Group's overall health.</TG.HealthIconTooltip>
