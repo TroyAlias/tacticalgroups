@@ -102,7 +102,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.PursueFleeingTooltip>Group will pursue fleeing enemies</TG.PursueFleeingTooltip>
 	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest</TG.ReportToMedicalTooltip>
 	<TG.RescueDownedTooltip>Rescue downed colonists</TG.RescueDownedTooltip>
-	<TG.TendWoundedTooltip>Tend downed colonists</TG.TendWoundedTooltip>
+	<TG.TendWoundedTooltip>Tend wounded colonists</TG.TendWoundedTooltip>
 	<TG.ArmorTooltip>Average group armor rating</TG.ArmorTooltip>
 	<TG.DPSTooltip>Average group Damage-per-Second</TG.DPSTooltip>
 
