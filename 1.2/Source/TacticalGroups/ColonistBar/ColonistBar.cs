@@ -382,11 +382,6 @@ namespace TacticalGroups
                 }
             }
 
-            //cachedEntries.RemoveAll(x => TacticUtils.AllCaravanGroups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
-            //    && !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
-            //cachedEntries.RemoveAll(x => TacticUtils.AllPawnGroups.Where(y => !y.entireGroupIsVisible && y.pawns.Contains(x.pawn) && (y.pawnIcons?.ContainsKey(x.pawn) ?? false)
-            //    && !y.pawnIcons[x.pawn].isVisibleOnColonistBar).Any());
-
             if (!TacticalGroupsSettings.HideGroups)
             {
                 foreach (var pawnGroup in TacticUtils.AllPawnGroups)
@@ -395,7 +390,7 @@ namespace TacticalGroups
                     {
                         if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            if (!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
+                            if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar) && cachedEntries[i].pawn.Map != null)
                             {
                                 var group = cachedEntries[i].group;
                                 cachedEntries.RemoveAt(i);
@@ -408,8 +403,45 @@ namespace TacticalGroups
                         }
                     }
                 }
-            }
 
+                foreach (var colonyGroup in TacticUtils.AllColonyGroups)
+                {
+                    for (int i = cachedEntries.Count - 1; i >= 0; i--)
+                    {
+                        if (colonyGroup.pawns.Contains(cachedEntries[i].pawn) && (colonyGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
+                        {
+                            if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar)
+                            {
+                                var group = cachedEntries[i].group;
+                                cachedEntries.RemoveAt(i);
+                                if (!cachedEntries.Where(x => x.group == group).Any())
+                                {
+                                    cachedEntries.Add(new Entry(null, colonyGroup.Map, group, null, colonyGroup));
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var caravanGroup in TacticUtils.AllCaravanGroups)
+                {
+                    for (int i = cachedEntries.Count - 1; i >= 0; i--)
+                    {
+                        if (caravanGroup.pawns.Contains(cachedEntries[i].pawn) && (caravanGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
+                        {
+                            if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar)
+                            {
+                                var group = cachedEntries[i].group;
+                                cachedEntries.RemoveAt(i);
+                                if (!cachedEntries.Where(x => x.group == group).Any())
+                                {
+                                    cachedEntries.Add(new Entry(null, null, group, caravanGroup, null));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             cachedEntries.SortBy(x => x.group);
             drawer.Notify_RecachedEntries();

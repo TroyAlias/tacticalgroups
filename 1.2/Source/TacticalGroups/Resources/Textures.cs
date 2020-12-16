@@ -58,6 +58,7 @@ namespace TacticalGroups
 		public static readonly Texture2D ColonistDotDowned = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotDowned");
 		public static readonly Texture2D ColonistDotToxic = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotToxic");
 		public static readonly Texture2D ColonistDotMentalState = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotMentalState");
+		public static readonly Texture2D ColonistDotInspired = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonistDotInspired");
 		public static readonly Texture2D GroupOverlayColonistDown = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupOverlayColonistDown");
 
 		public static readonly Texture2D TendWounded = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/TendWounded");
@@ -67,7 +68,6 @@ namespace TacticalGroups
 		public static readonly Texture2D IconMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/IconMenu");
 		public static readonly Texture2D RenameTab = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/RenameTab");
 		public static readonly Texture2D SortMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SortMenu");
-
 
 		public static readonly Texture2D DisbandPawnHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandPawnHover");
 		public static readonly Texture2D DisbandPawnClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DisbandPawnClick");
@@ -161,5 +161,10 @@ namespace TacticalGroups
 		public static readonly Texture2D GroupArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRight");
 		public static readonly Texture2D GroupArrowLeftHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowLeftHover");
 		public static readonly Texture2D GroupArrowLeft = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowLeft");
+
+		public static readonly Texture2D PawnArrowDown = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowDown");
+		public static readonly Texture2D PawnArrowLeft = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowLeft");
+		public static readonly Texture2D PawnArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowRight");
+		public static readonly Texture2D PawnArrowUp = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowUp");
 	}
 }

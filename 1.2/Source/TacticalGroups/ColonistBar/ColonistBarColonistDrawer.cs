@@ -140,10 +140,10 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 			Rect needBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
 			GUI.color = Color.white;
-			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
+			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
 			{
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
-				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
+				float num = Mathf.Clamp(p.needs.food.CurLevelPercentage, 0f, 1f);
 				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
 				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
@@ -151,20 +151,19 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+				needBar.x += Textures.RestFood.width;
 			}
-			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
+			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
             {
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
-				float num = Mathf.Clamp(p.needs.food.CurLevelPercentage, 0f, 1f);
+				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
 				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
-
 				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-				needBar.x += Textures.RestFood.width;
 			}
 			GUI.color = color;
 		}

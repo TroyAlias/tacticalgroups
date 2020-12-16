@@ -130,8 +130,8 @@ namespace TacticalGroups
 					healthAverage.Add(pawn.health.summaryHealth.SummaryHealthPercent);
 				}
 			}
-			var averageValue = healthAverage.Average() * 100f;
-			healthPercent = averageValue.ToStringDecimalIfSmall() + "%";
+			var averageValue = healthAverage.Average();
+			healthPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
 			if (averageValue < 0.33)
 			{
 				return Textures.HurtIcon;
@@ -153,8 +153,8 @@ namespace TacticalGroups
 					restAverage.Add(pawn.needs.rest.CurLevelPercentage);
 				}
 			}
-			var averageValue = restAverage.Average() * 100f;
-			restPercent = averageValue.ToStringDecimalIfSmall() + "%";
+			var averageValue = restAverage.Average();
+			restPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
 			if (averageValue < 0.33)
 			{
 				return Textures.TiredIcon;
@@ -176,13 +176,13 @@ namespace TacticalGroups
 					foodAverage.Add(pawn.needs.food.CurLevelPercentage);
 				}
 			}
-			var averageValue = foodAverage.Average() * 100f;
-			foodPercent = averageValue.ToStringDecimalIfSmall() + "%";
-			if (averageValue < 0.33)
+			var averageValue = foodAverage.Average();
+			foodPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33f)
 			{
 				return Textures.StarvingIcon;
 			}
-			else if (averageValue < 0.66)
+			else if (averageValue < 0.66f)
 			{
 				return Textures.HungryIcon;
 			}

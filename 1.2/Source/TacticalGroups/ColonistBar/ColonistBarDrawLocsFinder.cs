@@ -208,6 +208,7 @@ namespace TacticalGroups
 			int num5 = -1;
 			int num6 = -1;
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
+			bool createGroupAssigned = false;
 			for (int j = 0; j < entries.Count; j++)
 			{
 				if (num5 != entries[j].group)
@@ -257,12 +258,15 @@ namespace TacticalGroups
                     {
 						if (entries[j].colonyGroup?.Map == Find.CurrentMap)
 						{
+							Log.Message("0 createGroupRect");
 							createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 							num7 += Textures.CreateGroupIcon.width + 20f;
+							createGroupAssigned = true;
 						}
 					}
-					else
+					else if (!createGroupAssigned)
                     {
+						Log.Message("1 createGroupRect");
 						createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 						num7 += Textures.CreateGroupIcon.width + 20f;
 					}

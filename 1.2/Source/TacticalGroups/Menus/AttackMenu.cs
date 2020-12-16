@@ -41,8 +41,10 @@ namespace TacticalGroups
                     {
 						pawn.drafter.FireAtWill = true;
 					}
-					this.colonistGroup.RemoveOldLord();
 				}
+				this.colonistGroup.SelectAll();
+				this.colonistGroup.RemoveOldLord();
+				TacticDefOf.TG_AttackOrdersSFX.PlayOneShotOnCamera();
 				this.CloseAllWindows();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 30;
@@ -55,7 +57,9 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, -1f, Strings.StrongestTooltip);
 			option.action = delegate
 			{
+				TacticDefOf.TG_AttackOrdersSFX.PlayOneShotOnCamera();
 				this.colonistGroup.Draft();
+				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
@@ -73,7 +77,9 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, -1f, Strings.WeakestTooltip);
 			option.action = delegate
 			{
+				TacticDefOf.TG_AttackOrdersSFX.PlayOneShotOnCamera();
 				this.colonistGroup.Draft();
+				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
@@ -91,7 +97,9 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, -1f, Strings.PursueFleeingTooltip);
 			option.action = delegate
 			{
+				TacticDefOf.TG_AttackOrdersSFX.PlayOneShotOnCamera();
 				this.colonistGroup.Draft();
+				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
 				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();

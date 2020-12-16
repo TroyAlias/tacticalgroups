@@ -62,6 +62,22 @@ namespace TacticalGroups
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
+		public override void Disband(List<Pawn> pawns)
+		{
+			foreach (var pawn in pawns)
+			{
+				if (this.pawns.Contains(pawn))
+				{
+					this.Disband(pawn);
+				}
+			}
+			if (this.pawns.Count == 0)
+			{
+				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+			}
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+		}
+
 		private int curHoverPeriod;
         public override void Draw(Rect rect)
         {

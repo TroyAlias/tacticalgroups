@@ -268,7 +268,6 @@ namespace TacticalGroups
 			}
 		}
 
-		private int mentalStateBlink;
 		private int downedStateBlink;
 		public void DrawOverlays(Rect rect)
         {
@@ -292,15 +291,7 @@ namespace TacticalGroups
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
 					if (pawnRows[i][j].MentalState != null)
                     {
-						mentalStateBlink++;
-						if (mentalStateBlink < 30)
-                        {
-							GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
-                        }
-						else if (mentalStateBlink > 60)
-                        {
-							mentalStateBlink = 0;
-						}
+						GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
 					}
 					else if (pawnRows[i][j].IsDownedOrIncapable())
 					{
@@ -322,6 +313,10 @@ namespace TacticalGroups
 					else if (pawnRows[i][j].IsSick())
                     {
 						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
+					}
+					else if (pawnRows[i][j].Inspired)
+                    {
+						GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
 					}
 					else
                     {
@@ -639,7 +634,7 @@ namespace TacticalGroups
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
-			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Deep, ref pawnKeys2, ref intVecValues);
+			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
 			Scribe_References.Look(ref Map, "Map");
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");

@@ -108,7 +108,9 @@ namespace TacticalGroups
 				TacticDefOf.TG_BattleStationsSFX.PlayOneShotOnCamera();
 				foreach (var pawn in this.colonistGroup.pawns)
 				{
-					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false && pawn.Drafted)
+					this.colonistGroup.Draft();
+					this.colonistGroup.SelectAll();
+					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false)
 					{
 						var job = JobMaker.MakeJob(JobDefOf.Goto, this.colonistGroup.formations[pawn]);
 						job.locomotionUrgency = LocomotionUrgency.Sprint;

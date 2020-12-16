@@ -132,7 +132,14 @@ namespace TacticalGroups
 			return false;
 		}
 
-
+		public static void SelectAll(this ColonistGroup colonistGroup)
+		{
+			Find.Selector.ClearSelection();
+			foreach (var pawn in colonistGroup.pawns)
+			{
+				Find.Selector.Select(pawn);
+			}
+		}
 		public static void Draft(this ColonistGroup colonistGroup)
         {
 			foreach (var pawn in colonistGroup.pawns)

@@ -39,7 +39,8 @@ namespace TacticalGroups
 
 		public void AddSkillSortButton(SkillDef skillDef)
 		{
-			var option = new SkillSortFloatMenuOption(skillDef, skillDef.LabelCap, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			var option = new SkillSortFloatMenuOption(skillDef, skillDef.LabelCap, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter,
+				MenuOptionPriority.High, 0f, -1f);
 			option.action = delegate
 			{
 				this.colonistGroup.skillDefSort = skillDef;
@@ -58,6 +59,7 @@ namespace TacticalGroups
             {
                 TieredFloatMenuOption floatMenuOption = options[i];
 				Rect rect2 = new Rect(zero.x, zero.y, (this.backgroundTexture.width - InitialFloatOptionPositionShift.x) / 1.2f, floatMenuOption.curIcon.height);
+				
 				if (floatMenuOption.DoGUI(rect2, this))
                 {
                     Find.WindowStack.TryRemove(this);

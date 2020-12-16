@@ -188,15 +188,6 @@ namespace TacticalGroups
 			this.extraPartOnGUI = extraPartOnGUI;
 			this.revalidateWorldClickTarget = revalidateWorldClickTarget;
 		}
-
-        public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D selectedIcon)
-        {
-            Label = label;
-            this.action = action;
-            this.icon = icon;
-            this.selectedIcon = selectedIcon;
-        }
-
         public void SetSizeMode(FloatMenuSizeMode newSizeMode)
 		{
 			sizeMode = newSizeMode;

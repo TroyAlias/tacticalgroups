@@ -18,7 +18,7 @@ namespace TacticalGroups
 			this.groupIconFolder = "CaravanGroup";
 			this.groupIconName = "Caravan_GroupIcon";
 			this.defaultGroupName = Strings.Caravan;
-			this.pawnRowCount = 4;
+			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.entireGroupIsVisible = true;
 			this.updateIcon = true;

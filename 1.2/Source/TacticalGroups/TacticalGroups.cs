@@ -50,14 +50,17 @@ namespace TacticalGroups
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
             foreach (var colonyGroup in colonyGroups.Values)
             {
-                colonyGroup.pawns.RemoveAll(x => caravan.pawns.InnerListForReading.Contains(x));
+                colonyGroup.Disband(caravan.pawns.InnerListForReading);
+            }
+            foreach (var pawnGroup in pawnGroups)
+            {
+                pawnGroup.Disband(caravan.pawns.InnerListForReading);
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public void RemoveCaravanGroup(Caravan caravan)
         {
-            ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Remove(this.caravanGroups[caravan]);
             this.caravanGroups.Remove(caravan);
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
@@ -87,7 +90,7 @@ namespace TacticalGroups
             {
                 this.colonyGroups[map] = new ColonyGroup(pawn);
             }
-            RemovePawnFromOtherColonies(this.colonyGroups[map], pawn);
+            RemovePawnsFromOtherColonies(this.colonyGroups[map], new List<Pawn> { pawn });
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }
@@ -99,11 +102,7 @@ namespace TacticalGroups
             {
                 if (group.Value != mainGroup)
                 {
-                    Log.Message("Remove 8");
-                    foreach (var pawn in pawns)
-                    {
-                        RemovePawnFromOtherColonies(mainGroup, pawn);
-                    }
+                    group.Value.Disband(pawns);
                     if (group.Value.pawns.Count == 0)
                     {
                         colonyKeysToRemove.Add(group.Key);
@@ -116,18 +115,6 @@ namespace TacticalGroups
             }
         }
 
-        public void RemovePawnFromOtherColonies(ColonyGroup mainGroup, Pawn pawn)
-        {
-            foreach (var group in this.colonyGroups)
-            {
-                if (group.Value != mainGroup)
-                {
-                    group.Value.pawns.RemoveAll(x => pawn == x);
-                    group.Value.pawnIcons.RemoveAll(x => pawn == x.Key);
-                }
-            }
-
-        }
         public override void FinalizeInit()
         {
             base.FinalizeInit();
