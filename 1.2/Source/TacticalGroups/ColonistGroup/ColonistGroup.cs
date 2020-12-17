@@ -188,7 +188,10 @@ namespace TacticalGroups
 						Find.Selector.ClearSelection();
 						foreach (var pawn in this.pawns)
 						{
-							Find.Selector.Select(pawn);
+							if (!pawn.IsWorldPawn())
+                            {
+								Find.Selector.Select(pawn);
+                            }
 						}
 					}
 				}
