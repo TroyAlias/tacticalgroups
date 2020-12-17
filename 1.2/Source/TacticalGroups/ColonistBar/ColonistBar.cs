@@ -141,6 +141,15 @@ namespace TacticalGroups
 
         public void ColonistBarOnGUI()
         {
+            if (!TacticUtils.originalModIsActive)
+            {
+                var str = "You have stolen Tactical Groups mod. Report about it to original mod author";
+                if (Find.WindowStack.WindowOfType< Dialog_MessageBox>() == null)
+                {
+                    Find.WindowStack.Add(new Dialog_MessageBox(str));
+                }
+                return;
+            }
             if (!Visible)
             {
                 return;
