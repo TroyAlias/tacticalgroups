@@ -237,19 +237,20 @@ namespace TacticalGroups
 			var pawnRows = GetPawnRows(this.pawnRowCount);
 			if (ShowExpanded)
 			{
-				totalRect.height += pawnRows.Count * 35;
-				totalRect = totalRect.ScaledBy(2f);
+				totalRect.height += rect.height + (pawnRows.Count * 50f);
+				totalRect.x -= (65f * pawnRowCount) / 3f;
+				totalRect.width = 70f * pawnRowCount;
 			}
 			else
 			{
 				totalRect.height += pawnRows.Count * 30;
-				totalRect = totalRect.ScaledBy(1.1f);
+				totalRect = totalRect.ScaledBy(1.2f);
 			}
-
 			if (Mouse.IsOver(rect))
 			{
 				pawnWindowIsActive = true;
 				DrawPawnRows(rect, pawnRows);
+				DrawPawnArrows(rect, pawnRows);
 				if (!ShowExpanded)
 				{
 					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(groupName)));
@@ -259,6 +260,7 @@ namespace TacticalGroups
 			else if (Mouse.IsOver(totalRect) && pawnWindowIsActive || showPawnIconsRightClickMenu)
 			{
 				DrawPawnRows(rect, pawnRows);
+				DrawPawnArrows(rect, pawnRows);
 			}
 			else
 			{
@@ -357,7 +359,6 @@ namespace TacticalGroups
 						Rect smallRect = new Rect(initialRect.x + (j * 65), initialRect.y + (i * 70), 50, 50);
 						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
-						DrawPawnArrows(smallRect, pawnRows[i][j]);
 					}
 				}
 			}
@@ -372,6 +373,33 @@ namespace TacticalGroups
 						Rect smallRect = new Rect(backGroundRect.x + (j * 25) + 2f, backGroundRect.y + (i * 30) + 3f, 24, 24);
 						DrawColonist(smallRect, pawnRows[i][j], pawnRows[i][j].Map, false);
 						pawnRects[pawnRows[i][j]] = smallRect;
+					}
+				}
+			}
+		}
+		public void DrawPawnArrows(Rect rect, List<List<Pawn>> pawnRows)
+		{
+			if (ShowExpanded)
+			{
+				var initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
+				initialRect.x -= initialRect.width / 1.5f;
+				for (var i = 0; i < pawnRows.Count; i++)
+				{
+					for (var j = 0; j < pawnRows[i].Count; j++)
+					{
+						Rect smallRect = new Rect(initialRect.x + (j * 65), initialRect.y + (i * 70), 50, 50);
+						DrawPawnArrows(smallRect, pawnRows[i][j]);
+					}
+				}
+			}
+			else
+			{
+				var backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
+				for (var i = 0; i < pawnRows.Count; i++)
+				{
+					for (var j = 0; j < pawnRows[i].Count; j++)
+					{
+						Rect smallRect = new Rect(backGroundRect.x + (j * 25) + 2f, backGroundRect.y + (i * 30) + 3f, 24, 24);
 						DrawPawnArrows(smallRect, pawnRows[i][j]);
 					}
 				}
@@ -395,9 +423,9 @@ namespace TacticalGroups
 			if (pawnReorderingMode.TryGetValue(pawn, out bool value) && value)
 			{
 				var rightPawnArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.PawnArrowRight.width, Textures.PawnArrowRight.height);
-				if (Mouse.IsOver(rightPawnArrowRect))
+				if (Mouse.IsOver(rightPawnArrowRect.ExpandedBy(3f)))
 				{
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(rightPawnArrowRect))
 					{
 						var indexOf = this.pawns.IndexOf(pawn);
 						if (this.pawns.Count > indexOf + 1)
@@ -412,18 +440,14 @@ namespace TacticalGroups
 						}
 						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 					}
-					GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
 					reset = false;
 				}
-				else
-				{
-					GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
-				}
+				GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
 
 				var leftPawnArrowRect = new Rect(rect.x - Textures.PawnArrowLeft.width, rect.y, Textures.PawnArrowLeft.width, Textures.PawnArrowLeft.height);
-				if (Mouse.IsOver(leftPawnArrowRect))
+				if (Mouse.IsOver(leftPawnArrowRect.ExpandedBy(3f)))
 				{
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(leftPawnArrowRect))
 					{
 						var indexOf = this.pawns.IndexOf(pawn);
 						if (indexOf > 0)
@@ -438,13 +462,9 @@ namespace TacticalGroups
 						}
 						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 					}
-					GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
 					reset = false;
 				}
-				else
-				{
-					GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
-				}
+				GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
 			}
 
 			if (reset)

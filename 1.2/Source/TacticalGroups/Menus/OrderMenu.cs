@@ -19,13 +19,19 @@ namespace TacticalGroups
 		public Dictionary<float, Texture2D> ranks = new Dictionary<float, Texture2D>
 			{
 				{0, Textures.Rank_0},
-				{37, Textures.Rank_1},
-				{74, Textures.Rank_2},
-				{111, Textures.Rank_3},
-				{148, Textures.Rank_4},
-				{185, Textures.Rank_5},
-				{222, Textures.Rank_6},
-				{300, Textures.Rank_7},
+				{50, Textures.Rank_1},
+				{100, Textures.Rank_2},
+				{150, Textures.Rank_3},
+				{200, Textures.Rank_4},
+				{250, Textures.Rank_5},
+				{300, Textures.Rank_6},
+				{350, Textures.Rank_7},
+				{400, Textures.Rank_8},
+				{450, Textures.Rank_9},
+				{500, Textures.Rank_10},
+				{550, Textures.Rank_11},
+				{600, Textures.Rank_12},
+				{650, Textures.Rank_13},
 			};
 		public Texture2D GetCurRank(float curRankValue)
 		{

@@ -112,6 +112,13 @@ namespace TacticalGroups
 		public static readonly Texture2D UpgradeArmorIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/UpgradeArmorIcon");
 		public static readonly Texture2D ShootingMeleeHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ShootingMeleeHover");
 		public static readonly Texture2D ShootingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/ShootingIcon");
+
+		public static readonly Texture2D Rank_13 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_13");
+		public static readonly Texture2D Rank_12 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_12");
+		public static readonly Texture2D Rank_11 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_11");
+		public static readonly Texture2D Rank_10 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_10");
+		public static readonly Texture2D Rank_9 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_9");
+		public static readonly Texture2D Rank_8 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_8");
 		public static readonly Texture2D Rank_7 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_7");
 		public static readonly Texture2D Rank_6 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_6");
 		public static readonly Texture2D Rank_5 = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Rank/Rank_5");
