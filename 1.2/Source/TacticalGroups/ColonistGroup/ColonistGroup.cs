@@ -732,7 +732,7 @@ namespace TacticalGroups
             }
         }
 
-		public WorkType activeWorkType = WorkType.Construction;
+		public WorkType activeWorkType = WorkType.None;
 
 		public virtual void ExposeData()
         {
