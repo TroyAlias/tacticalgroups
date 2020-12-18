@@ -199,6 +199,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
+							this.colonistGroup.activeWorkType = WorkType.None;
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
