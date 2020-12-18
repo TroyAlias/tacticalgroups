@@ -745,7 +745,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
 			Scribe_Values.Look(ref groupIconFolder, "groupIconFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
-			Scribe_Values.Look(ref activeWorkType, "activeWorkType", WorkType.Construction);
+			Scribe_Values.Look(ref activeWorkType, "activeWorkType", WorkType.None);
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 

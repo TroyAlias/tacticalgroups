@@ -20,7 +20,7 @@ namespace TacticalGroups
 		{
 			this.options = new List<TieredFloatMenuOption>();
 			AddRallyButton();
-			AddActionButton();
+			AddWorkButton();
 			AddOrderButton();
 			AddManageButton();
 			for (int i = 0; i < options.Count; i++)
@@ -48,18 +48,18 @@ namespace TacticalGroups
 			options.Add(option);
 		}
 
-		public void AddActionButton()
+		public void AddWorkButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Actions, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
+			var option = new TieredFloatMenuOption(Strings.Work, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleLeft, MenuOptionPriority.High, 5f);
 			option.action = delegate
 			{
-				AddActionWindow(option);
+				AddWorkWindow(option);
 			};
 			option.bottomIndent = Textures.AOMButton.height;
 			options.Add(option);
 		}
 
-		public void AddActionWindow(TieredFloatMenuOption option)
+		public void AddWorkWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);

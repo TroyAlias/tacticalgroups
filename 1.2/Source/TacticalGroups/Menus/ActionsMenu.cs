@@ -224,7 +224,6 @@ namespace TacticalGroups
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
-
 						}
 
 					}
