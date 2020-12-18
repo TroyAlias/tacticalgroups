@@ -102,16 +102,17 @@ namespace TacticalGroups
             {
                 if (group.Value != mainGroup)
                 {
-                    group.Value.Disband(pawns);
-                    if (group.Value.pawns.Count == 0)
-                    {
-                        colonyKeysToRemove.Add(group.Key);
-                    }
+                    colonyKeysToRemove.Add(group.Key);
                 }
             }
+
             foreach (var key in colonyKeysToRemove)
             {
-                colonyGroups.Remove(key);
+                colonyGroups[key].Disband(pawns);
+                if (colonyGroups[key].pawns.Count == 0)
+                {
+                    colonyGroups.Remove(key);
+                }
             }
         }
 

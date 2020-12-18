@@ -2,6 +2,7 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -461,10 +462,7 @@ namespace TacticalGroups
 			{
 				if (pawn.CurJobDef != JobDefOf.FinishFrame)
 				{
-					if (TryGetJobForAllItems(WorkTypeDefOf.Construction.workGiversByPriority, pawn))
-                    {
-						TryGetJobForAllCells(WorkTypeDefOf.Construction.workGiversByPriority, pawn);
-                    }
+					GetJobFor(pawn, WorkTypeDefOf.Construction.workGiversByPriority);
 				}
 			}
 		}
@@ -476,10 +474,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.Clean)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cleaning");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-                    {
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -491,10 +486,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.DoBill && pawn.CurJob.workGiverDef != DefDatabase<WorkGiverDef>.GetNamed("DoBillsCook"))
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cooking");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -506,10 +498,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.DoBill)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Crafting");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -521,10 +510,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.ClearSnow)
 				{
 					var workgivers = new List<WorkGiverDef> { DefDatabase<WorkGiverDef>.GetNamed("CleanClearSnow") };
-					if (!TryGetJobForAllItems(workgivers, pawn))
-					{
-						TryGetJobForAllCells(workgivers, pawn);
-					}
+					GetJobFor(pawn, workgivers);
 				}
 			}
 		}
@@ -536,10 +522,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.TendPatient)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Doctor");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -551,10 +534,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.HaulToCell && pawn.CurJobDef != JobDefOf.HaulToContainer && pawn.CurJobDef != JobDefOf.HaulToTransporter)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hauling");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -566,10 +546,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.Hunt)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hunting");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -580,10 +557,7 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.Mine)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Mining");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -599,10 +573,7 @@ namespace TacticalGroups
 					var workgivers = new List<WorkGiverDef>();
 					workgivers.AddRange(growingWorkType.workGiversByPriority);
 					workgivers.AddRange(plantCuttingWorkType.workGiversByPriority);
-					if (!TryGetJobForAllItems(workgivers, pawn))
-					{
-						TryGetJobForAllCells(workgivers, pawn);
-					}
+					GetJobFor(pawn, workgivers);
 				}
 			}
 		}
@@ -614,10 +585,7 @@ namespace TacticalGroups
 				if (pawn.jobs?.curJob?.workGiverDef?.workType != WorkTypeDefOf.Warden)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("Warden");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
@@ -629,74 +597,272 @@ namespace TacticalGroups
 				if (pawn.CurJobDef != JobDefOf.CutPlantDesignated)
 				{
 					var workType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
-					if (!TryGetJobForAllItems(workType.workGiversByPriority, pawn))
-					{
-						TryGetJobForAllCells(workType.workGiversByPriority, pawn);
-					}
+					GetJobFor(pawn, workType.workGiversByPriority);
 				}
 			}
 		}
-		public bool TryGetJobForAllItems(List<WorkGiverDef> workGiverDefs, Pawn pawn)
+
+		public void GetJobFor(Pawn pawn, List<WorkGiverDef> workGiverDefs)
         {
-			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
+			List<WorkGiver> list = workGiverDefs.Select(x => x.Worker).ToList();
+			int num = -999;
+			TargetInfo bestTargetOfLastPriority = TargetInfo.Invalid;
+			WorkGiver_Scanner scannerWhoProvidedTarget = null;
+			WorkGiver_Scanner scanner;
+			IntVec3 pawnPosition;
+			float closestDistSquared;
+			float bestPriority;
+			bool prioritized;
+			bool allowUnreachable;
+			Danger maxPathDanger;
+			for (int j = 0; j < list.Count; j++)
 			{
-				foreach (Thing item in pawn.Map.listerThings.AllThings)
+				WorkGiver workGiver = list[j];
+				if (workGiver.def.priorityInType != num && bestTargetOfLastPriority.IsValid)
 				{
-					foreach (var workGiver in workGiverDefs)
+					break;
+				}
+				if (!PawnCanUseWorkGiver(pawn, workGiver))
+				{
+					continue;
+				}
+				try
+				{
+					Job job2 = workGiver.NonScanJob(pawn);
+					if (job2 != null)
 					{
-						WorkGiver_Scanner workGiver_Scanner = workGiver.Worker as WorkGiver_Scanner;
-						if (workGiver_Scanner != null && workGiver_Scanner.def.directOrderable)
+						GiveJob(pawn, job2, null);
+						return;
+					}
+					scanner = (workGiver as WorkGiver_Scanner);
+					if (scanner != null)
+					{
+						if (scanner.def.scanThings)
 						{
-							if ((workGiver_Scanner.PotentialWorkThingRequest.Accepts(item) || (workGiver_Scanner.PotentialWorkThingsGlobal(pawn) != null && workGiver_Scanner.PotentialWorkThingsGlobal(pawn).Contains(item))) && !workGiver_Scanner.ShouldSkip(pawn, forced: true))
+							Predicate<Thing> validator = (Thing t) => !t.IsForbidden(pawn) && scanner.HasJobOnThing(pawn, t);
+							IEnumerable<Thing> enumerable = scanner.PotentialWorkThingsGlobal(pawn);
+							Thing thing;
+							if (scanner.Prioritized)
 							{
-								if (workGiver_Scanner.MissingRequiredCapacity(pawn) == null)
+								IEnumerable<Thing> enumerable2 = enumerable;
+								if (enumerable2 == null)
 								{
-									Job job = workGiver_Scanner.HasJobOnThing(pawn, item, forced: true) ? workGiver_Scanner.JobOnThing(pawn, item, forced: true) : null;
-									if (job != null)
-									{
-										WorkTypeDef workType2 = workGiver_Scanner.def.workType;
-										if (pawn.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
-										{
-										}
-										else if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
-										{
-										}
-										else if (pawn.workSettings.GetPriority(workType2) == 0)
-										{
-										}
-										else if (job.def == JobDefOf.Research && item is Building_ResearchBench)
-										{
-										}
-										else if (item.IsForbidden(pawn))
-										{
-										}
-										else if (!pawn.CanReach(item, workGiver_Scanner.PathEndMode, Danger.Deadly))
-										{
-										}
-										else
-										{
-											WorkGiver_Scanner localScanner2 = workGiver_Scanner;
-											job.workGiverDef = workGiver_Scanner.def;
-											pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner2, pawn.Position);
-											return true;
-										}
-									}
+									enumerable2 = pawn.Map.listerThings.ThingsMatching(scanner.PotentialWorkThingRequest);
+								}
+								thing = ((!scanner.AllowUnreachable) ? GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, enumerable2, scanner.PathEndMode, TraverseParms.For(pawn, scanner.MaxPathDanger(pawn)), 9999f, validator, (Thing x) => scanner.GetPriority(pawn, x)) : GenClosest.ClosestThing_Global(pawn.Position, enumerable2, 99999f, validator, (Thing x) => scanner.GetPriority(pawn, x)));
+							}
+							else if (scanner.AllowUnreachable)
+							{
+								IEnumerable<Thing> enumerable3 = enumerable;
+								if (enumerable3 == null)
+								{
+									enumerable3 = pawn.Map.listerThings.ThingsMatching(scanner.PotentialWorkThingRequest);
+								}
+								thing = GenClosest.ClosestThing_Global(pawn.Position, enumerable3, 99999f, validator);
+							}
+							else
+							{
+								thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, scanner.PotentialWorkThingRequest, scanner.PathEndMode, TraverseParms.For(pawn, scanner.MaxPathDanger(pawn)), 9999f, validator, enumerable, 0, scanner.MaxRegionsToScanBeforeGlobalSearch, enumerable != null);
+							}
+							if (thing != null)
+							{
+								bestTargetOfLastPriority = thing;
+								scannerWhoProvidedTarget = scanner;
+							}
+						}
+						if (scanner.def.scanCells)
+						{
+							pawnPosition = pawn.Position;
+							closestDistSquared = 99999f;
+							bestPriority = float.MinValue;
+							prioritized = scanner.Prioritized;
+							allowUnreachable = scanner.AllowUnreachable;
+							maxPathDanger = scanner.MaxPathDanger(pawn);
+							IEnumerable<IntVec3> enumerable4 = scanner.PotentialWorkCellsGlobal(pawn);
+							IList<IntVec3> list2;
+							if ((list2 = (enumerable4 as IList<IntVec3>)) != null)
+							{
+								for (int k = 0; k < list2.Count; k++)
+								{
+									ProcessCell(list2[k]);
+								}
+							}
+							else
+							{
+								foreach (IntVec3 item in enumerable4)
+								{
+									ProcessCell(item);
 								}
 							}
 						}
 					}
+					void ProcessCell(IntVec3 c)
+					{
+						bool flag = false;
+						float num2 = (c - pawnPosition).LengthHorizontalSquared;
+						float num3 = 0f;
+						if (prioritized)
+						{
+							if (!c.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, c))
+							{
+								if (!allowUnreachable && !pawn.CanReach(c, scanner.PathEndMode, maxPathDanger))
+								{
+									return;
+								}
+								num3 = scanner.GetPriority(pawn, c);
+								if (num3 > bestPriority || (num3 == bestPriority && num2 < closestDistSquared))
+								{
+									flag = true;
+								}
+							}
+						}
+						else if (num2 < closestDistSquared && !c.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, c))
+						{
+							if (!allowUnreachable && !pawn.CanReach(c, scanner.PathEndMode, maxPathDanger))
+							{
+								return;
+							}
+							flag = true;
+						}
+						if (flag)
+						{
+							bestTargetOfLastPriority = new TargetInfo(c, pawn.Map);
+							scannerWhoProvidedTarget = scanner;
+							closestDistSquared = num2;
+							bestPriority = num3;
+						}
+					}
 				}
+				catch (Exception ex)
+				{
+					Log.Error(string.Concat(pawn, " threw exception in WorkGiver ", workGiver.def.defName, ": ", ex.ToString()));
+				}
+				finally
+				{
+				}
+				if (bestTargetOfLastPriority.IsValid)
+				{
+					Job job3 = (!bestTargetOfLastPriority.HasThing) ? scannerWhoProvidedTarget.JobOnCell(pawn, bestTargetOfLastPriority.Cell) : scannerWhoProvidedTarget.JobOnThing(pawn, bestTargetOfLastPriority.Thing);
+					if (job3 != null)
+					{
+						job3.workGiverDef = scannerWhoProvidedTarget.def;
+						GiveJob(pawn, job3, scannerWhoProvidedTarget);
+						return;
+					}
+				}
+				num = workGiver.def.priorityInType;
 			}
-			return false;
 		}
+		public void GiveJob(Pawn pawn, Job job, WorkGiver_Scanner localScanner)
+        {
+			job.workGiverDef = localScanner?.def;
+			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner, pawn.Position);
+			Log.Message("1: " + pawn + " - found job: " + job);
+		}
+
+		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
+		{
+			if (!giver.def.nonColonistsCanDo && !pawn.IsColonist)
+			{
+				return false;
+			}
+			if (pawn.WorkTagIsDisabled(giver.def.workTags))
+			{
+				return false;
+			}
+			if (giver.ShouldSkip(pawn))
+			{
+				return false;
+			}
+			if (giver.MissingRequiredCapacity(pawn) != null)
+			{
+				return false;
+			}
+			return true;
+		}
+
+		private bool WorkGiversRelated(WorkGiverDef current, WorkGiverDef next)
+		{
+			if (next == WorkGiverDefOf.Repair)
+			{
+				return current == WorkGiverDefOf.Repair;
+			}
+			return true;
+		}
+
+		//public bool TryGetJobForAllItems(List<WorkGiverDef> workGiverDefs, Pawn pawn)
+		//{
+		//	if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
+		//	{
+		//		foreach (var workGiver in workGiverDefs)
+		//        {
+		//			var stopWatch = new Stopwatch();
+		//			stopWatch.Restart();
+		//			foreach (Thing item in pawn.Map.listerThings.AllThings)
+		//			{
+		//				WorkGiver_Scanner workGiver_Scanner = workGiver.Worker as WorkGiver_Scanner;
+		//				if (workGiver_Scanner != null && workGiver_Scanner.def.directOrderable)
+		//				{
+		//					WorkTypeDef workType2 = workGiver_Scanner.def.workType;
+		//					if (pawn.workSettings.GetPriority(workType2) == 0)
+		//					{
+		//
+		//					}
+		//					else if (item.IsForbidden(pawn))
+		//					{
+		//
+		//					}
+		//					else if (pawn.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
+		//					{
+		//
+		//					}
+		//					else if ((workGiver_Scanner.PotentialWorkThingRequest.Accepts(item) 
+		//						|| (workGiver_Scanner.PotentialWorkThingsGlobal(pawn) != null 
+		//						&& workGiver_Scanner.PotentialWorkThingsGlobal(pawn).Contains(item)))
+		//						&& !workGiver_Scanner.ShouldSkip(pawn, forced: true))
+		//					{
+		//						if (workGiver_Scanner.MissingRequiredCapacity(pawn) == null)
+		//						{
+		//							Job job = workGiver_Scanner.HasJobOnThing(pawn, item, forced: true) ? workGiver_Scanner.JobOnThing(pawn, item, forced: true) : null;
+		//							if (job != null)
+		//							{
+		//								if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
+		//								{
+		//
+		//								}
+		//								if (!pawn.CanReach(item, workGiver_Scanner.PathEndMode, Danger.Deadly))
+		//								{
+		//									Log.Message("TEST 3");
+		//								}
+		//								else
+		//								{
+		//									WorkGiver_Scanner localScanner2 = workGiver_Scanner;
+		//									job.workGiverDef = workGiver_Scanner.def;
+		//									pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner2, pawn.Position);
+		//									Log.Message("1: " + pawn + " - found job: " + job);
+		//									return true;
+		//								}
+		//								Log.ResetMessageCount();
+		//							}
+		//						}
+		//					}
+		//				}
+		//			}
+		//			stopWatch.Stop();
+		//			Log.Message(pawn + " using " + workGiver + " - " + stopWatch.Elapsed);
+		//		}
+		//	}
+		//	return false;
+		//}
 
 		public bool TryGetJobForAllCells(List<WorkGiverDef> workGiverDefs, Pawn pawn)
 		{
 			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
 			{
-				foreach (IntVec3 cell in pawn.Map.AllCells)
-				{
-					foreach (var workGiver in workGiverDefs)
+				foreach (var workGiver in workGiverDefs)
+                {
+					Log.Message(pawn + " using " + workGiver);
+					foreach (IntVec3 cell in pawn.Map.AllCells)
 					{
 						if (!pawn.Drafted || workGiver.canBeDoneWhileDrafted)
 						{
@@ -728,6 +894,7 @@ namespace TacticalGroups
 												WorkGiver_Scanner localScanner = workGiver_Scanner2;
 												job2.workGiverDef = workGiver_Scanner2.def;
 												pawn.jobs.TryTakeOrderedJobPrioritizedWork(job2, localScanner, cell);
+												Log.Message("2: " + pawn + " - found job: " + job2);
 												return true;
 											}
 										}
