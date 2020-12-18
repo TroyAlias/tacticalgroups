@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using Verse.Sound;
+using Verse.AI;
 
 namespace TacticalGroups 
 {
@@ -86,6 +87,11 @@ namespace TacticalGroups
             {
                 typeof(Vector3)
             }, null), new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null, null);
+            
+            harmony.Patch(AccessTools.Method(typeof(Pawn_JobTracker), "EndCurrentJob", null, null), 
+                new HarmonyMethod(typeof(HarmonyPatches),  "EndCurrentJobPrefix", null), 
+                new HarmonyMethod(typeof(HarmonyPatches),  "EndCurrentJobPostfix", null), null, null);
+
 
             //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectNextColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
             //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectPreviousColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
@@ -192,20 +198,13 @@ namespace TacticalGroups
             for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
             {
                 var group = TacticUtils.TacticalGroups.pawnGroups[num];
-                Log.Message("Remove 1");
-                group.pawnIcons.Remove(__instance);
-                group.pawns.Remove(__instance);
-                if (group.pawns.Count == 0)
-                {
-                    TacticUtils.TacticalGroups.pawnGroups.RemoveAt(num);
-                }
+                group.Disband(__instance);
             }
 
             var caravanKeysToRemove = new List<Caravan>();
             foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
             {
                 group.Value.pawnIcons.Remove(__instance);
-                Log.Message("Remove 2");
                 group.Value.pawns.Remove(__instance);
                 if (group.Value.pawns.Count == 0)
                 {
@@ -222,7 +221,6 @@ namespace TacticalGroups
             foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
             {
                 group.Value.pawnIcons.Remove(__instance);
-                Log.Message("Remove 3");
                 group.Value.pawns.Remove(__instance);
                 if (group.Value.pawns.Count == 0)
                 {
@@ -234,6 +232,60 @@ namespace TacticalGroups
             {
                 TacticUtils.TacticalGroups.colonyGroups.Remove(key);
             }
+
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+        }
+        private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out WorkType __state, bool canReturnToPool = true)
+        {
+            __state = WorkType.None;
+            if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && CanWork(___pawn))
+            {
+                if (___pawn.TryGetGroups(out List<ColonistGroup> groups ))
+                {
+                    foreach (var group in groups)
+                    {
+                        if (group.activeWorkType != WorkType.None)
+                        {
+                            __state = group.activeWorkType;
+                            startNewJob = false;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, WorkType __state, bool canReturnToPool = true)
+        {
+            if (__state != WorkType.None)
+            {
+                WorkSearchUtility.SearchForWork(__state, new List<Pawn> { ___pawn });
+            }
+        }
+
+        private static bool CanWork(Pawn pawn)
+        {
+            if (pawn.needs.food?.CurLevel < 0.10)
+            {
+                return false;
+            }
+            if (pawn.needs.rest?.CurLevel < 0.10)
+            {
+                return false;
+            }
+            if (pawn.MentalState != null)
+            {
+                return false;
+            }
+            if (pawn.mindState.lastJobTag == JobTag.SatisfyingNeeds)
+            {
+                return false;
+            }
+            if (pawn.IsDownedOrIncapable() || pawn.IsSick() || pawn.IsShotOrBleeding())
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

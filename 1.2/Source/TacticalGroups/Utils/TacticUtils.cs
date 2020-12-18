@@ -14,7 +14,6 @@ namespace TacticalGroups
 	internal static class TacticUtils
 	{
 		public static bool originalModIsActive;
-
 		static TacticUtils() 
 		{
 			if (ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "derekbickley.ltocolonygroups" && x.Name == "[DerekBickley] Colony Groups BETA ONLY, DON'T REUPLOAD").Any())
@@ -77,6 +76,20 @@ namespace TacticalGroups
 				return list;
 			}
 		}
+
+		public static Dictionary<Pawn, List<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, List<ColonistGroup>>();
+
+		public static bool TryGetGroups(this Pawn pawn, out List<ColonistGroup> groups)
+        {
+			if (pawnsWithGroups.TryGetValue(pawn, out List<ColonistGroup> value))
+			{
+				groups = value;
+				return true;
+            }
+			groups = null;
+			return false;
+        }
+
 		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
         {
 			return TacticalGroups.pawnGroups.Where(x => x.Map == colonyGroup.Map).ToList();

@@ -61,6 +61,15 @@ namespace TacticalGroups
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
+		public override void Disband(Pawn pawn)
+		{
+			base.Disband();
+			if (this.pawns.Count == 0)
+			{
+				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+			}
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+		}
 
 		public override void Disband(List<Pawn> pawns)
 		{

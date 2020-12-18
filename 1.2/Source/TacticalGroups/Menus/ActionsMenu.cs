@@ -12,30 +12,7 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public enum WorkType
-    {
-		None,
-		Construction,
-		Crafting,
-		Hauling,
-		Cleaning, 
-		Hunting, 
-		Cooking, 
-		Mining,
-		WoodChopping,
-		Plants,
-		ClearSnow,
-		Doctor,
-		Warden
-	}
-	public enum BreakType
-	{
-		None,
-		Socialize,
-		Entertainment,
-		ChowHall,
-		LightsOut,
-	}
+
 	public class ActionsMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
@@ -54,16 +31,16 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, Textures.LookBusyButton.width - 2f, Strings.LookBusyTooltip);
 			lookBusy.action = delegate
 			{
-				SearchForWork(WorkType.None);
+				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.pawns);
 			};
-			lookBusy.bottomIndent = 310f;
+			lookBusy.bottomIndent = 390f;
 			options.Add(lookBusy);
 
 			var takeFive = new TieredFloatMenuOption(Strings.TakeFive, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f,
 				Textures.LookBusyButton.width - 2f, Strings.TakeFiveTooltip);
 			takeFive.action = delegate
 			{
-				TakeABreak(BreakType.None);
+				WorkSearchUtility.TakeABreak(BreakType.None, this.colonistGroup.pawns);
 			};
 			options.Add(takeFive);
 
@@ -75,13 +52,17 @@ namespace TacticalGroups
 			workIconStates[Textures.CookButton] = WorkType.Cooking;
 			workIconStates[Textures.MineButton] = WorkType.Mining;
 			workIconStates[Textures.ChopWoodButton] = WorkType.WoodChopping;
-			workIconStates[Textures.FarmButton] = WorkType.Plants;
-			workIconStates[Textures.ClearSnowButton] = WorkType.ClearSnow;
-			workIconStates[Textures.DoctorButton] = WorkType.Doctor;
-			workIconStates[Textures.WardenButton] = WorkType.Warden;
 
-			breakIconStates[Textures.SocializeButton] = BreakType.Socialize;
-			breakIconStates[Textures.EntertainmentButton] = BreakType.Entertainment;
+			workIconStates[Textures.TailorButton] = WorkType.Tailor;
+			workIconStates[Textures.SmithButton] = WorkType.Smith;
+			workIconStates[Textures.FireExtinguishButton] = WorkType.FireExtinguish;
+			workIconStates[Textures.ArtButton] = WorkType.Art;
+
+			workIconStates[Textures.FarmButton] = WorkType.Plants;
+			workIconStates[Textures.HandleButton] = WorkType.Handle;
+			workIconStates[Textures.WardenButton] = WorkType.Warden;
+			workIconStates[Textures.ClearSnowButton] = WorkType.ClearSnow;
+
 			breakIconStates[Textures.ChowHallButton] = BreakType.ChowHall;
 			breakIconStates[Textures.LightsOutButton] = BreakType.LightsOut;
 
@@ -95,11 +76,14 @@ namespace TacticalGroups
 			tooltips[Textures.ChopWoodButton] = Strings.WorkTaskTooltipChopWood;
 			tooltips[Textures.FarmButton] = Strings.WorkTaskTooltipFarm;
 			tooltips[Textures.ClearSnowButton] = Strings.WorkTaskTooltipClearSnow;
-			tooltips[Textures.DoctorButton] = Strings.WorkTaskTooltipDoctor;
 			tooltips[Textures.WardenButton] = Strings.WorkTaskTooltipWarden;
 
-			tooltips[Textures.SocializeButton] = Strings.SocialRelaxTooltip;
-			tooltips[Textures.EntertainmentButton] = Strings.EntertainmentTooltip;
+			tooltips[Textures.TailorButton] = Strings.WorkTaskTooltipMine;
+			tooltips[Textures.SmithButton] = Strings.WorkTaskTooltipChopWood;
+			tooltips[Textures.HandleButton] = Strings.WorkTaskTooltipFarm;
+			tooltips[Textures.FireExtinguishButton] = Strings.WorkTaskTooltipClearSnow;
+			tooltips[Textures.ArtButton] = Strings.WorkTaskTooltipWarden;
+
 			tooltips[Textures.ChowHallButton] = Strings.ChowHallToolTip;
 			tooltips[Textures.LightsOutButton] = Strings.SleepTooltip;
 			
@@ -205,6 +189,10 @@ namespace TacticalGroups
 					Rect iconRect = new Rect(rect3.x + (j * iconRows[i][j].width) + j * 10, rect3.y + (i * iconRows[i][j].height) + i * 7,
 						iconRows[i][j].width, iconRows[i][j].height);
 					GUI.DrawTexture(iconRect, iconRows[i][j]);
+					if (this.colonistGroup.activeWorkType == workIconStates[iconRows[i][j]])
+                    {
+						GUI.DrawTexture(iconRect, Textures.Clock);
+					}
 					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]]);
 					if (Mouse.IsOver(iconRect))
 					{
@@ -212,15 +200,33 @@ namespace TacticalGroups
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-							SearchForWork(workIconStates[iconRows[i][j]]);
+							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
+						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+                        {
+							if (this.colonistGroup.activeWorkType != WorkType.None)
+                            {
+								if (this.colonistGroup.activeWorkType == workIconStates[iconRows[i][j]])
+                                {
+									this.colonistGroup.activeWorkType = WorkType.None;
+								}
+								else
+                                {
+									this.colonistGroup.activeWorkType = workIconStates[iconRows[i][j]];
+								}
+							}
+							else
+                            {
+								this.colonistGroup.activeWorkType = workIconStates[iconRows[i][j]];
+							}
+						}
+
 					}
 				}
 			}
 
-
-			var rect4 = new Rect(rect.x + zero.x, rect.y + 380f, rect.width, rect.height);
+			var rect4 = new Rect(rect.x + zero.x, rect.y + 460f, rect.width, rect.height);
 			var iconRows2 = GetBreakIconRows(2);
 			for (var i = 0; i < iconRows2.Count; i++)
 			{
@@ -237,7 +243,7 @@ namespace TacticalGroups
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-							TakeABreak(breakIconStates[iconRows[i][j]]);
+							WorkSearchUtility.TakeABreak(breakIconStates[iconRows2[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
 					}
@@ -400,643 +406,6 @@ namespace TacticalGroups
 			else if (Event.current.button == 1)
 			{
 				SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
-			}
-		}
-
-
-		public void SearchForWork(WorkType workType)
-		{
-			switch (workType)
-			{
-				case WorkType.None: SearchForWorkGeneral(); break;
-				case WorkType.Construction: SearchForWorkConstruction(); break;
-				case WorkType.Cleaning: SearchForWorkCleaning(); break;
-				case WorkType.Cooking: SearchForWorkCooking(); break;
-				case WorkType.Crafting: SearchForWorkCrafting(); break;
-
-				case WorkType.ClearSnow: SearchForWorkClearSnow(); break;
-				case WorkType.Doctor: SearchForWorkDoctor(); break;
-				case WorkType.Hauling: SearchForWorkHauling(); break;
-				case WorkType.Hunting: SearchForWorkHunting(); break;
-				case WorkType.Mining: SearchForWorkMining(); break;
-				case WorkType.Plants: SearchForWorkPlants(); break;
-				case WorkType.Warden: SearchForWorkWarden(); break;
-				case WorkType.WoodChopping: SearchForWorkWoodChopping(); break;
-
-				default: return;
-			}
-
-		}
-
-		public void SearchForWorkGeneral()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.mindState.IsIdle || pawn.mindState.lastJobTag == JobTag.SatisfyingNeeds)
-				{
-					ThinkResult result = ThinkResult.NoJob;
-					try
-					{
-						result = pawn.thinker.MainThinkNodeRoot.TryIssueJobPackage(pawn, default(JobIssueParams));
-					}
-					catch (Exception exception)
-					{
-						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
-					}
-					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
-					{
-						Log.Message(pawn + " should get " + result.Job);
-						pawn.jobs.TryTakeOrderedJob(result.Job);
-					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-				}
-			}
-		}
-
-		public void SearchForWorkConstruction()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.FinishFrame)
-				{
-					GetJobFor(pawn, WorkTypeDefOf.Construction.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkCleaning()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.Clean)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cleaning");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkCooking()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.DoBill && pawn.CurJob.workGiverDef != DefDatabase<WorkGiverDef>.GetNamed("DoBillsCook"))
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Cooking");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkCrafting()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.DoBill)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Crafting");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkClearSnow()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.ClearSnow)
-				{
-					var workgivers = new List<WorkGiverDef> { DefDatabase<WorkGiverDef>.GetNamed("CleanClearSnow") };
-					GetJobFor(pawn, workgivers);
-				}
-			}
-		}
-
-		public void SearchForWorkDoctor()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.TendPatient)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Doctor");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkHauling()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.HaulToCell && pawn.CurJobDef != JobDefOf.HaulToContainer && pawn.CurJobDef != JobDefOf.HaulToTransporter)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hauling");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkHunting()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.Hunt)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Hunting");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public void SearchForWorkMining()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.Mine)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Mining");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public void SearchForWorkPlants()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.CutPlantDesignated && pawn.CurJobDef != JobDefOf.Sow)
-				{
-					var growingWorkType = DefDatabase<WorkTypeDef>.GetNamed("Growing");
-					var plantCuttingWorkType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
-
-					var workgivers = new List<WorkGiverDef>();
-					workgivers.AddRange(growingWorkType.workGiversByPriority);
-					workgivers.AddRange(plantCuttingWorkType.workGiversByPriority);
-					GetJobFor(pawn, workgivers);
-				}
-			}
-		}
-
-		public void SearchForWorkWarden()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.jobs?.curJob?.workGiverDef?.workType != WorkTypeDefOf.Warden)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("Warden");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void SearchForWorkWoodChopping()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (pawn.CurJobDef != JobDefOf.CutPlantDesignated)
-				{
-					var workType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public void GetJobFor(Pawn pawn, List<WorkGiverDef> workGiverDefs)
-        {
-			List<WorkGiver> list = workGiverDefs.Select(x => x.Worker).ToList();
-			int num = -999;
-			TargetInfo bestTargetOfLastPriority = TargetInfo.Invalid;
-			WorkGiver_Scanner scannerWhoProvidedTarget = null;
-			WorkGiver_Scanner scanner;
-			IntVec3 pawnPosition;
-			float closestDistSquared;
-			float bestPriority;
-			bool prioritized;
-			bool allowUnreachable;
-			Danger maxPathDanger;
-			for (int j = 0; j < list.Count; j++)
-			{
-				WorkGiver workGiver = list[j];
-				if (workGiver.def.priorityInType != num && bestTargetOfLastPriority.IsValid)
-				{
-					break;
-				}
-				if (!PawnCanUseWorkGiver(pawn, workGiver))
-				{
-					continue;
-				}
-				try
-				{
-					Job job2 = workGiver.NonScanJob(pawn);
-					if (job2 != null)
-					{
-						GiveJob(pawn, job2, null);
-						return;
-					}
-					scanner = (workGiver as WorkGiver_Scanner);
-					if (scanner != null)
-					{
-						if (scanner.def.scanThings)
-						{
-							Predicate<Thing> validator = (Thing t) => !t.IsForbidden(pawn) && scanner.HasJobOnThing(pawn, t);
-							IEnumerable<Thing> enumerable = scanner.PotentialWorkThingsGlobal(pawn);
-							Thing thing;
-							if (scanner.Prioritized)
-							{
-								IEnumerable<Thing> enumerable2 = enumerable;
-								if (enumerable2 == null)
-								{
-									enumerable2 = pawn.Map.listerThings.ThingsMatching(scanner.PotentialWorkThingRequest);
-								}
-								thing = ((!scanner.AllowUnreachable) ? GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, enumerable2, scanner.PathEndMode, TraverseParms.For(pawn, scanner.MaxPathDanger(pawn)), 9999f, validator, (Thing x) => scanner.GetPriority(pawn, x)) : GenClosest.ClosestThing_Global(pawn.Position, enumerable2, 99999f, validator, (Thing x) => scanner.GetPriority(pawn, x)));
-							}
-							else if (scanner.AllowUnreachable)
-							{
-								IEnumerable<Thing> enumerable3 = enumerable;
-								if (enumerable3 == null)
-								{
-									enumerable3 = pawn.Map.listerThings.ThingsMatching(scanner.PotentialWorkThingRequest);
-								}
-								thing = GenClosest.ClosestThing_Global(pawn.Position, enumerable3, 99999f, validator);
-							}
-							else
-							{
-								thing = GenClosest.ClosestThingReachable(pawn.Position, pawn.Map, scanner.PotentialWorkThingRequest, scanner.PathEndMode, TraverseParms.For(pawn, scanner.MaxPathDanger(pawn)), 9999f, validator, enumerable, 0, scanner.MaxRegionsToScanBeforeGlobalSearch, enumerable != null);
-							}
-							if (thing != null)
-							{
-								bestTargetOfLastPriority = thing;
-								scannerWhoProvidedTarget = scanner;
-							}
-						}
-						if (scanner.def.scanCells)
-						{
-							pawnPosition = pawn.Position;
-							closestDistSquared = 99999f;
-							bestPriority = float.MinValue;
-							prioritized = scanner.Prioritized;
-							allowUnreachable = scanner.AllowUnreachable;
-							maxPathDanger = scanner.MaxPathDanger(pawn);
-							IEnumerable<IntVec3> enumerable4 = scanner.PotentialWorkCellsGlobal(pawn);
-							IList<IntVec3> list2;
-							if ((list2 = (enumerable4 as IList<IntVec3>)) != null)
-							{
-								for (int k = 0; k < list2.Count; k++)
-								{
-									ProcessCell(list2[k]);
-								}
-							}
-							else
-							{
-								foreach (IntVec3 item in enumerable4)
-								{
-									ProcessCell(item);
-								}
-							}
-						}
-					}
-					void ProcessCell(IntVec3 c)
-					{
-						bool flag = false;
-						float num2 = (c - pawnPosition).LengthHorizontalSquared;
-						float num3 = 0f;
-						if (prioritized)
-						{
-							if (!c.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, c))
-							{
-								if (!allowUnreachable && !pawn.CanReach(c, scanner.PathEndMode, maxPathDanger))
-								{
-									return;
-								}
-								num3 = scanner.GetPriority(pawn, c);
-								if (num3 > bestPriority || (num3 == bestPriority && num2 < closestDistSquared))
-								{
-									flag = true;
-								}
-							}
-						}
-						else if (num2 < closestDistSquared && !c.IsForbidden(pawn) && scanner.HasJobOnCell(pawn, c))
-						{
-							if (!allowUnreachable && !pawn.CanReach(c, scanner.PathEndMode, maxPathDanger))
-							{
-								return;
-							}
-							flag = true;
-						}
-						if (flag)
-						{
-							bestTargetOfLastPriority = new TargetInfo(c, pawn.Map);
-							scannerWhoProvidedTarget = scanner;
-							closestDistSquared = num2;
-							bestPriority = num3;
-						}
-					}
-				}
-				catch (Exception ex)
-				{
-					Log.Error(string.Concat(pawn, " threw exception in WorkGiver ", workGiver.def.defName, ": ", ex.ToString()));
-				}
-				finally
-				{
-				}
-				if (bestTargetOfLastPriority.IsValid)
-				{
-					Job job3 = (!bestTargetOfLastPriority.HasThing) ? scannerWhoProvidedTarget.JobOnCell(pawn, bestTargetOfLastPriority.Cell) : scannerWhoProvidedTarget.JobOnThing(pawn, bestTargetOfLastPriority.Thing);
-					if (job3 != null)
-					{
-						job3.workGiverDef = scannerWhoProvidedTarget.def;
-						GiveJob(pawn, job3, scannerWhoProvidedTarget);
-						return;
-					}
-				}
-				num = workGiver.def.priorityInType;
-			}
-		}
-		public void GiveJob(Pawn pawn, Job job, WorkGiver_Scanner localScanner)
-        {
-			job.workGiverDef = localScanner?.def;
-			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner, pawn.Position);
-			Log.Message("1: " + pawn + " - found job: " + job);
-		}
-
-		private bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
-		{
-			if (!giver.def.nonColonistsCanDo && !pawn.IsColonist)
-			{
-				return false;
-			}
-			if (pawn.WorkTagIsDisabled(giver.def.workTags))
-			{
-				return false;
-			}
-			if (giver.ShouldSkip(pawn))
-			{
-				return false;
-			}
-			if (giver.MissingRequiredCapacity(pawn) != null)
-			{
-				return false;
-			}
-			return true;
-		}
-
-		private bool WorkGiversRelated(WorkGiverDef current, WorkGiverDef next)
-		{
-			if (next == WorkGiverDefOf.Repair)
-			{
-				return current == WorkGiverDefOf.Repair;
-			}
-			return true;
-		}
-
-		//public bool TryGetJobForAllItems(List<WorkGiverDef> workGiverDefs, Pawn pawn)
-		//{
-		//	if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
-		//	{
-		//		foreach (var workGiver in workGiverDefs)
-		//        {
-		//			var stopWatch = new Stopwatch();
-		//			stopWatch.Restart();
-		//			foreach (Thing item in pawn.Map.listerThings.AllThings)
-		//			{
-		//				WorkGiver_Scanner workGiver_Scanner = workGiver.Worker as WorkGiver_Scanner;
-		//				if (workGiver_Scanner != null && workGiver_Scanner.def.directOrderable)
-		//				{
-		//					WorkTypeDef workType2 = workGiver_Scanner.def.workType;
-		//					if (pawn.workSettings.GetPriority(workType2) == 0)
-		//					{
-		//
-		//					}
-		//					else if (item.IsForbidden(pawn))
-		//					{
-		//
-		//					}
-		//					else if (pawn.WorkTagIsDisabled(workGiver_Scanner.def.workTags))
-		//					{
-		//
-		//					}
-		//					else if ((workGiver_Scanner.PotentialWorkThingRequest.Accepts(item) 
-		//						|| (workGiver_Scanner.PotentialWorkThingsGlobal(pawn) != null 
-		//						&& workGiver_Scanner.PotentialWorkThingsGlobal(pawn).Contains(item)))
-		//						&& !workGiver_Scanner.ShouldSkip(pawn, forced: true))
-		//					{
-		//						if (workGiver_Scanner.MissingRequiredCapacity(pawn) == null)
-		//						{
-		//							Job job = workGiver_Scanner.HasJobOnThing(pawn, item, forced: true) ? workGiver_Scanner.JobOnThing(pawn, item, forced: true) : null;
-		//							if (job != null)
-		//							{
-		//								if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job))
-		//								{
-		//
-		//								}
-		//								if (!pawn.CanReach(item, workGiver_Scanner.PathEndMode, Danger.Deadly))
-		//								{
-		//									Log.Message("TEST 3");
-		//								}
-		//								else
-		//								{
-		//									WorkGiver_Scanner localScanner2 = workGiver_Scanner;
-		//									job.workGiverDef = workGiver_Scanner.def;
-		//									pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner2, pawn.Position);
-		//									Log.Message("1: " + pawn + " - found job: " + job);
-		//									return true;
-		//								}
-		//								Log.ResetMessageCount();
-		//							}
-		//						}
-		//					}
-		//				}
-		//			}
-		//			stopWatch.Stop();
-		//			Log.Message(pawn + " using " + workGiver + " - " + stopWatch.Elapsed);
-		//		}
-		//	}
-		//	return false;
-		//}
-
-		public bool TryGetJobForAllCells(List<WorkGiverDef> workGiverDefs, Pawn pawn)
-		{
-			if (pawn.thinker.TryGetMainTreeThinkNode<JobGiver_Work>() != null)
-			{
-				foreach (var workGiver in workGiverDefs)
-                {
-					Log.Message(pawn + " using " + workGiver);
-					foreach (IntVec3 cell in pawn.Map.AllCells)
-					{
-						if (!pawn.Drafted || workGiver.canBeDoneWhileDrafted)
-						{
-							WorkGiver_Scanner workGiver_Scanner2 = workGiver.Worker as WorkGiver_Scanner;
-							if (workGiver_Scanner2 != null && workGiver_Scanner2.def.directOrderable)
-							{
-								if (workGiver_Scanner2.PotentialWorkCellsGlobal(pawn).Contains(cell) && !workGiver_Scanner2.ShouldSkip(pawn, forced: true))
-								{
-									if (workGiver_Scanner2.MissingRequiredCapacity(pawn) != null)
-									{
-										Job job2 = workGiver_Scanner2.HasJobOnCell(pawn, cell, forced: true) ? workGiver_Scanner2.JobOnCell(pawn, cell, forced: true) : null;
-										if (job2 != null)
-										{
-											WorkTypeDef workType2 = workGiver_Scanner2.def.workType;
-											if (pawn.jobs.curJob != null && pawn.jobs.curJob.JobIsSameAs(job2))
-											{
-											}
-											else if (pawn.workSettings.GetPriority(workType2) == 0)
-											{
-											}
-											else if (cell.IsForbidden(pawn))
-											{
-											}
-											else if (!pawn.CanReach(cell, PathEndMode.Touch, Danger.Deadly))
-											{
-											}
-											else
-											{
-												WorkGiver_Scanner localScanner = workGiver_Scanner2;
-												job2.workGiverDef = workGiver_Scanner2.def;
-												pawn.jobs.TryTakeOrderedJobPrioritizedWork(job2, localScanner, cell);
-												Log.Message("2: " + pawn + " - found job: " + job2);
-												return true;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			return false;
-		}
-
-		public void TakeABreak(BreakType breakType)
-		{
-			switch (breakType)
-			{
-				case BreakType.None: TakeFive(); break;
-				case BreakType.Socialize: SearchForSocialRelax(); break;
-				case BreakType.Entertainment: TakeFive(); break;
-				case BreakType.ChowHall: ChowHall(); break;
-				case BreakType.LightsOut: LightsOut(); break;
-				default: return;
-			}
-
-		}
-
-		public void TakeFive()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (!pawn.mindState.IsIdle && pawn.mindState.lastJobTag != JobTag.SatisfyingNeeds)
-				{
-					ThinkResult result = ThinkResult.NoJob;
-					try
-					{
-						var joyGiver = new JobGiver_GetJoy();
-						joyGiver.ResolveReferences();
-						result = joyGiver.TryIssueJobPackage(pawn, default(JobIssueParams));
-					}
-					catch (Exception exception)
-					{
-						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
-					}
-					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
-					{
-						Log.Message(pawn + " should get " + result.Job);
-						pawn.jobs.TryTakeOrderedJob(result.Job);
-					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-				}
-			}
-		}
-
-		public void SearchForSocialRelax()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (!pawn.mindState.IsIdle && pawn.CurJobDef != JobDefOf.SocialRelax)
-				{
-					Job result = null;
-					try
-					{
-						var joyGiver = new JoyGiver_SocialRelax();
-						result = joyGiver.TryGiveJob(pawn);
-					}
-					catch (Exception exception)
-					{
-						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
-					}
-					if (result != null && result.def != JobDefOf.GotoWander)
-					{
-						Log.Message(pawn + " should get " + result);
-						pawn.jobs.TryTakeOrderedJob(result);
-					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-				}
-			}
-		}
-
-		public void ChowHall()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (!pawn.mindState.IsIdle && pawn.CurJobDef != JobDefOf.Ingest)
-				{
-					ThinkResult result = ThinkResult.NoJob;
-					try
-					{
-						var joyGiver = new JobGiver_GetFood();
-						joyGiver.ResolveReferences();
-						result = joyGiver.TryIssueJobPackage(pawn, default(JobIssueParams));
-					}
-					catch (Exception exception)
-					{
-						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
-					}
-					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
-					{
-						Log.Message(pawn + " should get " + result.Job);
-						pawn.jobs.TryTakeOrderedJob(result.Job);
-					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-				}
-			}
-		}
-		public void LightsOut()
-		{
-			foreach (var pawn in this.colonistGroup.pawns)
-			{
-				if (!pawn.mindState.IsIdle && pawn.CurJobDef != JobDefOf.LayDown)
-				{
-					ThinkResult result = ThinkResult.NoJob;
-					try
-					{
-						var joyGiver = new JobGiver_GetRest();
-						joyGiver.ResolveReferences();
-						result = joyGiver.TryIssueJobPackage(pawn, default(JobIssueParams));
-					}
-					catch (Exception exception)
-					{
-						JobUtility.TryStartErrorRecoverJob(pawn, pawn.ToStringSafe() + " threw exception while determining job (main)", exception);
-					}
-					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
-					{
-						Log.Message(pawn + " should get " + result.Job);
-						pawn.jobs.TryTakeOrderedJob(result.Job);
-					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
-				}
 			}
 		}
 	}

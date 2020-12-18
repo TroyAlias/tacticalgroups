@@ -719,7 +719,6 @@ namespace TacticalGroups
 		public SortBy activeSortBy;
 
 		public SkillDef skillDefSort;
-
 		public void InitSort(SortBy newSortBy)
         {
 			activeSortBy = newSortBy;
@@ -733,6 +732,7 @@ namespace TacticalGroups
             }
         }
 
+		public WorkType activeWorkType = WorkType.Construction;
 
 		public virtual void ExposeData()
         {
@@ -745,6 +745,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
 			Scribe_Values.Look(ref groupIconFolder, "groupIconFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
+			Scribe_Values.Look(ref activeWorkType, "activeWorkType", WorkType.Construction);
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 

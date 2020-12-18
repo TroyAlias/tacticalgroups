@@ -93,6 +93,14 @@ namespace TacticalGroups
 		public static readonly Texture2D ClearSnowButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ClearSnowButton");
 		public static readonly Texture2D CleanButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/CleanButton");
 		public static readonly Texture2D ChopWoodButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ChopWoodButton");
+
+		public static readonly Texture2D TailorButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/TailorButton");
+		public static readonly Texture2D SmithButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/SmithButton");
+		public static readonly Texture2D HandleButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/HandleButton");
+		public static readonly Texture2D FireExtinguishButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/FireExtinguishButton");
+		public static readonly Texture2D ArtButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ArtButton");
+
+		public static readonly Texture2D Clock = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/Clock");
 		public static readonly Texture2D ActionsMenuDrop = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ActionsMenuDrop");
 		public static readonly Texture2D OptionsMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsMenu");
 		public static readonly Texture2D OptionsGearHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsGearHover");

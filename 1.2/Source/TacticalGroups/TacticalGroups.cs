@@ -203,6 +203,20 @@ namespace TacticalGroups
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 RemoveAllNullPawns();
+                foreach (var group in TacticUtils.AllGroups)
+                {
+                    foreach (var pawn in group.pawns)
+                    {
+                        if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
+                        {
+                            TacticUtils.pawnsWithGroups[pawn].Add(group);
+                        }
+                        else
+                        {
+                            TacticUtils.pawnsWithGroups[pawn] = new List<ColonistGroup> { group };
+                        }
+                    }
+                }
             }
         }
 

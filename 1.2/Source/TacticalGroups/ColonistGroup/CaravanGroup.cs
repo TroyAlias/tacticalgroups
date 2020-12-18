@@ -55,6 +55,7 @@ namespace TacticalGroups
             {
 				TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
 			}
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
         public override void Disband()
         {

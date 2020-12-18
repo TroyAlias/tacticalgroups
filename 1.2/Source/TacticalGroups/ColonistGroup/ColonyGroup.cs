@@ -78,6 +78,16 @@ namespace TacticalGroups
 			}
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
+
+		public override void Disband(Pawn pawn)
+		{
+			base.Disband();
+			if (this.pawns.Count == 0)
+			{
+				TacticUtils.TacticalGroups.colonyGroups.Remove(this.Map);
+			}
+			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+		}
 		public override void ExposeData()
         {
             base.ExposeData();
