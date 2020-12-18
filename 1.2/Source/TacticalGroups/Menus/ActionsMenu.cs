@@ -33,7 +33,7 @@ namespace TacticalGroups
 			{
 				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.pawns);
 			};
-			lookBusy.bottomIndent = 390f;
+			lookBusy.bottomIndent = 393f;
 			options.Add(lookBusy);
 
 			var takeFive = new TieredFloatMenuOption(Strings.TakeFive, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f,
@@ -230,7 +230,7 @@ namespace TacticalGroups
 				}
 			}
 
-			var rect4 = new Rect(rect.x + zero.x, rect.y + 460f, rect.width, rect.height);
+			var rect4 = new Rect(rect.x + zero.x, rect.y + 463f, rect.width, rect.height);
 			var iconRows2 = GetBreakIconRows(2);
 			for (var i = 0; i < iconRows2.Count; i++)
 			{
