@@ -67,40 +67,117 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.LookBusyTooltip>Tell group to work any task</TG.LookBusyTooltip>
 
 
-	<TG.WorkTaskTooltipConstruction>Tell group to build</TG.WorkTaskTooltipConstruction>
-	<TG.WorkTaskTooltipCraft>Tell group to craft</TG.WorkTaskTooltipCraft>
-	<TG.WorkTaskTooltipHaul>Tell group to haul</TG.WorkTaskTooltipHaul>
-	<TG.WorkTaskTooltipClean>Tell group to clean</TG.WorkTaskTooltipClean>
-	<TG.WorkTaskTooltipHunt>Tell group to hunt</TG.WorkTaskTooltipHunt>
-	<TG.WorkTaskTooltipCook>Tell group to cook</TG.WorkTaskTooltipCook>
-	<TG.WorkTaskTooltipMine>Tell group to mine</TG.WorkTaskTooltipMine>
-	<TG.WorkTaskTooltipChopWood>Tell group to chop wood</TG.WorkTaskTooltipChopWood>
-	<TG.WorkTaskTooltipFarm>Tell group to farm</TG.WorkTaskTooltipFarm>
-	<TG.WorkTaskTooltipClearSnow>Tell group to clear snow</TG.WorkTaskTooltipClearSnow>
-	<TG.WorkTaskTooltipDoctor>Tell group to perform medical</TG.WorkTaskTooltipDoctor>
-	<TG.WorkTaskTooltipWarden>Tell group to warden prisoners</TG.WorkTaskTooltipWarden>
-	<TG.TakeFiveTooltip>Tell group to take a break</TG.TakeFiveTooltip>
-	<TG.SocialRelaxTooltip>Tell group to socialize</TG.SocialRelaxTooltip>
-	<TG.EntertainmentTooltip>Tell group to entertain</TG.EntertainmentTooltip>
-	<TG.ChowHallToolTip>Tell group to go eat</TG.ChowHallToolTip>
-	<TG.SleepTooltip>Tell group to go to sleep</TG.SleepTooltip>
-	<TG.RallyToolTip>Select and Draft entire group</TG.RallyToolTip>
+	<TG.WorkTaskTooltipConstruction>Build
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipConstruction>
+
+
+	<TG.WorkTaskTooltipCraft>Craft
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipCraft>
+
+
+	<TG.WorkTaskTooltipHaul>Haul
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipHaul>
+
+
+	<TG.WorkTaskTooltipClean>Clean
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipClean>
+	
+	
+	<TG.WorkTaskTooltipHunt>Hunt
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipHunt>
+	
+	
+	<TG.WorkTaskTooltipCook>Cook
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipCook>
+	
+	
+	<TG.WorkTaskTooltipMine>Mine
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipMine>
+	
+	
+	<TG.WorkTaskTooltipChopWood>Chop Wood
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipChopWood>
+	
+	
+	<TG.WorkTaskTooltipFarm>Farm
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipFarm>
+	
+	
+	<TG.WorkTaskTooltipClearSnow>Clear Snow
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipClearSnow>
+	
+	
+	<TG.WorkTaskTooltipWarden>Warden Prisoners
+	
+Right Click to enable forced labor
+-Work until all jobs are completed</TG.WorkTaskTooltipWarden>
+
+
+
+
+		
+	
+	<TG.TakeFiveTooltip>Take a Break
+	
+-Tell group to take a break from working</TG.TakeFiveTooltip>
+	
+	
+	<TG.ChowHallToolTip>Chow Time
+	
+Tell group to go eat</TG.ChowHallToolTip>
+
+
+	<TG.SleepTooltip>Lights Out
+	
+Tell group to go to sleep</TG.SleepTooltip>
+
+
+
+	
+
+
+
+
+
+	<TG.RallyToolTip>Rally
+	
+Select and Draft entire group</TG.RallyToolTip>
 	<TG.ShootersToolTip>Number of shooters in group.
-	Click to select.</TG.ShootersToolTip>
+	-Click to select.</TG.ShootersToolTip>
 	<TG.MeleeToolTip>Number of Melee in group.
-	Click to select.</TG.MeleeToolTip>
-	<TG.ShowHideTooltip>Show/Hide pawns from top bar</TG.ShowHideTooltip>
+	-Click to select.</TG.MeleeToolTip>
+	<TG.ShowHideTooltip>Show/Hide group pawns from top bar</TG.ShowHideTooltip>
 	<TG.AddColonistTooltip>Will add selected colonists to group</TG.AddColonistTooltip>
 	<TG.RegroupTooltip>Tell group to go to Leader's potition.
-	Squad leader is first pawn in group</TG.RegroupTooltip>
+Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.BattleStationsTooltip>Send group to battle positions</TG.BattleStationsTooltip>
-	<TG.BattleStationsSetTooltip>Set selected pawns' before position</TG.BattleStationsSetTooltip>
+	<TG.BattleStationsSetTooltip>Set selected pawns' battle position</TG.BattleStationsSetTooltip>
 	<TG.BattleStationsClearTooltip>Clear selected pawns' battle position</TG.BattleStationsClearTooltip>
 	<TG.FireAtWillTooltip>Toggle default combat mode</TG.FireAtWillTooltip>
 	<TG.StrongestTooltip>Group will target strongest enemy</TG.StrongestTooltip>
 	<TG.WeakestTooltip>Group will target weakest enemy</TG.WeakestTooltip>
 	<TG.PursueFleeingTooltip>Group will pursue fleeing enemies</TG.PursueFleeingTooltip>
-	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest</TG.ReportToMedicalTooltip>
+	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest until Healed</TG.ReportToMedicalTooltip>
 	<TG.RescueDownedTooltip>Rescue downed colonists</TG.RescueDownedTooltip>
 	<TG.TendWoundedTooltip>Tend wounded colonists</TG.TendWoundedTooltip>
 	<TG.ArmorTooltip>Average group armor rating</TG.ArmorTooltip>
@@ -109,7 +186,9 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 
 	<TG.MiddlePawnCountToolTip>Number of combat-ready pawns</TG.MiddlePawnCountToolTip>
 	<TG.RankTooltip>Average group combat rank</TG.RankTooltip>
-	<TG.UpgradeWeaponTooltip>Tell group to upgrade weapons if any are available</TG.UpgradeWeaponTooltip>
+	<TG.UpgradeWeaponTooltip>Tell group to upgrade weapons if any are available
+	
+-Pawns will only upgrade to their current weapon type; Ranged / Melee</TG.UpgradeWeaponTooltip>
 	<TG.UpgradeArmorTooltip>Tell group to upgrade armor if any is available</TG.UpgradeArmorTooltip>
 	
 	<TG.MoodIconTooltip>Group's overall mood.</TG.MoodIconTooltip>
