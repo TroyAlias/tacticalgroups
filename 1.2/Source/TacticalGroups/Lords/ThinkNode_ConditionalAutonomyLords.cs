@@ -28,10 +28,6 @@ namespace TacticalGroups
                     lord.ownedPawns.Remove(pawn);
                     pawn.mindState.duty = null;
                 }
-                else if (lordJob is LordJob_RescueFallen || lordJob is LordJob_TendWounded)
-                {
-                    return true;
-                }
             }
             return false;
         }

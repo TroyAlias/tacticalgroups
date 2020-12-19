@@ -14,7 +14,7 @@ namespace TacticalGroups
 	public class OrderMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 63f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(30, 63f);
 
 		public Dictionary<float, Texture2D> ranks = new Dictionary<float, Texture2D>
 			{
@@ -181,11 +181,11 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.RemoveOldLord();
-					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_TendWounded(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
-					this.colonistGroup.SearchForJob();
-					Event.current.Use();
+					//TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					//this.colonistGroup.RemoveOldLord();
+					//LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_TendWounded(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
+					//this.colonistGroup.SearchForJob();
+					//Event.current.Use();
 				}
 			}
 			TooltipHandler.TipRegion(tendWounded, Strings.TendWoundedTooltip);
@@ -195,11 +195,11 @@ namespace TacticalGroups
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.RemoveOldLord();
-					LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_RescueFallen(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
-					this.colonistGroup.SearchForJob();
-					Event.current.Use();
+					//TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					//this.colonistGroup.RemoveOldLord();
+					//LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_RescueFallen(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
+					//this.colonistGroup.SearchForJob();
+					//Event.current.Use();
 				}
 			}
 			TooltipHandler.TipRegion(rescureFallen, Strings.RescueDownedTooltip);
@@ -295,6 +295,8 @@ namespace TacticalGroups
 					this.colonistGroup.SetBattleStations();
 					Event.current.Use();
 				}
+				GUI.DrawTexture(setRect, Textures.WorkButtonHover);
+
 			}
 			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(clearRect, Textures.SetClearButton);
@@ -308,6 +310,7 @@ namespace TacticalGroups
 					this.colonistGroup.ClearBattleStations();
 					Event.current.Use();
 				}
+				GUI.DrawTexture(clearRect, Textures.WorkButtonHover);
 			}
 
 			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);

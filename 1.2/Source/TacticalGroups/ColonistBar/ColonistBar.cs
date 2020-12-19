@@ -160,6 +160,8 @@ namespace TacticalGroups
                 int num = -1;
                 bool showGroupFrames = ShowGroupFrames;
                 int reorderableGroup = -1;
+                GUI.color = Color.white;
+                Text.Font = GameFont.Tiny;
 
                 var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
                 if (Mouse.IsOver(createGroupRect))

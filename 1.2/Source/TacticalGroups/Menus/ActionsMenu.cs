@@ -78,11 +78,11 @@ namespace TacticalGroups
 			tooltips[Textures.ClearSnowButton] = Strings.WorkTaskTooltipClearSnow;
 			tooltips[Textures.WardenButton] = Strings.WorkTaskTooltipWarden;
 
-			tooltips[Textures.TailorButton] = Strings.WorkTaskTooltipMine;
-			tooltips[Textures.SmithButton] = Strings.WorkTaskTooltipChopWood;
-			tooltips[Textures.HandleButton] = Strings.WorkTaskTooltipFarm;
-			tooltips[Textures.FireExtinguishButton] = Strings.WorkTaskTooltipClearSnow;
-			tooltips[Textures.ArtButton] = Strings.WorkTaskTooltipWarden;
+			tooltips[Textures.TailorButton] = Strings.WorkTaskTooltipTailor;
+			tooltips[Textures.SmithButton] = Strings.WorkTaskTooltipSmith;
+			tooltips[Textures.HandleButton] = Strings.WorkTaskTooltipHandle;
+			tooltips[Textures.FireExtinguishButton] = Strings.WorkTaskTooltipFireExtinguish;
+			tooltips[Textures.ArtButton] = Strings.WorkTaskTooltipArt;
 
 			tooltips[Textures.ChowHallButton] = Strings.ChowHallToolTip;
 			tooltips[Textures.LightsOutButton] = Strings.SleepTooltip;
@@ -193,7 +193,7 @@ namespace TacticalGroups
                     {
 						GUI.DrawTexture(iconRect, Textures.Clock);
 					}
-					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]]);
+					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]] + "\n" + Strings.ForcedLaborTooltip);
 					if (Mouse.IsOver(iconRect))
 					{
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);

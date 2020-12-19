@@ -20,7 +20,6 @@ namespace TacticalGroups
 			this.defaultGroupName = Strings.Caravan;
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
-			this.entireGroupIsVisible = true;
 			this.updateIcon = true;
 		}
 		public CaravanGroup()
@@ -59,7 +58,6 @@ namespace TacticalGroups
 		}
         public override void Disband()
         {
-            base.Disband();
 			TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }

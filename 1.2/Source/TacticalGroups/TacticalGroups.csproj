@@ -47,10 +47,6 @@
     <Compile Include="ColonistGroup\PawnIcon.cs" />
     <Compile Include="Jobs\JobGiver_TendWounded.cs" />
     <Compile Include="Jobs\JobGiver_RescueNearby.cs" />
-    <Compile Include="Lords\LordJob_TendWounded.cs" />
-    <Compile Include="Lords\LordJob_RescueFallen.cs" />
-    <Compile Include="Lords\LordToil_TendWounded.cs" />
-    <Compile Include="Lords\LordToil_RescueFallen.cs" />
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="Menus\MedicalMenu.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />

@@ -57,21 +57,22 @@ namespace TacticalGroups
 
         public override void Disband()
         {
-            base.Disband();
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 		public override void Disband(Pawn pawn)
 		{
-			base.Disband();
+			Log.Message(" - Disband - base.Disband(); - 1", true);
+			base.Disband(pawn);
+			Log.Message(" - Disband - if (this.pawns.Count == 0) - 2", true);
 			if (this.pawns.Count == 0)
 			{
+				Log.Message(" - Disband - TacticUtils.TacticalGroups.pawnGroups.Remove(this); - 3", true);
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			}
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
-
-		public override void Disband(List<Pawn> pawns)
+		public void Disband(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)
 			{

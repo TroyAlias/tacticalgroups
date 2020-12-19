@@ -21,7 +21,6 @@ namespace TacticalGroups
 			this.colorFolder = "Colony";
 			this.groupIconName = "Default_ColonyIcon";
 			this.defaultGroupName = Strings.Colony;
-			this.entireGroupIsVisible = true;
 			this.updateIcon = true;
 		}
 		public ColonyGroup()
@@ -58,12 +57,11 @@ namespace TacticalGroups
 
 		public override void Disband()
 		{
-			base.Disband();
 			TacticUtils.TacticalGroups.colonyGroups.Remove(this.Map);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
-		public override void Disband(List<Pawn> pawns)
+		public void Disband(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)
             {
@@ -81,7 +79,7 @@ namespace TacticalGroups
 
 		public override void Disband(Pawn pawn)
 		{
-			base.Disband();
+			base.Disband(pawn);
 			if (this.pawns.Count == 0)
 			{
 				TacticUtils.TacticalGroups.colonyGroups.Remove(this.Map);
