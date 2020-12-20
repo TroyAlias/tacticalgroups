@@ -498,7 +498,5 @@ namespace TacticalGroups
 			GUI.color = color2;
 			GUI.matrix = matrix;
 		}
-
-		private static float secondaryWeaponYOffset = 8f;
 	}
 }

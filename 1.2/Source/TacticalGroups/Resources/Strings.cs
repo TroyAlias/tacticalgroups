@@ -90,6 +90,12 @@ namespace TacticalGroups
 		public static readonly string WorkTaskTooltipClearSnow = "TG.WorkTaskTooltipClearSnow".Translate();
 		public static readonly string WorkTaskTooltipDoctor = "TG.WorkTaskTooltipDoctor".Translate();
 		public static readonly string WorkTaskTooltipWarden = "TG.WorkTaskTooltipWarden".Translate();
+		public static readonly string WorkTaskTooltipTailor = "TG.WorkTaskTooltipTailor".Translate();
+		public static readonly string WorkTaskTooltipSmith = "TG.WorkTaskTooltipSmith".Translate();
+		public static readonly string WorkTaskTooltipHandle = "TG.WorkTaskTooltipHandle".Translate();
+		public static readonly string WorkTaskTooltipFireExtinguish = "TG.WorkTaskTooltipFireExtinguish".Translate();
+		public static readonly string WorkTaskTooltipArt = "TG.WorkTaskTooltipArt".Translate();
+		public static readonly string ForcedLaborTooltip = "TG.ForcedLaborTooltip".Translate();
 
 		public static readonly string TakeFiveTooltip = "TG.TakeFiveTooltip".Translate();
 		public static readonly string SocialRelaxTooltip = "TG.SocialRelaxTooltip".Translate();

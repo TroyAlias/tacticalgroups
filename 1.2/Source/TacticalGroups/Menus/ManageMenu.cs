@@ -13,7 +13,7 @@ namespace TacticalGroups
 	public class ManageMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(27f, 55f);
 		public ManageMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -144,17 +144,22 @@ namespace TacticalGroups
 			var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 25f, disbandRect.width, disbandRect.height - 10f);
 			Widgets.Label(disbandLabelRect, Strings.Disband);
 
-			var disbandPawn = new Rect(disbandRect.x / 2f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
+			var disbandPawn = new Rect((disbandRect.x / 2f) + 5f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
 			if (Mouse.IsOver(disbandPawn))
             {
+
 				GUI.DrawTexture(disbandPawn, Textures.DisbandPawnHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					Log.Message("TEST");
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					foreach (var pawn in Find.Selector.SelectedPawns)
                     {
+						Log.Message("TEST 1");
+
 						this.colonistGroup.Disband(pawn);
                     }
+					Log.Message("TEST 2");
 
 					Event.current.Use();
 				}

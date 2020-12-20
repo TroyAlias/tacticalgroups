@@ -72,6 +72,7 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
+			this.entireGroupIsVisible = true;
 		}
 		public void Add(Pawn pawn)
         {
@@ -96,8 +97,13 @@ namespace TacticalGroups
 			}
 		}
 
+		public virtual void Disband()
+		{
+
+		}
 		public virtual void Disband(Pawn pawn)
         {
+			Log.Message("Disband: " + pawn);
 			if (pawns.Contains(pawn))
             {
 				Log.Message("Remove 9");
@@ -107,20 +113,6 @@ namespace TacticalGroups
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
 		}
-
-		public virtual void Disband(List<Pawn> newPawns)
-		{
-			foreach (var pawn in newPawns)
-			{
-				Disband(pawn);
-			}
-		}
-		public virtual void Disband()
-		{
-
-		}
-
-
 
 		public string GetGroupName()
         {
@@ -220,6 +212,9 @@ namespace TacticalGroups
 		}
 		public virtual void Draw(Rect rect)
         {
+			GUI.color = Color.white;
+			Text.Font = GameFont.Tiny;
+
 			this.curRect = rect;
 			if (this.updateIcon)
             {
@@ -234,8 +229,7 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.GroupIconSelected);
 			}
-			GUI.color = Color.white;
-			Text.Font = GameFont.Tiny;
+
 			var totalRect = new Rect(rect);
 			var pawnRows = GetPawnRows(this.pawnRowCount);
 			if (ShowExpanded)

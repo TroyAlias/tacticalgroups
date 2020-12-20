@@ -67,76 +67,27 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.LookBusyTooltip>Tell group to work any task</TG.LookBusyTooltip>
 
 
-	<TG.WorkTaskTooltipConstruction>Build
+	<TG.WorkTaskTooltipConstruction>Build</TG.WorkTaskTooltipConstruction>
+	<TG.WorkTaskTooltipCraft>Craft</TG.WorkTaskTooltipCraft>
+	<TG.WorkTaskTooltipHaul>Haul</TG.WorkTaskTooltipHaul>
+	<TG.WorkTaskTooltipClean>Clean</TG.WorkTaskTooltipClean>
+	<TG.WorkTaskTooltipHunt>Hunt</TG.WorkTaskTooltipHunt>
+	<TG.WorkTaskTooltipCook>Cook</TG.WorkTaskTooltipCook>
+	<TG.WorkTaskTooltipMine>Mine</TG.WorkTaskTooltipMine>
+	<TG.WorkTaskTooltipChopWood>Chop Wood</TG.WorkTaskTooltipChopWood>
+	<TG.WorkTaskTooltipFarm>Farm</TG.WorkTaskTooltipFarm>
+	<TG.WorkTaskTooltipClearSnow>Clear Snow</TG.WorkTaskTooltipClearSnow>
+	<TG.WorkTaskTooltipWarden>Warden Prisoners</TG.WorkTaskTooltipWarden>
+	<TG.WorkTaskTooltipTailor>Tailor</TG.WorkTaskTooltipTailor>
+	<TG.WorkTaskTooltipSmith>Smith</TG.WorkTaskTooltipSmith>
+	<TG.WorkTaskTooltipHandle>Handle</TG.WorkTaskTooltipHandle>
+	<TG.WorkTaskTooltipFireExtinguish>Fire Extinguish</TG.WorkTaskTooltipFireExtinguish>
 	
+	
+	<TG.ForcedLaborTooltip>
 Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipConstruction>
+-Work until all jobs are completed</TG.ForcedLaborTooltip>
 
-
-	<TG.WorkTaskTooltipCraft>Craft
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipCraft>
-
-
-	<TG.WorkTaskTooltipHaul>Haul
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipHaul>
-
-
-	<TG.WorkTaskTooltipClean>Clean
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipClean>
-	
-	
-	<TG.WorkTaskTooltipHunt>Hunt
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipHunt>
-	
-	
-	<TG.WorkTaskTooltipCook>Cook
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipCook>
-	
-	
-	<TG.WorkTaskTooltipMine>Mine
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipMine>
-	
-	
-	<TG.WorkTaskTooltipChopWood>Chop Wood
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipChopWood>
-	
-	
-	<TG.WorkTaskTooltipFarm>Farm
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipFarm>
-	
-	
-	<TG.WorkTaskTooltipClearSnow>Clear Snow
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipClearSnow>
-	
-	
-	<TG.WorkTaskTooltipWarden>Warden Prisoners
-	
-Right Click to enable forced labor
--Work until all jobs are completed</TG.WorkTaskTooltipWarden>
-
-
-
-
-		
-	
 	<TG.TakeFiveTooltip>Take a Break
 	
 -Tell group to take a break from working</TG.TakeFiveTooltip>

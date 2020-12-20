@@ -39,7 +39,9 @@ namespace TacticalGroups
 		Smith,
 		Handle,
 		FireExtinguish,
-		Art
+		Art,
+		Medical,
+		Research
 	}
 	public enum BreakType
 	{
