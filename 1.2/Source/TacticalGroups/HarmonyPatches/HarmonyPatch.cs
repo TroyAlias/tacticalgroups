@@ -190,7 +190,7 @@ namespace TacticalGroups
         {
             if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
             {
-                TacticUtils.TacticalGroups.CreateOrJoinColony(__instance, __instance.Map);
+                TacticUtils.TacticalGroups.CreateOrJoinColony(new List<Pawn> { __instance }, __instance.Map);
             }
         }
         private static void Pawn_Destroy_Prefix(Pawn __instance)

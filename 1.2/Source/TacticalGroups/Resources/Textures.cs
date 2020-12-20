@@ -181,5 +181,14 @@ namespace TacticalGroups
 		public static readonly Texture2D PawnArrowLeft = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowLeft");
 		public static readonly Texture2D PawnArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowRight");
 		public static readonly Texture2D PawnArrowUp = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnArrowUp");
+
+
+		public static readonly Texture2D TakeBuffButtonHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/TakeBuffButtonHover");
+		public static readonly Texture2D TakeBuffButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/TakeBuffButton");
+		public static readonly Texture2D ResearchWorkButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ResearchWorkButton");
+		public static readonly Texture2D ResearchMenuButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ResearchMenuButton");
+		public static readonly Texture2D ResearchHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ResearchHover");
+		public static readonly Texture2D CaravanHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/CaravanHover");
+		public static readonly Texture2D CaravanButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/CaravanButton");
 	}
 }

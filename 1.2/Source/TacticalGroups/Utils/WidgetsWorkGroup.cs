@@ -57,6 +57,17 @@ namespace TacticalGroups
 			}
 		}
 
+		public static int MostCommonWorkPriorities(List<Pawn> pawns, WorkTypeDef wType)
+        {
+			var priorities = new List<int>();
+			foreach (var pawn in pawns)
+            {
+				priorities.Add(pawn.workSettings.GetPriority(wType));
+            }
+			var most = priorities.GroupBy(i => i).OrderByDescending(grp => grp.Count())
+				.Select(grp => grp.Key).First();
+			return most;
+		}
 		public static void DrawWorkBoxFor(float x, float y, WorkTypeDef wType, ColonistGroup group)
 		{
 			Rect rect = new Rect(x, y, 25f, 25f);
@@ -64,7 +75,7 @@ namespace TacticalGroups
 			DrawWorkBoxBackground(rect, wType);
 			if (Find.PlaySettings.useWorkPriorities)
 			{
-				int priority = group.pawns.First().workSettings.GetPriority(wType);
+				int priority = MostCommonWorkPriorities(group.pawns, wType);
 				if (priority > 0)
 				{
 					Text.Anchor = TextAnchor.MiddleCenter;
@@ -77,10 +88,9 @@ namespace TacticalGroups
 				{
 					return;
 				}
-				bool num = group.pawns.First().workSettings.WorkIsActive(wType);
 				if (Event.current.button == 0)
 				{
-					int num2 = group.pawns.First().workSettings.GetPriority(wType) - 1;
+					int num2 = MostCommonWorkPriorities(group.pawns, wType) - 1;
 					if (num2 < 0)
 					{
 						num2 = 4;
@@ -123,7 +133,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			if (group.pawns.First().workSettings.GetPriority(wType) > 0)
+			if (group.pawns.Where(pawn => pawn.workSettings.GetPriority(wType) > 0).Any())
 			{
 				foreach (var pawn in group.pawns)
                 {

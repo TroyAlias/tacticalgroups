@@ -63,7 +63,7 @@ namespace TacticalGroups
 		{
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
-			TieredFloatMenu floatMenu = new ActionsMenu(this, colonistGroup, rect, Textures.ActionsMenuDrop);
+			TieredFloatMenu floatMenu = new WorkMenu(this, colonistGroup, rect, Textures.ActionsMenuDrop);
 			OpenNewMenu(floatMenu);
 		}
 

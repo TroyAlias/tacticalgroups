@@ -10,10 +10,12 @@ namespace TacticalGroups
 {
     public class PawnGroup : ColonistGroup
 	{
-        public override void Init()
+		public List<Pawn> formerPawns;
+		public override void Init()
         {
             base.Init();
 			this.groupIcon = Textures.GroupIcon_Default;
+			this.formerPawns = new List<Pawn>();
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.pawnRowXPosShift = 2f;
@@ -54,7 +56,14 @@ namespace TacticalGroups
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
 		}
-
+        public override void Add(Pawn pawn)
+        {
+            base.Add(pawn);
+			if (this.formerPawns.Contains(pawn))
+            {
+				this.formerPawns.Remove(pawn);
+            }
+        }
         public override void Disband()
         {
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
@@ -62,26 +71,31 @@ namespace TacticalGroups
 		}
 		public override void Disband(Pawn pawn)
 		{
-			Log.Message(" - Disband - base.Disband(); - 1", true);
 			base.Disband(pawn);
-			Log.Message(" - Disband - if (this.pawns.Count == 0) - 2", true);
-			if (this.pawns.Count == 0)
+			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
 			{
-				Log.Message(" - Disband - TacticUtils.TacticalGroups.pawnGroups.Remove(this); - 3", true);
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			}
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
-		public void Disband(List<Pawn> pawns)
+		public void Disband(List<Pawn> pawns, bool permanent = true)
 		{
 			foreach (var pawn in pawns)
 			{
 				if (this.pawns.Contains(pawn))
 				{
 					this.Disband(pawn);
+					if (this.formerPawns.Contains(pawn))
+                    {
+						this.formerPawns.Remove(pawn);
+                    }
 				}
+				if (!permanent)
+                {
+					this.formerPawns.Add(pawn);
+                }
 			}
-			if (this.pawns.Count == 0)
+			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
 			{
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			}
@@ -162,6 +176,7 @@ namespace TacticalGroups
 		public override void ExposeData()
         {
             base.ExposeData();
+			Scribe_Collections.Look(ref formerPawns, "formerPawns");
         }
     }
 }

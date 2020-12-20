@@ -12,17 +12,16 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-
-	public class ActionsMenu : TieredFloatMenu
+	public class WorkMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(25f, 25f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(25f, 30f);
 
 		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
 		public Dictionary<Texture2D, BreakType> breakIconStates = new Dictionary<Texture2D, BreakType>();
 		public Dictionary<Texture2D, string> tooltips = new Dictionary<Texture2D, string>();
 
-		public ActionsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+		public WorkMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
@@ -33,7 +32,7 @@ namespace TacticalGroups
 			{
 				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.pawns);
 			};
-			lookBusy.bottomIndent = 393f;
+			lookBusy.bottomIndent = 400f;
 			options.Add(lookBusy);
 
 			var takeFive = new TieredFloatMenuOption(Strings.TakeFive, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f,
@@ -180,7 +179,7 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 
-			var rect3 = new Rect(rect.x + zero.x, rect.y + 70f, rect.width, rect.height);
+			var rect3 = new Rect(rect.x + zero.x, rect.y + 75f, rect.width, rect.height);
 			var iconRows = GetWorkIconRows(2);
 			for (var i = 0; i < iconRows.Count; i++)
 			{
@@ -225,12 +224,11 @@ namespace TacticalGroups
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
-
 					}
 				}
 			}
 
-			var rect4 = new Rect(rect.x + zero.x, rect.y + 463f, rect.width, rect.height);
+			var rect4 = new Rect(rect.x + zero.x, rect.y + 475f, rect.width, rect.height);
 			var iconRows2 = GetBreakIconRows(2);
 			for (var i = 0; i < iconRows2.Count; i++)
 			{
@@ -272,6 +270,92 @@ namespace TacticalGroups
 			}
 			Widgets.EndScrollView();
 			DrawExtraGui(rect);
+
+			var caravanButtonRect = new Rect(initialRect.x + 155, rect.y + 23, Textures.CaravanButton.width, Textures.CaravanButton.height);
+			GUI.DrawTexture(caravanButtonRect, Textures.CaravanButton);
+			if (Mouse.IsOver(caravanButtonRect))
+			{
+				GUI.DrawTexture(caravanButtonRect, Textures.CaravanHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					var window = new Dialog_FormCaravan(this.colonistGroup.Map);
+					Find.WindowStack.Add(window);
+
+					foreach (var pawn in this.colonistGroup.pawns)
+                    {
+						foreach (var trad in window.transferables)
+                        {
+							if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.pawns.Contains(pawn2))
+                            {
+								trad.AdjustTo(1);
+                            }
+                        }
+					}
+					Event.current.Use();
+					this.CloseAllWindows();
+				}
+			}
+
+
+			var researchWorkRect = new Rect(rect.x + 253, rect.y + 459, Textures.ResearchWorkButton.width, Textures.ResearchWorkButton.height);
+			GUI.DrawTexture(researchWorkRect, Textures.ResearchWorkButton);
+			if (this.colonistGroup.activeWorkType == WorkType.Research)
+			{
+				GUI.DrawTexture(researchWorkRect, Textures.Clock, ScaleMode.ScaleToFit);
+			}
+
+			Text.Anchor = TextAnchor.MiddleCenter;
+			var researchLabel = new Rect(researchWorkRect.x + 30, researchWorkRect.y - 25, 80, 24);
+			Widgets.Label(researchLabel, Strings.WorkTaskTooltipResearch);
+			Text.Anchor = TextAnchor.UpperLeft;
+
+			TooltipHandler.TipRegion(researchWorkRect, Strings.WorkTaskTooltipResearch + "\n" + Strings.ForcedLaborTooltip);
+			if (Mouse.IsOver(researchWorkRect))
+			{
+				GUI.DrawTexture(researchWorkRect, Textures.ResearchHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					this.colonistGroup.activeWorkType = WorkType.None;
+					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
+					Event.current.Use();
+				}
+				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+				{
+					if (this.colonistGroup.activeWorkType != WorkType.None)
+					{
+						if (this.colonistGroup.activeWorkType == WorkType.Research)
+						{
+							this.colonistGroup.activeWorkType = WorkType.None;
+						}
+						else
+						{
+							this.colonistGroup.activeWorkType = WorkType.Research;
+						}
+					}
+					else
+					{
+						this.colonistGroup.activeWorkType = WorkType.Research;
+					}
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
+					Event.current.Use();
+				}
+			}
+			var researchMenuRect = new Rect(researchWorkRect.x + 89, researchWorkRect.y, Textures.ResearchMenuButton.width, Textures.ResearchMenuButton.height);
+			GUI.DrawTexture(researchMenuRect, Textures.ResearchMenuButton);
+			if (Mouse.IsOver(researchMenuRect))
+			{
+				GUI.DrawTexture(researchMenuRect, Textures.ResearchHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					Find.MainTabsRoot.ToggleTab(MainButtonDefOf.Research);
+					Event.current.Use();
+				}
+			}
+			TooltipHandler.TipRegion(researchMenuRect, Strings.WorkTaskTooltipResearchMenu);
 			GUI.color = Color.white;
 		}
 

@@ -124,7 +124,7 @@ namespace TacticalGroups
 					}
 				}
 			};
-			option.bottomIndent = Textures.MenuButton.height + 72;
+			option.bottomIndent = Textures.MenuButton.height + 145;
 			options.Add(option);
 		}
 
@@ -175,31 +175,29 @@ namespace TacticalGroups
         {
             base.DrawExtraGui(rect);
 			Vector2 zero = Vector2.zero + InitialFloatOptionPositionShift;
-			var tendWounded = new Rect(zero.x, rect.y + 330, Textures.TendWounded.width, Textures.TendWounded.height);
+			var tendWounded = new Rect(zero.x + 10, rect.y + 407, Textures.TendWounded.width, Textures.TendWounded.height);
 			GUI.DrawTexture(tendWounded, Textures.TendWounded);
 			if (Mouse.IsOver(tendWounded))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					//TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					//this.colonistGroup.RemoveOldLord();
-					//LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_TendWounded(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
-					//this.colonistGroup.SearchForJob();
-					//Event.current.Use();
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					this.colonistGroup.activeWorkType = WorkType.TendWounded;
+					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
+					Event.current.Use();
 				}
 			}
 			TooltipHandler.TipRegion(tendWounded, Strings.TendWoundedTooltip);
-			var rescureFallen = new Rect((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 4f), tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
+			var rescureFallen = new Rect(((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 11f)) - 10f, tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
 			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
 			if (Mouse.IsOver(rescureFallen))
 			{
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					//TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					//this.colonistGroup.RemoveOldLord();
-					//LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_RescueFallen(Faction.OfPlayer), this.colonistGroup.Map, this.colonistGroup.pawns);
-					//this.colonistGroup.SearchForJob();
-					//Event.current.Use();
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					this.colonistGroup.activeWorkType = WorkType.RescueFallen;
+					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
+					Event.current.Use();
 				}
 			}
 			TooltipHandler.TipRegion(rescureFallen, Strings.RescueDownedTooltip);
@@ -298,7 +296,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(setRect, Textures.WorkButtonHover);
 
 			}
-			var clearRect = new Rect(zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width - 3f), rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
+			var clearRect = new Rect((zero.x + (Textures.MenuButton.width - Textures.SetClearButton.width)) - 12f, rectY, Textures.SetClearButton.width, Textures.SetClearButton.height);
 			GUI.DrawTexture(clearRect, Textures.SetClearButton);
 			Widgets.Label(clearRect, Strings.Clear);
 			TooltipHandler.TipRegion(clearRect, Strings.BattleStationsClearTooltip);
@@ -313,7 +311,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(clearRect, Textures.WorkButtonHover);
 			}
 
-			var upgradeArmorRect = new Rect(zero.x + 20, rect.height / 1.26f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
+			var upgradeArmorRect = new Rect(zero.x - 8f, rect.height / 1.76f, Textures.UpgradeArmorIcon.width, Textures.UpgradeArmorIcon.height);
 			GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeArmorIcon);
 			TooltipHandler.TipRegion(upgradeArmorRect, Strings.UpgradeArmorTooltip);
 
@@ -337,7 +335,27 @@ namespace TacticalGroups
 				}
 			}
 
-			var upgradeWeaponRect = new Rect((rect.x + rect.width) - (rect.x + (upgradeArmorRect.width * 2)), rect.height / 1.26f, Textures.UpgradeWeaponIcon.width, Textures.UpgradeWeaponIcon.height);
+			var takeBuffRect = new Rect(upgradeArmorRect.x + 56, upgradeArmorRect.y, Textures.TakeBuffButton.width, Textures.TakeBuffButton.height);
+			GUI.DrawTexture(takeBuffRect, Textures.TakeBuffButton);
+			if (Mouse.IsOver(takeBuffRect))
+			{
+				GUI.DrawTexture(takeBuffRect, Textures.TakeBuffButtonHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					foreach (var pawn in this.colonistGroup.pawns)
+					{
+						var jbg = new JobGiver_TakeCombatEnhancingDrug();
+						var result = jbg.TryIssueJobPackage(pawn, default(JobIssueParams));
+						if (result.Job != null)
+                        {
+							pawn.jobs.TryTakeOrderedJob(result.Job);
+                        }
+					}
+					Event.current.Use();
+				}
+			}
+			var upgradeWeaponRect = new Rect((rect.x + rect.width) - (20 + Textures.UpgradeWeaponIcon.width), upgradeArmorRect.y, Textures.UpgradeWeaponIcon.width, Textures.UpgradeWeaponIcon.height);
 			GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeWeaponIcon);
 			TooltipHandler.TipRegion(upgradeWeaponRect, Strings.UpgradeWeaponTooltip);
 			if (Mouse.IsOver(upgradeWeaponRect))

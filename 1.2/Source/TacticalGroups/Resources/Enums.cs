@@ -40,7 +40,8 @@ namespace TacticalGroups
 		Handle,
 		FireExtinguish,
 		Art,
-		Medical,
+		RescueFallen,
+		TendWounded,
 		Research
 	}
 	public enum BreakType

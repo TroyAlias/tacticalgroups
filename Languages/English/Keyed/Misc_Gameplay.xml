@@ -82,6 +82,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.WorkTaskTooltipSmith>Smith</TG.WorkTaskTooltipSmith>
 	<TG.WorkTaskTooltipHandle>Handle</TG.WorkTaskTooltipHandle>
 	<TG.WorkTaskTooltipFireExtinguish>Fire Extinguish</TG.WorkTaskTooltipFireExtinguish>
+	<TG.WorkTaskTooltipResearch>Research</TG.WorkTaskTooltipResearch>
 	
 	
 	<TG.ForcedLaborTooltip>

@@ -74,7 +74,7 @@ namespace TacticalGroups
 			this.formations = new Dictionary<Pawn, IntVec3>();
 			this.entireGroupIsVisible = true;
 		}
-		public void Add(Pawn pawn)
+		public virtual void Add(Pawn pawn)
         {
 			if (this.Map == null)
             {

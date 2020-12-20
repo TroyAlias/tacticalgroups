@@ -76,25 +76,20 @@ namespace TacticalGroups
                 this.colonyGroups[map] = new ColonyGroup(pawns);
             }
             RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
+
+            foreach (var pawnGroup in this.pawnGroups.Where(x => x.Map == map))
+            {
+                foreach (var pawn in pawns)
+                {
+                    if (pawnGroup.formerPawns.Contains(pawn))
+                    {
+                        pawnGroup.Add(pawn);
+                    }
+                }
+            }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }
-
-        public ColonyGroup CreateOrJoinColony(Pawn pawn, Map map)
-        {
-            if (this.colonyGroups.ContainsKey(map))
-            {
-                this.colonyGroups[map].Add(pawn);
-            }
-            else
-            {
-                this.colonyGroups[map] = new ColonyGroup(pawn);
-            }
-            RemovePawnsFromOtherColonies(this.colonyGroups[map], new List<Pawn> { pawn });
-            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-            return this.colonyGroups[map];
-        }
-
         public void RemovePawnsFromOtherColonies(ColonyGroup mainGroup, List<Pawn> pawns)
         {
             var colonyKeysToRemove = new List<Map>();
