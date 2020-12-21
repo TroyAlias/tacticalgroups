@@ -48,8 +48,11 @@ namespace TacticalGroups
 		public static readonly Texture2D SettingsGear = ContentFinder<Texture2D>.Get("UI/ColonistBar/SettingsGear");
 		public static readonly Texture2D ExpandedGroupMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/ExpandedGroupMenu");
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
-		public static readonly Texture2D GroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default");
 
+		public static readonly Texture2D GroupBanner_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default");
+		public static readonly Texture2D ColonyGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
+		public static readonly Texture2D CaravanGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
+		public static readonly Texture2D PawnGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupIcons/Default");
 
 		public static readonly Texture2D GroupIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconHover");
 		public static readonly Texture2D GroupIconSelected = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupIconSelected");
@@ -144,8 +147,6 @@ namespace TacticalGroups
 		public static readonly Texture2D GreenGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GreenGroupIcon");
 		public static readonly Texture2D DarkGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DarkGroupIcon");
 		public static readonly Texture2D BlueGroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BlueGroupIcon");
-		public static readonly Texture2D Default_ColonyIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyBlue/Default_ColonyIcon");
-		public static readonly Texture2D Caravan_GroupIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/CaravanGroup/Caravan_GroupIcon");
 
 		public static readonly Texture2D StatMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/StatMenu");
 		public static readonly Texture2D TiredIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/TiredIcon");

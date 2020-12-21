@@ -22,9 +22,13 @@ namespace TacticalGroups
 
 		public string groupName;
 		public string defaultGroupName;
+		public string defaultBannerFolder;
+		public Texture2D groupBanner;
 		public Texture2D groupIcon;
-		public string groupIconName;
+		public string groupBannerName;
+		public string groupBannerFolder;
 		public string groupIconFolder;
+		public string groupIconName;
 
 		public Rect curRect;
 		public bool Visible => pawnWindowIsActive;
@@ -54,7 +58,6 @@ namespace TacticalGroups
 
 		protected float pawnRowXPosShift;
 
-		public string defaultIconFolder;
 		public string colorFolder;
 
 		public List<Pawn> VisiblePawns
@@ -205,8 +208,14 @@ namespace TacticalGroups
 
 		public void UpdateIcon()
         {
+			var banners = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupBannerFolder);
+			var banner = banners.Where(x => x.name == groupBannerName).FirstOrDefault();
+			if (banner != null)
+			{
+				this.groupBanner = banner;
+			}
 			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder);
-			var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+			var icon = banners.Where(x => x.name == groupIconName).FirstOrDefault();
 			if (icon != null)
 			{
 				this.groupIcon = icon;
@@ -223,6 +232,7 @@ namespace TacticalGroups
             {
 				UpdateIcon();
 			}
+			GUI.DrawTexture(rect, this.groupBanner);
 			GUI.DrawTexture(rect, this.groupIcon);
 			if (!groupButtonRightClicked && Mouse.IsOver(rect))
             {
@@ -766,7 +776,9 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
+			Scribe_Values.Look(ref groupBannerName, "groupBannerName");
 			Scribe_Values.Look(ref groupIconFolder, "groupIconFolder");
+			Scribe_Values.Look(ref groupBannerFolder, "groupBannerFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}

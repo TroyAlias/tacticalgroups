@@ -14,8 +14,9 @@ namespace TacticalGroups
         public override void Init()
         {
             base.Init();
-			this.groupIcon = Textures.Caravan_GroupIcon;
-			this.groupIconFolder = "CaravanGroup";
+			this.groupBannerFolder = "CaravanGroup";
+			this.groupIcon = Textures.CaravanGroupIcon_Default;
+			this.groupBanner = Textures.GroupBanner_Default;
 			this.groupIconName = "Caravan_GroupIcon";
 			this.defaultGroupName = Strings.Caravan;
 			this.pawnRowCount = 3;

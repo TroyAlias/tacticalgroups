@@ -13,7 +13,7 @@ namespace TacticalGroups
 	public class ManageMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(27f, 55f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(27f, 60f);
 		public ManageMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -41,7 +41,7 @@ namespace TacticalGroups
 			{
 				AddRenameWindow(option);
 			};
-			option.bottomIndent = Textures.MenuButton.height + 15;
+			option.bottomIndent = Textures.MenuButton.height + 10;
 			options.Add(option);
 		}
 
@@ -111,7 +111,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var font = Text.Font;
 			Text.Font = GameFont.Medium;
-			TextUtils.Label(groupNameRect, this.colonistGroup.GetGroupName());
+			Widgets.Label(groupNameRect, this.colonistGroup.GetGroupName());
 			Text.Font = font;
 			Text.Anchor = TextAnchor.UpperLeft;
 			zero += InitialFloatOptionPositionShift;

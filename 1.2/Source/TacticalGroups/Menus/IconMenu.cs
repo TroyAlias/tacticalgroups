@@ -16,18 +16,36 @@ namespace TacticalGroups
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
 
 		public Dictionary<Texture2D, bool> iconStates = new Dictionary<Texture2D, bool>();
+		public Dictionary<Texture2D, bool> bannerStates = new Dictionary<Texture2D, bool>();
 
+		public string groupBannerFolder;
 		public string groupIconFolder;
 		public IconMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
+			groupBannerFolder = colonistGroup.groupBannerFolder;
 			groupIconFolder = colonistGroup.groupIconFolder;
-			ReInitIcons(this.colonistGroup.defaultIconFolder);
+			Log.Message(groupBannerFolder + " - " + groupIconFolder);
+			ReInitIcons(this.colonistGroup.defaultBannerFolder);
 		}
 
 		public void ReInitIcons(string folderName)
-        {
-			this.groupIconFolder = folderName;
+		{
+			this.groupBannerFolder = folderName;
+			var banners = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupBannerFolder).OrderBy(x => x.name).ToList();
+			bannerStates.Clear();
+			foreach (var banner in banners)
+			{
+				if (this.colonistGroup.groupBanner.name == banner.name)
+				{
+					bannerStates[banner] = true;
+				}
+				else
+				{
+					bannerStates[banner] = false;
+				}
+			}
+
 			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder).OrderBy(x => x.name).ToList();
 			iconStates.Clear();
 			foreach (var icon in icons)
@@ -42,7 +60,6 @@ namespace TacticalGroups
 				}
 			}
 		}
-
 		public List<List<Texture2D>> GetIconRows(int columnCount)
 		{
 			int num = 0;
@@ -66,14 +83,52 @@ namespace TacticalGroups
 			return iconRows;
 		}
 
+		public List<Texture2D> GetBanners()
+		{
+			List<Texture2D> row = new List<Texture2D>();
+			foreach (var icon in bannerStates.Keys)
+			{
+				row.Add(icon);
+			}
+			return row;
+		}
+
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
+
+			var bannerRow = GetBanners();
+			var bannerRowRect = new Rect(rect);
+			bannerRowRect.x += 10f;
+			bannerRowRect.y += 20f;
+			bannerRowRect.height -= 350f;
+			bannerRowRect.width -= 97f;
+			
+			float listWidth = bannerRow.Count * bannerRow[0].width;
+			Rect rect1 = new Rect(0f, 0f, listWidth, bannerRowRect.height - 16f);
+			Widgets.BeginScrollView(bannerRowRect, ref scrollPosition2, rect1);
+			for (var b = 0; b < bannerRow.Count; b++)
+			{
+				Rect iconRect = new Rect(rect1.x + (b * 80) + b * 4, rect1.y, 80, 64);
+				GUI.DrawTexture(iconRect, bannerRow[b], ScaleMode.ScaleToFit);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(iconRect))
+				{
+					Event.current.Use();
+					this.colonistGroup.groupBannerFolder = groupBannerFolder;
+					this.colonistGroup.groupBanner = bannerRow[b];
+					this.colonistGroup.groupBannerName = bannerRow[b].name;
+					this.colonistGroup.updateIcon = true;
+				}
+			}
+			
+			Widgets.EndScrollView();
+			Widgets.DrawBox(bannerRowRect);
+
 			var iconRows = GetIconRows(4);
 			var initialRect = new Rect(rect);
-			initialRect.y += 25f;
+			initialRect.y += 115f;
 			initialRect.x += 10f;
-			initialRect.height -= 45f;
+			initialRect.height -= 145f;
 			initialRect.width -= 97f;
 			float listHeight = iconRows.Count * iconRows[0][0].height + (iconRows.Count * 4);
 			Rect rect2 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
@@ -89,7 +144,6 @@ namespace TacticalGroups
 						Event.current.Use();
 						this.colonistGroup.groupIcon = iconRows[i][j];
 						this.colonistGroup.groupIconName = iconRows[i][j].name;
-						this.colonistGroup.groupIconFolder = groupIconFolder;
 						this.colonistGroup.updateIcon = true;
 					}
 				}
@@ -150,6 +204,7 @@ namespace TacticalGroups
 		}
 
 		private Vector2 scrollPosition;
+		private Vector2 scrollPosition2;
 
 	}
 }

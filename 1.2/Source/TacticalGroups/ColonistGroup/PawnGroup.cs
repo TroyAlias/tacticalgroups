@@ -14,12 +14,14 @@ namespace TacticalGroups
 		public override void Init()
         {
             base.Init();
-			this.groupIcon = Textures.GroupIcon_Default;
+			this.groupIcon = Textures.PawnGroupIcon_Default;
+			this.groupBanner = Textures.GroupBanner_Default;
 			this.formerPawns = new List<Pawn>();
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.pawnRowXPosShift = 2f;
-			this.defaultIconFolder = "GroupBlue";
+			this.defaultBannerFolder = "GroupBlue";
+			this.groupIconFolder = "GroupIcons";
 			this.colorFolder = "Group";
 			this.defaultGroupName = Strings.Group;
 			this.updateIcon = true;
