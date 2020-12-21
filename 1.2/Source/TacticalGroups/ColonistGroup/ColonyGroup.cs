@@ -17,11 +17,13 @@ namespace TacticalGroups
 			this.pawnDocRowCount = 11;
 			this.groupIcon = Textures.ColonyGroupIcon_Default;
 			this.groupBanner = Textures.GroupBanner_Default;
+
 			this.groupIconFolder = "ColonyIcons";
+
 			this.groupBannerFolder = "ColonyBlue";
 			this.defaultBannerFolder = "ColonyBlue";
+
 			this.colorFolder = "Colony";
-			this.groupIconName = "Default_ColonyIcon";
 			this.defaultGroupName = Strings.Colony;
 			this.updateIcon = true;
 		}

@@ -120,9 +120,7 @@ namespace TacticalGroups
 					this.colonistGroup.updateIcon = true;
 				}
 			}
-			
 			Widgets.EndScrollView();
-			Widgets.DrawBox(bannerRowRect);
 
 			var iconRows = GetIconRows(4);
 			var initialRect = new Rect(rect);
@@ -158,7 +156,7 @@ namespace TacticalGroups
         {
             base.DrawExtraGui(rect);
 			float xPos = rect.x + (rect.width - (Textures.BlueGroupIcon.width + 12));
-			float yPos = 25f;
+			float yPos = 65f;
 			var blueRect = new Rect(xPos, yPos, Textures.BlueGroupIcon.width, Textures.BlueGroupIcon.height);
 			GUI.DrawTexture(blueRect, Textures.BlueGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(blueRect))
@@ -205,6 +203,5 @@ namespace TacticalGroups
 
 		private Vector2 scrollPosition;
 		private Vector2 scrollPosition2;
-
 	}
 }

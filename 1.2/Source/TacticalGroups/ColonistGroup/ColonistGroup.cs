@@ -214,8 +214,9 @@ namespace TacticalGroups
 			{
 				this.groupBanner = banner;
 			}
+
 			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder);
-			var icon = banners.Where(x => x.name == groupIconName).FirstOrDefault();
+			var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
 			if (icon != null)
 			{
 				this.groupIcon = icon;

@@ -50,6 +50,7 @@ namespace TacticalGroups
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
 
 		public static readonly Texture2D GroupBanner_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default");
+
 		public static readonly Texture2D ColonyGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
 		public static readonly Texture2D CaravanGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
 		public static readonly Texture2D PawnGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupIcons/Default");
