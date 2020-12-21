@@ -52,4 +52,11 @@ namespace TacticalGroups
 		ChowHall,
 		LightsOut,
 	}
+
+	public enum WorkState
+    {
+		Inactive,
+		Active,
+		ForcedLabor
+    }
 }

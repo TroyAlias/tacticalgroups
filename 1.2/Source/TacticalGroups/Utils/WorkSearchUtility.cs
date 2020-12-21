@@ -39,11 +39,9 @@ namespace TacticalGroups
 				case WorkType.FireExtinguish: SearchForWorkFireExtinguish(pawns); break;
 				case WorkType.TendWounded: SearchForWorkTendWounded(pawns); break;
 				case WorkType.RescueFallen: SearchForWorkRescueFallen(pawns); break;
-
 				default: return;
 			}
 		}
-
 		public static void SearchForWorkGeneral(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)

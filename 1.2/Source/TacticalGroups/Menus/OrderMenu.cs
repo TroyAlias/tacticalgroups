@@ -182,7 +182,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.activeWorkType = WorkType.TendWounded;
+					this.colonistGroup.ChangeWorkState(WorkType.TendWounded);
 					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
@@ -195,13 +195,12 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.activeWorkType = WorkType.RescueFallen;
+					this.colonistGroup.ChangeWorkState(WorkType.RescueFallen);
 					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
 			}
 			TooltipHandler.TipRegion(rescureFallen, Strings.RescueDownedTooltip);
-
 			var shooterIconRect = new Rect(rect.x + 10, rect.y + 25f, Textures.ShootingIcon.width, Textures.ShootingIcon.height);
 			GUI.DrawTexture(shooterIconRect, Textures.ShootingIcon);
 			if (Mouse.IsOver(shooterIconRect))

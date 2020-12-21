@@ -235,18 +235,18 @@ namespace TacticalGroups
 
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
-        private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out WorkType __state, bool canReturnToPool = true)
+        private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
-            __state = WorkType.None;
+            __state = null;
             if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && CanWork(___pawn))
             {
                 if (___pawn.TryGetGroups(out List<ColonistGroup> groups ))
                 {
                     foreach (var group in groups)
                     {
-                        if (group.activeWorkType != WorkType.None)
+                        if (group.activeWorkTypes.Count > 0)
                         {
-                            __state = group.activeWorkType;
+                            __state = group.activeWorkTypes;
                             startNewJob = false;
                             return;
                         }
@@ -255,14 +255,38 @@ namespace TacticalGroups
             }
         }
 
-        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, WorkType __state, bool canReturnToPool = true)
+        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
-            if (__state != WorkType.None)
+            if (__state?.Count > 0)
             {
-                WorkSearchUtility.SearchForWork(__state, new List<Pawn> { ___pawn });
+                foreach (var state in __state.InRandomOrder())
+                {
+                    if (state.Value != WorkState.Inactive)
+                    {
+                        if (state.Value == WorkState.Active && !CanWorkActive(___pawn))
+                        {
+                            continue;
+                        }
+                        var curJob = ___pawn.CurJob;
+                        Log.Message(curJob + " - " + ___pawn + " - search for " + state);
+                        WorkSearchUtility.SearchForWork(state.Key, new List<Pawn> { ___pawn });
+                        if (curJob != ___pawn.CurJob)
+                        {
+                            break;
+                        }
+                    }
+                }
             }
         }
 
+        private static bool CanWorkActive(Pawn pawn)
+        {
+            if (CanWork(pawn) && pawn.needs.mood.CurLevel > pawn.mindState.mentalBreaker.BreakThresholdMinor)
+            {
+                return true;
+            }
+            return false;
+        }
         private static bool CanWork(Pawn pawn)
         {
             if (pawn.needs.food?.CurLevel < 0.10)
