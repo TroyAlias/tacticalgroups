@@ -156,7 +156,7 @@ namespace TacticalGroups
         {
             base.DrawExtraGui(rect);
 			float xPos = rect.x + (rect.width - (Textures.BlueGroupIcon.width + 12));
-			float yPos = 65f;
+			float yPos = 75f;
 			var blueRect = new Rect(xPos, yPos, Textures.BlueGroupIcon.width, Textures.BlueGroupIcon.height);
 			GUI.DrawTexture(blueRect, Textures.BlueGroupIcon);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(blueRect))
