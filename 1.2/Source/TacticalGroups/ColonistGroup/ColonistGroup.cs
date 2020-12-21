@@ -14,6 +14,8 @@ namespace TacticalGroups
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
+		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
+
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -72,6 +74,7 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
+			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
 		}
 		public virtual void Add(Pawn pawn)
@@ -726,20 +729,45 @@ namespace TacticalGroups
             }
         }
 
-		public WorkType activeWorkType = WorkType.None;
+		public void RemoveWorkState(WorkType workType)
+		{
+			if (this.activeWorkTypes.ContainsKey(workType))
+			{
+				this.activeWorkTypes[workType] = WorkState.Inactive;
+			}
+		}
 
+		public void ChangeWorkState(WorkType workType)
+        {
+			if (this.activeWorkTypes.ContainsKey(workType))
+            {
+				var state = this.activeWorkTypes[workType];
+				if (state == WorkState.ForcedLabor)
+                {
+					this.activeWorkTypes[workType] = WorkState.Inactive;
+				}
+				else
+                {
+					this.activeWorkTypes[workType] = (WorkState)((int)state + 1);
+				}
+			}
+			else
+            {
+				this.activeWorkTypes[workType] = WorkState.Active;
+			}
+		}
 		public virtual void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
+			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
 			Scribe_References.Look(ref Map, "Map");
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
 			Scribe_Values.Look(ref groupIconFolder, "groupIconFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
-			Scribe_Values.Look(ref activeWorkType, "activeWorkType", WorkType.None);
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 
@@ -748,5 +776,8 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys2;
 		private List<IntVec3> intVecValues;
-    }
+
+		private List<WorkType> workTypesKeys;
+		private List<WorkState> workStateValues;
+	}
 }

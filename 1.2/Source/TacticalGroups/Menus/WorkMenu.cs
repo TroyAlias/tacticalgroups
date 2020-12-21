@@ -188,9 +188,16 @@ namespace TacticalGroups
 					Rect iconRect = new Rect(rect3.x + (j * iconRows[i][j].width) + j * 10, rect3.y + (i * iconRows[i][j].height) + i * 7,
 						iconRows[i][j].width, iconRows[i][j].height);
 					GUI.DrawTexture(iconRect, iconRows[i][j]);
-					if (this.colonistGroup.activeWorkType == workIconStates[iconRows[i][j]])
+					if (this.colonistGroup.activeWorkTypes.TryGetValue(workIconStates[iconRows[i][j]], out WorkState state2))
                     {
-						GUI.DrawTexture(iconRect, Textures.Clock);
+						if (state2 == WorkState.Active)
+                        {
+							GUI.DrawTexture(iconRect, Textures.Clock);
+                        }
+						else if (state2 == WorkState.ForcedLabor)
+                        {
+							GUI.DrawTexture(iconRect, Textures.ClockSlave);
+						}
 					}
 					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]] + "\n" + Strings.ForcedLaborTooltip);
 					if (Mouse.IsOver(iconRect))
@@ -198,28 +205,14 @@ namespace TacticalGroups
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							this.colonistGroup.activeWorkType = WorkType.None;
+							this.colonistGroup.RemoveWorkState(workIconStates[iconRows[i][j]]);
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
 						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
                         {
-							if (this.colonistGroup.activeWorkType != WorkType.None)
-                            {
-								if (this.colonistGroup.activeWorkType == workIconStates[iconRows[i][j]])
-                                {
-									this.colonistGroup.activeWorkType = WorkType.None;
-								}
-								else
-                                {
-									this.colonistGroup.activeWorkType = workIconStates[iconRows[i][j]];
-								}
-							}
-							else
-                            {
-								this.colonistGroup.activeWorkType = workIconStates[iconRows[i][j]];
-							}
+							this.colonistGroup.ChangeWorkState(workIconStates[iconRows[i][j]]);
 							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
@@ -300,9 +293,16 @@ namespace TacticalGroups
 
 			var researchWorkRect = new Rect(rect.x + 253, rect.y + 459, Textures.ResearchWorkButton.width, Textures.ResearchWorkButton.height);
 			GUI.DrawTexture(researchWorkRect, Textures.ResearchWorkButton);
-			if (this.colonistGroup.activeWorkType == WorkType.Research)
+			if (this.colonistGroup.activeWorkTypes.TryGetValue(WorkType.Research, out WorkState state))
 			{
-				GUI.DrawTexture(researchWorkRect, Textures.Clock, ScaleMode.ScaleToFit);
+				if (state == WorkState.Active)
+                {
+					GUI.DrawTexture(researchWorkRect, Textures.Clock, ScaleMode.ScaleToFit);
+                }
+				else if (state == WorkState.ForcedLabor)
+                {
+					GUI.DrawTexture(researchWorkRect, Textures.ClockSlave, ScaleMode.ScaleToFit);
+				}
 			}
 
 			Text.Anchor = TextAnchor.MiddleCenter;
@@ -317,27 +317,13 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.activeWorkType = WorkType.None;
+					this.colonistGroup.RemoveWorkState(WorkType.Research);
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
-					if (this.colonistGroup.activeWorkType != WorkType.None)
-					{
-						if (this.colonistGroup.activeWorkType == WorkType.Research)
-						{
-							this.colonistGroup.activeWorkType = WorkType.None;
-						}
-						else
-						{
-							this.colonistGroup.activeWorkType = WorkType.Research;
-						}
-					}
-					else
-					{
-						this.colonistGroup.activeWorkType = WorkType.Research;
-					}
+					this.colonistGroup.ChangeWorkState(WorkType.Research);
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
 					Event.current.Use();

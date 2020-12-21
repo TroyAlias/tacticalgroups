@@ -101,6 +101,7 @@ namespace TacticalGroups
 		public static readonly Texture2D ArtButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ArtButton");
 
 		public static readonly Texture2D Clock = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/Clock");
+		public static readonly Texture2D ClockSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ClockSlave");
 		public static readonly Texture2D ActionsMenuDrop = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ActionsMenuDrop");
 		public static readonly Texture2D OptionsMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsMenu");
 		public static readonly Texture2D OptionsGearHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsGearHover");
