@@ -93,6 +93,14 @@ namespace TacticalGroups
 				Sort();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
+			if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
+			{
+				TacticUtils.pawnsWithGroups[pawn].Add(this);
+			}
+			else
+			{
+				TacticUtils.pawnsWithGroups[pawn] = new List<ColonistGroup> { this };
+			}
 		}
 
 		public void Add(List<Pawn> newPawns)

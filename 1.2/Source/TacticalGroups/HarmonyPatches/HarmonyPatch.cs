@@ -244,6 +244,7 @@ namespace TacticalGroups
                 {
                     foreach (var group in groups)
                     {
+                        Log.Message(___pawn + " - " + group);
                         if (group.activeWorkTypes.Count > 0)
                         {
                             __state = group.activeWorkTypes;
