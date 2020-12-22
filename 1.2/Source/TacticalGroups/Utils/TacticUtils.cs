@@ -77,11 +77,11 @@ namespace TacticalGroups
 			}
 		}
 
-		public static Dictionary<Pawn, List<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, List<ColonistGroup>>();
+		public static Dictionary<Pawn, HashSet<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, HashSet<ColonistGroup>>();
 
-		public static bool TryGetGroups(this Pawn pawn, out List<ColonistGroup> groups)
+		public static bool TryGetGroups(this Pawn pawn, out HashSet<ColonistGroup> groups)
         {
-			if (pawnsWithGroups.TryGetValue(pawn, out List<ColonistGroup> value))
+			if (pawnsWithGroups.TryGetValue(pawn, out HashSet<ColonistGroup> value))
 			{
 				groups = value;
 				return true;

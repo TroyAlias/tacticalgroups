@@ -99,7 +99,7 @@ namespace TacticalGroups
 			}
 			else
 			{
-				TacticUtils.pawnsWithGroups[pawn] = new List<ColonistGroup> { this };
+				TacticUtils.pawnsWithGroups[pawn] = new HashSet<ColonistGroup> { this };
 			}
 		}
 
@@ -216,6 +216,7 @@ namespace TacticalGroups
 
 		public void UpdateIcon()
         {
+			Log.Message(this + " - groupBannerFolder: " + groupBannerFolder);
 			var banners = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupBannerFolder);
 			var banner = banners.Where(x => x.name == groupBannerName).FirstOrDefault();
 			if (banner != null)

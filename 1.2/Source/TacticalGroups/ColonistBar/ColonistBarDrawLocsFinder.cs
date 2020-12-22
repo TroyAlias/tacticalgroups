@@ -21,7 +21,6 @@ namespace TacticalGroups
 		public static Rect createGroupRect;
 		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
 		{
-			Log.Message("CalculateDrawLocs");
 			caravanGroupDrawLoc.Clear();
 			colonyGroupDrawLoc.Clear();
 			pawnGroupDrawLoc.Clear();
@@ -256,22 +255,18 @@ namespace TacticalGroups
 					}
 					if (entries[j].colonyGroup != null)
                     {
-						if (entries[j].colonyGroup?.Map == Find.CurrentMap)
+						if (!TacticalGroupsSettings.HideCreateGroup && entries[j].colonyGroup?.Map == Find.CurrentMap)
 						{
-							Log.Message("0 createGroupRect");
 							createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 							num7 += Textures.CreateGroupIcon.width + 20f;
 							createGroupAssigned = true;
 						}
 					}
-					else if (!createGroupAssigned)
+					else if (!TacticalGroupsSettings.HideCreateGroup && !createGroupAssigned)
                     {
-						Log.Message("1 createGroupRect");
 						createGroupRect = new Rect(num7, 21f, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 						num7 += Textures.CreateGroupIcon.width + 20f;
 					}
-
-
 					num6 = 0;
 					num5 = entries[j].group;
 				}

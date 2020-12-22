@@ -181,25 +181,25 @@ namespace TacticalGroups
 
 		private void UpdateBaseColor()
 		{
-			if (!Selected && !HasActiveParent)
-			{
-				baseColor = Color.white;
-				if (!vanishIfMouseDistant)
-				{
-					return;
-				}
-				Rect r = new Rect(0f, 0f, backgroundTexture.width, backgroundTexture.height).ContractedBy(-5f);
-				if (!r.Contains(Event.current.mousePosition))
-				{
-					float num = GenUI.DistFromRect(r, Event.current.mousePosition);
-					baseColor = new Color(1f, 1f, 1f, 1f - num / 95f);
-					if (num > 95f)
-					{
-						Close(doCloseSound: false);
-						Cancel();
-					}
-				}
-			}
+			//if (!Selected && !HasActiveParent)
+			//{
+			//	baseColor = Color.white;
+			//	if (!vanishIfMouseDistant)
+			//	{
+			//		return;
+			//	}
+			//	Rect r = new Rect(0f, 0f, backgroundTexture.width, backgroundTexture.height).ContractedBy(-5f);
+			//	if (!r.Contains(Event.current.mousePosition))
+			//	{
+			//		float num = GenUI.DistFromRect(r, Event.current.mousePosition);
+			//		baseColor = new Color(1f, 1f, 1f, 1f - num / 95f);
+			//		if (num > 95f)
+			//		{
+			//			Close(doCloseSound: false);
+			//			Cancel();
+			//		}
+			//	}
+			//}
 		}
 	}
 }

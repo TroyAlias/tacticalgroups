@@ -15,7 +15,7 @@ namespace TacticalGroups
         {
             base.Init();
 			this.groupIcon = Textures.PawnGroupIcon_Default;
-			this.groupBanner = Textures.GroupBanner_Default;
+			this.groupBanner = Textures.PawnGroupBanner_Default;
 			this.formerPawns = new List<Pawn>();
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;

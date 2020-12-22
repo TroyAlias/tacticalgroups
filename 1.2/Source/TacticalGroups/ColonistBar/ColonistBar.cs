@@ -162,35 +162,36 @@ namespace TacticalGroups
                 int reorderableGroup = -1;
                 GUI.color = Color.white;
                 Text.Font = GameFont.Tiny;
-
-                var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
-                if (Mouse.IsOver(createGroupRect))
+                if (!TacticalGroupsSettings.HideCreateGroup)
                 {
-                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
-                }
-                else
-                {
-                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
-                }
-                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
-
-                HandleGroupingClicks(createGroupRect);
-                Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
-                if (Mouse.IsOver(optionsGearRect))
-                {
-                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
-                    if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+                    var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
+                    if (Mouse.IsOver(createGroupRect))
                     {
-                        TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
-                        Find.WindowStack.Add(floatMenu);
+                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
                     }
-                }
-                else
-                {
-                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
-                }
-                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
+                    else
+                    {
+                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
+                    }
+                    TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
 
+                    HandleGroupingClicks(createGroupRect);
+                    Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
+                    if (Mouse.IsOver(optionsGearRect))
+                    {
+                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
+                        if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+                        {
+                            TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
+                            Find.WindowStack.Add(floatMenu);
+                        }
+                    }
+                    else
+                    {
+                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
+                    }
+                    TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
+                }
                 if (!WorldRendererUtility.WorldRenderedNow)
                 {
                     for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
@@ -291,7 +292,7 @@ namespace TacticalGroups
             }
         }
 
-        public void HandleGroupingClicks(Rect rect)
+        public static void HandleGroupingClicks(Rect rect)
         {
             if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))
             {
@@ -299,8 +300,7 @@ namespace TacticalGroups
                 if (selectedPawns.Any())
                 {
                     TacticUtils.TacticalGroups.AddGroup(selectedPawns);
-                    MarkColonistsDirty();
-                    CheckRecacheEntries();
+                    TacticUtils.TacticalColonistBar.MarkColonistsDirty();
                 }
                 Event.current.Use();
             }

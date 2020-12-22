@@ -16,7 +16,7 @@ namespace TacticalGroups
             base.Init();
 			this.groupBannerFolder = "CaravanGroup";
 			this.groupIcon = Textures.CaravanGroupIcon_Default;
-			this.groupBanner = Textures.GroupBanner_Default;
+			this.groupBanner = Textures.PawnGroupBanner_Default;
 			this.groupIconName = "Caravan_GroupIcon";
 			this.defaultGroupName = Strings.Caravan;
 			this.pawnRowCount = 3;
