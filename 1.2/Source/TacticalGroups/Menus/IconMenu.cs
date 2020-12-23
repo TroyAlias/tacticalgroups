@@ -20,19 +20,29 @@ namespace TacticalGroups
 
 		public string groupBannerFolder;
 		public string groupIconFolder;
+		public bool bannerModeEnabled;
 		public IconMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			groupBannerFolder = colonistGroup.groupBannerFolder;
 			groupIconFolder = colonistGroup.groupIconFolder;
-			Log.Message(groupBannerFolder + " - " + groupIconFolder);
+			bannerModeEnabled = colonistGroup.bannerModeEnabled;
 			ReInitIcons(this.colonistGroup.defaultBannerFolder);
 		}
 
 		public void ReInitIcons(string folderName)
 		{
 			this.groupBannerFolder = folderName;
-			var banners = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupBannerFolder).OrderBy(x => x.name).ToList();
+			var bannerPath = "";
+			if (bannerModeEnabled)
+            {
+				bannerPath = "UI/ColonistBar/GroupIcons/BannerMode/" + groupBannerFolder;
+            }
+			else
+            {
+				bannerPath = "UI/ColonistBar/GroupIcons/" + groupBannerFolder;
+			}
+			var banners = ContentFinder<Texture2D>.GetAllInFolder(bannerPath).OrderBy(x => x.name).ToList();
 			bannerStates.Clear();
 			foreach (var banner in banners)
 			{
@@ -46,7 +56,16 @@ namespace TacticalGroups
 				}
 			}
 
-			var icons = ContentFinder<Texture2D>.GetAllInFolder("UI/ColonistBar/GroupIcons/" + groupIconFolder).OrderBy(x => x.name).ToList();
+			var iconPath = "";
+			if (bannerModeEnabled)
+			{
+				iconPath = "UI/ColonistBar/GroupIcons/BannerMode/" + groupIconFolder;
+			}
+			else
+			{
+				iconPath = "UI/ColonistBar/GroupIcons/" + groupIconFolder;
+			}
+			var icons = ContentFinder<Texture2D>.GetAllInFolder(iconPath).OrderBy(x => x.name).ToList();
 			iconStates.Clear();
 			foreach (var icon in icons)
 			{
@@ -118,10 +137,10 @@ namespace TacticalGroups
 					this.colonistGroup.groupBanner = bannerRow[b];
 					this.colonistGroup.groupBannerName = bannerRow[b].name;
 					this.colonistGroup.updateIcon = true;
+					this.colonistGroup.bannerModeEnabled = this.bannerModeEnabled;
 				}
 			}
 			Widgets.EndScrollView();
-
 			var iconRows = GetIconRows(4);
 			var initialRect = new Rect(rect);
 			initialRect.y += 115f;
@@ -155,6 +174,40 @@ namespace TacticalGroups
         public override void DrawExtraGui(Rect rect)
         {
             base.DrawExtraGui(rect);
+
+			if (this.colonistGroup is PawnGroup)
+            {
+				var bigBannerModeRect = new Rect(rect.x + (rect.width - (Textures.DefaultBannerMode.width + 40)), 23, Textures.DefaultBannerMode.width, Textures.DefaultBannerMode.height);
+				GUI.DrawTexture(bigBannerModeRect, Textures.DefaultBannerMode);
+
+				var smallBannerModeRect = new Rect(bigBannerModeRect.x + Textures.DefaultBannerMode.width + 10, 23, Textures.SmallBannerMode.width, Textures.SmallBannerMode.height);
+				GUI.DrawTexture(smallBannerModeRect, Textures.SmallBannerMode);
+
+				if (bannerModeEnabled)
+				{
+					GUI.DrawTexture(smallBannerModeRect, Textures.SmallBannerModeSelect);
+				}
+				else
+				{
+					GUI.DrawTexture(bigBannerModeRect, Textures.DefaultBannerModeSelect);
+				}
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					if (Mouse.IsOver(bigBannerModeRect))
+					{
+						bannerModeEnabled = false;
+						ReInitIcons(this.colonistGroup.defaultBannerFolder);
+						Event.current.Use();
+					}
+					else if (Mouse.IsOver(smallBannerModeRect))
+					{
+						bannerModeEnabled = true;
+						ReInitIcons(this.colonistGroup.defaultBannerFolder);
+						Event.current.Use();
+					}
+				}
+			}
+
 			float xPos = rect.x + (rect.width - (Textures.BlueGroupIcon.width + 12));
 			float yPos = 75f;
 			var blueRect = new Rect(xPos, yPos, Textures.BlueGroupIcon.width, Textures.BlueGroupIcon.height);

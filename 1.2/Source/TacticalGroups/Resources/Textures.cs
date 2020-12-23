@@ -194,5 +194,12 @@ namespace TacticalGroups
 		public static readonly Texture2D ResearchHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ResearchHover");
 		public static readonly Texture2D CaravanHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/CaravanHover");
 		public static readonly Texture2D CaravanButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/CaravanButton");
+
+		public static readonly Texture2D SmallBannerMode = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SmallBannerMode");
+		public static readonly Texture2D DefaultBannerMode = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DefaultBannerMode");
+
+		public static readonly Texture2D SmallBannerModeSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SmallBannerModeSelect");
+		public static readonly Texture2D DefaultBannerModeSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DefaultBannerModeSelect");
+		public static readonly Texture2D ColorGroupIconSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColorGroupIconSelect");
 	}
 }

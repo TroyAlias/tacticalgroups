@@ -242,13 +242,13 @@ namespace TacticalGroups
 										if (groupID > 0 && groupID % 4 == 0)
 										{
 											xPos = initPos;
-											yPos += list[groupID].groupIcon.height + 25;
+											yPos += list[groupID].groupBanner.height + 25;
 										}
 										pawnGroupDrawLoc[list[groupID]] = new Vector2(xPos, yPos);
-										xPos += list[groupID].groupIcon.width + 10;
+										xPos += list[groupID].groupBanner.width + (list[groupID].groupBanner.width / 4);
 									}
 									list = list.Take(4).ToList();
-									num7 += list.Sum(x => x.groupIcon.width + 10);
+									num7 += list.Sum(x => x.groupBanner.width + (x.groupBanner.width / 4));
 								}
 							}
 						}

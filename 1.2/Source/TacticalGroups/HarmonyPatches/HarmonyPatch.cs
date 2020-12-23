@@ -322,42 +322,37 @@ namespace TacticalGroups
             {
                 Rect outRect = new Rect((int)position.x, (int)position.y + (int)___cachedHeaderHeight, (int)___cachedSize.x, (int)___cachedSize.y - (int)___cachedHeaderHeight);
                 Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (int)___cachedHeightNoScrollbar - (int)___cachedHeaderHeight);
-
-                if (TacticalGroupsSettings.HideCreateGroup)
+                
+                var createGroupRect = new Rect(viewRect.x + 10, viewRect.y + 10, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+                if (Mouse.IsOver(createGroupRect))
                 {
-                    var createGroupRect = new Rect(viewRect.x + 10, viewRect.y + 10, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
-                    if (Mouse.IsOver(createGroupRect))
+                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
+                }
+                else
+                {
+                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
+                }
+                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
+                TacticalColonistBar.HandleGroupingClicks(createGroupRect);
+                Rect optionsGearRect = new Rect(createGroupRect.x + createGroupRect.width + 10f, createGroupRect.y + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
+                if (Mouse.IsOver(optionsGearRect))
+                {
+                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
+                    if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
                     {
-                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
-                    }
-                    else
-                    {
-                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
-                    }
-                    TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
-                    TacticalColonistBar.HandleGroupingClicks(createGroupRect);
-                    Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, 
-                        Textures.OptionsGear.width, Textures.OptionsGear.height);
-                    Widgets.DrawBox(optionsGearRect);
-                    if (Mouse.IsOver(optionsGearRect))
-                    {
-                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
-                        if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+                        TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
+                        Find.WindowStack.Add(floatMenu);
+                        if (Textures.OptionsMenu.height > floatMenu.windowRect.y)
                         {
-                            TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
-                            Find.WindowStack.Add(floatMenu);
-                            if (Textures.OptionsMenu.height > floatMenu.windowRect.y)
-                            {
-                                floatMenu.windowRect.y += Textures.OptionsMenu.height;
-                            }
+                            floatMenu.windowRect.y += Textures.OptionsMenu.height;
                         }
                     }
-                    else
-                    {
-                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
-                    }
-                    TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
                 }
+                else
+                {
+                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
+                }
+                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
             }
 
         }

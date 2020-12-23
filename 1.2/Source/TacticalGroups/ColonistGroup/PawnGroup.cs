@@ -178,7 +178,7 @@ namespace TacticalGroups
 		public override void ExposeData()
         {
             base.ExposeData();
-			Scribe_Collections.Look(ref formerPawns, "formerPawns");
+			Scribe_Collections.Look(ref formerPawns, "formerPawns", LookMode.Reference);
         }
     }
 }
