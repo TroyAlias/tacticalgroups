@@ -245,10 +245,10 @@ namespace TacticalGroups
 											yPos += list[groupID].groupBanner.height + 25;
 										}
 										pawnGroupDrawLoc[list[groupID]] = new Vector2(xPos, yPos);
-										xPos += list[groupID].groupBanner.width + (list[groupID].groupBanner.width / 4);
+										xPos += list[groupID].groupBanner.width + 10;
 									}
 									list = list.Take(4).ToList();
-									num7 += list.Sum(x => x.groupBanner.width + (x.groupBanner.width / 4));
+									num7 += list.Sum(x => x.groupBanner.width + 10);
 								}
 							}
 						}
