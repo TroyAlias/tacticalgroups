@@ -243,12 +243,12 @@ namespace TacticalGroups
             __state = null;
             if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && CanWork(___pawn))
             {
-                if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups ))
+                if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
                 {
                     foreach (var group in groups)
                     {
                         Log.Message(___pawn + " - " + group);
-                        if (group.activeWorkTypes.Count > 0)
+                        if (group.activeWorkTypes?.Count > 0)
                         {
                             __state = group.activeWorkTypes;
                             startNewJob = false;

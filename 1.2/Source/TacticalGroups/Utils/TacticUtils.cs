@@ -86,7 +86,7 @@ namespace TacticalGroups
 				groups = value;
 				return true;
             }
-			groups = null;
+			groups = new HashSet<ColonistGroup>();
 			return false;
         }
 
