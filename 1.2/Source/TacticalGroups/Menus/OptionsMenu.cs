@@ -67,6 +67,9 @@ namespace TacticalGroups
 			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HideGroups);
 			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HideGroups);
 
+			topLeft.y += 25f;
+			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HideCreateGroup);
+			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HideCreateGroup);
 
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;

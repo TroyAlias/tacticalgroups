@@ -208,7 +208,7 @@ namespace TacticalGroups
                         }
                         else
                         {
-                            TacticUtils.pawnsWithGroups[pawn] = new List<ColonistGroup> { group };
+                            TacticUtils.pawnsWithGroups[pawn] = new HashSet<ColonistGroup> { group };
                         }
                     }
                 }

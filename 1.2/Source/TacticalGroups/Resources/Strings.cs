@@ -50,6 +50,7 @@ namespace TacticalGroups
 		public static readonly string DisplayColorBars = "TG.DisplayColorBars".Translate();
 		public static readonly string HidePawnsWhenOffMap = "TG.HidePawnsWhenOffMap".Translate();
 		public static readonly string HideGroups = "TG.HideGroups".Translate();
+		public static readonly string HideCreateGroup = "TG.HideCreateGroup".Translate();
 
 		public static readonly string Attack = "TG.Attack".Translate();
 		public static readonly string Regroup = "TG.Regroup".Translate();
