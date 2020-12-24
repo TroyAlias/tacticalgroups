@@ -247,10 +247,13 @@ namespace TacticalGroups
 
 			var workRows = GetWorkTypeRows(2);
 			var initialRect = new Rect((rect.x + rect.width) - 245, rect.y + 75, 240, rect.height - 95);
-			DoManualPrioritiesCheckbox(new Rect(initialRect.x, rect.y + 30, initialRect.width, 40));
+			var workMenuRect = new Rect(initialRect);
+			workMenuRect.height -= 103;
+
+			DoManualPrioritiesCheckbox(new Rect(workMenuRect.x, rect.y + 30, workMenuRect.width, 40));
 			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
-			Rect rect5 = new Rect(0f, 0f, initialRect.width - 16f, listHeight);
-			Widgets.BeginScrollView(initialRect, ref scrollPosition, rect5);
+			Rect rect5 = new Rect(0f, 0f, workMenuRect.width - 16f, listHeight);
+			Widgets.BeginScrollView(workMenuRect, ref scrollPosition, rect5);
 
 			for (var i = 0; i < workRows.Count; i++)
 			{
@@ -263,6 +266,7 @@ namespace TacticalGroups
 			}
 			Widgets.EndScrollView();
 			DrawExtraGui(rect);
+
 
 			var caravanButtonRect = new Rect(initialRect.x + 155, rect.y + 23, Textures.CaravanButton.width, Textures.CaravanButton.height);
 			GUI.DrawTexture(caravanButtonRect, Textures.CaravanButton);

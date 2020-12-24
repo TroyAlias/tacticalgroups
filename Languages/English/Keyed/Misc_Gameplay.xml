@@ -78,6 +78,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.WorkTaskTooltipFarm>Farm</TG.WorkTaskTooltipFarm>
 	<TG.WorkTaskTooltipClearSnow>Clear Snow</TG.WorkTaskTooltipClearSnow>
 	<TG.WorkTaskTooltipWarden>Warden Prisoners</TG.WorkTaskTooltipWarden>
+	<TG.WorkTaskTooltipArt>Art</TG.WorkTaskTooltipArt>
 	<TG.WorkTaskTooltipTailor>Tailor</TG.WorkTaskTooltipTailor>
 	<TG.WorkTaskTooltipSmith>Smith</TG.WorkTaskTooltipSmith>
 	<TG.WorkTaskTooltipHandle>Handle</TG.WorkTaskTooltipHandle>
