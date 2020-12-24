@@ -16,6 +16,7 @@ namespace TacticalGroups
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 
+		public bool isColonyGroup;
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -322,7 +323,14 @@ namespace TacticalGroups
 
 			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
 			var initialRect = new Rect(rect);
-			initialRect.y += initialRect.height * 1.2f;
+			if (this.bannerModeEnabled)
+            {
+				initialRect.y += rect.height;
+			}
+			else
+            {
+				initialRect.y += initialRect.height * 1.2f;
+            }
 			initialRect.x -= Textures.ColonistDot.width - 3f;
 
 			bool showDownedState = false;
@@ -392,18 +400,10 @@ namespace TacticalGroups
 			if (ShowExpanded)
             {
 				Rect initialRect = Rect.zero;
-				if (this.bannerModeEnabled)
-				{
-					initialRect = new Rect(rect.x - (rect.width / 1.6f), rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
-					initialRect.x -= initialRect.width / 1.5f;
-				}
-				else
-				{
-					initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
-					initialRect.x -= initialRect.width / 1.5f;
-				}
-
-
+				initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
+				initialRect.x = (rect.x + (rect.width / 2f));
+				initialRect.x -= ((this.pawnRowCount * 65f) / 2f);
+				initialRect.x += 8f;
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
 					for (var j = 0; j < pawnRows[i].Count; j++)
@@ -832,6 +832,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupBannerFolder, "groupBannerFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
+			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 

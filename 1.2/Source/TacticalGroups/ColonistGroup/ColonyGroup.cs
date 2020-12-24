@@ -22,7 +22,7 @@ namespace TacticalGroups
 
 			this.groupBannerFolder = "ColonyBlue";
 			this.defaultBannerFolder = "ColonyBlue";
-
+			this.isColonyGroup = true;
 			this.colorFolder = "Colony";
 			this.defaultGroupName = Strings.Colony;
 			this.updateIcon = true;

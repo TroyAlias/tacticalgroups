@@ -201,5 +201,13 @@ namespace TacticalGroups
 		public static readonly Texture2D SmallBannerModeSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SmallBannerModeSelect");
 		public static readonly Texture2D DefaultBannerModeSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DefaultBannerModeSelect");
 		public static readonly Texture2D ColorGroupIconSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColorGroupIconSelect");
+
+		public static readonly Texture2D GroupIconSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupIconSelect");
+		public static readonly Texture2D ColonyIconSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyIconSelect");
+		public static readonly Texture2D BannerGroupIconSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BannerGroupIconSelect");
+
+		public static readonly Texture2D GroupBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupBannerSelect");
+		public static readonly Texture2D ColonyBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyBannerSelect");
+		public static readonly Texture2D BannerGroupBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BannerGroupBannerSelect");
 	}
 }

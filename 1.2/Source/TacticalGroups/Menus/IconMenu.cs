@@ -130,6 +130,24 @@ namespace TacticalGroups
 			{
 				Rect iconRect = new Rect(rect1.x + (b * 80) + b * 4, rect1.y, 80, 64);
 				GUI.DrawTexture(iconRect, bannerRow[b], ScaleMode.ScaleToFit);
+				if (this.colonistGroup.groupBanner == bannerRow[b])
+                {
+					if (this.bannerModeEnabled)
+                    {
+						GUI.DrawTexture(iconRect.ExpandedBy(2f), Textures.BannerGroupBannerSelect);
+					}
+					else
+                    {
+						if (this.colonistGroup.isColonyGroup)
+						{
+							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.ColonyBannerSelect);
+						}
+						else
+						{
+							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.GroupBannerSelect);
+						}
+					}
+                }
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(iconRect))
 				{
 					Event.current.Use();
@@ -156,6 +174,17 @@ namespace TacticalGroups
 				{
 					Rect iconRect = new Rect(rect2.x + (j * 80) + j * 4, rect2.y + (i * 64) + i * 4, 80, 64);
 					GUI.DrawTexture(iconRect, iconRows[i][j], ScaleMode.ScaleToFit);
+					if (this.colonistGroup.groupIcon == iconRows[i][j])
+					{
+						if (this.colonistGroup.isColonyGroup)
+						{
+							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.ColonyIconSelect);
+						}
+						else
+                        {
+							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.GroupIconSelect);
+                        }
+					}
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(iconRect))
 					{
 						Event.current.Use();
@@ -217,6 +246,17 @@ namespace TacticalGroups
 				ReInitIcons(this.colonistGroup.colorFolder + "Blue");
 				Event.current.Use();
 			}
+			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Blue")
+            {
+				if (this.colonistGroup.isColonyGroup)
+				{
+					GUI.DrawTexture(blueRect.ExpandedBy(6f), Textures.ColonyIconSelect);
+				}
+				else
+				{
+					GUI.DrawTexture(blueRect.ExpandedBy(6f), Textures.GroupIconSelect);
+				}
+			}
 			yPos += Textures.BlueGroupIcon.height + 5;
 			var redRect = new Rect(xPos, yPos, Textures.RedGroupIcon.width, Textures.RedGroupIcon.height);
 			GUI.DrawTexture(redRect, Textures.RedGroupIcon);
@@ -225,7 +265,17 @@ namespace TacticalGroups
 				ReInitIcons(this.colonistGroup.colorFolder + "Red");
 				Event.current.Use();
 			}
-
+			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Red")
+			{
+				if (this.colonistGroup.isColonyGroup)
+				{
+					GUI.DrawTexture(redRect.ExpandedBy(6f), Textures.ColonyIconSelect);
+				}
+				else
+				{
+					GUI.DrawTexture(redRect.ExpandedBy(6f), Textures.GroupIconSelect);
+				}
+			}
 			yPos += Textures.BlueGroupIcon.height + 5;
 			var darkRect = new Rect(xPos, yPos, Textures.DarkGroupIcon.width, Textures.DarkGroupIcon.height);
 			GUI.DrawTexture(darkRect, Textures.DarkGroupIcon);
@@ -234,7 +284,17 @@ namespace TacticalGroups
 				ReInitIcons(this.colonistGroup.colorFolder + "Dark");
 				Event.current.Use();
 			}
-
+			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Dark")
+			{
+				if (this.colonistGroup.isColonyGroup)
+				{
+					GUI.DrawTexture(darkRect.ExpandedBy(6f), Textures.ColonyIconSelect);
+				}
+				else
+				{
+					GUI.DrawTexture(darkRect.ExpandedBy(6f), Textures.GroupIconSelect);
+				}
+			}
 			yPos += Textures.BlueGroupIcon.height + 5;
 			var yellowRect = new Rect(xPos, yPos, Textures.YellowGroupIcon.width, Textures.YellowGroupIcon.height);
 			GUI.DrawTexture(yellowRect, Textures.YellowGroupIcon);
@@ -243,7 +303,17 @@ namespace TacticalGroups
 				ReInitIcons(this.colonistGroup.colorFolder + "Yellow");
 				Event.current.Use();
 			}
-
+			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Yellow")
+			{
+				if (this.colonistGroup.isColonyGroup)
+				{
+					GUI.DrawTexture(yellowRect.ExpandedBy(6f), Textures.ColonyIconSelect);
+				}
+				else
+				{
+					GUI.DrawTexture(yellowRect.ExpandedBy(6f), Textures.GroupIconSelect);
+				}
+			}
 			yPos += Textures.BlueGroupIcon.height + 5;
 			var greenRect = new Rect(xPos, yPos, Textures.GreenGroupIcon.width, Textures.GreenGroupIcon.height);
 			GUI.DrawTexture(greenRect, Textures.GreenGroupIcon);
@@ -251,6 +321,17 @@ namespace TacticalGroups
 			{
 				ReInitIcons(this.colonistGroup.colorFolder + "Green");
 				Event.current.Use();
+			}
+			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Green")
+			{
+				if (this.colonistGroup.isColonyGroup)
+                {
+					GUI.DrawTexture(greenRect.ExpandedBy(6f), Textures.ColonyIconSelect);
+				}
+				else
+                {
+					GUI.DrawTexture(greenRect.ExpandedBy(6f), Textures.GroupIconSelect);
+                }
 			}
 		}
 
