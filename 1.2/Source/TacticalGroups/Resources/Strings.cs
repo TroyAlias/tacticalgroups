@@ -126,6 +126,7 @@ namespace TacticalGroups
 		public static readonly string RankTooltip = "TG.RankTooltip".Translate();
 		public static readonly string UpgradeWeaponTooltip = "TG.UpgradeWeaponTooltip".Translate();
 		public static readonly string UpgradeArmorTooltip = "TG.UpgradeArmorTooltip".Translate();
+		public static readonly string TakeBuffTooltip = "TG.TakeBuffTooltip".Translate();
 		public static readonly string MoodIconTooltip = "TG.MoodIconTooltip".Translate();
 		public static readonly string HealthIconTooltip = "TG.HealthIconTooltip".Translate();
 		public static readonly string RestIconTooltip = "TG.RestIconTooltip".Translate();

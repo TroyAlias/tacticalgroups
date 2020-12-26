@@ -145,6 +145,7 @@ namespace TacticalGroups
 			Widgets.Label(disbandLabelRect, Strings.Disband);
 
 			var disbandPawn = new Rect((disbandRect.x / 2f) + 5f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
+			MouseoverSounds.DoRegion(disbandPawn);
 			if (Mouse.IsOver(disbandPawn))
             {
 
@@ -173,6 +174,7 @@ namespace TacticalGroups
 			Widgets.Label(disbandPawnLabelRect, Strings.DisbandPawn);
 
 			var disbandGroup = new Rect((disbandRect.x + disbandRect.width) - (Textures.DisbandGroup.width / 2f), (disbandRect.y + disbandRect.height) - (Textures.DisbandGroup.height / 2f), Textures.DisbandGroup.width, Textures.DisbandGroup.height);
+			MouseoverSounds.DoRegion(disbandGroup);
 			if (Mouse.IsOver(disbandGroup))
 			{
 				GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);

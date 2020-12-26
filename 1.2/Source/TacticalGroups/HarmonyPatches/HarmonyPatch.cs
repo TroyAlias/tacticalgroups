@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using Verse.Sound;
 using Verse.AI;
+using System.Linq;
 
 namespace TacticalGroups 
 {
@@ -249,15 +250,18 @@ namespace TacticalGroups
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
             __state = null;
-            if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && CanWork(___pawn))
+            if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && !___pawn.Drafted)
             {
                 if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
                 {
                     foreach (var group in groups)
                     {
-                        Log.Message(___pawn + " - " + group);
                         if (group.activeWorkTypes?.Count > 0)
                         {
+                            if (group.activeWorkTypes.Where(x => x.Value == WorkState.Active).Count() == group.activeWorkTypes.Count && (!CanWork(___pawn) || !CanWorkActive(___pawn)))
+                            {
+                                return;
+                            }
                             __state = group.activeWorkTypes;
                             startNewJob = false;
                             return;
@@ -273,7 +277,7 @@ namespace TacticalGroups
             {
                 foreach (var state in __state.InRandomOrder())
                 {
-                    if (state.Value != WorkState.Inactive)
+                    if (state.Value != WorkState.Inactive && CanWork(___pawn))
                     {
                         if (state.Value == WorkState.Active && !CanWorkActive(___pawn))
                         {
@@ -293,7 +297,7 @@ namespace TacticalGroups
 
         private static bool CanWorkActive(Pawn pawn)
         {
-            if (CanWork(pawn) && pawn.needs.mood.CurLevel > pawn.mindState.mentalBreaker.BreakThresholdMinor)
+            if (pawn.needs.mood.CurLevel > pawn.mindState.mentalBreaker.BreakThresholdMinor)
             {
                 return true;
             }

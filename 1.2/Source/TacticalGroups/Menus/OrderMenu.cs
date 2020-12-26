@@ -336,6 +336,7 @@ namespace TacticalGroups
 
 			var takeBuffRect = new Rect(upgradeArmorRect.x + 56, upgradeArmorRect.y, Textures.TakeBuffButton.width, Textures.TakeBuffButton.height);
 			GUI.DrawTexture(takeBuffRect, Textures.TakeBuffButton);
+			TooltipHandler.TipRegion(takeBuffRect, Strings.TakeBuffTooltip);
 			if (Mouse.IsOver(takeBuffRect))
 			{
 				GUI.DrawTexture(takeBuffRect, Textures.TakeBuffButtonHover);
@@ -354,6 +355,7 @@ namespace TacticalGroups
 					Event.current.Use();
 				}
 			}
+
 			var upgradeWeaponRect = new Rect((rect.x + rect.width) - (20 + Textures.UpgradeWeaponIcon.width), upgradeArmorRect.y, Textures.UpgradeWeaponIcon.width, Textures.UpgradeWeaponIcon.height);
 			GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeWeaponIcon);
 			TooltipHandler.TipRegion(upgradeWeaponRect, Strings.UpgradeWeaponTooltip);
