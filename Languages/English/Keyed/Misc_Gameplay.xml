@@ -144,6 +144,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	
 -Pawns will only upgrade to their current weapon type; Ranged / Melee</TG.UpgradeWeaponTooltip>
 	<TG.UpgradeArmorTooltip>Tell group to upgrade armor if any is available</TG.UpgradeArmorTooltip>
+	<TG.TakeBuffTooltip>Tell group to take combat drugs in inventory</TG.TakeBuffTooltip>
 	
 	<TG.MoodIconTooltip>Group's overall mood</TG.MoodIconTooltip>
 	<TG.HealthIconTooltip>Group's overall health</TG.HealthIconTooltip>
