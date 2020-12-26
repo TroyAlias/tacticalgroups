@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -179,7 +180,7 @@ namespace TacticalGroups
                 {
 					if (Event.current.clickCount == 1)
 					{
-						Log.Message("HandleClicks");
+						TacticDefOf.TG_LeftClickGroupSFX.PlayOneShotOnCamera();
 						if (!expandPawnIcons)
 						{
 							expandPawnIcons = true;
@@ -270,19 +271,41 @@ namespace TacticalGroups
 			}
 			else if (groupButtonRightClicked)
             {
-				GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
+				if (this.bannerModeEnabled)
+                {
+					GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
+				}
+				else if (this is PawnGroup)
+                {
+					GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
+                }
+				else if (this is ColonyGroup)
+				{
+					GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
+				}
 			}
 
-			var totalRect = new Rect(groupRect);
+			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
 			if (ShowExpanded)
 			{
+				totalRect = new Rect(groupRect.x, groupRect.y, groupRect.width, groupRect.height);
 				totalRect.height += groupRect.height + (pawnRows.Count * 50f);
-				totalRect.x -= (65f * pawnRowCount) / 3f;
-				totalRect.width = 70f * pawnRowCount;
+				totalRect.x = (groupRect.x + (groupRect.width / 2f));
+				totalRect.x -= ((this.pawnRowCount * 75f) / 2f);
+				totalRect.width = 75f * pawnRowCount;
 			}
 			else
 			{
+				if (this.bannerModeEnabled)
+				{
+					totalRect = new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, pawnRows.Count * 30f);
+				}
+				else
+				{
+					totalRect = new Rect(rect.x, rect.y, rect.width, pawnRows.Count * 30f);
+				}
+
 				totalRect.height += pawnRows.Count * 30;
 				totalRect = totalRect.ScaledBy(1.2f);
 			}
@@ -306,12 +329,12 @@ namespace TacticalGroups
 			{
 				pawnWindowIsActive = false;
 				expandPawnIcons = false;
-				DrawOverlays(groupRect);
+				DrawPawnDots(groupRect);
 			}
 		}
 
 		private int downedStateBlink;
-		public void DrawOverlays(Rect rect)
+		public void DrawPawnDots(Rect rect)
         {
 			if (!this.bannerModeEnabled)
             {
@@ -326,6 +349,7 @@ namespace TacticalGroups
 			if (this.bannerModeEnabled)
             {
 				initialRect.y += rect.height;
+				initialRect.x -= 4f;
 			}
 			else
             {
@@ -399,8 +423,7 @@ namespace TacticalGroups
         {
 			if (ShowExpanded)
             {
-				Rect initialRect = Rect.zero;
-				initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
+				Rect initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
 				initialRect.x = (rect.x + (rect.width / 2f));
 				initialRect.x -= ((this.pawnRowCount * 65f) / 2f);
 				initialRect.x += 8f;
@@ -442,8 +465,10 @@ namespace TacticalGroups
 		{
 			if (ShowExpanded)
 			{
-				var initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
-				initialRect.x -= initialRect.width / 1.5f;
+				Rect initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height);
+				initialRect.x = (rect.x + (rect.width / 2f));
+				initialRect.x -= ((this.pawnRowCount * 65f) / 2f);
+				initialRect.x += 8f;
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
 					for (var j = 0; j < pawnRows[i].Count; j++)
@@ -455,7 +480,15 @@ namespace TacticalGroups
 			}
 			else
 			{
-				var backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
+				Rect backGroundRect = Rect.zero;
+				if (this.bannerModeEnabled)
+				{
+					backGroundRect = new Rect(rect.x - (rect.width / 1.7f), rect.y + rect.height, 80f, pawnRows.Count * 30f);
+				}
+				else
+				{
+					backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
+				}
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
 					for (var j = 0; j < pawnRows[i].Count; j++)

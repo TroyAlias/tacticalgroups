@@ -131,6 +131,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOffHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
 							pawnIcon.Value.isVisibleOnColonistBar = false;
@@ -152,6 +153,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOnHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
 							pawnIcon.Value.isVisibleOnColonistBar = true;
@@ -175,6 +177,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(addPawnRect, Textures.AddPawnIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					var pawns = Find.Selector.SelectedPawns;
 					if (pawns.Count > 0)
                     {

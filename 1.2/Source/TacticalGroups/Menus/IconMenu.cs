@@ -225,12 +225,16 @@ namespace TacticalGroups
 					if (Mouse.IsOver(bigBannerModeRect))
 					{
 						bannerModeEnabled = false;
+						this.colonistGroup.bannerModeEnabled = false;
+						this.colonistGroup.updateIcon = true;
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}
 					else if (Mouse.IsOver(smallBannerModeRect))
 					{
 						bannerModeEnabled = true;
+						this.colonistGroup.bannerModeEnabled = true;
+						this.colonistGroup.updateIcon = true;
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}

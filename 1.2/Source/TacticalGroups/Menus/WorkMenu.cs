@@ -206,14 +206,14 @@ namespace TacticalGroups
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
 							this.colonistGroup.RemoveWorkState(workIconStates[iconRows[i][j]]);
-							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+							TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
 						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
                         {
 							this.colonistGroup.ChangeWorkState(workIconStates[iconRows[i][j]]);
-							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+							TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
@@ -237,7 +237,14 @@ namespace TacticalGroups
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+							if (breakIconStates[iconRows2[i][j]] == BreakType.LightsOut)
+                            {
+								TacticDefOf.TG_LightsOutSFX.PlayOneShotOnCamera();
+							}
+							else if (breakIconStates[iconRows2[i][j]] == BreakType.ChowHall)
+                            {
+								TacticDefOf.TG_ChowTimeSFX.PlayOneShotOnCamera();
+							}
 							WorkSearchUtility.TakeABreak(breakIconStates[iconRows2[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
@@ -275,7 +282,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(caravanButtonRect, Textures.CaravanHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 					var window = new Dialog_FormCaravan(this.colonistGroup.Map);
 					Find.WindowStack.Add(window);
 
@@ -320,7 +327,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(researchWorkRect, Textures.ResearchHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
 					this.colonistGroup.RemoveWorkState(WorkType.Research);
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
 					Event.current.Use();
@@ -328,7 +335,7 @@ namespace TacticalGroups
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
 					this.colonistGroup.ChangeWorkState(WorkType.Research);
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
@@ -340,7 +347,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(researchMenuRect, Textures.ResearchHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 					Find.MainTabsRoot.ToggleTab(MainButtonDefOf.Research);
 					Event.current.Use();
 				}

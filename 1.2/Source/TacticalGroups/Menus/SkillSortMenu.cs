@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -22,6 +23,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption("None".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
 			{
+				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.activeSortBy = SortBy.None;
 			};
 			option.bottomIndent = Textures.MenuButton.height + 4;
@@ -43,6 +45,7 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, -1f);
 			option.action = delegate
 			{
+				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.skillDefSort = skillDef;
 				this.colonistGroup.InitSort(SortBy.Skills);
 			};

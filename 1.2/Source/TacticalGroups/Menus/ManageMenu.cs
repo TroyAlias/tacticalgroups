@@ -180,7 +180,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_DisbandGroupSFX.PlayOneShotOnCamera();
 					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 					this.colonistGroup.Disband();
 					this.CloseAllWindows();

@@ -179,6 +179,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(tendWounded, Textures.TendWounded);
 			if (Mouse.IsOver(tendWounded))
 			{
+				GUI.DrawTexture(tendWounded, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
@@ -192,6 +193,7 @@ namespace TacticalGroups
 			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
 			if (Mouse.IsOver(rescureFallen))
 			{
+				GUI.DrawTexture(rescureFallen, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
@@ -319,7 +321,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(upgradeArmorRect, Textures.UpgradeIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_UpgradeArmorWeaponsSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
                     {
 						var thing = TacticUtils.PickBestArmorFor(pawn);
@@ -342,7 +344,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(takeBuffRect, Textures.TakeBuffButtonHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_TakeBuffSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
 					{
 						var jbg = new JobGiver_TakeCombatEnhancingDrug();

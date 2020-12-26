@@ -23,7 +23,20 @@ namespace TacticalGroups
 		public static SoundDef TG_ClickSFX;
 		public static SoundDef TG_HoverSFX;
 		public static SoundDef TG_AttackOrdersSFX;
+
+		public static SoundDef TG_WorkSFX;
+		public static SoundDef TG_UpgradeArmorWeaponsSFX;
+		public static SoundDef TG_TakeBuffSFX;
+		public static SoundDef TG_SortOptionsSFX;
+		public static SoundDef TG_ResearchSFX;
+		public static SoundDef TG_LightsOutSFX;
+		public static SoundDef TG_DisbandGroupSFX;
+		public static SoundDef TG_CreateGroupSFX;
+		public static SoundDef TG_ChowTimeSFX;
+		public static SoundDef TG_LeftClickGroupSFX;
 		public static ThingDef TC_Mote_ColonistDowned;
+
+
 
 	}
 }

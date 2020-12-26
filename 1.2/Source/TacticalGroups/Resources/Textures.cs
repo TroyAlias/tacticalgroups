@@ -68,6 +68,7 @@ namespace TacticalGroups
 
 		public static readonly Texture2D TendWounded = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/TendWounded");
 		public static readonly Texture2D RescueFallen = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/RescueFallen");
+		public static readonly Texture2D RescueTendHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/RescueTendHover");
 
 		public static readonly Texture2D ManageDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ManageDropMenu");
 		public static readonly Texture2D IconMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/IconMenu");
@@ -209,5 +210,8 @@ namespace TacticalGroups
 		public static readonly Texture2D GroupBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupBannerSelect");
 		public static readonly Texture2D ColonyBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyBannerSelect");
 		public static readonly Texture2D BannerGroupBannerSelect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BannerGroupBannerSelect");
+
+		public static readonly Texture2D ColonyIconSelected = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonyIconSelected");
+		public static readonly Texture2D BannerIconSelected = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/BannerIconSelected");
 	}
 }

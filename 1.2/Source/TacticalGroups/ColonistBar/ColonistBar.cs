@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -299,6 +300,7 @@ namespace TacticalGroups
                 var selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
                 if (selectedPawns.Any())
                 {
+                    TacticDefOf.TG_CreateGroupSFX.PlayOneShotOnCamera();
                     TacticUtils.TacticalGroups.AddGroup(selectedPawns);
                     TacticUtils.TacticalColonistBar.MarkColonistsDirty();
                 }

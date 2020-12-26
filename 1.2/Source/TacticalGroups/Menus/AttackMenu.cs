@@ -35,6 +35,7 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, -1f, Strings.FireAtWillTooltip);
 			option.action = delegate
 			{
+				this.colonistGroup.Draft();
 				foreach (var pawn in this.colonistGroup.pawns)
                 {
 					if (pawn.drafter != null)
