@@ -88,8 +88,8 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	
 	
 	<TG.ForcedLaborTooltip>
-Right Click to enable forced labor
--Work until all jobs are completed</TG.ForcedLaborTooltip>
+Right Click to Prioritize
+-Right Click x2 = Slave Labor</TG.ForcedLaborTooltip>
 
 	<TG.TakeFiveTooltip>Take a Break
 	
@@ -116,38 +116,38 @@ Tell group to go to sleep</TG.SleepTooltip>
 	<TG.RallyToolTip>Rally
 	
 Select and Draft entire group</TG.RallyToolTip>
-	<TG.ShootersToolTip>Number of shooters in group.
-	-Click to select.</TG.ShootersToolTip>
-	<TG.MeleeToolTip>Number of Melee in group.
-	-Click to select.</TG.MeleeToolTip>
+	<TG.ShootersToolTip>Number of shooters in group
+	-Click to select</TG.ShootersToolTip>
+	<TG.MeleeToolTip>Number of Melee in group
+	-Click to select</TG.MeleeToolTip>
 	<TG.ShowHideTooltip>Show/Hide group pawns from top bar</TG.ShowHideTooltip>
-	<TG.AddColonistTooltip>Will add selected colonists to group</TG.AddColonistTooltip>
-	<TG.RegroupTooltip>Tell group to go to Leader's potition.
+	<TG.AddColonistTooltip>Add selected colonists to group</TG.AddColonistTooltip>
+	<TG.RegroupTooltip>Regroup on Leader's potition.
 Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.BattleStationsTooltip>Send group to battle positions</TG.BattleStationsTooltip>
-	<TG.BattleStationsSetTooltip>Set selected pawns' battle position</TG.BattleStationsSetTooltip>
-	<TG.BattleStationsClearTooltip>Clear selected pawns' battle position</TG.BattleStationsClearTooltip>
-	<TG.FireAtWillTooltip>Toggle default combat mode</TG.FireAtWillTooltip>
-	<TG.StrongestTooltip>Group will target strongest enemy</TG.StrongestTooltip>
-	<TG.WeakestTooltip>Group will target weakest enemy</TG.WeakestTooltip>
-	<TG.PursueFleeingTooltip>Group will pursue fleeing enemies</TG.PursueFleeingTooltip>
-	<TG.ReportToMedicalTooltip>Send wounded pawns to Rest until Healed</TG.ReportToMedicalTooltip>
+	<TG.BattleStationsSetTooltip>Set battle positions</TG.BattleStationsSetTooltip>
+	<TG.BattleStationsClearTooltip>Clear battle positions</TG.BattleStationsClearTooltip>
+	<TG.FireAtWillTooltip>Default combat mode</TG.FireAtWillTooltip>
+	<TG.StrongestTooltip>Target strongest enemy</TG.StrongestTooltip>
+	<TG.WeakestTooltip>Target weakest enemy</TG.WeakestTooltip>
+	<TG.PursueFleeingTooltip>Pursue fleeing enemies</TG.PursueFleeingTooltip>
+	<TG.ReportToMedicalTooltip>Send wounded to Rest until Healed</TG.ReportToMedicalTooltip>
 	<TG.RescueDownedTooltip>Rescue downed colonists</TG.RescueDownedTooltip>
 	<TG.TendWoundedTooltip>Tend wounded colonists</TG.TendWoundedTooltip>
 	<TG.ArmorTooltip>Average group armor rating</TG.ArmorTooltip>
-	<TG.DPSTooltip>Average group Damage-per-Second</TG.DPSTooltip>
+	<TG.DPSTooltip>Average group DPS</TG.DPSTooltip>
 
 
 	<TG.MiddlePawnCountToolTip>Number of combat-ready pawns</TG.MiddlePawnCountToolTip>
-	<TG.RankTooltip>Average group combat rank</TG.RankTooltip>
+	<TG.RankTooltip>Group average combat rank</TG.RankTooltip>
 	<TG.UpgradeWeaponTooltip>Tell group to upgrade weapons if any are available
 	
 -Pawns will only upgrade to their current weapon type; Ranged / Melee</TG.UpgradeWeaponTooltip>
 	<TG.UpgradeArmorTooltip>Tell group to upgrade armor if any is available</TG.UpgradeArmorTooltip>
 	
-	<TG.MoodIconTooltip>Group's overall mood.</TG.MoodIconTooltip>
-	<TG.HealthIconTooltip>Group's overall health.</TG.HealthIconTooltip>
-	<TG.RestIconTooltip>Group's overall rest.</TG.RestIconTooltip>
-	<TG.HungerIconTooltip>Group's overall hunger.</TG.HungerIconTooltip>
+	<TG.MoodIconTooltip>Group's overall mood</TG.MoodIconTooltip>
+	<TG.HealthIconTooltip>Group's overall health</TG.HealthIconTooltip>
+	<TG.RestIconTooltip>Group's overall rest</TG.RestIconTooltip>
+	<TG.HungerIconTooltip>Group's overall hunger</TG.HungerIconTooltip>
 
 </LanguageData>
