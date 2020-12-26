@@ -91,10 +91,136 @@ namespace TacticalGroups
 			Widgets.Label(foodLabelRect, foodPercent);
 			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
 
+			var pawnRowRect = new Rect(rect.x + 20, rect.y + (rect.height - 90f), rect.width - 40f, TacticalColonistBar.BaseSize.y + 25f);
+			var pawnMargin = 20f;
+			float listWidth = this.colonistGroup.pawns.Count * (TacticalColonistBar.BaseSize.x + pawnMargin);
+			Rect rect1 = new Rect(pawnRowRect.x, pawnRowRect.y, listWidth, pawnRowRect.height - 16f);
+			Widgets.BeginScrollView(pawnRowRect, ref scrollPosition, rect1);
+
+			for (var i = 0; i < this.colonistGroup.pawns.Count; i++ )
+            {
+				var pawnRect = new Rect(pawnRowRect.x + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				TacticUtils.TacticalColonistBar.drawer.DrawColonist(pawnRect, this.colonistGroup.pawns[i], this.colonistGroup.pawns[i].Map, false, false);
+				HandleClicks(pawnRect, this.colonistGroup.pawns[i]);
+			}
+
+			for (var i = 0; i < this.colonistGroup.pawns.Count; i++)
+			{
+				var pawnRect = new Rect(pawnRowRect.x + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				DrawPawnArrows(pawnRect, this.colonistGroup.pawns[i]);
+			}
+			Widgets.EndScrollView();
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;
 		}
 
+		public void HandleClicks(Rect rect, Pawn colonist)
+		{
+			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
+			{
+				Event.current.Use();
+				CameraJumper.TryJump(colonist);
+			}
+			else if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(rect))
+			{
+				Event.current.Use();
+				Find.Selector.ClearSelection();
+				Find.Selector.Select(colonist);
+
+			}
+		}
+
+		public Dictionary<Pawn, bool> pawnReorderingMode = new Dictionary<Pawn, bool>();
+		public void DrawPawnArrows(Rect rect, Pawn pawn)
+		{
+			bool reset = true;
+			if (Mouse.IsOver(rect))
+			{
+				Log.Message(" - DrawPawnArrows - reset = false; - 3", true);
+				reset = false;
+				Log.Message(" - DrawPawnArrows - if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1) - 4", true);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+				{
+					Log.Message(" - DrawPawnArrows - Event.current.Use(); - 5", true);
+					Event.current.Use();
+					Log.Message(" - DrawPawnArrows - pawnReorderingMode[pawn] = true; - 6", true);
+					pawnReorderingMode[pawn] = true;
+				}
+			}
+
+			if (pawnReorderingMode.TryGetValue(pawn, out bool value) && value)
+			{
+				Log.Message(" - DrawPawnArrows - var rightPawnArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.PawnArrowRight.width, Textures.PawnArrowRight.height); - 8", true);
+				var rightPawnArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.PawnArrowRight.width, Textures.PawnArrowRight.height);
+				Log.Message(" - DrawPawnArrows - if (Mouse.IsOver(rightPawnArrowRect.ExpandedBy(3f))) - 9", true);
+
+				if (Mouse.IsOver(rightPawnArrowRect.ExpandedBy(3f)))
+				{
+					Log.Message(" - DrawPawnArrows - if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(rightPawnArrowRect)) - 10", true);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(rightPawnArrowRect))
+					{
+						Log.Message(" - DrawPawnArrows - var indexOf = this.pawns.IndexOf(pawn); - 11", true);
+						var indexOf = this.colonistGroup.pawns.IndexOf(pawn);
+						Log.Message(" - DrawPawnArrows - if (this.pawns.Count > indexOf + 1) - 12", true);
+						if (this.colonistGroup.pawns.Count > indexOf + 1)
+						{
+							Log.Message(" - DrawPawnArrows - this.pawns.RemoveAt(indexOf); - 13", true);
+							this.colonistGroup.pawns.RemoveAt(indexOf);
+							Log.Message(" - DrawPawnArrows - this.pawns.Insert(indexOf + 1, pawn); - 14", true);
+							this.colonistGroup.pawns.Insert(indexOf + 1, pawn);
+						}
+						else if (indexOf != 0)
+						{
+							Log.Message(" - DrawPawnArrows - this.pawns.RemoveAt(indexOf); - 16", true);
+							this.colonistGroup.pawns.RemoveAt(indexOf);
+							Log.Message(" - DrawPawnArrows - this.pawns.Insert(0, pawn); - 17", true);
+							this.colonistGroup.pawns.Insert(0, pawn);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					reset = false;
+				}
+				GUI.DrawTexture(rightPawnArrowRect, Textures.PawnArrowRight);
+
+				var leftPawnArrowRect = new Rect(rect.x - Textures.PawnArrowLeft.width, rect.y, Textures.PawnArrowLeft.width, Textures.PawnArrowLeft.height);
+				Log.Message(" - DrawPawnArrows - if (Mouse.IsOver(leftPawnArrowRect.ExpandedBy(3f))) - 22", true);
+				if (Mouse.IsOver(leftPawnArrowRect.ExpandedBy(3f)))
+				{
+					Log.Message(" - DrawPawnArrows - if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(leftPawnArrowRect)) - 23", true);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(leftPawnArrowRect))
+					{
+						Log.Message(" - DrawPawnArrows - var indexOf = this.pawns.IndexOf(pawn); - 24", true);
+						var indexOf = this.colonistGroup.pawns.IndexOf(pawn);
+						Log.Message(" - DrawPawnArrows - if (indexOf > 0) - 25", true);
+						if (indexOf > 0)
+						{
+							Log.Message(" - DrawPawnArrows - this.pawns.RemoveAt(indexOf); - 26", true);
+							this.colonistGroup.pawns.RemoveAt(indexOf);
+							Log.Message(" - DrawPawnArrows - this.pawns.Insert(indexOf - 1, pawn); - 27", true);
+							this.colonistGroup.pawns.Insert(indexOf - 1, pawn);
+						}
+						else if (indexOf != this.colonistGroup.pawns.Count)
+						{
+							Log.Message(" - DrawPawnArrows - this.pawns.RemoveAt(indexOf); - 29", true);
+							this.colonistGroup.pawns.RemoveAt(indexOf);
+							Log.Message(" - DrawPawnArrows - this.pawns.Insert(this.pawns.Count, pawn); - 30", true);
+							this.colonistGroup.pawns.Insert(this.colonistGroup.pawns.Count, pawn);
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					reset = false;
+				}
+				GUI.DrawTexture(leftPawnArrowRect, Textures.PawnArrowLeft);
+			}
+
+			if (reset)
+			{
+				Log.Message(" - DrawPawnArrows - pawnReorderingMode[pawn] = false; - 35", true);
+				pawnReorderingMode[pawn] = false;
+			}
+		}
+
+		private Vector2 scrollPosition;
 		public Texture2D GetMoodTexture(out string moodString)
         {
 			var moodAverage = new List<float>();

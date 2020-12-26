@@ -438,22 +438,7 @@ namespace TacticalGroups
 		{
 			return thingWeapon == null || thingWeapon.def == null;//|| (thingWeapon.def.HasModExtension<WeaponBarDefModExt>() && thingWeapon.def.GetModExtension<WeaponBarDefModExt>().excludeFromDrawing);
 		}
-		private static float GetRotationAngle(Thing thingWeapon)
-		{
-			return 0f;
-			//if (thingWeapon == null)
-			//{
-			//	return 0f;
-			//}
-			//if (thingWeapon.def == null)
-			//{
-			//	return 0f;
-			//}
-			//if (!thingWeapon.def.HasModExtension<WeaponBarDefModExt>())
-			//{
-			//}
-			//return thingWeapon.def.GetModExtension<WeaponBarDefModExt>().weaponBarAngleOffset;
-		}
+
 		private static void DrawColonistsBarWeaponIcon(Rect rect, Thing thingWeapon, float alpha = 1f)
 		{
 			if (thingWeapon == null)
@@ -478,7 +463,7 @@ namespace TacticalGroups
 			}
 			Texture2D weaponIcon = ((Texture2D)thingWeapon.Graphic.ExtractInnerGraphicFor(thingWeapon).MatSingleFor(thingWeapon).mainTexture) ?? thingWeapon.def.uiIcon;
 			Color color = new Color(thingWeapon.DrawColor.r, thingWeapon.DrawColor.g, thingWeapon.DrawColor.b, alpha);
-			DrawColonistBarWeaponIcon(rect, weaponIcon, color, GetRotationAngle(thingWeapon));
+			DrawColonistBarWeaponIcon(rect, weaponIcon, color);
 		}
 		private static void DrawColonistBarWeaponIcon(Rect rect, Texture weaponIcon, Color color, float rotationAngle = 0f)
 		{

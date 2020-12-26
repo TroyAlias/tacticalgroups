@@ -508,7 +508,7 @@ namespace TacticalGroups
 			{
 				reset = false;
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
-                {
+				{
 					Event.current.Use();
 					pawnReorderingMode[pawn] = true;
 				}
@@ -517,6 +517,7 @@ namespace TacticalGroups
 			if (pawnReorderingMode.TryGetValue(pawn, out bool value) && value)
 			{
 				var rightPawnArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.PawnArrowRight.width, Textures.PawnArrowRight.height);
+				
 				if (Mouse.IsOver(rightPawnArrowRect.ExpandedBy(3f)))
 				{
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(rightPawnArrowRect))
@@ -562,10 +563,11 @@ namespace TacticalGroups
 			}
 
 			if (reset)
-            {
+			{
 				pawnReorderingMode[pawn] = false;
 			}
 		}
+
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool reordering)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
