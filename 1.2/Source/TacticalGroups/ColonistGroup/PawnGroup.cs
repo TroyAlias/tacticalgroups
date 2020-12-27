@@ -20,6 +20,7 @@ namespace TacticalGroups
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.pawnRowXPosShift = 2f;
+			this.groupBannerFolder = "GroupBlue";
 			this.defaultBannerFolder = "GroupBlue";
 			this.groupIconFolder = "GroupIcons";
 			this.colorFolder = "Group";

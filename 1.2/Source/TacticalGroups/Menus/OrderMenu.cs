@@ -366,7 +366,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_UpgradeArmorWeaponsSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
 					{
 						var thing = TacticUtils.PickBestWeaponFor(pawn);
