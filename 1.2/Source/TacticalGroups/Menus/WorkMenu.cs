@@ -1,3 +1,4 @@
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -30,6 +31,7 @@ namespace TacticalGroups
 				MenuOptionPriority.High, 0f, Textures.LookBusyButton.width - 2f, Strings.LookBusyTooltip);
 			lookBusy.action = delegate
 			{
+				TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.pawns);
 			};
 			lookBusy.bottomIndent = 400f;
@@ -296,6 +298,8 @@ namespace TacticalGroups
                             }
                         }
 					}
+
+					Traverse.Create(window).Method("CountToTransferChanged").GetValue();
 					Event.current.Use();
 					this.CloseAllWindows();
 				}

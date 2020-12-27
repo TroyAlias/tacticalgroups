@@ -273,4 +273,20 @@
 			</li>
 		</subSounds>
 	</SoundDef>
+	<SoundDef>
+		<defName>TG_RegroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Regroup</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
 </Defs>

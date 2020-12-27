@@ -89,6 +89,7 @@ namespace TacticalGroups
 			var option = new TieredFloatMenuOption(Strings.Regroup, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, -1f, Strings.RegroupTooltip);
 			option.action = delegate
 			{
+				TacticDefOf.TG_RegroupSFX.PlayOneShotOnCamera();
 				this.colonistGroup.RemoveOldLord();
 				this.colonistGroup.Draft();
 				var firstPawn = this.colonistGroup.pawns.First();

@@ -34,6 +34,7 @@ namespace TacticalGroups
 		public static SoundDef TG_CreateGroupSFX;
 		public static SoundDef TG_ChowTimeSFX;
 		public static SoundDef TG_LeftClickGroupSFX;
+		public static SoundDef TG_RegroupSFX;
 		public static ThingDef TC_Mote_ColonistDowned;
 
 
