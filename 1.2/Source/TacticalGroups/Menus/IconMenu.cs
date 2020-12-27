@@ -35,18 +35,19 @@ namespace TacticalGroups
 			this.groupBannerFolder = folderName;
 			var bannerPath = "";
 			if (bannerModeEnabled)
-            {
+			{
 				bannerPath = "UI/ColonistBar/GroupIcons/BannerMode/" + groupBannerFolder;
-            }
+			}
 			else
-            {
+			{
 				bannerPath = "UI/ColonistBar/GroupIcons/" + groupBannerFolder;
 			}
 			var banners = ContentFinder<Texture2D>.GetAllInFolder(bannerPath).OrderBy(x => x.name).ToList();
 			bannerStates.Clear();
 			foreach (var banner in banners)
 			{
-				if (this.colonistGroup.groupBanner.name == banner.name)
+
+				if (this.colonistGroup.groupBanner == banner)
 				{
 					bannerStates[banner] = true;
 				}
@@ -54,6 +55,14 @@ namespace TacticalGroups
 				{
 					bannerStates[banner] = false;
 				}
+			}
+
+			if (!bannerStates.Where(x => x.Value).Any())
+			{
+				this.colonistGroup.groupBannerFolder = this.groupBannerFolder;
+				this.colonistGroup.groupBanner = banners.First();
+				this.colonistGroup.groupBannerName = this.colonistGroup.groupBanner.name;
+				bannerStates[this.colonistGroup.groupBanner] = true;
 			}
 
 			var iconPath = "";
@@ -69,7 +78,7 @@ namespace TacticalGroups
 			iconStates.Clear();
 			foreach (var icon in icons)
 			{
-				if (this.colonistGroup.groupIcon.name == icon.name)
+				if (this.colonistGroup.groupIcon == icon)
 				{
 					iconStates[icon] = true;
 				}
@@ -78,7 +87,15 @@ namespace TacticalGroups
 					iconStates[icon] = false;
 				}
 			}
+			if (!iconStates.Where(x => x.Value).Any())
+            {
+				this.colonistGroup.groupBannerFolder = this.groupBannerFolder;
+				this.colonistGroup.groupIcon = icons.First();
+				this.colonistGroup.groupIconName = this.colonistGroup.groupIcon.name;
+				iconStates[this.colonistGroup.groupIcon] = true;
+			}
 		}
+
 		public List<List<Texture2D>> GetIconRows(int columnCount)
 		{
 			int num = 0;
@@ -156,6 +173,7 @@ namespace TacticalGroups
 					this.colonistGroup.groupBannerName = bannerRow[b].name;
 					this.colonistGroup.updateIcon = true;
 					this.colonistGroup.bannerModeEnabled = this.bannerModeEnabled;
+					Log.Message("1");
 				}
 			}
 			Widgets.EndScrollView();
@@ -224,17 +242,19 @@ namespace TacticalGroups
 				{
 					if (Mouse.IsOver(bigBannerModeRect))
 					{
-						bannerModeEnabled = false;
+						this.bannerModeEnabled = false;
 						this.colonistGroup.bannerModeEnabled = false;
 						this.colonistGroup.updateIcon = true;
+						Log.Message("2");
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}
 					else if (Mouse.IsOver(smallBannerModeRect))
 					{
-						bannerModeEnabled = true;
+						this.bannerModeEnabled = true;
 						this.colonistGroup.bannerModeEnabled = true;
 						this.colonistGroup.updateIcon = true;
+						Log.Message("3");
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}

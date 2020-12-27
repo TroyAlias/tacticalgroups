@@ -19,7 +19,6 @@ namespace TacticalGroups
 			this.groupBanner = Textures.ColonyGroupBanner_Default;
 
 			this.groupIconFolder = "ColonyIcons";
-
 			this.groupBannerFolder = "ColonyBlue";
 			this.defaultBannerFolder = "ColonyBlue";
 			this.isColonyGroup = true;

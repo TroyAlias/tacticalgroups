@@ -11,35 +11,20 @@ namespace TacticalGroups
 {
     public class ColonistGroup : IExposable
     {
-        public List<Pawn> pawns;
-		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
-		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
-		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
-		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 
-		public bool isColonyGroup;
+		public bool Visible => pawnWindowIsActive;
+		public Map Map;
 		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
-
-		public string groupName;
-		public string defaultGroupName;
-		public string defaultBannerFolder;
-		public Texture2D groupBanner;
-		public Texture2D groupIcon;
-		public string groupBannerName;
-		public string groupBannerFolder;
-		public string groupIconFolder;
-		public string groupIconName;
-
 		public Rect curRect;
-		public bool Visible => pawnWindowIsActive;
 		private bool expandPawnIcons;
 		public bool showPawnIconsRightClickMenu;
-		public bool bannerModeEnabled;
+		public float IconScale => ShowExpanded ? 1f : 0.5f;
 		public bool updateIcon = true;
-
-		public Map Map;
+		protected int pawnRowCount;
+		protected int pawnDocRowCount;
+		protected float pawnRowXPosShift;
 		public bool ShowExpanded
         {
 			get
@@ -51,17 +36,6 @@ namespace TacticalGroups
 				return false;
 			}
 		}
-		public float IconScale => ShowExpanded ? 1f : 0.5f;
-
-		protected int groupID;
-
-		protected int pawnRowCount;
-		protected int pawnDocRowCount;
-
-		protected float pawnRowXPosShift;
-
-		public string colorFolder;
-
 		public List<Pawn> VisiblePawns
         {
 			get
@@ -217,18 +191,18 @@ namespace TacticalGroups
 		}
 
 		public void UpdateIcon()
-        {
-			var path = "";
+		{
+			var bannerPath = "";
 			if (this.bannerModeEnabled)
 			{
-				path = "UI/ColonistBar/GroupIcons/BannerMode/" + groupBannerFolder;
+				bannerPath = "UI/ColonistBar/GroupIcons/BannerMode/" + groupBannerFolder;
 			}
 			else
 			{
-				path = "UI/ColonistBar/GroupIcons/" + groupBannerFolder;
+				bannerPath = "UI/ColonistBar/GroupIcons/" + groupBannerFolder;
 			}
-
-			var banners = ContentFinder<Texture2D>.GetAllInFolder(path);
+			Log.Message("BannerPath: " + bannerPath + " - " + groupBannerName);
+			var banners = ContentFinder<Texture2D>.GetAllInFolder(bannerPath);
 			var banner = banners.Where(x => x.name == groupBannerName).FirstOrDefault();
 			if (banner != null)
 			{
@@ -246,6 +220,7 @@ namespace TacticalGroups
 			}
 			var icons = ContentFinder<Texture2D>.GetAllInFolder(iconPath).OrderBy(x => x.name).ToList();
 			var icon = icons.Where(x => x.name == groupIconName).FirstOrDefault();
+
 			if (icon != null)
 			{
 				this.groupIcon = icon;
@@ -253,6 +228,7 @@ namespace TacticalGroups
 			this.updateIcon = false;
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
+
 		public virtual void Draw(Rect rect)
         {
 			GUI.color = Color.white;
@@ -656,105 +632,6 @@ namespace TacticalGroups
 				CameraJumper.TryJump(colonist);
 			}
 		}
-
-		private static void DrawEquipment(Pawn pawn, Vector3 rootLoc, Rect rect)
-		{
-			Vector3 originRootLoc = rootLoc;
-			if (pawn.Dead || !pawn.Spawned || pawn.equipment == null || pawn.equipment.Primary == null || (pawn.CurJob != null && pawn.CurJob.def.neverShowWeapon))
-			{
-				return;
-			}
-			Stance_Busy stance_Busy = pawn.stances.curStance as Stance_Busy;
-			if (stance_Busy != null && !stance_Busy.neverAimWeapon && stance_Busy.focusTarg.IsValid)
-			{
-				Vector3 a = (!stance_Busy.focusTarg.HasThing) ? stance_Busy.focusTarg.Cell.ToVector3Shifted() : stance_Busy.focusTarg.Thing.DrawPos;
-				float num = 0f;
-				if ((a - pawn.DrawPos).MagnitudeHorizontalSquared() > 0.001f)
-				{
-					num = (a - pawn.DrawPos).AngleFlat();
-				}
-				Vector3 drawLoc = rootLoc + new Vector3(0f, 0f, 0.4f).RotatedBy(num);
-				drawLoc.y += 9f / 245f;
-				DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc, num, rect);
-			}
-			else
-			{
-				if (pawn.Rotation == Rot4.South)
-				{
-					Vector3 drawLoc2 = rootLoc + new Vector3(0f, 0f, -0.22f);
-					drawLoc2.y += 9f / 245f;
-					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc2, 143f, rect);
-				}
-				else if (pawn.Rotation == Rot4.North)
-				{
-					Vector3 drawLoc3 = rootLoc + new Vector3(0f, 0f, -0.11f);
-					drawLoc3.y += 0f;
-					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc3, 143f, rect);
-				}
-				else if (pawn.Rotation == Rot4.East)
-				{
-					Vector3 drawLoc4 = rootLoc + new Vector3(0.2f, 0f, -0.22f);
-					drawLoc4.y += 9f / 245f;
-					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc4, 143f, rect);
-				}
-				else if (pawn.Rotation == Rot4.West)
-				{
-					Vector3 drawLoc5 = rootLoc + new Vector3(-0.2f, 0f, -0.22f);
-					drawLoc5.y += 9f / 245f;
-					DrawEquipmentAiming(pawn.equipment.Primary, originRootLoc, drawLoc5, 217f, rect);
-				}
-			}
-		}
-
-		public static void DrawEquipmentAiming(Thing eq, Vector3 originRootLoc, Vector3 drawLoc, float aimAngle, Rect rect)
-		{
-			var diff = (originRootLoc - drawLoc);
-			Log.Message("1 drawLoc: " + rect);
-			rect.x += diff.x;
-			rect.y += diff.z;
-			Log.Message("2 drawLoc: " + rect);
-
-			Mesh mesh = null;
-			float num = aimAngle - 90f;
-			if (aimAngle > 20f && aimAngle < 160f)
-			{
-				mesh = MeshPool.plane10;
-				num += eq.def.equippedAngleOffset;
-			}
-			else if (aimAngle > 200f && aimAngle < 340f)
-			{
-				mesh = MeshPool.plane10Flip;
-				num -= 180f;
-				num -= eq.def.equippedAngleOffset;
-			}
-			else
-			{
-				mesh = MeshPool.plane10;
-				num += eq.def.equippedAngleOffset;
-			}
-			num %= 360f;
-			Texture2D weaponIcon = ((Texture2D)eq.Graphic.ExtractInnerGraphicFor(eq).MatSingleFor(eq).mainTexture) ?? eq.def.uiIcon;
-			Color color = eq.DrawColor;
-
-			Matrix4x4 matrix = GUI.matrix;
-			if (!num.Equals(0f))
-			{
-				Vector2 pivotPoint = new Vector2((rect.xMin + rect.width / 2f) * Prefs.UIScale, (rect.yMin + rect.height / 2f) * Prefs.UIScale);
-				GUIUtility.RotateAroundPivot(num, pivotPoint);
-			}
-			Color color2 = GUI.color;
-			GUI.color = color;
-			GUI.DrawTexture(rect, weaponIcon);
-			GUI.color = color2;
-			GUI.matrix = matrix;
-
-
-			//Material material = null;
-			//Graphic_StackCount graphic_StackCount = eq.Graphic as Graphic_StackCount;
-			//Graphics.DrawMesh(material: (graphic_StackCount == null) ? eq.Graphic.MatSingle : graphic_StackCount.SubGraphicForStackCount(1, eq.def).MatSingle,
-			//	mesh: mesh, position: drawLoc, rotation: Quaternion.AngleAxis(num, Vector3.up), layer: 10);
-		}
-
 		private bool ShouldShowShotReport(Thing t)
 		{
 			if (!t.def.hasTooltip && !(t is Hive))
@@ -868,8 +745,29 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
+			Scribe_Values.Look(ref colorFolder, "colorFolder");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
+
+		public List<Pawn> pawns;
+		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
+		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
+		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
+		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
+
+		protected int groupID;
+		public bool isColonyGroup;
+		public string groupName;
+		public string defaultGroupName;
+		public string defaultBannerFolder;
+		public Texture2D groupBanner;
+		public Texture2D groupIcon;
+		public string groupBannerName;
+		public string groupBannerFolder;
+		public string groupIconFolder;
+		public string groupIconName;
+		public bool bannerModeEnabled;
+		public string colorFolder;
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
