@@ -22,6 +22,7 @@ namespace TacticalGroups
 			AddIconButton();
 			AddSortButton();
 			AddManagementButton();
+			AddDiplomacyButton();
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -93,7 +94,7 @@ namespace TacticalGroups
 			{
 				AddManagementWindow(option);
 			};
-			option.bottomIndent = Textures.MenuButton.height + 5;
+			option.bottomIndent = Textures.MenuButton.height + 67;
 			options.Add(option);
 		}
 
@@ -102,6 +103,17 @@ namespace TacticalGroups
 			MarkOptionAsSelected(option);
 			TieredFloatMenu floatMenu = new ManagementMenu(this, colonistGroup, windowRect, Textures.StatMenu);
 			OpenNewMenu(floatMenu);
+		}
+
+		public void AddDiplomacyButton()
+		{
+			var option = new TieredFloatMenuOption(Strings.Diplomacy, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			option.action = delegate
+			{
+				Find.MainTabsRoot.ToggleTab(MainButtonDefOf.Factions);
+			};
+			option.bottomIndent = Textures.MenuButton.height + 5;
+			options.Add(option);
 		}
 		public override void DoWindowContents(Rect rect)
 		{
@@ -132,68 +144,79 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
-			if (this.colonistGroup is ColonyGroup)
-            {
-				return;
-            }
-			Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.66f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
-			GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
-
-			Text.Anchor = TextAnchor.UpperCenter;
-
-			var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 25f, disbandRect.width, disbandRect.height - 10f);
-			Widgets.Label(disbandLabelRect, Strings.Disband);
-
-			var disbandPawn = new Rect((disbandRect.x / 2f) + 5f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
-			MouseoverSounds.DoRegion(disbandPawn);
-			if (Mouse.IsOver(disbandPawn))
-            {
-
-				GUI.DrawTexture(disbandPawn, Textures.DisbandPawnHover);
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			if (this.colonistGroup.isColonyGroup)
+			{
+				Rect treasureButtonRect = new Rect(rect.x + Textures.TreasuryButton.width, rect.height - 113, Textures.TreasuryButton.width, Textures.TreasuryButton.height);
+				GUI.DrawTexture(treasureButtonRect, Textures.TreasuryButton);
+				if (Mouse.IsOver(treasureButtonRect))
 				{
-					Log.Message("TEST");
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					foreach (var pawn in Find.Selector.SelectedPawns)
+					GUI.DrawTexture(treasureButtonRect, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                     {
-						Log.Message("TEST 1");
-
-						this.colonistGroup.Disband(pawn);
-                    }
-					Log.Message("TEST 2");
-
-					Event.current.Use();
+						Find.MainTabsRoot.ToggleTab(DefDatabase<MainButtonDef>.GetNamed("History"));
+					}
 				}
+				Rect treasureLabelRect = new Rect(treasureButtonRect.x + treasureButtonRect.width + 10f, treasureButtonRect.y, 100f, 26f);
+				Text.Anchor = TextAnchor.MiddleLeft;
+				Widgets.Label(treasureLabelRect, this.colonistGroup.Map.wealthWatcher.WealthTotal.ToStringDecimalIfSmall());
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
 			else
-            {
-				GUI.DrawTexture(disbandPawn, Textures.DisbandPawn);
-			}
-
-			var disbandPawnLabelRect = new Rect(disbandPawn.x, disbandPawn.y + disbandPawn.height + 1f, disbandPawn.width, disbandPawn.height - 10f);
-			Widgets.Label(disbandPawnLabelRect, Strings.DisbandPawn);
-
-			var disbandGroup = new Rect((disbandRect.x + disbandRect.width) - (Textures.DisbandGroup.width / 2f), (disbandRect.y + disbandRect.height) - (Textures.DisbandGroup.height / 2f), Textures.DisbandGroup.width, Textures.DisbandGroup.height);
-			MouseoverSounds.DoRegion(disbandGroup);
-			if (Mouse.IsOver(disbandGroup))
 			{
-				GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.66f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
+				GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
+
+				Text.Anchor = TextAnchor.UpperCenter;
+
+				var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 25f, disbandRect.width, disbandRect.height - 10f);
+				Widgets.Label(disbandLabelRect, Strings.Disband);
+
+				var disbandPawn = new Rect((disbandRect.x / 2f) + 5f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
+				MouseoverSounds.DoRegion(disbandPawn);
+				if (Mouse.IsOver(disbandPawn))
 				{
-					TacticDefOf.TG_DisbandGroupSFX.PlayOneShotOnCamera();
-					TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-					this.colonistGroup.Disband();
-					this.CloseAllWindows();
-					Event.current.Use();
+					GUI.DrawTexture(disbandPawn, Textures.DisbandPawnHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						foreach (var pawn in Find.Selector.SelectedPawns)
+						{
+							this.colonistGroup.Disband(pawn);
+						}
+						Event.current.Use();
+					}
 				}
+				else
+				{
+					GUI.DrawTexture(disbandPawn, Textures.DisbandPawn);
+				}
+
+				var disbandPawnLabelRect = new Rect(disbandPawn.x, disbandPawn.y + disbandPawn.height + 1f, disbandPawn.width, disbandPawn.height - 10f);
+				Widgets.Label(disbandPawnLabelRect, Strings.DisbandPawn);
+
+				var disbandGroup = new Rect((disbandRect.x + disbandRect.width) - (Textures.DisbandGroup.width / 2f), (disbandRect.y + disbandRect.height) - (Textures.DisbandGroup.height / 2f), Textures.DisbandGroup.width, Textures.DisbandGroup.height);
+				MouseoverSounds.DoRegion(disbandGroup);
+				if (Mouse.IsOver(disbandGroup))
+				{
+					GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						TacticDefOf.TG_DisbandGroupSFX.PlayOneShotOnCamera();
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+						this.colonistGroup.Disband();
+						this.CloseAllWindows();
+						Event.current.Use();
+					}
+				}
+				else
+				{
+					GUI.DrawTexture(disbandGroup, Textures.DisbandGroup);
+				}
+				var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 1f, disbandGroup.width, disbandGroup.height - 10f);
+				Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
+				Text.Anchor = TextAnchor.UpperLeft;
 			}
-			else
-			{
-				GUI.DrawTexture(disbandGroup, Textures.DisbandGroup);
-			}
-			var disbandGroupLabelRect = new Rect(disbandGroup.x, disbandGroup.y + disbandGroup.height + 1f, disbandGroup.width, disbandGroup.height - 10f);
-			Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
-			Text.Anchor = TextAnchor.UpperLeft;
+
 		}
 	}
 }

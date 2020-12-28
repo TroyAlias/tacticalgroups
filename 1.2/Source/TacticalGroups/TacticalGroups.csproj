@@ -49,6 +49,7 @@
     <Compile Include="Jobs\JobGiver_RescueNearby.cs" />
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="Menus\MedicalMenu.cs" />
+    <Compile Include="Menus\PawnInfoMenu.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />
     <Compile Include="Utils\WidgetsWorkGroup.cs" />

@@ -131,5 +131,7 @@ namespace TacticalGroups
 		public static readonly string HealthIconTooltip = "TG.HealthIconTooltip".Translate();
 		public static readonly string RestIconTooltip = "TG.RestIconTooltip".Translate();
 		public static readonly string HungerIconTooltip = "TG.HungerIconTooltip".Translate();
+		public static readonly string Diplomacy = "TG.Diplomacy".Translate();
+
 	}
 }

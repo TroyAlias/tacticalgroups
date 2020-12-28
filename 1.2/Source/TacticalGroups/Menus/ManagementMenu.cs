@@ -91,7 +91,7 @@ namespace TacticalGroups
 			Widgets.Label(foodLabelRect, foodPercent);
 			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
 
-			var pawnRowRect = new Rect(rect.x + 15, rect.y + (rect.height - 110f), rect.width - 30f, TacticalColonistBar.BaseSize.y + 45f);
+			var pawnRowRect = new Rect(rect.x + 15, rect.y + (rect.height - 110f), rect.width - 30f, TacticalColonistBar.BaseSize.y + 42f);
 			var pawnMargin = 20f;
 			float listWidth = this.colonistGroup.pawns.Count * (TacticalColonistBar.BaseSize.x + pawnMargin);
 			Rect rect1 = new Rect(pawnRowRect.x, pawnRowRect.y, listWidth, pawnRowRect.height - 16f);
@@ -99,14 +99,14 @@ namespace TacticalGroups
 
 			for (var i = 0; i < this.colonistGroup.pawns.Count; i++ )
             {
-				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 20, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
 				DrawColonist(pawnRect, this.colonistGroup.pawns[i], this.colonistGroup.pawns[i].Map, false, false);
 				HandleClicks(pawnRect, this.colonistGroup.pawns[i]);
 			}
 
 			for (var i = 0; i < this.colonistGroup.pawns.Count; i++)
 			{
-				var pawnRect = new Rect(pawnRowRect.x + 10f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 10, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
 				DrawPawnArrows(pawnRect, this.colonistGroup.pawns[i]);
 			}
 
