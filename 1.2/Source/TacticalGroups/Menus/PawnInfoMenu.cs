@@ -18,19 +18,34 @@ namespace TacticalGroups
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(25f, 30f);
 
-		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
-		public Dictionary<Texture2D, BreakType> breakIconStates = new Dictionary<Texture2D, BreakType>();
-		public Dictionary<Texture2D, string> tooltips = new Dictionary<Texture2D, string>();
-
-		public PawnInfoMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+		private Pawn pawn;
+		public PawnInfoMenu(Pawn pawn, TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
+			this.pawn = pawn;
 
-			
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
+			}
+		}
+
+		protected override void SetInitialSizeAndPosition()
+        {
+			Vector2 vector = new Vector2(originRect.x - 201, originRect.y + (originRect.height - 84)) + InitialPositionShift;
+			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
+			if (vector.x + InitialSize.x > (float)UI.screenWidth)
+			{
+				var toShift = (vector.x + InitialSize.x) - (float)UI.screenWidth;
+				this.windowRect.x -= toShift;
+				ShiftParentWindowsX(toShift);
+			}
+			if (vector.y + InitialSize.y > (float)UI.screenHeight)
+			{
+				var toShift = (vector.x + InitialSize.y) - (float)UI.screenHeight;
+				this.windowRect.y -= toShift;
+				ShiftParentWindowsY(toShift);
 			}
 		}
 
@@ -51,10 +66,28 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 
+			var pawnBox = new Rect(rect.x + 10f, rect.y + 20f, 130f, 180f);
+			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, default(Vector3), 1f));
 
+			Widgets.InfoCardButton(pawnBox.x + pawnBox.width - 18f, pawnBox.x + pawnBox.height - 23f, pawn);
+
+			Text.Anchor = TextAnchor.MiddleLeft;
+
+			var armorValue = pawn.apparel.WornApparel != null ? TacticUtils.OverallArmorValue(pawn) : 0f;
+			var armorValueLabel = new Rect(pawnBox.xMax + 8, pawnBox.y + 8, 27, 26);
+			Widgets.Label(armorValueLabel, armorValue.ToStringDecimalIfSmall());
+
+			var armorValueRect = new Rect(armorValueLabel.xMax, pawnBox.y + 8, Textures.CrossHairs.width, Textures.CrossHairs.height);
+			GUI.DrawTexture(armorValueRect, Textures.ArmorIcon);
+			var dpsValue = pawn.equipment.Primary != null ? TacticUtils.WeaponScoreGain(pawn.equipment.Primary) : pawn.GetStatValue(StatDefOf.MeleeDPS);
+			var dpsValueLabel = new Rect(pawnBox.xMax + 8, armorValueLabel.yMax - 5f, 27, 26);
+			Widgets.Label(dpsValueLabel, dpsValue.ToStringDecimalIfSmall());
+
+			var dpsValueRect = new Rect(dpsValueLabel.xMax, dpsValueLabel.y, Textures.CrossHairs.width, Textures.CrossHairs.height);
+			GUI.DrawTexture(dpsValueRect, Textures.CrossHairs);
 			DrawExtraGui(rect);
-
 			GUI.color = Color.white;
+			Text.Anchor = TextAnchor.UpperLeft;
 		}
 	}
 }

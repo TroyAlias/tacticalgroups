@@ -200,8 +200,14 @@ namespace TacticalGroups
 				Event.current.Use();
 				Find.Selector.ClearSelection();
 				Find.Selector.Select(colonist);
-
+				AddPawnInfoWindow(colonist);
 			}
+		}
+
+		public void AddPawnInfoWindow(Pawn pawn)
+		{
+			TieredFloatMenu floatMenu = new PawnInfoMenu(pawn, this, colonistGroup, windowRect, Textures.PawnInfoMenu);
+			OpenNewMenu(floatMenu);
 		}
 
 		public Dictionary<Pawn, bool> pawnReorderingMode = new Dictionary<Pawn, bool>();
