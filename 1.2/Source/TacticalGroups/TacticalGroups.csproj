@@ -50,6 +50,9 @@
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
     <Compile Include="Menus\MedicalMenu.cs" />
     <Compile Include="Menus\PawnInfoMenu.cs" />
+    <Compile Include="Utils\TacticInspectPaneUtility.cs" />
+    <Compile Include="Utils\TacticSkillUI.cs" />
+    <Compile Include="Utils\TacticNeedsCardUtility.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\TacticCharacterCardUtility.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />

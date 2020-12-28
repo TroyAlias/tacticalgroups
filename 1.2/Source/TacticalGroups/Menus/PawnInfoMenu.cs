@@ -29,6 +29,8 @@ namespace TacticalGroups
 			{
 				options[i].SetSizeMode(SizeMode);
 			}
+			TacticSkillUI.Reset();
+			TacticInspectPaneUtility.Reset();
 		}
 
 		protected override void SetInitialSizeAndPosition()
@@ -71,8 +73,14 @@ namespace TacticalGroups
 			var pawnBox = new Rect(rect.x + 10f, rect.y + 25f, 130f, 180f);
 			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, PawnTextureCameraOffset, 1.28f));
 			Widgets.InfoCardButton(pawnBox.x + pawnBox.width - 18f, pawnBox.x + pawnBox.height - 23f, pawn);
-
 			Text.Anchor = TextAnchor.MiddleLeft;
+
+			var pawnTabsRect = new Rect(pawnBox.x, pawnBox.yMax + 10, 120, 120);
+			Widgets.DrawBox(pawnTabsRect);
+
+			//MainTabWindow_Inspect mainTabWindow_Inspect = (MainTabWindow_Inspect)MainButtonDefOf.Inspect.TabWindow;
+			//
+			//TacticInspectPaneUtility.UpdateTabs(mainTabWindow_Inspect);
 
 			var armorValue = pawn.apparel.WornApparel != null ? TacticUtils.OverallArmorValue(pawn) : 0f;
 			var armorValueLabel = new Rect(pawnBox.xMax + 5, pawnBox.y, 27, 26);
@@ -87,10 +95,108 @@ namespace TacticalGroups
 			var dpsValueRect = new Rect(dpsValueLabel.xMax, dpsValueLabel.y, Textures.CrossHairs.width, Textures.CrossHairs.height);
 			GUI.DrawTexture(dpsValueRect, Textures.CrossHairs);
 			var pawnInfoRect = new Rect(dpsValueRect.xMax - 30, rect.y + 90f, rect.width - 170f, rect.height - 110f);
-			//Widgets.DrawBox(pawnInfoRect);
 			TacticCharacterCardUtility.DrawCharacterCard(pawnInfoRect, pawn, null, rect);
+
+			Text.Anchor = TextAnchor.MiddleCenter;
+
+			var moodTexture = GetMoodTexture(out string moodLabel);
+			var moodRect = new Rect(rect.x + 420f, rect.y + 90, moodTexture.width, moodTexture.height);
+			GUI.DrawTexture(moodRect, moodTexture);
+			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 45, 24);
+			Widgets.Label(moodLabelRect, moodLabel);
+			TooltipHandler.TipRegion(moodRect, Strings.MoodIconTooltip);
+			
+			var healthTexture = GetHealthTexture(out string healthPercent);
+			var healthRect = new Rect(moodRect.x + 45f, moodRect.y, healthTexture.width, healthTexture.height);
+			GUI.DrawTexture(healthRect, healthTexture);
+			var healthLabelRect = new Rect(healthRect.x, healthRect.y + healthRect.height, 40, 24);
+			Widgets.Label(healthLabelRect, healthPercent);
+			TooltipHandler.TipRegion(healthRect, Strings.HealthIconTooltip);
+			
+			var restTexture = GetRestTexture(out string restPercent);
+			var restRect = new Rect(healthRect.x + 45f, healthRect.y, restTexture.width, restTexture.height);
+			GUI.DrawTexture(restRect, restTexture);
+			var restLabelRect = new Rect(restRect.x, restRect.y + restRect.height, 40, 24);
+			Widgets.Label(restLabelRect, restPercent);
+			TooltipHandler.TipRegion(restRect, Strings.RestIconTooltip);
+			
+			var foodTexture = GetFoodTexture(out string foodPercent);
+			var foodStatRect = new Rect(restRect.x + 45f, restRect.y, foodTexture.width, foodTexture.height);
+			GUI.DrawTexture(foodStatRect, foodTexture);
+			var foodLabelRect = new Rect(foodStatRect.x, foodStatRect.y + foodStatRect.height, 40, 24);
+			Widgets.Label(foodLabelRect, foodPercent);
+			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
+
+			var needRect = new Rect(moodRect.x, moodLabelRect.yMax, 180f, rect.height - 160);
+			TacticNeedsCardUtility.DoNeeds(needRect, pawn);
+
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
+
+			var skillRect = new Rect(needRect.xMax + 10, moodRect.y - 1f, 164, rect.height - 110);
+			TacticSkillUI.DrawSkillsOf(pawn, new Vector2(skillRect.x, skillRect.y), TacticSkillUI.SkillDrawMode.Gameplay);
+		}
+
+		public Texture2D GetMoodTexture(out string moodString)
+		{
+			var averageValue = pawn.needs.mood.CurLevelPercentage;
+			if (averageValue < 0.33)
+			{
+				moodString = Strings.Sad;
+				return Textures.SadIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				moodString = Strings.Okay;
+				return Textures.OkayIcon;
+			}
+			moodString = Strings.Happy;
+			return Textures.HappyIcon;
+		}
+
+		public Texture2D GetHealthTexture(out string healthPercent)
+		{
+			var averageValue = pawn.health.summaryHealth.SummaryHealthPercent;
+			healthPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33)
+			{
+				return Textures.HurtIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				return Textures.AliveIcon;
+			}
+			return Textures.HealthyIcon;
+		}
+
+		public Texture2D GetRestTexture(out string restPercent)
+		{
+			var averageValue = pawn.needs.rest.CurLevelPercentage;
+			restPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33)
+			{
+				return Textures.TiredIcon;
+			}
+			else if (averageValue < 0.66)
+			{
+				return Textures.AwakeIcon;
+			}
+			return Textures.RestedIcon;
+		}
+
+		public Texture2D GetFoodTexture(out string foodPercent)
+		{
+			var averageValue = pawn.needs.food.CurLevelPercentage;
+			foodPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+			if (averageValue < 0.33f)
+			{
+				return Textures.StarvingIcon;
+			}
+			else if (averageValue < 0.66f)
+			{
+				return Textures.HungryIcon;
+			}
+			return Textures.FullIcon;
 		}
 	}
 }

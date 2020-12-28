@@ -182,7 +182,7 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			string text = pawn.MainDesc(writeFaction: false);
 			Vector2 vector = Text.CalcSize(text);
-			Rect rect10 = new Rect(0f, 45f, vector.x + 5f, 24f);
+			Rect rect10 = new Rect(0f, 30f, vector.x + 5f, 24f);
 			Widgets.Label(rect10, text);
 			float height = Text.CalcHeight(text, rect10.width);
 			Rect rect11 = new Rect(rect10.x, rect10.y, rect10.width, height);
@@ -190,118 +190,13 @@ namespace TacticalGroups
 			{
 				TooltipHandler.TipRegion(rect11, () => pawn.ageTracker.AgeTooltipString, 6873641);
 			}
-			float num2 = 0f;
-			if (pawn.Faction != null && !pawn.Faction.Hidden)
-			{
-				float num3 = Text.CalcSize(pawn.Faction.Name).x + 22f + 15f;
-				stackElements.Add(new GenUI.AnonymousStackElement
-				{
-					drawer = delegate (Rect r)
-					{
-						Rect rect23 = new Rect(r.x, r.y, r.width, r.height);
-						Color color7 = GUI.color;
-						GUI.color = StackElementBackground;
-						GUI.DrawTexture(rect23, BaseContent.WhiteTex);
-						GUI.color = color7;
-						Widgets.DrawHighlightIfMouseover(rect23);
-						Rect rect24 = new Rect(r.x, r.y, r.width, r.height);
-						Rect position4 = new Rect(r.x + 1f, r.y + 1f, 20f, 20f);
-						GUI.color = pawn.Faction.Color;
-						GUI.DrawTexture(position4, pawn.Faction.def.FactionIcon);
-						GUI.color = color7;
-						Widgets.Label(new Rect(rect24.x + rect24.height + 5f, rect24.y, rect24.width - 10f, rect24.height), pawn.Faction.Name);
-						if (Widgets.ButtonInvisible(rect23))
-						{
-							if (creationMode)
-							{
-								Find.WindowStack.Add(new Dialog_FactionDuringLanding());
-							}
-							else
-							{
-								Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Factions);
-							}
-						}
-						if (Mouse.IsOver(rect23))
-						{
-							TaggedString taggedString2 = "Faction".Translate() + "\n\n" + "FactionDesc".Translate(pawn.Named("PAWN")) + "\n\n" + "ClickToViewFactions".Translate();
-							TipSignal tip6 = new TipSignal(taggedString2, pawn.Faction.loadID * 37);
-							TooltipHandler.TipRegion(rect23, tip6);
-						}
-					},
-					width = num3
-				});
-				num2 += num3;
-			}
-			bool flag = false;
-			float num4 = rect.width - vector.x - 10f;
-			tmpExtraFactions.Clear();
-			QuestUtility.GetExtraFactionsFromQuestParts(pawn, tmpExtraFactions);
-			foreach (ExtraFaction tmpExtraFaction in tmpExtraFactions)
-			{
-				string factionName;
-				bool drawExtraFactionIcon;
-				if (pawn.Faction != tmpExtraFaction.faction)
-				{
-					ExtraFaction localExtraFaction = tmpExtraFaction;
-					factionName = localExtraFaction.faction.Name;
-					drawExtraFactionIcon = (localExtraFaction.factionType == ExtraFactionType.HomeFaction || localExtraFaction.factionType == ExtraFactionType.MiniFaction);
-					float num5 = ElementWidth();
-					if (flag || num2 + num5 >= num4)
-					{
-						factionName = "...";
-						num5 = ElementWidth();
-						flag = true;
-					}
-					stackElements.Add(new GenUI.AnonymousStackElement
-					{
-						drawer = delegate (Rect r)
-						{
-							Rect rect20 = new Rect(r.x, r.y, r.width, r.height);
-							Rect rect21 = drawExtraFactionIcon ? rect20 : r;
-							Color color6 = GUI.color;
-							GUI.color = StackElementBackground;
-							GUI.DrawTexture(rect21, BaseContent.WhiteTex);
-							GUI.color = color6;
-							Widgets.DrawHighlightIfMouseover(rect21);
-							if (drawExtraFactionIcon)
-							{
-								Rect rect22 = new Rect(r.x, r.y, r.width, r.height);
-								Rect position3 = new Rect(r.x + 1f, r.y + 1f, 20f, 20f);
-								GUI.color = localExtraFaction.faction.Color;
-								GUI.DrawTexture(position3, localExtraFaction.faction.def.FactionIcon);
-								GUI.color = color6;
-								Widgets.Label(new Rect(rect22.x + rect22.height + 5f, rect22.y, rect22.width - 10f, rect22.height), factionName);
-							}
-							else
-							{
-								Widgets.Label(new Rect(r.x + 5f, r.y, r.width - 10f, r.height), factionName);
-							}
-							if (Widgets.ButtonInvisible(rect20))
-							{
-								Find.MainTabsRoot.SetCurrentTab(MainButtonDefOf.Factions);
-							}
-							if (Mouse.IsOver(rect21))
-							{
-								TaggedString taggedString = localExtraFaction.factionType.GetLabel().CapitalizeFirst() + "\n\n" + "ExtraFactionDesc".Translate(pawn.Named("PAWN")) + "\n\n" + "ClickToViewFactions".Translate();
-								TipSignal tip5 = new TipSignal(taggedString, localExtraFaction.faction.loadID ^ 0x738AC053);
-								TooltipHandler.TipRegion(rect21, tip5);
-							}
-						},
-						width = num5
-					});
-					num2 += num5;
-				}
-				float ElementWidth()
-				{
-					return Text.CalcSize(factionName).x + (float)(drawExtraFactionIcon ? 22 : 0) + 15f;
-				}
-			}
+
 			GenUI.DrawElementStack(new Rect(vector.x + 10f, 45f, 999f, 24f), 22f, stackElements, delegate (Rect r, GenUI.AnonymousStackElement obj)
 			{
 				obj.drawer(r);
 			}, (GenUI.AnonymousStackElement obj) => obj.width, 4f, 5f, allowOrderOptimization: false);
 			stackElements.Clear();
-			float curY = 47f;
+			float curY = 30f;
 			if (pawn.royalty != null && pawn.royalty.AllTitlesForReading.Count > 0)
 			{
 				foreach (RoyalTitle title2 in pawn.royalty.AllTitlesForReading)
@@ -312,6 +207,7 @@ namespace TacticalGroups
 					{
 						drawer = delegate (Rect r)
 						{
+							r.x += 100f;
 							Color color5 = GUI.color;
 							Rect rect18 = new Rect(r.x, r.y, r.width + 22f, r.height);
 							GUI.color = StackElementBackground;
@@ -361,10 +257,10 @@ namespace TacticalGroups
 			{
 				obj.drawer(r);
 			}, (GenUI.AnonymousStackElement obj) => obj.width).height;
-			if (stackElements.Any())
-			{
-				curY += 10f;
-			}
+			//if (stackElements.Any())
+			//{
+			//	curY += 10f;
+			//}
 			Rect leftRect = new Rect(0f, curY, 250f, 355f);
 			Rect position = new Rect(leftRect.xMax, curY, 258f, 355f);
 			GUI.BeginGroup(leftRect);
@@ -433,7 +329,7 @@ namespace TacticalGroups
 			num6 = ((traits != null && traits.Count != 0) ? (num6 + GenUI.DrawElementStack(new Rect(0f, 0f, leftRect.width - 5f, leftRect.height), 22f, pawn.story.traits.allTraits, delegate
 			{
 			}, (Trait trait) => Text.CalcSize(trait.LabelCap).x + 10f).height) : (num6 + 22f));
-			num6 += 12f;
+			num6 -= 5f;
 			item = new LeftRectSection
 			{
 				rect = new Rect(0f, 0f, leftRect.width, num6),
@@ -441,8 +337,8 @@ namespace TacticalGroups
 				{
 					Text.Font = GameFont.Medium;
 					float currentY2 = sectionRect.y;
-					Widgets.Label(new Rect(sectionRect.x, currentY2, 200f, 30f), "Traits".Translate());
-					currentY2 += 30f;
+					Widgets.Label(new Rect(sectionRect.x, currentY2 - 7f, 200f, 26f), "Traits".Translate());
+					currentY2 += 21f;
 					Text.Font = GameFont.Small;
 					if (traits == null || traits.Count == 0)
 					{
@@ -460,7 +356,8 @@ namespace TacticalGroups
 					}
 					else
 					{
-						GenUI.DrawElementStack(new Rect(sectionRect.x, currentY2, leftRect.width - 5f, leftRect.height / (float)numSections), 22f, pawn.story.traits.allTraits, delegate (Rect r, Trait trait)
+						GenUI.DrawElementStack(new Rect(sectionRect.x, currentY2, leftRect.width - 5f, leftRect.height / (float)numSections), 22f, pawn.story.traits.allTraits, 
+						delegate (Rect r, Trait trait)
 						{
 							Color color2 = GUI.color;
 							GUI.color = StackElementBackground;
@@ -512,8 +409,8 @@ namespace TacticalGroups
 				{
 					Text.Font = GameFont.Medium;
 					float currentY3 = sectionRect.y;
-					Widgets.Label(new Rect(sectionRect.x, currentY3, 200f, 30f), "IncapableOf".Translate(pawn));
-					currentY3 += 30f;
+					Widgets.Label(new Rect(sectionRect.x, currentY3 - 7f, 200f, 26f), "IncapableOf".Translate(pawn));
+					currentY3 += 21f;
 					Text.Font = GameFont.Small;
 					if (disabledTags == WorkTags.None)
 					{
@@ -558,45 +455,45 @@ namespace TacticalGroups
 				}
 			};
 			list.Add(item);
-			if (abilities.Any())
-			{
-				num6 = 30f;
-				num6 += GenUI.DrawElementStack(new Rect(0f, 0f, leftRect.width - 5f, leftRect.height), 32f, abilities, delegate
-				{
-				}, (Ability abil) => 32f).height;
-				item = new LeftRectSection
-				{
-					rect = new Rect(0f, 0f, leftRect.width, num6),
-					drawer = delegate (Rect sectionRect)
-					{
-						Text.Font = GameFont.Medium;
-						float currentY = sectionRect.y;
-						Widgets.Label(new Rect(sectionRect.x, currentY, 200f, 30f), "Abilities".Translate(pawn));
-						currentY += 30f;
-						Text.Font = GameFont.Small;
-						GenUI.DrawElementStack(new Rect(sectionRect.x, currentY, leftRect.width - 5f, leftRect.height), 32f, abilities, delegate (Rect r, Ability abil)
-						{
-							GUI.DrawTexture(r, BaseContent.ClearTex);
-							if (Mouse.IsOver(r))
-							{
-								Widgets.DrawHighlight(r);
-							}
-							if (Widgets.ButtonImage(r, abil.def.uiIcon, doMouseoverSound: false))
-							{
-								Find.WindowStack.Add(new Dialog_InfoCard(abil.def));
-							}
-							if (Mouse.IsOver(r))
-							{
-								TipSignal tip = new TipSignal(() => abil.def.GetTooltip() + "\n\n" + "ClickToLearnMore".Translate(), (int)currentY * 37);
-								TooltipHandler.TipRegion(r, tip);
-							}
-						}, (Ability abil) => 32f);
-						GUI.color = Color.white;
-					}
-				};
-				list.Add(item);
-			}
-			float num7 = 10f;// leftRect.height / (float)list.Count;
+			//if (abilities.Any())
+			//{
+			//	num6 = 30f;
+			//	num6 += GenUI.DrawElementStack(new Rect(0f, 0f, leftRect.width - 5f, leftRect.height), 32f, abilities, delegate
+			//	{
+			//	}, (Ability abil) => 32f).height;
+			//	item = new LeftRectSection
+			//	{
+			//		rect = new Rect(0f, 0f, leftRect.width, num6),
+			//		drawer = delegate (Rect sectionRect)
+			//		{
+			//			Text.Font = GameFont.Medium;
+			//			float currentY = sectionRect.y;
+			//			Widgets.Label(new Rect(sectionRect.x, currentY, 200f, 30f), "Abilities".Translate(pawn));
+			//			currentY += 30f;
+			//			Text.Font = GameFont.Small;
+			//			GenUI.DrawElementStack(new Rect(sectionRect.x, currentY, leftRect.width - 5f, leftRect.height), 32f, abilities, delegate (Rect r, Ability abil)
+			//			{
+			//				GUI.DrawTexture(r, BaseContent.ClearTex);
+			//				if (Mouse.IsOver(r))
+			//				{
+			//					Widgets.DrawHighlight(r);
+			//				}
+			//				if (Widgets.ButtonImage(r, abil.def.uiIcon, doMouseoverSound: false))
+			//				{
+			//					Find.WindowStack.Add(new Dialog_InfoCard(abil.def));
+			//				}
+			//				if (Mouse.IsOver(r))
+			//				{
+			//					TipSignal tip = new TipSignal(() => abil.def.GetTooltip() + "\n\n" + "ClickToLearnMore".Translate(), (int)currentY * 37);
+			//					TooltipHandler.TipRegion(r, tip);
+			//				}
+			//			}, (Ability abil) => 32f);
+			//			GUI.color = Color.white;
+			//		}
+			//	};
+			//	list.Add(item);
+			//}
+			float num7 = 1f;// leftRect.height / (float)list.Count;
 			float num8 = 0f;
 			for (int i = 0; i < list.Count; i++)
 			{
@@ -672,9 +569,6 @@ namespace TacticalGroups
 			{
 				Widgets.EndScrollView();
 			}
-			GUI.EndGroup();
-			GUI.BeginGroup(position);
-			SkillUI.DrawSkillsOf(mode: (Current.ProgramState != ProgramState.Playing) ? SkillUI.SkillDrawMode.Menu : SkillUI.SkillDrawMode.Gameplay, p: pawn, offset: new Vector2(0f, 0f));
 			GUI.EndGroup();
 			GUI.EndGroup();
 		}
