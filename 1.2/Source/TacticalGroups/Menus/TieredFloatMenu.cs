@@ -56,7 +56,7 @@ namespace TacticalGroups
 			this.colonistGroup = colonistGroup;
 			this.originRect = originRect;
 			this.backgroundTexture = backgroundTexture;
-			layer = WindowLayer.GameUI;
+			layer = WindowLayer.Dialog;
 			closeOnClickedOutside = true;
 			doWindowBackground = false;
 			drawShadow = false;

@@ -58,6 +58,10 @@ namespace TacticalGroups
 		}
 		public virtual void Add(Pawn pawn)
         {
+			if (pawn.Faction != Faction.OfPlayer || !pawn.RaceProps.Humanlike)
+            {
+				return;
+            }
 			if (this.Map == null)
             {
 				this.Map = pawn.Map;

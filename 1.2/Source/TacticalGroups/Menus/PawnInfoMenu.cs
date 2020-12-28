@@ -24,7 +24,7 @@ namespace TacticalGroups
 		{
 			this.options = new List<TieredFloatMenuOption>();
 			this.pawn = pawn;
-
+			this.layer = WindowLayer.GameUI;
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
@@ -49,6 +49,8 @@ namespace TacticalGroups
 			}
 		}
 
+		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.10f);
+
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -66,26 +68,27 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 
-			var pawnBox = new Rect(rect.x + 10f, rect.y + 20f, 130f, 180f);
-			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, default(Vector3), 1f));
-
+			var pawnBox = new Rect(rect.x + 10f, rect.y + 25f, 130f, 180f);
+			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, PawnTextureCameraOffset, 1.28f));
 			Widgets.InfoCardButton(pawnBox.x + pawnBox.width - 18f, pawnBox.x + pawnBox.height - 23f, pawn);
 
 			Text.Anchor = TextAnchor.MiddleLeft;
 
 			var armorValue = pawn.apparel.WornApparel != null ? TacticUtils.OverallArmorValue(pawn) : 0f;
-			var armorValueLabel = new Rect(pawnBox.xMax + 8, pawnBox.y + 8, 27, 26);
+			var armorValueLabel = new Rect(pawnBox.xMax + 5, pawnBox.y, 27, 26);
 			Widgets.Label(armorValueLabel, armorValue.ToStringDecimalIfSmall());
-
-			var armorValueRect = new Rect(armorValueLabel.xMax, pawnBox.y + 8, Textures.CrossHairs.width, Textures.CrossHairs.height);
+			var armorValueRect = new Rect(armorValueLabel.xMax, pawnBox.y, Textures.CrossHairs.width, Textures.CrossHairs.height);
 			GUI.DrawTexture(armorValueRect, Textures.ArmorIcon);
+			
+			
 			var dpsValue = pawn.equipment.Primary != null ? TacticUtils.WeaponScoreGain(pawn.equipment.Primary) : pawn.GetStatValue(StatDefOf.MeleeDPS);
-			var dpsValueLabel = new Rect(pawnBox.xMax + 8, armorValueLabel.yMax - 5f, 27, 26);
+			var dpsValueLabel = new Rect(pawnBox.xMax + 5, armorValueLabel.yMax, 27, 26);
 			Widgets.Label(dpsValueLabel, dpsValue.ToStringDecimalIfSmall());
-
 			var dpsValueRect = new Rect(dpsValueLabel.xMax, dpsValueLabel.y, Textures.CrossHairs.width, Textures.CrossHairs.height);
 			GUI.DrawTexture(dpsValueRect, Textures.CrossHairs);
-			DrawExtraGui(rect);
+			var pawnInfoRect = new Rect(dpsValueRect.xMax - 30, rect.y + 90f, rect.width - 170f, rect.height - 110f);
+			//Widgets.DrawBox(pawnInfoRect);
+			TacticCharacterCardUtility.DrawCharacterCard(pawnInfoRect, pawn, null, rect);
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}

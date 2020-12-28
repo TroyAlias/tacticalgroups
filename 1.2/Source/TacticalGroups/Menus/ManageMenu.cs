@@ -22,7 +22,10 @@ namespace TacticalGroups
 			AddIconButton();
 			AddSortButton();
 			AddManagementButton();
-			AddDiplomacyButton();
+			if (this.colonistGroup.isColonyGroup)
+            {
+				AddDiplomacyButton();
+            }
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);

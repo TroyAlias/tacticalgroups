@@ -51,6 +51,7 @@
     <Compile Include="Menus\MedicalMenu.cs" />
     <Compile Include="Menus\PawnInfoMenu.cs" />
     <Compile Include="Utils\TextUtils.cs" />
+    <Compile Include="Utils\TacticCharacterCardUtility.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />
     <Compile Include="Utils\WidgetsWorkGroup.cs" />
     <Compile Include="ColonistBar\ColonistBar.cs" />
