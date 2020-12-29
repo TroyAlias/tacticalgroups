@@ -54,7 +54,6 @@ namespace TacticalGroups
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
-			this.entireGroupIsVisible = true;
 		}
 		public virtual void Add(Pawn pawn)
         {
@@ -69,7 +68,7 @@ namespace TacticalGroups
 			if (!this.pawns.Contains(pawn))
             {
 				this.pawns.Add(pawn);
-				this.pawnIcons[pawn] = new PawnIcon(pawn);
+				this.pawnIcons[pawn] = new PawnIcon(pawn, true);
 				Sort();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
@@ -159,6 +158,18 @@ namespace TacticalGroups
 					if (Event.current.clickCount == 1)
 					{
 						TacticDefOf.TG_LeftClickGroupSFX.PlayOneShotOnCamera();
+						if (WorldRendererUtility.WorldRenderedNow && this.Map != null || this.Map != null && this.Map != Find.CurrentMap)
+                        {
+							CameraJumper.TryJump(this.pawns.First());
+							Event.current.Use();
+							return;
+						}
+						else if (this.Map == null)
+                        {
+							CameraJumper.TryJump(this.pawns.First());
+							Event.current.Use();
+							return;
+						}
 						if (!expandPawnIcons)
 						{
 							expandPawnIcons = true;

@@ -216,13 +216,7 @@ namespace TacticalGroups
 
 		public static readonly Texture2D CrossHairs = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/CrossHairs");
 		public static readonly Texture2D TreasuryButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/TreasuryButton");
-		public static readonly Texture2D SelectionButtonsMouseOver = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/SelectionButtonsMouseOver");
-		public static readonly Texture2D SelectionButtonsClick = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/SelectionButtonsClick");
-		public static readonly Texture2D SelectionButtons = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/SelectionButtons");
-		public static readonly Texture2D Rename = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/Rename");
 		public static readonly Texture2D PawnInfoMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/PawnInfoMenu");
-		public static readonly Texture2D INFO = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/INFO");
-		public static readonly Texture2D Banish = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/Banish");
 		public static readonly Texture2D ColonyManageDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyManageDropMenu");
 	}
 }

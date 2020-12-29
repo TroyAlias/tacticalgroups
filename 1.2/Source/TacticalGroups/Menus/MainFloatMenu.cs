@@ -121,23 +121,28 @@ namespace TacticalGroups
 			DrawExtraGui(rect);
 			GUI.color = Color.white;
 		}
-        public override void DrawExtraGui(Rect rect)
+		public override void DrawExtraGui(Rect rect)
 		{
 			var iconRect = new Rect(rect.x + 7f, rect.y + (rect.height - Textures.EyeIconOn.height) - 7f, Textures.EyeIconOn.width, Textures.EyeIconOn.height);
 			if (this.colonistGroup.entireGroupIsVisible)
-            {
+			{
 				if (Mouse.IsOver(iconRect))
 				{
 					GUI.DrawTexture(iconRect, Textures.EyeIconOffHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
+						Log.Message(" - DrawExtraGui - TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera(); - 6", true);
 						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						Log.Message(" - DrawExtraGui - foreach (var pawnIcon in this.colonistGroup.pawnIcons) - 7", true);
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
+							Log.Message(" - DrawExtraGui - pawnIcon.Value.isVisibleOnColonistBar = false; - 8", true);
 							pawnIcon.Value.isVisibleOnColonistBar = false;
 						}
 						this.colonistGroup.entireGroupIsVisible = false;
+						Log.Message(" - DrawExtraGui - TacticUtils.TacticalColonistBar.MarkColonistsDirty(); - 10", true);
 						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+						Log.Message(" - DrawExtraGui - Event.current.Use(); - 11", true);
 						Event.current.Use();
 					}
 				}
@@ -147,24 +152,30 @@ namespace TacticalGroups
 				}
 			}
 			else
-            {
+			{
 				if (Mouse.IsOver(iconRect))
 				{
 					GUI.DrawTexture(iconRect, Textures.EyeIconOnHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
+						Log.Message(" - DrawExtraGui - TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera(); - 16", true);
 						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						Log.Message(" - DrawExtraGui - foreach (var pawnIcon in this.colonistGroup.pawnIcons) - 17", true);
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
+							Log.Message(" - DrawExtraGui - pawnIcon.Value.isVisibleOnColonistBar = true; - 18", true);
 							pawnIcon.Value.isVisibleOnColonistBar = true;
 						}
 						this.colonistGroup.entireGroupIsVisible = true;
+						Log.Message(" - DrawExtraGui - TacticUtils.TacticalColonistBar.MarkColonistsDirty(); - 20", true);
 						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+						Log.Message(" - DrawExtraGui - Event.current.Use(); - 21", true);
 						Event.current.Use();
 					}
 				}
 				else
 				{
+					Log.Message(" - DrawExtraGui - GUI.DrawTexture(iconRect, Textures.EyeIconOn); - 22", true);
 					GUI.DrawTexture(iconRect, Textures.EyeIconOn);
 				}
 			}

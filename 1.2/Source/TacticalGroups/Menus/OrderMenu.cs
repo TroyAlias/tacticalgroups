@@ -147,6 +147,7 @@ namespace TacticalGroups
 						pawn.jobs.TryTakeOrderedJob(thinkResult.Job);
 					}
 				}
+				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 			};
 			option.bottomIndent = Textures.MenuButton.height + 25;
 			options.Add(option);
@@ -367,7 +368,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(upgradeWeaponRect, Textures.UpgradeIconHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_UpgradeArmorWeaponsSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_UpgradeWeaponSFX.PlayOneShotOnCamera();
 					foreach (var pawn in this.colonistGroup.pawns)
 					{
 						var thing = TacticUtils.PickBestWeaponFor(pawn);

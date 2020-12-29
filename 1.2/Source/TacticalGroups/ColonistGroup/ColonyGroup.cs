@@ -23,6 +23,7 @@ namespace TacticalGroups
 			this.defaultBannerFolder = "ColonyBlue";
 			this.isColonyGroup = true;
 			this.colorFolder = "Colony";
+			Log.Message("1 ColorFolder: " + this.colorFolder);
 			this.defaultGroupName = Strings.Colony;
 			this.updateIcon = true;
 		}
@@ -92,9 +93,10 @@ namespace TacticalGroups
 		public override void ExposeData()
         {
             base.ExposeData();
-        }
+			Scribe_Values.Look(ref colorFolder, "colorFolder", "Colony");
+		}
 
-        public override string ToString()
+		public override string ToString()
         {
 			return GetGroupName() + " - " + this.pawns.Count;
 		}

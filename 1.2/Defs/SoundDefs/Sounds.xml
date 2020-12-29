@@ -288,5 +288,35 @@
 			</li>
 		</subSounds>
 	</SoundDef>
+	<SoundDef>
+		<defName>TG_SlaveLaborSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SlaveLabor</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	<SoundDef>
+		<defName>TG_UpgradeWeaponSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>UpgradeWeapon</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
 	
 </Defs>

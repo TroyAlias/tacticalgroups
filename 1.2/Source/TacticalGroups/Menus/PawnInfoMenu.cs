@@ -24,6 +24,7 @@ namespace TacticalGroups
 		{
 			this.options = new List<TieredFloatMenuOption>();
 			this.pawn = pawn;
+			this.parentWindow.layer = WindowLayer.Dialog;
 			this.layer = WindowLayer.GameUI;
 			for (int i = 0; i < options.Count; i++)
 			{
@@ -33,7 +34,11 @@ namespace TacticalGroups
 			TacticInspectPaneUtility.Reset();
 		}
 
-		protected override void SetInitialSizeAndPosition()
+        public override void PostOpen()
+        {
+
+        }
+        protected override void SetInitialSizeAndPosition()
         {
 			Vector2 vector = new Vector2(originRect.x - 201, originRect.y + (originRect.height - 84)) + InitialPositionShift;
 			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
@@ -70,8 +75,8 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 
-			var pawnBox = new Rect(rect.x + 10f, rect.y + 25f, 130f, 180f);
-			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, PawnTextureCameraOffset, 1.28f));
+			var pawnBox = new Rect(rect.x + 10f, rect.y + 23f, 130f, 180f);
+			GUI.DrawTexture(pawnBox, PortraitsCache.Get(pawn, pawnBox.size, PawnTextureCameraOffset, 1.15f));
 			Widgets.InfoCardButton(pawnBox.x + pawnBox.width - 18f, pawnBox.x + pawnBox.height - 23f, pawn);
 			Text.Anchor = TextAnchor.MiddleLeft;
 
@@ -100,7 +105,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.MiddleCenter;
 
 			var moodTexture = GetMoodTexture(out string moodLabel);
-			var moodRect = new Rect(rect.x + 420f, rect.y + 90, moodTexture.width, moodTexture.height);
+			var moodRect = new Rect(rect.x + 425f, rect.y + 90, moodTexture.width, moodTexture.height);
 			GUI.DrawTexture(moodRect, moodTexture);
 			var moodLabelRect = new Rect(moodRect.x, moodRect.y + moodTexture.height, 45, 24);
 			Widgets.Label(moodLabelRect, moodLabel);
@@ -127,7 +132,7 @@ namespace TacticalGroups
 			Widgets.Label(foodLabelRect, foodPercent);
 			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
 
-			var needRect = new Rect(moodRect.x, moodLabelRect.yMax, 180f, rect.height - 160);
+			var needRect = new Rect(moodRect.x - 5f, moodLabelRect.yMax, 180f, rect.height - 160);
 			TacticNeedsCardUtility.DoNeeds(needRect, pawn);
 
 			GUI.color = Color.white;

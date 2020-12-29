@@ -12,22 +12,21 @@ namespace TacticalGroups
     {
 		public Pawn pawn;
 		public bool isVisibleOnColonistBar;
-
 		public PawnIcon()
         {
 
         }
-		public PawnIcon(Pawn pawn, bool isVisibleOnColonistBar = false)
+		public PawnIcon(Pawn pawn, bool isVisibleOnColonistBar = true)
         {
 			this.pawn = pawn;
 			this.isVisibleOnColonistBar = isVisibleOnColonistBar;
-
         }
 
         public void ExposeData()
         {
 			Scribe_References.Look(ref pawn, "pawn");
-			Scribe_Values.Look(ref isVisibleOnColonistBar, "isVisibleOnColonistBar");
+			Scribe_Values.Look(ref isVisibleOnColonistBar, "visible");
+			Log.Message(this.pawn + " -isVisibleOnColonistBar: " + isVisibleOnColonistBar);
 		}
 	}
 }

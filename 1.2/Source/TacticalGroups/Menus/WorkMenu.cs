@@ -215,7 +215,14 @@ namespace TacticalGroups
 						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
                         {
 							this.colonistGroup.ChangeWorkState(workIconStates[iconRows[i][j]]);
-							TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
+							if (this.colonistGroup.activeWorkTypes[workIconStates[iconRows[i][j]]] == WorkState.ForcedLabor)
+                            {
+								TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
+							}
+							else
+                            {
+								TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+                            }
 							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.pawns);
 							Event.current.Use();
 						}
