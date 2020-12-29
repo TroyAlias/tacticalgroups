@@ -185,7 +185,6 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.ChangeWorkState(WorkType.TendWounded);
 					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
@@ -199,7 +198,6 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.ChangeWorkState(WorkType.RescueFallen);
 					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
 					Event.current.Use();
 				}

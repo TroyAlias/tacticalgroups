@@ -41,6 +41,7 @@ namespace TacticalGroups
 				Textures.LookBusyButton.width - 2f, Strings.TakeFiveTooltip);
 			takeFive.action = delegate
 			{
+				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 				WorkSearchUtility.TakeABreak(BreakType.None, this.colonistGroup.pawns);
 			};
 			options.Add(takeFive);
