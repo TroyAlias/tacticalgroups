@@ -159,13 +159,11 @@ namespace TacticalGroups
 		{
 			TryCloseChildWindow();
 			Find.WindowStack.TryRemove(this);
-			Log.Message("Cancel");
 		}
 
         public override void Close(bool doCloseSound = true)
         {
 			TryCloseChildWindow();
-			Log.Message("Close");
 			base.Close(doCloseSound);
         }
 

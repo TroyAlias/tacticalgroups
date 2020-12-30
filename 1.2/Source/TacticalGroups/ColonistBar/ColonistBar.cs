@@ -137,7 +137,6 @@ namespace TacticalGroups
 
         public void MarkColonistsDirty()
         {
-            Log.Message("MarkColonistsDirty");
             entriesDirty = true;
         }
 
@@ -403,8 +402,6 @@ namespace TacticalGroups
                     {
                         if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
                         {
-                            Log.Message("pawnGroup.entireGroupIsVisible: " + pawnGroup.entireGroupIsVisible + " - pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar: "
-                                + pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar + " - cachedEntries[i].pawn.Map: " + cachedEntries[i].pawn.Map);
                             if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap && cachedEntries[i].pawn.Map != Find.CurrentMap)
                             {
@@ -587,7 +584,6 @@ namespace TacticalGroups
 
         public bool AnyColonistOrCorpseAt(Vector2 pos)
         {
-            Log.Message("AnyColonistOrCorpseAt");
             if (!TryGetEntryAt(pos, out Entry entry))
             {
                 return false;
@@ -597,7 +593,6 @@ namespace TacticalGroups
 
         public bool TryGetEntryAt(Vector2 pos, out Entry entry)
         {
-            Log.Message("TryGetEntryAt");
             List<Entry> entries = Entries;
             Vector2 size = Size;
             for (int i = 0; i < cachedDrawLocs.Count; i++)
@@ -614,7 +609,6 @@ namespace TacticalGroups
 
         public bool TryGetGroupPawnAt(Vector2 pos, out Pawn pawn)
         {
-            Log.Message("TryGetGroupPawnAt");
             foreach (var group in TacticUtils.AllGroups)
             {
                 if (group.Visible)
@@ -697,7 +691,6 @@ namespace TacticalGroups
 
         public List<Thing> MapColonistsOrCorpsesInScreenRect(Rect rect)
         {
-            Log.Message("MapColonistsOrCorpsesInScreenRect");
             tmpMapColonistsOrCorpsesInScreenRect.Clear();
             if (!Visible)
             {
@@ -716,7 +709,6 @@ namespace TacticalGroups
 
         public List<Pawn> CaravanMembersInScreenRect(Rect rect)
         {
-            Log.Message("CaravanMembersInScreenRect");
             tmpCaravanPawns.Clear();
             if (!Visible)
             {
@@ -737,7 +729,6 @@ namespace TacticalGroups
 
         public List<Caravan> CaravanMembersCaravansInScreenRect(Rect rect)
         {
-            Log.Message("CaravanMembersCaravansInScreenRect");
             tmpCaravans.Clear();
             if (!Visible)
             {
@@ -753,7 +744,6 @@ namespace TacticalGroups
 
         public Caravan CaravanMemberCaravanAt(Vector2 at)
         {
-            Log.Message("CaravanMemberCaravanAt");
             if (!Visible)
             {
                 return null;
@@ -768,7 +758,6 @@ namespace TacticalGroups
 
         public Thing ColonistOrCorpseAt(Vector2 pos)
         {
-            Log.Message("ColonistOrCorpseAt");
             if (!Visible)
             {
                 return null;

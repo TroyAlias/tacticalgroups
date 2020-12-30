@@ -23,7 +23,6 @@ namespace TacticalGroups
 			this.defaultBannerFolder = "ColonyBlue";
 			this.isColonyGroup = true;
 			this.colorFolder = "Colony";
-			Log.Message("1 ColorFolder: " + this.colorFolder);
 			this.defaultGroupName = Strings.Colony;
 			this.updateIcon = true;
 		}

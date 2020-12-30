@@ -59,13 +59,8 @@ namespace TacticalGroups
 					}
 					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
 					{
-						Log.Message(pawn + " should get " + result.Job);
 						pawn.jobs.TryTakeOrderedJob(result.Job);
 					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
 				}
 			}
 		}
@@ -523,13 +518,8 @@ namespace TacticalGroups
 					}
 					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
 					{
-						Log.Message(pawn + " should get " + result.Job);
 						pawn.jobs.TryTakeOrderedJob(result.Job);
 					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
 				}
 			}
 		}
@@ -552,13 +542,8 @@ namespace TacticalGroups
 					}
 					if (result != null && result.def != JobDefOf.GotoWander)
 					{
-						Log.Message(pawn + " should get " + result);
 						pawn.jobs.TryTakeOrderedJob(result);
 					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
 				}
 			}
 		}
@@ -582,13 +567,8 @@ namespace TacticalGroups
 					}
 					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
 					{
-						Log.Message(pawn + " should get " + result.Job);
 						pawn.jobs.TryTakeOrderedJob(result.Job);
 					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
 				}
 			}
 		}
@@ -611,13 +591,8 @@ namespace TacticalGroups
 					}
 					if (result.Job != null && result.Job.def != JobDefOf.GotoWander)
 					{
-						Log.Message(pawn + " should get " + result.Job);
 						pawn.jobs.TryTakeOrderedJob(result.Job);
 					}
-				}
-				else
-				{
-					Log.Message(pawn + " doesnt search for job: " + pawn.mindState.lastJobTag);
 				}
 			}
 		}

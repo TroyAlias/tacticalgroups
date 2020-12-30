@@ -26,7 +26,6 @@ namespace TacticalGroups
         {
 			Scribe_References.Look(ref pawn, "pawn");
 			Scribe_Values.Look(ref isVisibleOnColonistBar, "visible");
-			Log.Message(this.pawn + " -isVisibleOnColonistBar: " + isVisibleOnColonistBar);
 		}
 	}
 }

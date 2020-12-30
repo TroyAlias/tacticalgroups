@@ -16,18 +16,18 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public static class TextUtils
 	{
-		static TextUtils()
-        {
-			//ModMetaData modMetaData = ModLister.AllInstalledMods.FirstOrDefault((ModMetaData x) =>
-			//x != null && x.Name != null && x.Active && x.Name.StartsWith("RPG Framework"));
-			//string path = Path.GetFullPath(modMetaData.RootDir.ToString() + "/Presets/" + this.name + ".xml");
-
-			//Log.Message("Test 1");
-			//AssetBundle assetBundle = AssetBundle.LoadFromFile("c:/GAMES/Rimworld/Mods/tacticalgroups/Fonts/RimWordFont");
-			//Log.Message("Test 2: " + assetBundle);
-			//var font = (Font)assetBundle.LoadAsset("RimWordFont");
-			//Log.Message("Font: " + font);
-		}
+		//static TextUtils()
+        //{
+		//	//ModMetaData modMetaData = ModLister.AllInstalledMods.FirstOrDefault((ModMetaData x) =>
+		//	//x != null && x.Name != null && x.Active && x.Name.StartsWith("RPG Framework"));
+		//	//string path = Path.GetFullPath(modMetaData.RootDir.ToString() + "/Presets/" + this.name + ".xml");
+		//
+		//	//Log.Message("Test 1");
+		//	//AssetBundle assetBundle = AssetBundle.LoadFromFile("c:/GAMES/Rimworld/Mods/tacticalgroups/Fonts/RimWordFont");
+		//	//Log.Message("Test 2: " + assetBundle);
+		//	//var font = (Font)assetBundle.LoadAsset("RimWordFont");
+		//	//Log.Message("Font: " + font);
+		//}
 
 		public static void Label(Rect rect, GUIContent content)
 		{

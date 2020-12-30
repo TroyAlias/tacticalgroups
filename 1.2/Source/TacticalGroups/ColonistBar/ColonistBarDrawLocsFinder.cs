@@ -167,7 +167,6 @@ namespace TacticalGroups
 		}
 		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
-			Log.Message("CalculateDrawLocs: ");
 			outDrawLocs.Clear();
 			int num = maxPerGlobalRow;
 			if (onlyOneRow)

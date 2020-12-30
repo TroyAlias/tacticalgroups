@@ -97,7 +97,6 @@ namespace TacticalGroups
                 new HarmonyMethod(typeof(HarmonyPatches),  "EndCurrentJobPostfix", null), null, null);
 
             harmony.Patch(AccessTools.Method(typeof(PawnTable), "PawnTableOnGUI", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(SoundStarter), "PlayOneShot", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PlayOneShot", null), null, null);
 
 
             //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectNextColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
@@ -208,11 +207,6 @@ namespace TacticalGroups
                 TacticUtils.TacticalGroups.CreateOrJoinColony(new List<Pawn> { __instance }, __instance.Map);
             }
         }
-
-        private static void PlayOneShot(SoundDef soundDef, SoundInfo info)
-        {
-            Log.Message("Sound: " + soundDef + " - " + info);
-        }
         private static void Pawn_Destroy_Prefix(Pawn __instance)
         {
             for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
@@ -292,7 +286,6 @@ namespace TacticalGroups
                             continue;
                         }
                         var curJob = ___pawn.CurJob;
-                        Log.Message(curJob + " - " + ___pawn + " - search for " + state);
                         WorkSearchUtility.SearchForWork(state.Key, new List<Pawn> { ___pawn });
                         if (curJob != ___pawn.CurJob)
                         {

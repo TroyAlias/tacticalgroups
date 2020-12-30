@@ -48,20 +48,43 @@ namespace TacticalGroups
         public void AddCaravanGroup(Caravan caravan)
         {
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
-            foreach (var colonyGroup in colonyGroups.Values)
+            for (int num = colonyGroups.Values.Count - 1; num >= 0; num--)
             {
-                colonyGroup.Disband(caravan.pawns.InnerListForReading);
+                colonyGroups.Values.ElementAt(num).Disband(caravan.pawns.InnerListForReading);
             }
-            foreach (var pawnGroup in pawnGroups)
+            for (int num = pawnGroups.Count - 1; num >= 0; num--)
             {
-                pawnGroup.Disband(caravan.pawns.InnerListForReading);
+                pawnGroups[num].Disband(caravan.pawns.InnerListForReading);
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public void RemoveCaravanGroup(Caravan caravan)
         {
+            foreach (var formerGroup in caravanGroups[caravan].formerGroups)
+            {
+                if (formerGroup is ColonyGroup colonyGroup)
+                {
+                    if (!this.colonyGroups.ContainsKey(colonyGroup.Map))
+                    {
+                        this.colonyGroups[colonyGroup.Map] = colonyGroup;
+                    }
+                }
+                else if (formerGroup is PawnGroup pawnGroup)
+                {
+                    var group2 = this.pawnGroups.Where(x => x.groupID == formerGroup.groupID && x.groupName == formerGroup.groupName).FirstOrDefault();
+                    if (group2 == null)
+                    {
+                        this.pawnGroups.Add(pawnGroup);
+                    }
+                    else
+                    {
+                        group2.Add(formerGroup.pawns);
+                    }
+                }
+            }
             this.caravanGroups.Remove(caravan);
+
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
@@ -111,6 +134,26 @@ namespace TacticalGroups
             }
         }
 
+        public override void WorldComponentTick()
+        {
+            base.WorldComponentTick();
+            if (Find.TickManager.TicksGame % 60 == 0)
+            {
+                foreach (var colonyGroup in this.colonyGroups.Values)
+                {
+                    colonyGroup.UpdateData();
+                }
+                foreach (var pawnGroup in this.pawnGroups)
+                {
+                    pawnGroup.UpdateData();
+                }
+                foreach (var caravanGroup in this.caravanGroups.Values)
+                {
+                    caravanGroup.UpdateData();
+                }
+            }
+        }
+
         public override void FinalizeInit()
         {
             base.FinalizeInit();
@@ -127,9 +170,7 @@ namespace TacticalGroups
                 {
                     var pawn = pawnGroups[num].pawns[num2];
                     if (pawn == null)
-                    {
-                        Log.Message("Remove 4");
-            
+                    {            
                         group.pawns.RemoveAt(num2);
                     }
                 }
@@ -146,9 +187,7 @@ namespace TacticalGroups
                 {
                     var pawn = group.Value.pawns[num];
                     if (pawn == null)
-                    {
-                        Log.Message("Remove 5");
-            
+                    {            
                         group.Value.pawns.RemoveAt(num);
                     }
                 }
@@ -170,9 +209,7 @@ namespace TacticalGroups
                 {
                     var pawn = group.Value.pawns[num];
                     if (pawn == null)
-                    {
-                        Log.Message("Remove 6");
-            
+                    {            
                         group.Value.pawns.RemoveAt(num);
                     }
                 }

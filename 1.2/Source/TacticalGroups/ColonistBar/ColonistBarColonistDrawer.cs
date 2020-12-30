@@ -233,7 +233,6 @@ namespace TacticalGroups
 		{
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
 			{
-				Log.Message("Handling " + colonist);
 				Event.current.Use();
 				CameraJumper.TryJump(colonist);
 			}
@@ -241,7 +240,6 @@ namespace TacticalGroups
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Mouse.IsOver(rect))
 			{
 				HarmonyPatches.curClickedColonist = colonist;
-				Log.Message("Handling " + colonist);
 				Event.current.Use();
 			}
 		}

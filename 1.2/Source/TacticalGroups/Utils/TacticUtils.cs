@@ -203,7 +203,6 @@ namespace TacticalGroups
 				var lord = pawn.GetLord();
 				if (lord != null)
 				{
-					Log.Message("lord cleanup: " + lord.LordJob);
 					lord.ownedPawns.Remove(pawn);
 					pawn.Map.lordManager.RemoveLord(lord);
 				}
@@ -322,7 +321,6 @@ namespace TacticalGroups
 				if (!weapon.IsBurning())
 				{
 					float num3 = WeaponScoreGain(weapon, StatDefOf.AccuracyMedium);
-					Log.Message(weapon.def + " - " + num3);
 					if (!(num3 < 0.05f) && !(num3 < num2) && (!EquipmentUtility.IsBiocoded(weapon) || EquipmentUtility.IsBiocodedFor(weapon, pawn))
 						&& EquipmentUtility.CanEquip(weapon, pawn) && pawn.CanReserveAndReach(weapon, PathEndMode.OnCell, pawn.NormalMaxDanger()))
 					{
@@ -331,7 +329,6 @@ namespace TacticalGroups
 					}
 				}
 			}
-			Log.Message(thing + " - BEST Weapon FOR " + pawn);
 			return thing;
 		}
 		public static float WeaponScoreGain(Thing weapon)
@@ -486,8 +483,6 @@ namespace TacticalGroups
 					}
 				}
 			}
-
-			Log.Message(thing + " - BEST GEAR FOR " + pawn);
 			return thing;
 		}
 		public static float ApparelScoreGain_NewTmp(Pawn pawn, Apparel ap, List<float> wornScoresCache)

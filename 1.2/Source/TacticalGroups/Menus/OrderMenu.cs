@@ -179,28 +179,83 @@ namespace TacticalGroups
 			Vector2 zero = Vector2.zero + InitialFloatOptionPositionShift;
 			var tendWounded = new Rect(zero.x + 10, rect.y + 407, Textures.TendWounded.width, Textures.TendWounded.height);
 			GUI.DrawTexture(tendWounded, Textures.TendWounded);
+			if (this.colonistGroup.activeWorkTypes.TryGetValue(WorkType.TendWounded, out WorkState state))
+			{
+				if (state == WorkState.Active)
+				{
+					GUI.DrawTexture(tendWounded, Textures.Clock);
+				}
+				else if (state == WorkState.ForcedLabor)
+				{
+					GUI.DrawTexture(tendWounded, Textures.ClockSlave);
+				}
+			}
 			if (Mouse.IsOver(tendWounded))
 			{
 				GUI.DrawTexture(tendWounded, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					this.colonistGroup.RemoveWorkState(WorkType.TendWounded);
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
+				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+				{
+					this.colonistGroup.ChangeWorkState(WorkType.TendWounded);
+					if (this.colonistGroup.activeWorkTypes[WorkType.TendWounded] == WorkState.ForcedLabor)
+					{
+						TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
+					}
+					else
+					{
+						TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
+					}
+					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
+					Event.current.Use();
+				}
+				TooltipHandler.TipRegion(tendWounded, Strings.ForcedLaborTooltip);
 			}
 			TooltipHandler.TipRegion(tendWounded, Strings.TendWoundedTooltip);
 			var rescureFallen = new Rect(((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 11f)) - 10f, tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
 			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
+			if (this.colonistGroup.activeWorkTypes.TryGetValue(WorkType.RescueFallen, out WorkState state2))
+			{
+				if (state2 == WorkState.Active)
+				{
+					GUI.DrawTexture(rescureFallen, Textures.Clock);
+				}
+				else if (state2 == WorkState.ForcedLabor)
+				{
+					GUI.DrawTexture(rescureFallen, Textures.ClockSlave);
+				}
+			}
 			if (Mouse.IsOver(rescureFallen))
 			{
 				GUI.DrawTexture(rescureFallen, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					this.colonistGroup.RemoveWorkState(WorkType.RescueFallen);
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
+				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
+				{
+					this.colonistGroup.ChangeWorkState(WorkType.RescueFallen);
+					if (this.colonistGroup.activeWorkTypes[WorkType.RescueFallen] == WorkState.ForcedLabor)
+					{
+						TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
+					}
+					else
+					{
+						TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
+					}
+					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
+					Event.current.Use();
+				}
+				GUI.DrawTexture(rescureFallen, Textures.RescueTendHover);
+				TooltipHandler.TipRegion(rescureFallen, Strings.ForcedLaborTooltip);
 			}
 			TooltipHandler.TipRegion(rescureFallen, Strings.RescueDownedTooltip);
 			var shooterIconRect = new Rect(rect.x + 10, rect.y + 25f, Textures.ShootingIcon.width, Textures.ShootingIcon.height);

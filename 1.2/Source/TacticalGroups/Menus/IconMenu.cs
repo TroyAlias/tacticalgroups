@@ -59,7 +59,6 @@ namespace TacticalGroups
 
 			if (!bannerStates.Where(x => x.Value).Any())
 			{
-				Log.Message("Banners: " + banners.Count + " - " + bannerPath + " - " + groupBannerFolder);
 				this.colonistGroup.groupBannerFolder = this.groupBannerFolder;
 				this.colonistGroup.groupBanner = banners.First();
 				this.colonistGroup.groupBannerName = this.colonistGroup.groupBanner.name;
@@ -90,8 +89,6 @@ namespace TacticalGroups
 			}
 			if (!iconStates.Where(x => x.Value).Any())
             {
-				Log.Message("Icons: " + icons.Count + " - " + iconPath);
-
 				this.colonistGroup.groupBannerFolder = this.groupBannerFolder;
 				this.colonistGroup.groupIcon = icons.First();
 				this.colonistGroup.groupIconName = this.colonistGroup.groupIcon.name;
@@ -176,7 +173,6 @@ namespace TacticalGroups
 					this.colonistGroup.groupBannerName = bannerRow[b].name;
 					this.colonistGroup.updateIcon = true;
 					this.colonistGroup.bannerModeEnabled = this.bannerModeEnabled;
-					Log.Message("1");
 				}
 			}
 			Widgets.EndScrollView();
@@ -248,7 +244,6 @@ namespace TacticalGroups
 						this.bannerModeEnabled = false;
 						this.colonistGroup.bannerModeEnabled = false;
 						this.colonistGroup.updateIcon = true;
-						Log.Message("2");
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}
@@ -257,7 +252,6 @@ namespace TacticalGroups
 						this.bannerModeEnabled = true;
 						this.colonistGroup.bannerModeEnabled = true;
 						this.colonistGroup.updateIcon = true;
-						Log.Message("3");
 						ReInitIcons(this.colonistGroup.defaultBannerFolder);
 						Event.current.Use();
 					}
@@ -287,7 +281,6 @@ namespace TacticalGroups
 			yPos += Textures.BlueGroupIcon.height + 5;
 			var redRect = new Rect(xPos, yPos, Textures.RedGroupIcon.width, Textures.RedGroupIcon.height);
 			GUI.DrawTexture(redRect, Textures.RedGroupIcon);
-			Log.Message("this.colonistGroup.colorFolder: " + this.colonistGroup.colorFolder);
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(redRect))
 			{
 				ReInitIcons(this.colonistGroup.colorFolder + "Red");

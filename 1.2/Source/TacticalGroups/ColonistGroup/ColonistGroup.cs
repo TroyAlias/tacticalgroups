@@ -11,7 +11,6 @@ namespace TacticalGroups
 {
     public class ColonistGroup : IExposable
     {
-
 		public bool Visible => pawnWindowIsActive;
 		public Map Map;
 		public bool entireGroupIsVisible;
@@ -96,10 +95,8 @@ namespace TacticalGroups
 		}
 		public virtual void Disband(Pawn pawn)
         {
-			Log.Message("Disband: " + pawn);
 			if (pawns.Contains(pawn))
             {
-				Log.Message("Remove 9");
 				this.pawns.Remove(pawn);
 				this.pawnIcons.Remove(pawn);
 				Sort();
@@ -119,7 +116,21 @@ namespace TacticalGroups
             }
         }
 
+		private Dictionary<int, List<List<Pawn>>> cachedPawnRows = new Dictionary<int, List<List<Pawn>>>();
 		public List<List<Pawn>> GetPawnRows(int columnCount)
+        {
+			if (cachedPawnRows.TryGetValue(columnCount, out List<List<Pawn>> value))
+			{
+				return value;
+			}
+			else
+			{
+				var value2 = GetPawnRowsInt(columnCount);
+				cachedPawnRows[columnCount] = value2;
+				return value2;
+			}
+		}
+		public List<List<Pawn>> GetPawnRowsInt(int columnCount)
         {
 			int num = 0;
 			List<List<Pawn>> pawnRows = new List<List<Pawn>>();
@@ -201,6 +212,29 @@ namespace TacticalGroups
 					TieredFloatMenu floatMenu = new MainFloatMenu(null, this, rect2, Textures.DropMenuRightClick);
 					Find.WindowStack.Add(floatMenu);
 				}
+				else if (Event.current.button == 2)
+				{
+					if (this.entireGroupIsVisible || !this.pawnIcons.Where(x => !x.Value.isVisibleOnColonistBar).Any())
+					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						foreach (var pawnIcon in this.pawnIcons)
+						{
+							pawnIcon.Value.isVisibleOnColonistBar = false;
+						}
+						this.entireGroupIsVisible = false;
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+					else
+					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						foreach (var pawnIcon in this.pawnIcons)
+						{
+							pawnIcon.Value.isVisibleOnColonistBar = true;
+						}
+						this.entireGroupIsVisible = true;
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+				}
 				Event.current.Use();
 			}
 		}
@@ -216,7 +250,6 @@ namespace TacticalGroups
 			{
 				bannerPath = "UI/ColonistBar/GroupIcons/" + groupBannerFolder;
 			}
-			Log.Message("BannerPath: " + bannerPath + " - " + groupBannerName);
 			var banners = ContentFinder<Texture2D>.GetAllInFolder(bannerPath);
 			var banner = banners.Where(x => x.name == groupBannerName).FirstOrDefault();
 			if (banner != null)
@@ -266,16 +299,23 @@ namespace TacticalGroups
                 {
 					GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
 				}
-				else if (this is PawnGroup)
+				else if (this.isPawnGroup)
                 {
 					GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
                 }
-				else if (this is ColonyGroup)
+				else if (this.isColonyGroup)
 				{
 					GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
 				}
 			}
 
+			if (!this.bannerModeEnabled)
+			{
+				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, 20f);
+				Text.Anchor = TextAnchor.MiddleCenter;
+				Widgets.Label(groupLabelRect, this.GetGroupName());
+				Text.Anchor = TextAnchor.UpperLeft;
+			}
 			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
 			if (ShowExpanded)
@@ -325,16 +365,66 @@ namespace TacticalGroups
 		}
 
 		private int downedStateBlink;
+
+		private Dictionary<Pawn, bool> pawnsDownedOrIncapable = new Dictionary<Pawn, bool>();
+		private bool IsDownedOrIncapable(Pawn pawn)
+        {
+			if (pawnsDownedOrIncapable.TryGetValue(pawn, out bool value))
+            {
+				return value;
+            }
+			else
+            {
+				var value2 = pawn.IsDownedOrIncapable();
+				pawnsDownedOrIncapable[pawn] = value2;
+				return value2;
+			}
+		}
+
+		private Dictionary<Pawn, bool> pawnsShotOrBleeding = new Dictionary<Pawn, bool>();
+		private bool IsShotOrBleeding(Pawn pawn)
+		{
+			if (pawnsShotOrBleeding.TryGetValue(pawn, out bool value))
+			{
+				return value;
+			}
+			else
+			{
+				var value2 = pawn.IsShotOrBleeding();
+				pawnsShotOrBleeding[pawn] = value2;
+				return value2;
+			}
+		}
+
+		private Dictionary<Pawn, bool> pawnsSick = new Dictionary<Pawn, bool>();
+		private bool IsSick(Pawn pawn)
+		{
+			if (pawnsShotOrBleeding.TryGetValue(pawn, out bool value))
+			{
+				return value;
+			}
+			else
+			{
+				var value2 = pawn.IsSick();
+				pawnsSick[pawn] = value2;
+				return value2;
+			}
+		}
+
+		public void UpdateData()
+        {
+			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
+			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
+			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
+			foreach (var pawn in this.pawns) 
+			{
+				pawnsDownedOrIncapable[pawn] = pawn.IsDownedOrIncapable();
+				pawnsShotOrBleeding[pawn] = pawn.IsShotOrBleeding();
+				pawnsSick[pawn] = pawn.IsSick();
+			}
+		}
 		public void DrawPawnDots(Rect rect)
         {
-			if (!this.bannerModeEnabled)
-            {
-				var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, 20f);
-				Text.Anchor = TextAnchor.MiddleCenter;
-				Widgets.Label(groupLabelRect, this.GetGroupName());
-				Text.Anchor = TextAnchor.UpperLeft;
-			}
-
 			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
 			var initialRect = new Rect(rect);
 			if (this.bannerModeEnabled)
@@ -359,10 +449,13 @@ namespace TacticalGroups
                     {
 						GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
 					}
-					else if (pawnRows[i][j].IsDownedOrIncapable())
+					else if (IsDownedOrIncapable(pawnRows[i][j]))
 					{
+						if (!showDownedState)
+                        {
+							downedStateBlink++;
+                        }
 						showDownedState = true;
-						downedStateBlink++;
 						if (downedStateBlink < 30)
 						{
 							GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
@@ -372,11 +465,11 @@ namespace TacticalGroups
 							downedStateBlink = 0;
 						}
 					}
-					else if (pawnRows[i][j].IsShotOrBleeding())
+					else if (IsShotOrBleeding(pawnRows[i][j]))
 					{
 						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
 					}
-					else if (pawnRows[i][j].IsSick())
+					else if (IsSick(pawnRows[i][j]))
                     {
 						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
 					}
@@ -398,7 +491,6 @@ namespace TacticalGroups
 
 			if (showDownedState)
             {
-
 				if (downedStateBlink < 30)
 				{
 					GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
@@ -760,6 +852,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
+			Scribe_Values.Look(ref isPawnGroup, "isPawnGroup");
 			Scribe_Values.Look(ref colorFolder, "colorFolder");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
@@ -770,8 +863,9 @@ namespace TacticalGroups
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 
-		protected int groupID;
+		public int groupID;
 		public bool isColonyGroup;
+		public bool isPawnGroup;
 		public string groupName;
 		public string defaultGroupName;
 		public string defaultBannerFolder;

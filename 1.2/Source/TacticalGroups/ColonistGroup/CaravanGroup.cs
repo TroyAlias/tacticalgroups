@@ -11,6 +11,8 @@ namespace TacticalGroups
     public class CaravanGroup : ColonistGroup
 	{
 		private Caravan caravan;
+
+		public HashSet<ColonistGroup> formerGroups;
         public override void Init()
         {
             base.Init();
@@ -31,9 +33,18 @@ namespace TacticalGroups
 		public CaravanGroup(Caravan caravan)
         {
 			this.Init();
+			foreach (var pawn in caravan.PawnsListForReading)
+            {
+
+            }
 			this.pawns = new List<Pawn>();
+			this.formerGroups = new HashSet<ColonistGroup>();
 			foreach (var pawn in caravan.PawnsListForReading)
 			{
+				if (pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
+                {
+					this.formerGroups.AddRange(groups);
+				}
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
@@ -67,6 +78,7 @@ namespace TacticalGroups
         {
             base.ExposeData();
 			Scribe_References.Look(ref caravan, "caravan");
+			Scribe_Collections.Look(ref formerGroups, "formerGroups", LookMode.Deep);
         }
     }
 }

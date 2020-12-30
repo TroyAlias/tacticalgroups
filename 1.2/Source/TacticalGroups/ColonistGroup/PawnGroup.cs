@@ -14,6 +14,7 @@ namespace TacticalGroups
 		public override void Init()
         {
             base.Init();
+			this.isPawnGroup = true;
 			this.groupIcon = Textures.PawnGroupIcon_Default;
 			this.groupBanner = Textures.PawnGroupBanner_Default;
 			this.formerPawns = new List<Pawn>();
@@ -45,7 +46,7 @@ namespace TacticalGroups
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
-			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
+			this.groupID = CreateGroupID();
 		}
 
 		public PawnGroup(Pawn pawn)
@@ -57,8 +58,26 @@ namespace TacticalGroups
 			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			this.groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
+			this.groupID = CreateGroupID();
 		}
+
+		public int CreateGroupID()
+        {
+			var groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
+			Log.Message("Group: " + groupID);
+			foreach (var caravan in TacticUtils.AllCaravanGroups)
+            {
+				foreach (var group in caravan.formerGroups)
+				{
+					if (group is PawnGroup)
+					{
+						groupID++;
+					}
+					Log.Message("Group: " + groupID + " - " + group.groupName + " - " + group.isPawnGroup);
+				}
+			}
+			return groupID;
+        }
         public override void Add(Pawn pawn)
         {
             base.Add(pawn);
@@ -151,7 +170,6 @@ namespace TacticalGroups
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
 						var indexOf = TacticUtils.TacticalGroups.pawnGroups.IndexOf(this);
-						Log.Message("Index of " + indexOf + " - " + TacticUtils.TacticalGroups.pawnGroups.Count);
 						if (TacticUtils.TacticalGroups.pawnGroups.Count > indexOf + 1)
 						{
 							TacticUtils.TacticalGroups.pawnGroups.RemoveAt(indexOf);

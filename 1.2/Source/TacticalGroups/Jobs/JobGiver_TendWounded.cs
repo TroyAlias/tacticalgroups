@@ -29,7 +29,6 @@ namespace TacticalGroups
 			if (pawn2 == null || pawn.WorkTypeIsDisabled(WorkTypeDefOf.Doctor) || !GoodLayingStatusForTend(pawn2, pawn) 
 				|| !HealthAIUtility.ShouldBeTendedNowByPlayer(pawn2) || !pawn.CanReserve(pawn2, 1, -1, null, forced))
 			{
-				Log.Message(pawn2 + " can't be tended");
 				return false;
 			}
 			return true;
@@ -54,7 +53,6 @@ namespace TacticalGroups
 				Pawn patient = (Pawn)t;
 				return HasJobOnThing(pawn, patient);
 			};
-			Log.Message("pawn.Map.mapPawns.SpawnedPawnsWithAnyHediff: " + pawn.Map.mapPawns.SpawnedPawnsWithAnyHediff.Count);
 			Pawn pawn2 = (Pawn)GenClosest.ClosestThing_Global_Reachable(pawn.Position, pawn.Map, pawn.Map.mapPawns.SpawnedPawnsWithAnyHediff, PathEndMode.OnCell, TraverseParms.For(pawn), radius, validator);
 
 			if (pawn2 != null)
@@ -64,12 +62,10 @@ namespace TacticalGroups
 				{
 					return JobMaker.MakeJob(JobDefOf.TendPatient, pawn2, thing);
 				}
-				Log.Message(pawn + " got " + JobDefOf.TendPatient + " for " + pawn2);
 				return JobMaker.MakeJob(JobDefOf.TendPatient, pawn2);
 			}
 			else
             {
-				Log.Message("Pawn isn't found");
 				return null;
             }
 		}

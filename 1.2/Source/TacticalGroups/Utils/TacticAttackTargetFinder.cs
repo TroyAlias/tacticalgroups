@@ -199,13 +199,6 @@ namespace TacticalGroups
 				{
 					tmpTargets.AddRange(targets.Where(x => (x.Thing as Pawn)?.CurJobDef == JobDefOf.Flee || (x.Thing as Pawn)?.CurJobDef == JobDefOf.FleeAndCower));
 				}
-				foreach (var t in tmpTargets)
-                {
-					if (t is Pawn p)
-                    {
-						Log.Message(searcher + " - " + p + " - " + p.kindDef.combatPower);
-                    }
-                }
 				if ((flags & TargetScanFlags.NeedReachable) != 0)
 				{
 					Predicate<IAttackTarget> oldValidator2 = innerValidator;
@@ -232,8 +225,6 @@ namespace TacticalGroups
 					result = (IAttackTarget)GenClosest.ClosestThing_Global(validator: ((flags & TargetScanFlags.NeedReachableIfCantHitFromMyPos) == 0 || (flags & TargetScanFlags.NeedReachable) != 0) ? ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t))) : ((Predicate<Thing>)((Thing t) => innerValidator((IAttackTarget)t) && (CanReach(searcherThing, t, canBash) || CanShootAtFromCurrentPosition((IAttackTarget)t, searcher, verb)))), center: searcherThing.Position, searchSet: tmpTargets, maxDistance: maxDist);
 				}
 				tmpTargets.Clear();
-				Log.Message(combatSearchMode + " - result: " + searcher + " - " + result);
-				Log.Message("------------------");
 				return result;
 			}
 			if (searcherPawn != null && searcherPawn.mindState.duty != null && searcherPawn.mindState.duty.radius > 0f && !searcherPawn.InMentalState)

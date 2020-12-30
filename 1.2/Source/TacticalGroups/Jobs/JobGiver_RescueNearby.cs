@@ -35,21 +35,15 @@ namespace TacticalGroups
                     radius, validator);
             if (pawn2 == null)
             {
-                Log.Message(" - TryGiveJob - return null; - 6", true);
                 return null;
             }
             Building_Bed building_Bed = RestUtility.FindBedFor(pawn2, pawn, pawn2.HostFaction == pawn.Faction, checkSocialProperness: false);
-            Log.Message(" - TryGiveJob - if (building_Bed == null || !pawn2.CanReserve(building_Bed)) - 8", true);
             if (building_Bed == null || !pawn2.CanReserve(building_Bed))
             {
-                Log.Message(" - TryGiveJob - return null; - 9", true);
                 return null;
             }
             Job job = JobMaker.MakeJob(JobDefOf.Rescue, pawn2, building_Bed);
-            Log.Message(" - TryGiveJob - job.count = 1; - 11", true);
             job.count = 1;
-            Log.Message(pawn + " got " + job + " for " + pawn2 + " - " + building_Bed);
-            Log.Message(" - TryGiveJob - return job; - 13", true);
             return job;
         }
 
