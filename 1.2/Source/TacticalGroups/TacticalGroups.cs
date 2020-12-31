@@ -63,26 +63,27 @@ namespace TacticalGroups
         {
             foreach (var formerGroup in caravanGroups[caravan].formerGroups)
             {
-                if (formerGroup is ColonyGroup colonyGroup)
+                foreach (var pawnGroup in formerGroup.Value.pawnGroups)
                 {
-                    if (!this.colonyGroups.ContainsKey(colonyGroup.Map))
-                    {
-                        this.colonyGroups[colonyGroup.Map] = colonyGroup;
-                    }
-                }
-                else if (formerGroup is PawnGroup pawnGroup)
-                {
-                    var group2 = this.pawnGroups.Where(x => x.groupID == formerGroup.groupID && x.groupName == formerGroup.groupName).FirstOrDefault();
+                    Log.Message("Looping over " + formerGroup);
+                    var group2 = this.pawnGroups.Where(x => x.groupID == pawnGroup.groupID && x.groupName == pawnGroup.groupName).FirstOrDefault();
                     if (group2 == null)
                     {
+
+                        Log.Message("Adding new group: " + pawnGroup.pawns.Count);
                         this.pawnGroups.Add(pawnGroup);
+                        pawnGroup.Add(formerGroup.Key);
                     }
                     else
                     {
-                        group2.Add(formerGroup.pawns);
+                        Log.Message("Adding new pawns");
+                        group2.Add(formerGroup.Key);
+                        Log.Message("Pawn count: " + group2.pawns.Count);
                     }
                 }
+
             }
+            Log.Message("Done");
             this.caravanGroups.Remove(caravan);
 
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();

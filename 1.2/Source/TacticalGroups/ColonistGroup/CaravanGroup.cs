@@ -8,11 +8,31 @@ using Verse.AI;
 
 namespace TacticalGroups
 {
+    public class FormerGroup : IExposable
+    {
+		public Pawn pawn;
+		public List<PawnGroup> pawnGroups;
+		public FormerGroup()
+        {
+
+        }
+
+		public FormerGroup(Pawn pawn, List<PawnGroup> pawnGroups)
+		{
+			this.pawn = pawn;
+			this.pawnGroups = pawnGroups;
+		}
+		public void ExposeData()
+        {
+			Scribe_References.Look(ref pawn, "pawn");
+			Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
+		}
+	}
     public class CaravanGroup : ColonistGroup
 	{
 		private Caravan caravan;
 
-		public HashSet<ColonistGroup> formerGroups;
+		public Dictionary<Pawn, FormerGroup> formerGroups;
         public override void Init()
         {
             base.Init();
@@ -30,26 +50,32 @@ namespace TacticalGroups
 			this.Init();
 		}
 
-		public CaravanGroup(Caravan caravan)
+        public CaravanGroup(Caravan caravan)
         {
-			this.Init();
-			foreach (var pawn in caravan.PawnsListForReading)
+            this.Init();
+            this.pawns = new List<Pawn>();
+            this.formerGroups = new Dictionary<Pawn, FormerGroup>();
+            foreach (var pawn in caravan.PawnsListForReading)
             {
-
-            }
-			this.pawns = new List<Pawn>();
-			this.formerGroups = new HashSet<ColonistGroup>();
-			foreach (var pawn in caravan.PawnsListForReading)
-			{
-				if (pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
+                foreach (var pawnGroup in TacticUtils.AllPawnGroups)
                 {
-					this.formerGroups.AddRange(groups);
-				}
-				this.pawns.Add(pawn);
-				this.pawnIcons[pawn] = new PawnIcon(pawn);
-			}
-			this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
-		}
+                    if (pawnGroup.pawns.Contains(pawn))
+                    {
+                        if (this.formerGroups.ContainsKey(pawn))
+                        {
+                            this.formerGroups[pawn].pawnGroups.Add(pawnGroup);
+                        }
+                        else
+                        {
+                            this.formerGroups[pawn] = new FormerGroup(pawn, new List<PawnGroup> { pawnGroup });
+                        }
+                    }
+                }
+                this.pawns.Add(pawn);
+                this.pawnIcons[pawn] = new PawnIcon(pawn);
+            }
+            this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
+        }
 
 		public CaravanGroup(Pawn pawn)
         {
@@ -78,7 +104,10 @@ namespace TacticalGroups
         {
             base.ExposeData();
 			Scribe_References.Look(ref caravan, "caravan");
-			Scribe_Collections.Look(ref formerGroups, "formerGroups", LookMode.Deep);
+			Scribe_Collections.Look(ref formerGroups, "formerGroups", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref formerGroupValues);
         }
+
+		private List<Pawn> pawnKeys;
+		private List<FormerGroup> formerGroupValues;
     }
 }

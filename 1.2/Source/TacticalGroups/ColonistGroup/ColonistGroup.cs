@@ -172,6 +172,11 @@ namespace TacticalGroups
 						if (WorldRendererUtility.WorldRenderedNow && this.Map != null || this.Map != null && this.Map != Find.CurrentMap)
                         {
 							CameraJumper.TryJump(this.pawns.First());
+							if (this is CaravanGroup caravanGroup)
+                            {
+								var caravan = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Value == caravanGroup).FirstOrDefault().Key;
+								Find.Selector.Select(caravan);
+                            }
 							Event.current.Use();
 							return;
 						}

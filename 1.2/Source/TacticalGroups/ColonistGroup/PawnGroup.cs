@@ -64,18 +64,12 @@ namespace TacticalGroups
 		public int CreateGroupID()
         {
 			var groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
-			Log.Message("Group: " + groupID);
+			Log.Message("1 Group: " + groupID);
 			foreach (var caravan in TacticUtils.AllCaravanGroups)
             {
-				foreach (var group in caravan.formerGroups)
-				{
-					if (group is PawnGroup)
-					{
-						groupID++;
-					}
-					Log.Message("Group: " + groupID + " - " + group.groupName + " - " + group.isPawnGroup);
-				}
+				groupID += caravan.formerGroups.Count;
 			}
+			Log.Message("2 Group: " + groupID);
 			return groupID;
         }
         public override void Add(Pawn pawn)
