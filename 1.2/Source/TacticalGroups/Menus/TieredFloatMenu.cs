@@ -22,8 +22,6 @@ namespace TacticalGroups
 
 		public Rect originRect;
 
-		public bool vanishIfMouseDistant = true;
-
 		public Action onCloseCallback;
 
 		protected List<TieredFloatMenuOption> options;
@@ -57,7 +55,7 @@ namespace TacticalGroups
 			this.originRect = originRect;
 			this.backgroundTexture = backgroundTexture;
 			this.layer = WindowLayer.GameUI;
-			closeOnClickedOutside = true;
+			closeOnClickedOutside = false;
 			doWindowBackground = false;
 			drawShadow = false;
 			preventCameraMotion = false;
@@ -153,18 +151,22 @@ namespace TacticalGroups
 			{
 				onCloseCallback();
 			}
+			Log.Message("PostClose");
+
 		}
 
 		public void Cancel()
 		{
 			TryCloseChildWindow();
 			Find.WindowStack.TryRemove(this);
+			Log.Message("Cancel");
 		}
 
-        public override void Close(bool doCloseSound = true)
+		public override void Close(bool doCloseSound = true)
         {
 			TryCloseChildWindow();
 			base.Close(doCloseSound);
+			Log.Message("Close");
         }
 
 		public void CloseAllWindows()
@@ -182,10 +184,6 @@ namespace TacticalGroups
 			if (!Selected && !HasActiveParent)
 			{
 				baseColor = Color.white;
-				if (!vanishIfMouseDistant)
-				{
-					return;
-				}
 				Rect r = new Rect(0f, 0f, backgroundTexture.width, backgroundTexture.height).ContractedBy(-5f);
 				if (!r.Contains(Event.current.mousePosition))
 				{
@@ -198,6 +196,17 @@ namespace TacticalGroups
 					}
 				}
 			}
+
+			//if (!Selected && HasActiveParent)
+            //{
+			//	Rect r = new Rect(0f, 0f, backgroundTexture.width, backgroundTexture.height);
+			//	float num = GenUI.DistFromRect(r, Event.current.mousePosition);
+			//	if (num > 595f)
+			//	{
+			//		Close(doCloseSound: false);
+			//		Cancel();
+			//	}
+			//}
 		}
 	}
 }

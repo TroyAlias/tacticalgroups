@@ -146,6 +146,15 @@ namespace TacticalGroups
         public static bool ColonistOrCorpseAt(ref Thing __result, Vector2 pos)
         {
             __result = TacticUtils.TacticalColonistBar.ColonistOrCorpseAt(pos);
+            var mainFloatMenu = Find.WindowStack.WindowOfType<MainFloatMenu>();
+            if (mainFloatMenu != null)
+            {
+                var window = Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted);
+                if (!(window is TieredFloatMenu))
+                {
+                    mainFloatMenu.CloseAllWindows();
+                }
+            }
             return false;
         }
 

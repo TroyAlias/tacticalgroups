@@ -156,6 +156,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(treasureButtonRect, Textures.RescueTendHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                     {
+						this.colonistGroup.Map.wealthWatcher.ForceRecount();
 						Find.MainTabsRoot.ToggleTab(DefDatabase<MainButtonDef>.GetNamed("History"));
 					}
 				}

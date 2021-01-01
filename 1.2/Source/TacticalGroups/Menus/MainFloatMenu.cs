@@ -104,7 +104,7 @@ namespace TacticalGroups
 		}
 		public override void DoWindowContents(Rect rect)
         {
-            base.DoWindowContents(rect);
+			base.DoWindowContents(rect);
 			Vector2 zero = Vector2.zero;
 			zero += InitialFloatOptionPositionShift;
 			for (int i = 0; i < options.Count; i++)
@@ -121,6 +121,7 @@ namespace TacticalGroups
 			DrawExtraGui(rect);
 			GUI.color = Color.white;
 		}
+
 		public override void DrawExtraGui(Rect rect)
 		{
 			var iconRect = new Rect(rect.x + 7f, rect.y + (rect.height - Textures.EyeIconOn.height) - 7f, Textures.EyeIconOn.width, Textures.EyeIconOn.height);

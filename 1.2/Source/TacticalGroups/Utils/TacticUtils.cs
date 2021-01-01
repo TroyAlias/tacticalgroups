@@ -13,15 +13,6 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	internal static class TacticUtils
 	{
-		public static bool originalModIsActive;
-		static TacticUtils() 
-		{
-			if (ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "derekbickley.ltocolonygroups" && x.Name == "[DerekBickley] Colony Groups BETA ONLY, DON'T REUPLOAD").Any())
-            {
-				originalModIsActive = true;
-            }
-		}
-			
 		public static TacticalGroups TacticalGroups
 		{
 			get
