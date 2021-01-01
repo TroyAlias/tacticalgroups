@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>[DerekBickley] Colony Groups BETA ONLY, DON'T REUPLOAD</name>
+  <name>Colony Groups [LTO]</name>
   <author>DerekBickley</author>
   <supportedVersions>
     <li>1.2</li>
   </supportedVersions>
-  <packageId>DerekBickley.LTOColonyGroups</packageId>
-  <description>ConfirmAuthor</description>
+  <packageId>DerekBickley.LTOColonyGroupsFinal</packageId>
+  <description>Colony Groups allows you to create and customize groups for your colonists.  As well as giving you your own Colony Group that you can use to manage your entire colony (or multiple) colonies at once.  This mod also includes Pawn Portrait display features that can be toggled on/off.  Enjoy</description>
 </ModMetaData>
