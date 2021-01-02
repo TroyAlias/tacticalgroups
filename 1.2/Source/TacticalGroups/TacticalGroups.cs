@@ -45,7 +45,7 @@ namespace TacticalGroups
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
-        public void AddCaravanGroup(Caravan caravan)
+        public CaravanGroup AddCaravanGroup(Caravan caravan)
         {
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
             for (int num = colonyGroups.Values.Count - 1; num >= 0; num--)
@@ -57,36 +57,33 @@ namespace TacticalGroups
                 pawnGroups[num].Disband(caravan.pawns.InnerListForReading);
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+            return this.caravanGroups[caravan];
         }
 
         public void RemoveCaravanGroup(Caravan caravan)
         {
-            foreach (var formerGroup in caravanGroups[caravan].formerGroups)
+            if (caravanGroups.ContainsKey(caravan))
             {
-                foreach (var pawnGroup in formerGroup.Value.pawnGroups)
+                foreach (var formerGroup in caravanGroups[caravan].formerGroups)
                 {
-                    Log.Message("Looping over " + formerGroup);
-                    var group2 = this.pawnGroups.Where(x => x.groupID == pawnGroup.groupID && x.groupName == pawnGroup.groupName).FirstOrDefault();
-                    if (group2 == null)
+                    foreach (var pawnGroup in formerGroup.Value.pawnGroups)
                     {
+                        var group2 = this.pawnGroups.Where(x => x.groupID == pawnGroup.groupID && x.groupName == pawnGroup.groupName).FirstOrDefault();
+                        if (group2 == null)
+                        {
+                            this.pawnGroups.Add(pawnGroup);
+                            pawnGroup.Add(formerGroup.Key);
+                        }
+                        else
+                        {
+                            group2.Add(formerGroup.Key);
+                        }
+                    }
 
-                        Log.Message("Adding new group: " + pawnGroup.pawns.Count);
-                        this.pawnGroups.Add(pawnGroup);
-                        pawnGroup.Add(formerGroup.Key);
-                    }
-                    else
-                    {
-                        Log.Message("Adding new pawns");
-                        group2.Add(formerGroup.Key);
-                        Log.Message("Pawn count: " + group2.pawns.Count);
-                    }
                 }
-
+                this.caravanGroups.Remove(caravan);
+                TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             }
-            Log.Message("Done");
-            this.caravanGroups.Remove(caravan);
-
-            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public ColonyGroup CreateOrJoinColony(List<Pawn> pawns, Map map)
@@ -111,6 +108,7 @@ namespace TacticalGroups
                     }
                 }
             }
+            this.colonyGroups[map].UpdateData();
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }

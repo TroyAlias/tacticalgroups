@@ -376,8 +376,8 @@ namespace TacticalGroups
                             }
                             else
                             {
-                                Log.Error("Found pawn with caravan and without Caravan group. This should never happen.");
-                                cachedEntries.Add(new Entry(tmpPawns[n], null, num, null, null));
+                                var caravanGroup = TacticUtils.TacticalGroups.AddCaravanGroup(tmpCaravans[m]);
+                                cachedEntries.Add(new Entry(tmpPawns[n], null, num, caravanGroup, null));
                             }
                         }
                     }
@@ -482,7 +482,6 @@ namespace TacticalGroups
                 MainTabWindowUtility.NotifyAllPawnTables_PawnsChanged();
             }
         }
-
         public void Reorder(int from, int to, int entryGroup)
         {
             int num = 0;

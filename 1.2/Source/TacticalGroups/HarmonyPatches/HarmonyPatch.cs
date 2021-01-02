@@ -345,7 +345,7 @@ namespace TacticalGroups
                 Rect outRect = new Rect((int)position.x, (int)position.y + (int)___cachedHeaderHeight, (int)___cachedSize.x, (int)___cachedSize.y - (int)___cachedHeaderHeight);
                 Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (int)___cachedHeightNoScrollbar - (int)___cachedHeaderHeight);
                 
-                var createGroupRect = new Rect(viewRect.x + 10, viewRect.y + 10, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+                var createGroupRect = new Rect(viewRect.x + 10, (outRect.y + outRect.height + 5), Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
                 if (Mouse.IsOver(createGroupRect))
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);

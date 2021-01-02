@@ -44,7 +44,7 @@ namespace TacticalGroups
 			{
 				targetScanFlags |= TargetScanFlags.NeedNonBurning;
 			}
-			return (Thing)TacticAttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => ExtraTargetValidator(pawn, x), 0f, targetAcquireRadius, GetFlagPosition(pawn), 
+			return (Thing)TacticAttackTargetFinder.BestAttackTarget(pawn, targetScanFlags, (Thing x) => ExtraTargetValidator(pawn, x), 0f, targetAcquireRadius, GetFlagPosition(pawn),
 				GetFlagRadius(pawn), combatSearchMode: CombatSearchMode.Strongest);
 		}
 

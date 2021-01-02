@@ -13,7 +13,6 @@ namespace TacticalGroups
     {
 		public bool Visible => pawnWindowIsActive;
 		public Map Map;
-		public bool entireGroupIsVisible;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
 		public Rect curRect;
@@ -67,8 +66,10 @@ namespace TacticalGroups
 			if (!this.pawns.Contains(pawn))
             {
 				this.pawns.Add(pawn);
-				this.pawnIcons[pawn] = new PawnIcon(pawn, true);
+				this.pawnIcons[pawn] = new PawnIcon(pawn, this.entireGroupIsVisible ? true : false);
+				SyncPoliciesWithRestOfMembers(pawn);
 				Sort();
+				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
 			if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
@@ -811,9 +812,71 @@ namespace TacticalGroups
 			if (activeSortBy == SortBy.Skills)
             {
 				this.pawns.SortByDescending(x => x.skills.GetSkill(skillDefSort).Level);
+				this.UpdateData();
             }
         }
+		public void SyncPoliciesWithRestOfMembers(Pawn pawn)
+        {
+			var otherMembers = this.pawns.Where(x => x != pawn);
+			if (otherMembers.Any())
+            {
+				var curFoodPolicy = otherMembers.FirstOrDefault().foodRestriction.CurrentFoodRestriction;
+				if (otherMembers.Where(x => x.foodRestriction.CurrentFoodRestriction == curFoodPolicy).Count() == otherMembers.Count())
+                {
+					pawn.foodRestriction.CurrentFoodRestriction = curFoodPolicy;
+				}
 
+				var curOutfitPolicy = otherMembers.FirstOrDefault().outfits.CurrentOutfit;
+				if (otherMembers.Where(x => x.outfits.CurrentOutfit == curOutfitPolicy).Count() == otherMembers.Count())
+				{
+					pawn.outfits.CurrentOutfit = curOutfitPolicy;
+				}
+
+				var curDrugsPolicy = otherMembers.FirstOrDefault().drugs.CurrentPolicy;
+				if (otherMembers.Where(x => x.drugs.CurrentPolicy == curDrugsPolicy).Count() == otherMembers.Count())
+				{
+					pawn.drugs.CurrentPolicy = curDrugsPolicy;
+				}
+
+				var curAreaPolicy = otherMembers.FirstOrDefault().playerSettings?.AreaRestriction;
+				if (pawn.playerSettings != null && curAreaPolicy != null && otherMembers.Where(x => x.playerSettings?.AreaRestriction == curAreaPolicy).Count() == otherMembers.Count())
+				{
+					pawn.playerSettings.AreaRestriction = curAreaPolicy;
+				}
+
+				var curHostilityPolicy = otherMembers.FirstOrDefault().playerSettings?.hostilityResponse;
+				if (pawn.playerSettings != null && curHostilityPolicy.HasValue && otherMembers.Where(x => x.playerSettings?.hostilityResponse == curHostilityPolicy).Count() == otherMembers.Count())
+				{
+					pawn.playerSettings.hostilityResponse = curHostilityPolicy.Value;
+				}
+
+				if (AssignTimeValue(otherMembers.ToList()))
+                {
+					for (int i = 0; i < 24; i++)
+					{
+						pawn.timetable.SetAssignment(i, otherMembers.First().timetable.GetAssignment(i));
+					}
+				}
+			}
+        }
+
+		private bool AssignTimeValue(List<Pawn> otherMembers)
+        {
+			for (int i = 0; i < 24; i++)
+			{
+				foreach (var p in otherMembers)
+				{
+					foreach (var p2 in otherMembers)
+					{
+						if (p != p2 && p.timetable.GetAssignment(i) != p2.timetable.GetAssignment(i))
+                        {
+							return false;
+                        }
+					}
+				}
+			}
+			return true;
+		}
 		public void RemoveWorkState(WorkType workType)
 		{
 			if (this.activeWorkTypes.ContainsKey(workType))
@@ -856,6 +919,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupBannerFolder, "groupBannerFolder");
 			Scribe_Values.Look(ref activeSortBy, "activeSortBy");
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
+			Scribe_Values.Look(ref entireGroupIsVisible, "entireGroupIsVisible");
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
 			Scribe_Values.Look(ref isPawnGroup, "isPawnGroup");
 			Scribe_Values.Look(ref colorFolder, "colorFolder");
@@ -869,6 +933,7 @@ namespace TacticalGroups
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 
 		public int groupID;
+		public bool entireGroupIsVisible;
 		public bool isColonyGroup;
 		public bool isPawnGroup;
 		public string groupName;

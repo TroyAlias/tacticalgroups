@@ -63,7 +63,7 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsStrongest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
@@ -83,7 +83,7 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsWeakest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
@@ -103,7 +103,7 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Select(x => x.Thing).ToList();
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.pawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
 				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsPursueFleeing(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.pawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();

@@ -302,65 +302,72 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
-			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
-			bool flag = false;
-			if (colonist.CurJob != null)
-			{
-				JobDef def = colonist.CurJob.def;
-				if (def == JobDefOf.AttackMelee || def == JobDefOf.AttackStatic)
+			try
+            {
+				float num = 20f * TacticUtils.TacticalColonistBar.Scale;
+				Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
+				bool flag = false;
+				if (colonist.CurJob != null)
 				{
-					flag = true;
-				}
-				else if (def == JobDefOf.Wait_Combat)
-				{
-					Stance_Busy stance_Busy = colonist.stances.curStance as Stance_Busy;
-					if (stance_Busy != null && stance_Busy.focusTarg.IsValid)
+					JobDef def = colonist.CurJob.def;
+					if (def == JobDefOf.AttackMelee || def == JobDefOf.AttackStatic)
 					{
 						flag = true;
 					}
+					else if (def == JobDefOf.Wait_Combat)
+					{
+						Stance_Busy stance_Busy = colonist.stances.curStance as Stance_Busy;
+						if (stance_Busy != null && stance_Busy.focusTarg.IsValid)
+						{
+							flag = true;
+						}
+					}
+				}
+				if (colonist.IsFormingCaravan())
+				{
+					DrawIcon(Icon_FormingCaravan, ref pos, "ActivityIconFormingCaravan".Translate());
+				}
+				if (colonist.InAggroMentalState)
+				{
+					DrawIcon(Icon_MentalStateAggro, ref pos, colonist.MentalStateDef.LabelCap);
+				}
+				else if (colonist.InMentalState)
+				{
+					DrawIcon(Icon_MentalStateNonAggro, ref pos, colonist.MentalStateDef.LabelCap);
+				}
+				else if (colonist.InBed() && colonist.CurrentBed().Medical)
+				{
+					DrawIcon(Icon_MedicalRest, ref pos, "ActivityIconMedicalRest".Translate());
+				}
+				else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
+				{
+					DrawIcon(Icon_Sleeping, ref pos, "ActivityIconSleeping".Translate());
+				}
+				else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
+				{
+					DrawIcon(Icon_Fleeing, ref pos, "ActivityIconFleeing".Translate());
+				}
+				else if (flag)
+				{
+					DrawIcon(Icon_Attacking, ref pos, "ActivityIconAttacking".Translate());
+				}
+				else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
+				{
+					DrawIcon(Icon_Idle, ref pos, "ActivityIconIdle".Translate());
+				}
+				if (colonist.IsBurning() && pos.x + num <= rect.xMax)
+				{
+					DrawIcon(Icon_Burning, ref pos, "ActivityIconBurning".Translate());
+				}
+				if (colonist.Inspired && pos.x + num <= rect.xMax)
+				{
+					DrawIcon(Icon_Inspired, ref pos, colonist.InspirationDef.LabelCap);
 				}
 			}
-			if (colonist.IsFormingCaravan())
-			{
-				DrawIcon(Icon_FormingCaravan, ref pos, "ActivityIconFormingCaravan".Translate());
-			}
-			if (colonist.InAggroMentalState)
-			{
-				DrawIcon(Icon_MentalStateAggro, ref pos, colonist.MentalStateDef.LabelCap);
-			}
-			else if (colonist.InMentalState)
-			{
-				DrawIcon(Icon_MentalStateNonAggro, ref pos, colonist.MentalStateDef.LabelCap);
-			}
-			else if (colonist.InBed() && colonist.CurrentBed().Medical)
-			{
-				DrawIcon(Icon_MedicalRest, ref pos, "ActivityIconMedicalRest".Translate());
-			}
-			else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
-			{
-				DrawIcon(Icon_Sleeping, ref pos, "ActivityIconSleeping".Translate());
-			}
-			else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
-			{
-				DrawIcon(Icon_Fleeing, ref pos, "ActivityIconFleeing".Translate());
-			}
-			else if (flag)
-			{
-				DrawIcon(Icon_Attacking, ref pos, "ActivityIconAttacking".Translate());
-			}
-			else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
-			{
-				DrawIcon(Icon_Idle, ref pos, "ActivityIconIdle".Translate());
-			}
-			if (colonist.IsBurning() && pos.x + num <= rect.xMax)
-			{
-				DrawIcon(Icon_Burning, ref pos, "ActivityIconBurning".Translate());
-			}
-			if (colonist.Inspired && pos.x + num <= rect.xMax)
-			{
-				DrawIcon(Icon_Inspired, ref pos, colonist.InspirationDef.LabelCap);
-			}
+			catch
+            {
+
+            }
 		}
 
 		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
