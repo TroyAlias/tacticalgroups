@@ -62,7 +62,8 @@ namespace TacticalGroups
 
         public static readonly Texture2D BGTex = Command.BGTex;
 
-        public static readonly Vector2 BaseSize = new Vector2(48f, 48f);
+        public static Vector2 DefaultBaseSize = new Vector2(48f, 48f);
+        public static Vector2 BaseSize = new Vector2(48f, 48f);
 
         public const float BaseSelectedTexJump = 20f;
 
@@ -188,21 +189,21 @@ namespace TacticalGroups
                 for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.Draw(pawnGroupIconRect);
                 }
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.Draw(colonyGroupIconRect);
                 }
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.Draw(caravanIconRect);
                 }
 
@@ -210,21 +211,21 @@ namespace TacticalGroups
                 for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.DrawOverlays(pawnGroupIconRect);
                 }
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.DrawOverlays(colonyGroupIconRect);
                 }
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
                     data.Key.DrawOverlays(caravanIconRect);
                 }
 

@@ -36,7 +36,8 @@ namespace TacticalGroups
 
 		public  static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
 
-		public static readonly Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+		public static Vector2 DefaultPawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+		public static Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
 		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
 
@@ -158,7 +159,7 @@ namespace TacticalGroups
 		{
 			Color color = GUI.color;
 			GUI.color = Color.white;
-			Rect needBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
+			Rect needBar = new Rect(rect.x + rect.width, rect.y, TacticalGroupsSettings.PawnNeedsWidth, rect.height);
 			GUI.color = Color.white;
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
 			{
@@ -171,7 +172,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-				needBar.x += Textures.RestFood.width;
+				needBar.x += TacticalGroupsSettings.PawnNeedsWidth;
 			}
 			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
             {

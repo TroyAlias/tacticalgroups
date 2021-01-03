@@ -16,6 +16,15 @@ namespace TacticalGroups
         public static bool HidePawnsWhenOffMap;
         public static bool HideGroups;
         public static bool HideCreateGroup;
+        public static bool WeaponOverlayInside;
+
+        public static float MarginTop = 21f;
+        public static float PawnScale = 1f;
+        public static float GroupScale = 1f;
+        public static int GroupRowCount = 4;
+        public static float PawnNeedsWidth = 4f;
+
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -27,6 +36,11 @@ namespace TacticalGroups
             Scribe_Values.Look(ref HidePawnsWhenOffMap, "HidePawnsWhenOffMap");
             Scribe_Values.Look(ref HideGroups, "HideGroups");
             Scribe_Values.Look(ref HideCreateGroup, "HideCreateGroup");
+            Scribe_Values.Look(ref MarginTop, "MarginTop", 21f);
+            Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
+            Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
+            Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
+            Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
         }
         public void DoSettingsWindowContents(Rect inRect)
         {
@@ -41,6 +55,9 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
+
+            listingStandard.SliderLabeled(Strings.TopMargin, ref MarginTop, MarginTop.ToStringDecimalIfSmall(), 0, 100);
+
             listingStandard.End();
             if (TacticUtils.TacticalColonistBar != null)
             {

@@ -37,9 +37,19 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DisplayRest>Display Rest</TG.DisplayRest>
 	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
 	<TG.DisplayWeapons>Display Weapons</TG.DisplayWeapons>
-	<TG.DisplayColorBars>Display Color Bars</TG.DisplayColorBars>
+	<TG.DisplayColorBars>Color Mood Bars</TG.DisplayColorBars>
 	<TG.HidePawnsWhenOffMap>Hide Pawns Off Map</TG.HidePawnsWhenOffMap>
 	<TG.HideGroups>Hide Groups</TG.HideGroups>
+	<TG.HideCreateGroup>Hide Create Group</TG.HideCreateGroup>
+	<TG.HideCreateGroupDesc>Create Group &amp; Options menu can be found in Assign Menu / Mod Settings.</TG.HideCreateGroupDesc>
+	<TG.ColonistBarPositionY>Colonist Bar Position (Y)</TG.ColonistBarPositionY>
+	<TG.GroupRowCount>Group Row Count</TG.GroupRowCount>
+	<TG.PawnScale>Pawn Scale</TG.PawnScale>
+	<TG.GroupScale>Group Scale</TG.GroupScale>
+	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
+	<TG.TopMargin>Colonist Bar Y Position</TG.TopMargin>
+	<TG.WeaponOverlayInside>Inside</TG.WeaponOverlayInside>
+	<TG.WeaponOverlayOver>Over</TG.WeaponOverlayOver>
 
 	<TG.Attack>Attack</TG.Attack>
 	<TG.Regroup>Regroup</TG.Regroup>
@@ -152,6 +162,4 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.RestIconTooltip>Group's overall rest</TG.RestIconTooltip>
 	<TG.HungerIconTooltip>Group's overall hunger</TG.HungerIconTooltip>
 	
-	<TG.HideCreateGroup>Hide Create Group</TG.HideCreateGroup>
-
 </LanguageData>

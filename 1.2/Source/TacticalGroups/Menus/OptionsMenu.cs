@@ -24,10 +24,9 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			Text.Anchor = TextAnchor.LowerLeft;
-			Vector2 topLeft = new Vector2(rect.x + (rect.width - 30f), rect.y + 25f);
+			Vector2 topLeftHalf = new Vector2(rect.x + ((rect.width / 2f) - 50f), rect.y + 25f);
 
-
-			var showAllColonistsRect = new Rect(rect.x + 10, topLeft.y, Textures.MenuButton.width, 25f);
+			var showAllColonistsRect = new Rect(rect.x + 10, topLeftHalf.y, Textures.MenuButton.width, 25f);
 			GUI.DrawTexture(showAllColonistsRect, Textures.MenuButton);
 			if (Mouse.IsOver(showAllColonistsRect))
 			{
@@ -37,39 +36,93 @@ namespace TacticalGroups
 					Event.current.Use();
 				}
 			}
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.ShowAllColonists);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ShowAllColonists);
+			
+			topLeftHalf.y += 25f;
+			Widgets.Checkbox(topLeftHalf, ref TacticalGroupsSettings.HidePawnsWhenOffMap);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.HidePawnsWhenOffMap);
+			
+			topLeftHalf.y += 25f;
+			Widgets.Checkbox(topLeftHalf, ref TacticalGroupsSettings.HideGroups);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.HideGroups);
+			
+			topLeftHalf.y += 45f;
+			Widgets.Checkbox(topLeftHalf, ref TacticalGroupsSettings.DisplayFood);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.DisplayFood);
+			
+			topLeftHalf.y += 25f;
+			Widgets.Checkbox(topLeftHalf, ref TacticalGroupsSettings.DisplayRest);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.DisplayRest);
+			
+			topLeftHalf.y += 25f;
+			Widgets.Checkbox(topLeftHalf, ref TacticalGroupsSettings.DisplayHealth);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.DisplayHealth);
 
-			topLeft.y += 35f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayFood);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayFood);
+			topLeftHalf.y += 25f;
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.PawnNeedsSize + ": " + TacticalGroupsSettings.PawnNeedsWidth.ToString());
+			topLeftHalf.y += 25f;
+			TacticalGroupsSettings.PawnNeedsWidth = (int)Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnNeedsWidth, 1f, 25f);
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayRest);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayRest);
+			topLeftHalf.y += 30f;
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ColonistBarPositionY + ": " + (int)TacticalGroupsSettings.MarginTop);
+			topLeftHalf.y += 25f;
+			TacticalGroupsSettings.MarginTop = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.MarginTop, 0f, 100f);
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayHealth);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayHealth);
+			topLeftHalf.y += 25f;
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.PawnScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
+			topLeftHalf.y += 25f;
+			var pawnScale = TacticalGroupsSettings.PawnScale;
+			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
+			if (pawnScale != TacticalGroupsSettings.PawnScale)
+            {
+				ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize * TacticalGroupsSettings.PawnScale;
+				TacticalColonistBar.BaseSize = TacticalColonistBar.DefaultBaseSize * TacticalGroupsSettings.PawnScale;
+			}
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayWeapons);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayWeapons);
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.DisplayColorBars);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
+			Vector2 topRightHalf = new Vector2(topLeftHalf.x + ((rect.width / 2f) - 20f), rect.y + 25f);
+			float xRightHalfPos = rect.x + 230;
+			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.HideCreateGroup);
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.HideCreateGroup);
+			topRightHalf.y += 30f;
+			var labelDescRect = new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f + 10), 60f);
+			Text.Font = GameFont.Tiny;
+			Text.Anchor = TextAnchor.UpperLeft;
+			Widgets.Label(labelDescRect, Strings.HideCreateGroupDesc);
+			Text.Font = GameFont.Small;
+			Text.Anchor = TextAnchor.LowerLeft;
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HidePawnsWhenOffMap);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HidePawnsWhenOffMap);
+			topRightHalf.y += 65f;
+			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayColorBars);
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HideGroups);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HideGroups);
+			topRightHalf.y += 25f;
 
-			topLeft.y += 25f;
-			Widgets.Checkbox(topLeft, ref TacticalGroupsSettings.HideCreateGroup);
-			Widgets.Label(new Rect(rect.x + 20, topLeft.y, rect.width - 55f, 25f), Strings.HideCreateGroup);
+
+			topRightHalf.y += 25f;
+			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayWeapons);
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayWeapons);
+			
+			topRightHalf.y += 25f;
+
+			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayInside, TacticalGroupsSettings.WeaponOverlayInside))
+            {
+				TacticalGroupsSettings.WeaponOverlayInside = true;
+			}
+			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayOver, !TacticalGroupsSettings.WeaponOverlayInside))
+			{
+				TacticalGroupsSettings.WeaponOverlayInside = false;
+			}
+			topRightHalf.y += 55f;
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupRowCount + ": " + TacticalGroupsSettings.GroupRowCount.ToString());
+			topRightHalf.y += 25f;
+			TacticalGroupsSettings.GroupRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupRowCount, 1f, 12f);
+			topRightHalf.y += 25f;
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupScale + ": " + TacticalGroupsSettings.GroupScale.ToStringDecimalIfSmall());
+			topRightHalf.y += 25f;
+			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
+
+
 
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;

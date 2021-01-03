@@ -289,7 +289,7 @@ namespace TacticalGroups
         {
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width, this.groupBanner.height);
+			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			this.curRect = groupRect;
 			if (this.updateIcon)
             {
@@ -330,7 +330,7 @@ namespace TacticalGroups
         {
 			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width, this.groupBanner.height);
+			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			if (ShowExpanded)
 			{
 				totalRect = new Rect(groupRect.x, groupRect.y, groupRect.width, groupRect.height);

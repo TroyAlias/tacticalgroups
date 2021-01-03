@@ -64,12 +64,10 @@ namespace TacticalGroups
 		public int CreateGroupID()
         {
 			var groupID = TacticUtils.TacticalGroups.pawnGroups.Count + 1;
-			Log.Message("1 Group: " + groupID);
 			foreach (var caravan in TacticUtils.AllCaravanGroups)
             {
 				groupID += caravan.formerGroups.Count;
 			}
-			Log.Message("2 Group: " + groupID);
 			return groupID;
         }
         public override void Add(Pawn pawn)
@@ -122,7 +120,7 @@ namespace TacticalGroups
         public override void DrawOverlays(Rect rect)
         {
             base.DrawOverlays(rect);
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width, this.groupBanner.height);
+			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 
 			bool reset = true;
 			if (Mouse.IsOver(groupRect))

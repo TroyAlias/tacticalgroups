@@ -51,6 +51,7 @@ namespace TacticalGroups
 		public static readonly string HidePawnsWhenOffMap = "TG.HidePawnsWhenOffMap".Translate();
 		public static readonly string HideGroups = "TG.HideGroups".Translate();
 		public static readonly string HideCreateGroup = "TG.HideCreateGroup".Translate();
+		public static readonly string HideCreateGroupDesc = "TG.HideCreateGroupDesc".Translate();
 
 		public static readonly string Attack = "TG.Attack".Translate();
 		public static readonly string Regroup = "TG.Regroup".Translate();
@@ -132,6 +133,15 @@ namespace TacticalGroups
 		public static readonly string RestIconTooltip = "TG.RestIconTooltip".Translate();
 		public static readonly string HungerIconTooltip = "TG.HungerIconTooltip".Translate();
 		public static readonly string Diplomacy = "TG.Diplomacy".Translate();
+
+		public static readonly string ColonistBarPositionY = "TG.ColonistBarPositionY".Translate();
+		public static readonly string GroupRowCount = "TG.GroupRowCount".Translate();
+		public static readonly string PawnScale = "TG.PawnScale".Translate();
+		public static readonly string GroupScale = "TG.GroupScale".Translate();
+		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
+		public static readonly string TopMargin = "TG.TopMargin".Translate();
+		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
+		public static readonly string WeaponOverlayOver = "TG.WeaponOverlayOver".Translate();
 
 	}
 }
