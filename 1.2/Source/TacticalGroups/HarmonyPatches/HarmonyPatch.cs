@@ -380,10 +380,7 @@ namespace TacticalGroups
                     {
                         TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
                         Find.WindowStack.Add(floatMenu);
-                        if (Textures.OptionsMenu.height > floatMenu.windowRect.y)
-                        {
-                            floatMenu.windowRect.y += Textures.OptionsMenu.height;
-                        }
+                        floatMenu.windowRect.y = UI.screenHeight - (floatMenu.windowRect.height + 100);
                     }
                 }
                 else

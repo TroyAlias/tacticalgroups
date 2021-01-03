@@ -196,17 +196,6 @@ namespace TacticalGroups
 					}
 				}
 			}
-
-			//if (!Selected && HasActiveParent)
-            //{
-			//	Rect r = new Rect(0f, 0f, backgroundTexture.width, backgroundTexture.height);
-			//	float num = GenUI.DistFromRect(r, Event.current.mousePosition);
-			//	if (num > 595f)
-			//	{
-			//		Close(doCloseSound: false);
-			//		Cancel();
-			//	}
-			//}
 		}
 	}
 }
