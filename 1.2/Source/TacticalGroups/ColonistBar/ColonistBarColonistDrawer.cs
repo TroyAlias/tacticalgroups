@@ -114,6 +114,14 @@ namespace TacticalGroups
 			DrawHealthBar(colonist, rect);
 			DrawRestAndFoodBars(colonist, rect);
 			ShowDrafteesWeapon(rect, colonist);
+
+			if (ModCompatibility.PawnBadgesIsInstalled)
+            {
+				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[] 
+				{
+					rect, colonist, pawnMap, highlight, reordering
+				});
+			}
 		}
 		public static void DrawHealthBar(Pawn p, Rect rect)
 		{

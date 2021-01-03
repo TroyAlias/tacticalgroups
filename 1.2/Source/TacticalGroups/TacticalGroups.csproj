@@ -53,6 +53,7 @@
     <Compile Include="Utils\TacticInspectPaneUtility.cs" />
     <Compile Include="Utils\TacticSkillUI.cs" />
     <Compile Include="Utils\TacticNeedsCardUtility.cs" />
+    <Compile Include="Utils\ModCompatibility.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\TacticCharacterCardUtility.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />
