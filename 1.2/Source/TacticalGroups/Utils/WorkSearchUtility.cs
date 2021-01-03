@@ -307,9 +307,21 @@ namespace TacticalGroups
 			}
 		}
 
+		private static List<WorkGiverDef> AllowedWorkGiversFor(Pawn pawn, List<WorkGiverDef> workGiverDefs)
+        {
+			List<WorkGiverDef> allowedWorkGiverDefs = new List<WorkGiverDef>();
+			foreach (var workGiver in workGiverDefs)
+            {
+				if (!pawn.WorkTypeIsDisabled(workGiver.workType))
+                {
+					allowedWorkGiverDefs.Add(workGiver);
+                }
+            }
+			return allowedWorkGiverDefs;
+		}
 		public static void GetJobFor(Pawn pawn, List<WorkGiverDef> workGiverDefs)
 		{
-			List<WorkGiver> list = workGiverDefs.Select(x => x.Worker).ToList();
+			List<WorkGiver> list = AllowedWorkGiversFor(pawn, workGiverDefs).Select(x => x.Worker).ToList();
 			int num = -999;
 			TargetInfo bestTargetOfLastPriority = TargetInfo.Invalid;
 			WorkGiver_Scanner scannerWhoProvidedTarget = null;
@@ -327,6 +339,7 @@ namespace TacticalGroups
 				{
 					break;
 				}
+				Log.Message(pawn + " - can use: " + workGiver + " - " + PawnCanUseWorkGiver(pawn, workGiver));
 				if (!PawnCanUseWorkGiver(pawn, workGiver))
 				{
 					continue;
@@ -460,6 +473,7 @@ namespace TacticalGroups
 		}
 		public static void GiveJob(Pawn pawn, Job job, WorkGiver_Scanner localScanner)
 		{
+			Log.Message(pawn + " gets " + job);
 			job.workGiverDef = localScanner?.def;
 			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner, pawn.Position);
 		}
@@ -470,6 +484,7 @@ namespace TacticalGroups
 			{
 				return false;
 			}
+			Log.Message(pawn + " - " + giver.def.workTags);
 			if (pawn.WorkTagIsDisabled(giver.def.workTags))
 			{
 				return false;
