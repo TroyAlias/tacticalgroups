@@ -441,7 +441,10 @@ namespace TacticalGroups
                     if (!tmpPawns.Any())
                     {
                         var caravanGroup = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Key == tmpCaravans[m]).FirstOrDefault();
-                        cachedEntries.Add(new Entry(null, null, num, caravanGroup.Value, null));
+                        if (caravanGroup.Value != null) 
+                        { 
+                            cachedEntries.Add(new Entry(null, null, num, caravanGroup.Value, null));
+                        }
                     }
                     num++;
                 }

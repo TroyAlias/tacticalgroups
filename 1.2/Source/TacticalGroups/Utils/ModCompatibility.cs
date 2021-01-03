@@ -15,15 +15,21 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public static class ModCompatibility
 	{
-		public static bool PawnBadgesIsInstalled;
+		public static bool PawnBadgesIsActive;
+		public static bool RimworldOfMagicIsActive;
 		public static MethodInfo pawnBadgesDrawMethod;
+		public static MethodInfo rimworldOfMagicDrawMethod;
 		static ModCompatibility()
         {
-			PawnBadgesIsInstalled = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
-			if (PawnBadgesIsInstalled)
+			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
+			if (PawnBadgesIsActive)
             {
 				pawnBadgesDrawMethod = AccessTools.Method(AccessTools.TypeByName("RR_PawnBadge.RimWorld_ColonistBarColonistDrawer_DrawColonist"), "Postfix");
-				Log.Message("Method: " + pawnBadgesDrawMethod);
+			}
+			RimworldOfMagicIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "torann.arimworldofmagic").Any();
+			if (RimworldOfMagicIsActive)
+			{
+				rimworldOfMagicDrawMethod = AccessTools.Method(AccessTools.TypeByName("TorannMagic.TorannMagicMod+ColonistBarColonistDrawer_Patch"), "Postfix");
 			}
 		}
 	}
