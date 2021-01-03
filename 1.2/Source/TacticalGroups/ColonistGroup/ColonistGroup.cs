@@ -52,6 +52,7 @@ namespace TacticalGroups
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
+			this.entireGroupIsVisible = true;
 		}
 		public virtual void Add(Pawn pawn)
         {

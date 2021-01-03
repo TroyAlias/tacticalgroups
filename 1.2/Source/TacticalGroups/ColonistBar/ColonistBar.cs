@@ -311,12 +311,15 @@ namespace TacticalGroups
                             if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null)
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
                             {
+                                Log.Message("pawnGroup.entireGroupIsVisible: " + pawnGroup.entireGroupIsVisible
+    + " - pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar: " + pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+    + " - pawns[i].Map != null: " + (pawns[i].Map != null) + " - TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap: " + (TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap));
                                 pawns.RemoveAt(i);
                             }
                         }
                     }
                 }
-
+            
                 foreach (var colonyGroup in TacticUtils.AllColonyGroups)
                 {
                     for (int i = pawns.Count - 1; i >= 0; i--)
@@ -326,12 +329,15 @@ namespace TacticalGroups
                             if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
                             {
+                                Log.Message("colonyGroup.entireGroupIsVisible: " + colonyGroup.entireGroupIsVisible
+                                    + " - colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar: " + colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+                                    + " - TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap: " + (TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap));
                                 pawns.RemoveAt(i);
                             }
                         }
                     }
                 }
-
+            
                 foreach (var caravanGroup in TacticUtils.AllCaravanGroups)
                 {
                     for (int i = pawns.Count - 1; i >= 0; i--)
@@ -341,6 +347,9 @@ namespace TacticalGroups
                             if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap)
                             {
+                                Log.Message("caravanGroup.entireGroupIsVisible: " + caravanGroup.entireGroupIsVisible
+                                    + " - caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar: " + caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+                                    + " - TacticalGroupsSettings.HidePawnsWhenOffMap: " + TacticalGroupsSettings.HidePawnsWhenOffMap);
                                 pawns.RemoveAt(i);
                             }
                         }
