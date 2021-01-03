@@ -53,6 +53,17 @@ namespace TacticalGroups
 		private static Vector2[] bracketLocs = new Vector2[4];
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
+			if (ModCompatibility.AlteredCarbonIsActive)
+            {
+				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
+				{
+					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
+				});
+				if (!prefixValue)
+                {
+					return;
+                }
+            }
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
 			if (reordering)
@@ -239,6 +250,18 @@ namespace TacticalGroups
 
 		public void HandleClicks(Rect rect, Pawn colonist, int reorderableGroup, out bool reordering)
 		{
+			if (ModCompatibility.AlteredCarbonIsActive)
+			{
+				reordering = false;
+				bool prefixValue = (bool)ModCompatibility.alteredCarbonHandleClicks_PatchMethod.Invoke(this, new object[]
+				{
+					rect, colonist, reorderableGroup, reordering
+				});
+				if (!prefixValue)
+				{
+					return;
+				}
+			}
 			if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(rect))
 			{
 				Event.current.Use();

@@ -17,8 +17,13 @@ namespace TacticalGroups
 	{
 		public static bool PawnBadgesIsActive;
 		public static bool RimworldOfMagicIsActive;
+
 		public static MethodInfo pawnBadgesDrawMethod;
 		public static MethodInfo rimworldOfMagicDrawMethod;
+
+		public static bool AlteredCarbonIsActive;
+		public static MethodInfo alteredCarbonHandleClicks_PatchMethod;
+		public static MethodInfo alteredCarbonDrawColonist_PatchMethod;
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -30,6 +35,13 @@ namespace TacticalGroups
 			if (RimworldOfMagicIsActive)
 			{
 				rimworldOfMagicDrawMethod = AccessTools.Method(AccessTools.TypeByName("TorannMagic.TorannMagicMod+ColonistBarColonistDrawer_Patch"), "Postfix");
+			}
+
+			AlteredCarbonIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "hlx.rimworldalteredcarbon").Any();
+			if (AlteredCarbonIsActive)
+			{
+				alteredCarbonHandleClicks_PatchMethod = AccessTools.Method(AccessTools.TypeByName("AlteredCarbon.HandleClicks_Patch"), "Prefix");
+				alteredCarbonDrawColonist_PatchMethod = AccessTools.Method(AccessTools.TypeByName("AlteredCarbon.DrawColonist_Patch"), "Prefix");
 			}
 		}
 	}
