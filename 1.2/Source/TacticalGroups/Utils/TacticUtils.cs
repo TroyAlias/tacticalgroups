@@ -158,7 +158,7 @@ namespace TacticalGroups
         {
 			foreach (var pawn in colonistGroup.pawns)
             {
-				if (pawn.drafter != null)
+				if (!pawn.Downed && pawn.drafter != null)
                 {
 					pawn.drafter.Drafted = true;
 				}

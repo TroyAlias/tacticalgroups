@@ -101,6 +101,7 @@ namespace TacticalGroups
 				this.pawns.Remove(pawn);
 				this.pawnIcons.Remove(pawn);
 				Sort();
+				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
 		}

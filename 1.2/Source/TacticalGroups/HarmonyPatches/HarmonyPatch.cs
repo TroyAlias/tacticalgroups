@@ -178,10 +178,26 @@ namespace TacticalGroups
 
         private static void SetFaction_Postfix(Pawn __instance)
         {
-            if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)
+            if (__instance.Spawned && __instance.RaceProps.Humanlike) 
             {
-                TacticUtils.TacticalGroups.CreateOrJoinColony(new List<Pawn> { __instance }, __instance.Map);
+                if (__instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer)
+                {
+                    TacticUtils.TacticalGroups.CreateOrJoinColony(new List<Pawn> { __instance }, __instance.Map);
+                }
+                else if(__instance.TryGetGroups(out HashSet<ColonistGroup> groups))
+                {
+                    var groupsList = groups.ToList();
+                    for (int num = groupsList.Count - 1; num >= 0; num--)
+                    {
+                        if (groupsList[num].pawns.Contains(__instance))
+                        {
+                            groupsList[num].Disband(__instance);
+                        }
+                    }
+                }
             }
+
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         private static void EntriesDirty()

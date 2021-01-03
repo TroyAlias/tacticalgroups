@@ -217,8 +217,10 @@ namespace TacticalGroups
 						num7 += 25f * scale;
 						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + 24f);
 					}
+					Log.Message("TacticalGroupsSettings.HideGroups: " + TacticalGroupsSettings.HideGroups);
 					if (!TacticalGroupsSettings.HideGroups)
                     {
+						Log.Message(entries[j].pawn + " - entries[j].colonyGroup: " + entries[j].colonyGroup);
 						if (entries[j].caravanGroup != null)
 						{
 							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (25f * scale), 21f);

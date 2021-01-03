@@ -297,6 +297,58 @@ namespace TacticalGroups
                 Event.current.Use();
             }
         }
+
+        private List<Pawn> GetNonHiddenPawns(List<Pawn> pawns)
+        {
+            if (!TacticalGroupsSettings.HideGroups)
+            {
+                foreach (var pawnGroup in TacticUtils.AllPawnGroups)
+                {
+                    for (int i = pawns.Count - 1; i >= 0; i--)
+                    {
+                        if (pawnGroup.pawns.Contains(pawns[i]) && (pawnGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
+                        {
+                            if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null)
+                                || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
+                            {
+                                pawns.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var colonyGroup in TacticUtils.AllColonyGroups)
+                {
+                    for (int i = pawns.Count - 1; i >= 0; i--)
+                    {
+                        if (colonyGroup.pawns.Contains(pawns[i]) && (colonyGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
+                        {
+                            if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+                                || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
+                            {
+                                pawns.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var caravanGroup in TacticUtils.AllCaravanGroups)
+                {
+                    for (int i = pawns.Count - 1; i >= 0; i--)
+                    {
+                        if (caravanGroup.pawns.Contains(pawns[i]) && (caravanGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
+                        {
+                            if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+                                || TacticalGroupsSettings.HidePawnsWhenOffMap)
+                            {
+                                pawns.RemoveAt(i);
+                            }
+                        }
+                    }
+                }
+            }
+            return pawns;
+        }
         private void CheckRecacheEntries()
         {
             if (!entriesDirty)
@@ -336,6 +388,7 @@ namespace TacticalGroups
                             tmpPawns.Add(corpse.InnerPawn);
                         }
                     }
+                    tmpPawns = GetNonHiddenPawns(tmpPawns);
                     PlayerPawnsDisplayOrderUtility.Sort(tmpPawns);
                     for (int l = 0; l < tmpPawns.Count; l++)
                     {
@@ -350,10 +403,12 @@ namespace TacticalGroups
                     }
                     if (!tmpPawns.Any())
                     {
-                        cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, null));
+                        var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
+                        cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
                     }
                     num++;
                 }
+
                 tmpCaravans.Clear();
                 tmpCaravans.AddRange(Find.WorldObjects.Caravans);
                 tmpCaravans.SortBy((Caravan x) => x.ID);
@@ -365,6 +420,7 @@ namespace TacticalGroups
                     }
                     tmpPawns.Clear();
                     tmpPawns.AddRange(tmpCaravans[m].PawnsListForReading);
+                    tmpPawns = GetNonHiddenPawns(tmpPawns);
                     PlayerPawnsDisplayOrderUtility.Sort(tmpPawns);
                     for (int n = 0; n < tmpPawns.Count; n++)
                     {
@@ -381,74 +437,16 @@ namespace TacticalGroups
                             }
                         }
                     }
+
+                    if (!tmpPawns.Any())
+                    {
+                        var caravanGroup = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Key == tmpCaravans[m]).FirstOrDefault();
+                        cachedEntries.Add(new Entry(null, null, num, caravanGroup.Value, null));
+                    }
                     num++;
                 }
             }
 
-            //if (!TacticalGroupsSettings.HideGroups)
-            //{
-            //    foreach (var pawnGroup in TacticUtils.AllPawnGroups)
-            //    {
-            //        for (int i = cachedEntries.Count - 1; i >= 0; i--)
-            //        {
-            //            if (pawnGroup.pawns.Contains(cachedEntries[i].pawn) && (pawnGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
-            //            {
-            //                if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar && cachedEntries[i].pawn.Map != null)
-            //                    || TacticalGroupsSettings.HidePawnsWhenOffMap && cachedEntries[i].pawn.Map != Find.CurrentMap)
-            //                {
-            //                    var group = cachedEntries[i].group;
-            //                    cachedEntries.RemoveAt(i);
-            //                    if (!cachedEntries.Where(x => x.group == group).Any())
-            //                    {
-            //                        var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == pawnGroup.Map).FirstOrDefault();
-            //                        cachedEntries.Add(new Entry(null, pawnGroup.Map, group, null, colonyGroup));
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //
-            //    foreach (var colonyGroup in TacticUtils.AllColonyGroups)
-            //    {
-            //        for (int i = cachedEntries.Count - 1; i >= 0; i--)
-            //        {
-            //            if (colonyGroup.pawns.Contains(cachedEntries[i].pawn) && (colonyGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
-            //            {
-            //                if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar 
-            //                    || TacticalGroupsSettings.HidePawnsWhenOffMap && cachedEntries[i].pawn.Map != Find.CurrentMap)
-            //                {
-            //                    var group = cachedEntries[i].group;
-            //                    cachedEntries.RemoveAt(i);
-            //                    if (!cachedEntries.Where(x => x.group == group).Any())
-            //                    {
-            //                        cachedEntries.Add(new Entry(null, colonyGroup.Map, group, null, colonyGroup));
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //
-            //    foreach (var caravanGroup in TacticUtils.AllCaravanGroups)
-            //    {
-            //        for (int i = cachedEntries.Count - 1; i >= 0; i--)
-            //        {
-            //            if (caravanGroup.pawns.Contains(cachedEntries[i].pawn) && (caravanGroup.pawnIcons?.ContainsKey(cachedEntries[i].pawn) ?? false))
-            //            {
-            //                if (!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[cachedEntries[i].pawn].isVisibleOnColonistBar || TacticalGroupsSettings.HidePawnsWhenOffMap)
-            //                {
-            //                    var group = cachedEntries[i].group;
-            //                    cachedEntries.RemoveAt(i);
-            //                    if (!cachedEntries.Where(x => x.group == group).Any())
-            //                    {
-            //                        cachedEntries.Add(new Entry(null, null, group, caravanGroup, null));
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-            cachedEntries.SortBy(x => x.group);
             drawer.Notify_RecachedEntries();
             tmpPawns.Clear();
             tmpMaps.Clear();
