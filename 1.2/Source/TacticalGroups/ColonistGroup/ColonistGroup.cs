@@ -68,7 +68,7 @@ namespace TacticalGroups
             {
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn, this.entireGroupIsVisible ? true : false);
-				SyncPoliciesWithRestOfMembers(pawn);
+				//SyncPoliciesWithRestOfMembers(pawn);
 				Sort();
 				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -817,50 +817,50 @@ namespace TacticalGroups
 				this.UpdateData();
             }
         }
-		public void SyncPoliciesWithRestOfMembers(Pawn pawn)
-        {
-			var otherMembers = this.pawns.Where(x => x != pawn);
-			if (otherMembers.Any())
-            {
-				var curFoodPolicy = otherMembers.FirstOrDefault().foodRestriction.CurrentFoodRestriction;
-				if (otherMembers.Where(x => x.foodRestriction.CurrentFoodRestriction == curFoodPolicy).Count() == otherMembers.Count())
-                {
-					pawn.foodRestriction.CurrentFoodRestriction = curFoodPolicy;
-				}
-
-				var curOutfitPolicy = otherMembers.FirstOrDefault().outfits.CurrentOutfit;
-				if (otherMembers.Where(x => x.outfits.CurrentOutfit == curOutfitPolicy).Count() == otherMembers.Count())
-				{
-					pawn.outfits.CurrentOutfit = curOutfitPolicy;
-				}
-
-				var curDrugsPolicy = otherMembers.FirstOrDefault().drugs.CurrentPolicy;
-				if (otherMembers.Where(x => x.drugs.CurrentPolicy == curDrugsPolicy).Count() == otherMembers.Count())
-				{
-					pawn.drugs.CurrentPolicy = curDrugsPolicy;
-				}
-
-				var curAreaPolicy = otherMembers.FirstOrDefault().playerSettings?.AreaRestriction;
-				if (pawn.playerSettings != null && curAreaPolicy != null && otherMembers.Where(x => x.playerSettings?.AreaRestriction == curAreaPolicy).Count() == otherMembers.Count())
-				{
-					pawn.playerSettings.AreaRestriction = curAreaPolicy;
-				}
-
-				var curHostilityPolicy = otherMembers.FirstOrDefault().playerSettings?.hostilityResponse;
-				if (pawn.playerSettings != null && curHostilityPolicy.HasValue && otherMembers.Where(x => x.playerSettings?.hostilityResponse == curHostilityPolicy).Count() == otherMembers.Count())
-				{
-					pawn.playerSettings.hostilityResponse = curHostilityPolicy.Value;
-				}
-
-				if (AssignTimeValue(otherMembers.ToList()))
-                {
-					for (int i = 0; i < 24; i++)
-					{
-						pawn.timetable.SetAssignment(i, otherMembers.First().timetable.GetAssignment(i));
-					}
-				}
-			}
-        }
+		//public void SyncPoliciesWithRestOfMembers(Pawn pawn)
+        //{
+		//	var otherMembers = this.pawns.Where(x => x != pawn);
+		//	if (otherMembers.Any())
+        //    {
+		//		var curFoodPolicy = otherMembers.FirstOrDefault().foodRestriction.CurrentFoodRestriction;
+		//		if (otherMembers.Where(x => x.foodRestriction.CurrentFoodRestriction == curFoodPolicy).Count() == otherMembers.Count())
+        //        {
+		//			pawn.foodRestriction.CurrentFoodRestriction = curFoodPolicy;
+		//		}
+		//
+		//		var curOutfitPolicy = otherMembers.FirstOrDefault().outfits.CurrentOutfit;
+		//		if (otherMembers.Where(x => x.outfits.CurrentOutfit == curOutfitPolicy).Count() == otherMembers.Count())
+		//		{
+		//			pawn.outfits.CurrentOutfit = curOutfitPolicy;
+		//		}
+		//
+		//		var curDrugsPolicy = otherMembers.FirstOrDefault().drugs.CurrentPolicy;
+		//		if (otherMembers.Where(x => x.drugs.CurrentPolicy == curDrugsPolicy).Count() == otherMembers.Count())
+		//		{
+		//			pawn.drugs.CurrentPolicy = curDrugsPolicy;
+		//		}
+		//
+		//		var curAreaPolicy = otherMembers.FirstOrDefault().playerSettings?.AreaRestriction;
+		//		if (pawn.playerSettings != null && curAreaPolicy != null && otherMembers.Where(x => x.playerSettings?.AreaRestriction == curAreaPolicy).Count() == otherMembers.Count())
+		//		{
+		//			pawn.playerSettings.AreaRestriction = curAreaPolicy;
+		//		}
+		//
+		//		var curHostilityPolicy = otherMembers.FirstOrDefault().playerSettings?.hostilityResponse;
+		//		if (pawn.playerSettings != null && curHostilityPolicy.HasValue && otherMembers.Where(x => x.playerSettings?.hostilityResponse == curHostilityPolicy).Count() == otherMembers.Count())
+		//		{
+		//			pawn.playerSettings.hostilityResponse = curHostilityPolicy.Value;
+		//		}
+		//
+		//		if (AssignTimeValue(otherMembers.ToList()))
+        //        {
+		//			for (int i = 0; i < 24; i++)
+		//			{
+		//				pawn.timetable.SetAssignment(i, otherMembers.First().timetable.GetAssignment(i));
+		//			}
+		//		}
+		//	}
+        //}
 
 		private bool AssignTimeValue(List<Pawn> otherMembers)
         {
