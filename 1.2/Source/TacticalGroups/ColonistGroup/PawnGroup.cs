@@ -119,9 +119,9 @@ namespace TacticalGroups
 		}
 
 		private int curHoverPeriod;
-        public override void Draw(Rect rect)
+        public override void DrawOverlays(Rect rect)
         {
-            base.Draw(rect);
+            base.DrawOverlays(rect);
 			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width, this.groupBanner.height);
 
 			bool reset = true;
