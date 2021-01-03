@@ -22,10 +22,6 @@ namespace TacticalGroups
         public override void WriteSettings()
         {
             base.WriteSettings();
-            if (TacticUtils.TacticalColonistBar != null)
-            {
-                TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-            }
         }
         public override string SettingsCategory()
         {

@@ -42,6 +42,10 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
             listingStandard.End();
+            if (TacticUtils.TacticalColonistBar != null)
+            {
+                TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+            }
             base.Write();
         }
         private static Vector2 scrollPosition = Vector2.zero;
