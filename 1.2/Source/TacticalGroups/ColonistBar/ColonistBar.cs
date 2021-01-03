@@ -206,6 +206,28 @@ namespace TacticalGroups
                     data.Key.Draw(caravanIconRect);
                 }
 
+
+                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                {
+                    var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
+                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    data.Key.DrawOverlays(pawnGroupIconRect);
+                }
+
+                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                {
+                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
+                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    data.Key.DrawOverlays(colonyGroupIconRect);
+                }
+
+                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                {
+                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
+                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width, data.Key.groupIcon.height);
+                    data.Key.DrawOverlays(caravanIconRect);
+                }
+
                 for (int i = 0; i < cachedDrawLocs.Count; i++)
                 {
                     Rect rect = new Rect(cachedDrawLocs[i].x, cachedDrawLocs[i].y, Size.x, Size.y);

@@ -324,12 +324,17 @@ namespace TacticalGroups
 				Widgets.Label(groupLabelRect, this.GetGroupName());
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
+		}
+
+		public virtual void DrawOverlays(Rect rect)
+        {
 			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
+			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width, this.groupBanner.height);
 			if (ShowExpanded)
 			{
 				totalRect = new Rect(groupRect.x, groupRect.y, groupRect.width, groupRect.height);
-				totalRect.height += groupRect.height + (pawnRows.Count * 50f);
+				totalRect.height += pawnRows.Count * 75f;
 				totalRect.x = (groupRect.x + (groupRect.width / 2f));
 				totalRect.x -= ((this.pawnRowCount * 75f) / 2f);
 				totalRect.width = 75f * pawnRowCount;
@@ -338,16 +343,17 @@ namespace TacticalGroups
 			{
 				if (this.bannerModeEnabled)
 				{
-					totalRect = new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, pawnRows.Count * 30f);
+					totalRect = new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, groupRect.height);
 				}
 				else
 				{
-					totalRect = new Rect(rect.x, rect.y, rect.width, pawnRows.Count * 30f);
+					totalRect = new Rect(rect.x, rect.y, rect.width, groupRect.height);
 				}
 
-				totalRect.height += pawnRows.Count * 30;
 				totalRect = totalRect.ScaledBy(1.2f);
+				totalRect.height += pawnRows.Count * 30;
 			}
+
 			if (Mouse.IsOver(groupRect))
 			{
 				pawnWindowIsActive = true;
