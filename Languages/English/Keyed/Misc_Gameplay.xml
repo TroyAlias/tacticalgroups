@@ -48,8 +48,9 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.GroupScale>Group Scale</TG.GroupScale>
 	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
 	<TG.TopMargin>Colonist Bar Y Position</TG.TopMargin>
+	<TG.WeaponOverlayPlacement>Weapon Overlay Placement</TG.WeaponOverlayPlacement>
 	<TG.WeaponOverlayInside>Inside</TG.WeaponOverlayInside>
-	<TG.WeaponOverlayOver>Over</TG.WeaponOverlayOver>
+	<TG.WeaponOverlayUnder>Under</TG.WeaponOverlayUnder>
 
 	<TG.Attack>Attack</TG.Attack>
 	<TG.Regroup>Regroup</TG.Regroup>

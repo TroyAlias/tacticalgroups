@@ -472,7 +472,7 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + 10, rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
+			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + (TacticalGroupsSettings.WeaponOverlayInside ? 10 : 40), rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
 		}
 
 		private static bool ExcludeFromDrawing(Thing thingWeapon)

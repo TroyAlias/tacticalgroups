@@ -109,7 +109,7 @@ namespace TacticalGroups
             {
 				TacticalGroupsSettings.WeaponOverlayInside = true;
 			}
-			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayOver, !TacticalGroupsSettings.WeaponOverlayInside))
+			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayUnder, !TacticalGroupsSettings.WeaponOverlayInside))
 			{
 				TacticalGroupsSettings.WeaponOverlayInside = false;
 			}

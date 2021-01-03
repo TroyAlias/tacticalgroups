@@ -141,7 +141,8 @@ namespace TacticalGroups
 		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
 		public static readonly string TopMargin = "TG.TopMargin".Translate();
 		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
-		public static readonly string WeaponOverlayOver = "TG.WeaponOverlayOver".Translate();
+		public static readonly string WeaponOverlayUnder = "TG.WeaponOverlayUnder".Translate();
+		public static readonly string WeaponOverlayPlacement = "TG.WeaponOverlayPlacement".Translate();
 
 	}
 }

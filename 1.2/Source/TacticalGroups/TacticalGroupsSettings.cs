@@ -16,7 +16,7 @@ namespace TacticalGroups
         public static bool HidePawnsWhenOffMap;
         public static bool HideGroups;
         public static bool HideCreateGroup;
-        public static bool WeaponOverlayInside;
+        public static bool WeaponOverlayInside = true;
 
         public static float MarginTop = 21f;
         public static float PawnScale = 1f;
@@ -36,6 +36,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref HidePawnsWhenOffMap, "HidePawnsWhenOffMap");
             Scribe_Values.Look(ref HideGroups, "HideGroups");
             Scribe_Values.Look(ref HideCreateGroup, "HideCreateGroup");
+            Scribe_Values.Look(ref WeaponOverlayInside, "WeaponOverlayInside", true);
             Scribe_Values.Look(ref MarginTop, "MarginTop", 21f);
             Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
@@ -51,13 +52,24 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.DisplayRest, ref DisplayRest);
             listingStandard.CheckboxLabeled(Strings.DisplayHealth, ref DisplayHealth);
             listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
+            listingStandard.Label(Strings.WeaponOverlayPlacement);
+            if (listingStandard.RadioButton_NewTemp(Strings.WeaponOverlayInside, WeaponOverlayInside))
+            {
+                WeaponOverlayInside = true;
+            }
+            else if (listingStandard.RadioButton_NewTemp(Strings.WeaponOverlayUnder, !WeaponOverlayInside))
+            {
+                WeaponOverlayInside = false;
+            }
             listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
             listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
-
             listingStandard.SliderLabeled(Strings.TopMargin, ref MarginTop, MarginTop.ToStringDecimalIfSmall(), 0, 100);
-
+            listingStandard.SliderLabeled(Strings.PawnScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
+            listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
+            listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);
+            listingStandard.SliderLabeled(Strings.PawnNeedsSize, ref PawnNeedsWidth, PawnNeedsWidth.ToString(), 1, 20);
             listingStandard.End();
             if (TacticUtils.TacticalColonistBar != null)
             {
