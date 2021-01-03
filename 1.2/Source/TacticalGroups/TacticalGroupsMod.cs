@@ -21,7 +21,7 @@ namespace TacticalGroups
 
         public override string SettingsCategory()
         {
-            return "Tactical Groups";
+            return "Colony Groups";
         }
     }
 }
