@@ -19,6 +19,14 @@ namespace TacticalGroups
             settings.DoSettingsWindowContents(inRect);
         }
 
+        public override void WriteSettings()
+        {
+            base.WriteSettings();
+            if (TacticUtils.TacticalColonistBar != null)
+            {
+                TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+            }
+        }
         public override string SettingsCategory()
         {
             return "Colony Groups";
