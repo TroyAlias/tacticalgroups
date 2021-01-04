@@ -97,20 +97,8 @@ namespace TacticalGroups
                 new HarmonyMethod(typeof(HarmonyPatches),  "EndCurrentJobPostfix", null), null, null);
 
             harmony.Patch(AccessTools.Method(typeof(PawnTable), "PawnTableOnGUI", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(WorldObject), "Destroy", null, null), new HarmonyMethod(typeof(HarmonyPatches), "Caravan_Destroy_Prefix", null), null, null, null);
 
-
-            //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectNextColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(ThingSelectionUtility), "SelectPreviousColonist", null, null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist1", null), new HarmonyMethod(typeof(HarmonyPatches), "StartFollowSelectedColonist2", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(CameraDriver), "JumpToCurrentMapLoc", new Type[]
-            //{
-            //    typeof(Vector3)
-            //}, null), new HarmonyMethod(typeof(HarmonyPatches), "StopFollow_Prefix_Vector3", null), null, null, null);
-            //harmony.Patch(AccessTools.Method(typeof(Pawn), "PostApplyDamage", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_PostApplyDamage_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(Corpse), "NotifyColonistBar", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "NotifyColonistBar_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(MapPawns), "DoListChangedNotifications", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsColonistBarNull_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(ThingOwner), "NotifyColonistBarIfColonistCorpse", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "NotifyColonistBarIfColonistCorpse_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(Thing), "DeSpawn", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "DeSpawn_Postfix", null), null, null);
-            //harmony.Patch(AccessTools.Method(typeof(PlaySettings), "DoPlaySettingsGlobalControls", null, null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Prefix", null), new HarmonyMethod(typeof(HarmonyPatches), "PlaySettingsDirty_Postfix", null), null, null);
         }
         public static Pawn curClickedColonist;
         public static void ReorderableWidgetOnGUI_AfterWindowStack(bool ___released, bool ___dragBegun, int ___draggingReorderable)
@@ -218,6 +206,18 @@ namespace TacticalGroups
             TacticUtils.TacticalGroups.AddCaravanGroup(__result);
         }
 
+        private static void Caravan_Destroy_Prefix(WorldObject __instance)
+        {
+            if (__instance is Caravan caravan)
+            {
+                TacticUtils.TacticalGroups.RemoveCaravanGroup(caravan);
+                if (caravan.PawnsListForReading.Count > 0 && caravan.PawnsListForReading.First().Map != null)
+                {
+                    TacticUtils.TacticalGroups.CreateOrJoinColony(caravan.PawnsListForReading, caravan.PawnsListForReading.First().Map);
+                }
+            }
+        }
+
         private static void CaravanEnter(Caravan caravan, Map map, Func<Pawn, IntVec3> spawnCellGetter, CaravanDropInventoryMode dropInventoryMode = CaravanDropInventoryMode.DoNotDrop, 
             bool draftColonists = false)
         {
@@ -232,6 +232,7 @@ namespace TacticalGroups
                 TacticUtils.TacticalGroups.CreateOrJoinColony(new List<Pawn> { __instance }, __instance.Map);
             }
         }
+
         private static void Pawn_Destroy_Prefix(Pawn __instance)
         {
             for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)

@@ -33,11 +33,14 @@ namespace TacticalGroups
 
         public Dictionary<Map, ColonyGroup> colonyGroups;
 
+        public HashSet<Pawn> visiblePawns;
+
         public void PreInit()
         {
             if (pawnGroups is null) pawnGroups = new List<PawnGroup>();
             if (colonyGroups is null) colonyGroups = new Dictionary<Map, ColonyGroup>();
             if (caravanGroups is null) caravanGroups = new Dictionary<Caravan, CaravanGroup>();
+            if (visiblePawns is null) visiblePawns = new HashSet<Pawn>();
         }
 
         public void AddGroup(List<Pawn> pawns)
@@ -80,7 +83,6 @@ namespace TacticalGroups
                             group2.Add(formerGroup.Key);
                         }
                     }
-
                 }
                 this.caravanGroups.Remove(caravan);
                 TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -129,7 +131,8 @@ namespace TacticalGroups
                 if (colonyGroups.ContainsKey(key))
                 {
                     colonyGroups[key].Disband(pawns);
-                    if (colonyGroups[key].pawns.Count == 0)
+                    if (colonyGroups.ContainsKey(key)
+                        && colonyGroups[key].pawns.Count == 0)
                     {
                         colonyGroups.Remove(key);
                     }
@@ -235,6 +238,7 @@ namespace TacticalGroups
             Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
             Scribe_Collections.Look(ref caravanGroups, "caravanGroups", LookMode.Reference, LookMode.Deep, ref caravanKeys, ref caravanValues);
             Scribe_Collections.Look(ref colonyGroups, "colonyGroups", LookMode.Reference, LookMode.Deep, ref mapKeys, ref groupValues);
+            Scribe_Collections.Look(ref visiblePawns, "visiblePawns", LookMode.Reference);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 RemoveAllNullPawns();

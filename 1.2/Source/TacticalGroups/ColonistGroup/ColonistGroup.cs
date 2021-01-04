@@ -157,34 +157,46 @@ namespace TacticalGroups
 		}
 
 		public void HandleClicks(Rect rect)
-        {
+		{
 			if (Event.current.type == EventType.MouseDown)
 			{
 				foreach (var group in TacticUtils.AllGroups)
-                {
-					if (group != this && group.pawnWindowIsActive)
+				{
+					if (group != this)
                     {
-						return;
-                    }
-                }
+						if (group.groupButtonRightClicked && !this.groupButtonRightClicked)
+                        {
+							group.groupButtonRightClicked = false;
+                        }
+						else if (group.pawnWindowIsActive)
+						{
+							Log.Message("group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							Log.Message("this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							Log.Message("group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							Log.Message("this.pawnWindowIsActive: " + this.pawnWindowIsActive);
+							return;
+						}
+					}
+
+				}
 				if (Event.current.button == 0)
-                {
+				{
 					if (Event.current.clickCount == 1)
 					{
 						TacticDefOf.TG_LeftClickGroupSFX.PlayOneShotOnCamera();
 						if (WorldRendererUtility.WorldRenderedNow && this.Map != null || this.Map != null && this.Map != Find.CurrentMap)
-                        {
+						{
 							CameraJumper.TryJump(this.pawns.First());
 							if (this is CaravanGroup caravanGroup)
-                            {
+							{
 								var caravan = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Value == caravanGroup).FirstOrDefault().Key;
 								Find.Selector.Select(caravan);
-                            }
+							}
 							Event.current.Use();
 							return;
 						}
 						else if (this.Map == null)
-                        {
+						{
 							CameraJumper.TryJump(this.pawns.First());
 							Event.current.Use();
 							return;
@@ -205,14 +217,14 @@ namespace TacticalGroups
 						foreach (var pawn in this.pawns)
 						{
 							if (!pawn.IsWorldPawn())
-                            {
+							{
 								Find.Selector.Select(pawn);
-                            }
+							}
 						}
 					}
 				}
 				else if (Event.current.button == 1)
-                {
+				{
 					this.showPawnIconsRightClickMenu = true;
 					this.expandPawnIcons = false;
 					this.groupButtonRightClicked = true;

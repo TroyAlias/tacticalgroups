@@ -135,6 +135,7 @@ namespace TacticalGroups
 						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
+							TacticUtils.TacticalGroups.visiblePawns.Remove(pawnIcon.Key);
 							pawnIcon.Value.isVisibleOnColonistBar = false;
 						}
 						this.colonistGroup.entireGroupIsVisible = false;
@@ -158,6 +159,7 @@ namespace TacticalGroups
 						foreach (var pawnIcon in this.colonistGroup.pawnIcons)
 						{
 							pawnIcon.Value.isVisibleOnColonistBar = true;
+							TacticUtils.TacticalGroups.visiblePawns.Add(pawnIcon.Key);
 						}
 						this.colonistGroup.entireGroupIsVisible = true;
 						TacticUtils.TacticalColonistBar.MarkColonistsDirty();

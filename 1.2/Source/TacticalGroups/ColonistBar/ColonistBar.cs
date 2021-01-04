@@ -340,7 +340,7 @@ namespace TacticalGroups
                             if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null)
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
                             {
-                                if (pawns[i].TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Where(x => x.pawns.Contains(pawns[i]) && x.pawnIcons[pawns[i]].isVisibleOnColonistBar).Any())
+                                if (TacticUtils.TacticalGroups.visiblePawns.Contains(pawns[i]))
                                 {
                                     continue;
                                 }
@@ -359,7 +359,7 @@ namespace TacticalGroups
                             if (!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
                                 || TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap)
                             {
-                                if (pawns[i].TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Where(x => x.pawns.Contains(pawns[i]) && x.pawnIcons[pawns[i]].isVisibleOnColonistBar).Any())
+                                if (TacticUtils.TacticalGroups.visiblePawns.Contains(pawns[i]))
                                 {
                                     continue;
                                 }
