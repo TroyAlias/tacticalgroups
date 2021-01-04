@@ -115,9 +115,16 @@ namespace TacticalGroups
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
 
+			topRightHalf.y += 25f;
+			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisableLabelBackground);
+			Text.Font = GameFont.Tiny;
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 3f) + 10, 35f), Strings.DisableLabelBackground);
+
 			TacticUtils.TacticalColonistBar?.UpdateSizes();
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
+			Text.Font = GameFont.Small;
+
 			var mod = LoadedModManager.GetMod(typeof(TacticalGroupsMod));
 			mod.WriteSettings();
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();

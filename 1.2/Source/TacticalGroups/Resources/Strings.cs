@@ -143,6 +143,7 @@ namespace TacticalGroups
 		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
 		public static readonly string WeaponOverlayUnder = "TG.WeaponOverlayUnder".Translate();
 		public static readonly string WeaponOverlayPlacement = "TG.WeaponOverlayPlacement".Translate();
+		public static readonly string DisableLabelBackground = "TG.DisableLabelBackground".Translate();
 
 	}
 }

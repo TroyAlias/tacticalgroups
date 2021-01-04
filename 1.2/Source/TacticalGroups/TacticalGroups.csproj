@@ -23,9 +23,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -54,6 +54,7 @@
     <Compile Include="Utils\TacticSkillUI.cs" />
     <Compile Include="Utils\TacticNeedsCardUtility.cs" />
     <Compile Include="Utils\ModCompatibility.cs" />
+    <Compile Include="Utils\GenMapUIOptimized.cs" />
     <Compile Include="Utils\TextUtils.cs" />
     <Compile Include="Utils\TacticCharacterCardUtility.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />

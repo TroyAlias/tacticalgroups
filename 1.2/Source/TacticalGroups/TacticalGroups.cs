@@ -126,10 +126,13 @@ namespace TacticalGroups
 
             foreach (var key in colonyKeysToRemove)
             {
-                colonyGroups[key].Disband(pawns);
-                if (colonyGroups[key].pawns.Count == 0)
+                if (colonyGroups.ContainsKey(key))
                 {
-                    colonyGroups.Remove(key);
+                    colonyGroups[key].Disband(pawns);
+                    if (colonyGroups[key].pawns.Count == 0)
+                    {
+                        colonyGroups.Remove(key);
+                    }
                 }
             }
         }

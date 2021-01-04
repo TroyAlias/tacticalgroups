@@ -51,6 +51,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.WeaponOverlayPlacement>Weapon Overlay Placement</TG.WeaponOverlayPlacement>
 	<TG.WeaponOverlayInside>Inside</TG.WeaponOverlayInside>
 	<TG.WeaponOverlayUnder>Under</TG.WeaponOverlayUnder>
+	<TG.DisableLabelBackground>Disable Label Background (for performance)</TG.DisableLabelBackground>
 
 	<TG.Attack>Attack</TG.Attack>
 	<TG.Regroup>Regroup</TG.Regroup>

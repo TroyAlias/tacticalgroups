@@ -1,0 +1,8 @@
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\bin\Release\TacticalGroups.dll
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\bin\Release\TacticalGroups.pdb
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\bin\Release\0Harmony.dll
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csprojAssemblyReference.cache
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CoreCompileInputs.cache
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CopyComplete
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.dll
+c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Assemblies\TacticalGroups.dll

@@ -18,11 +18,15 @@ namespace TacticalGroups
         public static bool HideCreateGroup;
         public static bool WeaponOverlayInside = true;
 
+        public static bool DisableLabelBackground;
+
         public static float MarginTop = 21f;
         public static float PawnScale = 1f;
         public static float GroupScale = 1f;
         public static int GroupRowCount = 4;
         public static float PawnNeedsWidth = 4f;
+
+
 
 
         public override void ExposeData()
@@ -36,6 +40,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref HidePawnsWhenOffMap, "HidePawnsWhenOffMap");
             Scribe_Values.Look(ref HideGroups, "HideGroups");
             Scribe_Values.Look(ref HideCreateGroup, "HideCreateGroup");
+            Scribe_Values.Look(ref DisableLabelBackground, "DisableLabelBackground");
             Scribe_Values.Look(ref WeaponOverlayInside, "WeaponOverlayInside", true);
             Scribe_Values.Look(ref MarginTop, "MarginTop", 21f);
             Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
@@ -65,6 +70,7 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
+            listingStandard.CheckboxLabeled(Strings.DisableLabelBackground, ref DisableLabelBackground);
             listingStandard.SliderLabeled(Strings.TopMargin, ref MarginTop, MarginTop.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.PawnScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
