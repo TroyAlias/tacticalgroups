@@ -31,6 +31,15 @@ namespace TacticalGroups
 		public static Dictionary<Pawn, PawnLabelCache> pawnLabelCaches = new Dictionary<Pawn, PawnLabelCache>();
 
 		public static readonly Texture2D OverlayHealthTex = SolidColorMaterials.NewSolidColorTexture(new Color(1f, 0f, 0f, 0.25f));
+
+		public static void ForceUpdateLabels()
+        {
+			foreach (var cache in pawnLabelCaches)
+            {
+				cache.Value.updateLabelCount = 0;
+				cache.Value.updateWidthCount = 0;
+			}
+		}
 		public static void DrawPawnLabel(Pawn pawn, Vector2 pos, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, bool alwaysDrawBg = true, bool alignCenter = true)
 		{
 			float pawnLabelNameWidth = GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache);
