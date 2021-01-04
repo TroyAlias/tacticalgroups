@@ -17,7 +17,7 @@ namespace TacticalGroups
 		{
 			get
 			{
-				if (tacticalGroups == null)
+				if (tacticalGroups == null && Find.World != null)
 				{
 					tacticalGroups = Find.World.GetComponent<TacticalGroups>();
 					return tacticalGroups;

@@ -12,6 +12,7 @@ using static Verse.Widgets;
 
 namespace TacticalGroups
 {
+	[StaticConstructorOnStartup]
 	public static class WidgetsWorkGroup
 	{
 		public const float WorkBoxSize = 25f;

@@ -21,6 +21,7 @@ namespace TacticalGroups
                 if (colonistBar is null)
                 {
                     colonistBar = new TacticalColonistBar();
+                    colonistBar.UpdateSizes();
                 }
                 return colonistBar;
             }
