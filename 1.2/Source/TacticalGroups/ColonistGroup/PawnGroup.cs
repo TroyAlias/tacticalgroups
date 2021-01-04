@@ -130,7 +130,7 @@ namespace TacticalGroups
 			}
 			if (curHoverPeriod > 30)
             {
-				var rightGroupArrowRect = new Rect(groupRect.x + groupRect.width, ((groupRect.y + groupRect.height) / 2f) - 5f, Textures.GroupArrowRight.width, Textures.GroupArrowRight.height);
+				var rightGroupArrowRect = new Rect(groupRect.x + groupRect.width, groupRect.y, Textures.GroupArrowRight.width, Textures.GroupArrowRight.height);
 				if (Mouse.IsOver(rightGroupArrowRect))
                 {
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -156,7 +156,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(rightGroupArrowRect, Textures.GroupArrowRight);
 				}
 
-				var leftGroupArrowRect = new Rect(groupRect.x - Textures.GroupArrowLeft.width, ((groupRect.y + groupRect.height) / 2f) - 5f, Textures.GroupArrowLeft.width, Textures.GroupArrowLeft.height);
+				var leftGroupArrowRect = new Rect(groupRect.x - Textures.GroupArrowLeft.width, groupRect.y, Textures.GroupArrowLeft.width, Textures.GroupArrowLeft.height);
 				if (Mouse.IsOver(leftGroupArrowRect))
 				{
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)

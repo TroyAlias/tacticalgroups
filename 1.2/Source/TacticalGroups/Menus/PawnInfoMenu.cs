@@ -31,7 +31,6 @@ namespace TacticalGroups
 				options[i].SetSizeMode(SizeMode);
 			}
 			TacticSkillUI.Reset();
-			TacticInspectPaneUtility.Reset();
 		}
 
         public override void PostOpen()

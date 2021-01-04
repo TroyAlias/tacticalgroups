@@ -71,14 +71,7 @@ namespace TacticalGroups
 			topLeftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.PawnScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
 			topLeftHalf.y += 25f;
-			var pawnScale = TacticalGroupsSettings.PawnScale;
 			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
-			if (pawnScale != TacticalGroupsSettings.PawnScale)
-            {
-				ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize * TacticalGroupsSettings.PawnScale;
-				TacticalColonistBar.BaseSize = TacticalColonistBar.DefaultBaseSize * TacticalGroupsSettings.PawnScale;
-			}
-
 
 			Vector2 topRightHalf = new Vector2(topLeftHalf.x + ((rect.width / 2f) - 20f), rect.y + 25f);
 			float xRightHalfPos = rect.x + 230;
@@ -122,8 +115,7 @@ namespace TacticalGroups
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
 
-
-
+			TacticUtils.TacticalColonistBar?.UpdateSizes();
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 			var mod = LoadedModManager.GetMod(typeof(TacticalGroupsMod));
