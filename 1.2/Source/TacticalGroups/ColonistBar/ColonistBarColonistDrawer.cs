@@ -124,8 +124,8 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 
 			DrawHealthBar(colonist, rect);
-			DrawRestAndFoodBars(colonist, rect);
-			ShowDrafteesWeapon(rect, colonist);
+			DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
+			ShowDrafteesWeapon(rect, colonist, (TacticalGroupsSettings.WeaponOverlayInside ? 10 : 40));
 
 			if (ModCompatibility.PawnBadgesIsActive)
             {
@@ -155,11 +155,11 @@ namespace TacticalGroups
 			}
 		}
 
-		public static void DrawRestAndFoodBars(Pawn p, Rect rect)
+		public static void DrawRestAndFoodBars(Pawn p, Rect rect, float needWidth)
 		{
 			Color color = GUI.color;
 			GUI.color = Color.white;
-			Rect needBar = new Rect(rect.x + rect.width, rect.y, TacticalGroupsSettings.PawnNeedsWidth, rect.height);
+			Rect needBar = new Rect(rect.x + rect.width, rect.y, needWidth, rect.height);
 			GUI.color = Color.white;
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
 			{
@@ -172,7 +172,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-				needBar.x += TacticalGroupsSettings.PawnNeedsWidth;
+				needBar.x += needWidth;
 			}
 			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
             {
@@ -444,7 +444,7 @@ namespace TacticalGroups
 			}
 		}
 
-		public static void ShowDrafteesWeapon(Rect rect, Pawn colonist)
+		public static void ShowDrafteesWeapon(Rect rect, Pawn colonist, int weaponPlacementYOffset)
 		{
 			if (!TacticalGroupsSettings.DisplayWeapons)
             {
@@ -472,7 +472,7 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + (TacticalGroupsSettings.WeaponOverlayInside ? 10 : 40) * TacticalGroupsSettings.PawnScale, 
+			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + (weaponPlacementYOffset * TacticalGroupsSettings.PawnScale), 
 				rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
 		}
 

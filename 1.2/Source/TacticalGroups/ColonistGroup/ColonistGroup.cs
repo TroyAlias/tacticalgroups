@@ -163,21 +163,58 @@ namespace TacticalGroups
 				foreach (var group in TacticUtils.AllGroups)
 				{
 					if (group != this)
-                    {
+					{
 						if (group.groupButtonRightClicked && !this.groupButtonRightClicked)
-                        {
+						{
+							//Log.Message("1 group.expandPawnIcons: " + group.expandPawnIcons);
+							//Log.Message("1 this.expandPawnIcons: " + this.expandPawnIcons);
+							//Log.Message("1 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							//Log.Message("1 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							//Log.Message("1 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							//Log.Message("1 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							group.groupButtonRightClicked = false;
-                        }
+						}
+						else if (group.expandPawnIcons && !this.pawnWindowIsActive)
+						{
+							//Log.Message("2 group.expandPawnIcons: " + group.expandPawnIcons);
+							//Log.Message("2 this.expandPawnIcons: " + this.expandPawnIcons);
+							//Log.Message("2 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							//Log.Message("2 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							//Log.Message("2 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							//Log.Message("2 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
+							group.expandPawnIcons = false;
+						}
+						else if (group.expandPawnIcons && group.pawnWindowIsActive && this.pawnWindowIsActive)
+                        {
+							group.pawnWindowIsActive = false;
+							group.expandPawnIcons = false;
+						}
 						else if (group.pawnWindowIsActive)
 						{
-							Log.Message("group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							Log.Message("this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							Log.Message("group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							Log.Message("this.pawnWindowIsActive: " + this.pawnWindowIsActive);
+							//Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
+							//Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
+							//Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							//Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							//Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							//Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							return;
 						}
 					}
-
+				}
+				foreach (var group in TacticUtils.AllGroups)
+				{
+					if (group != this)
+					{
+						group.expandPawnIcons = false;
+						group.pawnWindowIsActive = false;
+						group.groupButtonRightClicked = false;
+						group.showPawnIconsRightClickMenu = false;
+						var window = Find.WindowStack.WindowOfType<MainFloatMenu>();
+						if (window != null)
+                        {
+							window.CloseAllWindows();
+                        }
+					}
 				}
 				if (Event.current.button == 0)
 				{
@@ -740,8 +777,8 @@ namespace TacticalGroups
 			if (ShowExpanded)
             {
 				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect);
-				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
+				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 			}
 
 			if (rect.Contains(Event.current.mousePosition))

@@ -176,8 +176,8 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 
 			ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
-			ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect);
-			ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist);
+			ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
+			ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 		}
 
 		public Rect GetPawnTextureRect(Vector2 pos)
