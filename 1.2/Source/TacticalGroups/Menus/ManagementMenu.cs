@@ -288,18 +288,25 @@ namespace TacticalGroups
 					moodAverage.Add(pawn.needs.mood.CurLevelPercentage);
 				}
             }
-			var averageValue = moodAverage.Average();
-			if (averageValue < 0.33)
-            {
-				moodString = Strings.Sad;
-				return Textures.SadIcon;
-            }
-			else if (averageValue < 0.66)
-            {
-				moodString = Strings.Okay;
-				return Textures.OkayIcon;
-            }
 			moodString = Strings.Happy;
+			if (moodAverage.Count > 0)
+            {
+				var averageValue = moodAverage.Average();
+				if (averageValue < 0.33)
+				{
+					moodString = Strings.Sad;
+					return Textures.SadIcon;
+				}
+				else if (averageValue < 0.66)
+				{
+					moodString = Strings.Okay;
+					return Textures.OkayIcon;
+				}
+			}
+			else
+            {
+				moodString = "NoMood".Translate();
+            }
 			return Textures.HappyIcon;
         }
 
@@ -336,15 +343,22 @@ namespace TacticalGroups
 					restAverage.Add(pawn.needs.rest.CurLevelPercentage);
 				}
 			}
-			var averageValue = restAverage.Average();
-			restPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
-			if (averageValue < 0.33)
-			{
-				return Textures.TiredIcon;
+			if (restAverage.Count() > 0)
+            {
+				var averageValue = restAverage.Average();
+				restPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+				if (averageValue < 0.33)
+				{
+					return Textures.TiredIcon;
+				}
+				else if (averageValue < 0.66)
+				{
+					return Textures.AwakeIcon;
+				}
 			}
-			else if (averageValue < 0.66)
-			{
-				return Textures.AwakeIcon;
+			else
+            {
+				restPercent = "NoRest".Translate();
 			}
 			return Textures.RestedIcon;
 		}
@@ -359,16 +373,23 @@ namespace TacticalGroups
 					foodAverage.Add(pawn.needs.food.CurLevelPercentage);
 				}
 			}
-			var averageValue = foodAverage.Average();
-			foodPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
-			if (averageValue < 0.33f)
-			{
-				return Textures.StarvingIcon;
+			if (foodAverage.Count > 0)
+            {
+				var averageValue = foodAverage.Average();
+				foodPercent = (averageValue * 100f).ToStringDecimalIfSmall() + "%";
+				if (averageValue < 0.33f)
+				{
+					return Textures.StarvingIcon;
+				}
+				else if (averageValue < 0.66f)
+				{
+					return Textures.HungryIcon;
+				}
 			}
-			else if (averageValue < 0.66f)
-			{
-				return Textures.HungryIcon;
-			}
+			else
+            {
+				foodPercent = "NoFood".Translate();
+            }
 			return Textures.FullIcon;
 		}
 
