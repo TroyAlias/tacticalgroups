@@ -116,6 +116,22 @@ namespace TacticalGroups
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
+		public override void Draw(Rect rect)
+		{
+			base.Draw(rect);
+			if (this.activeWorkState)
+			{
+				if (this.bannerModeEnabled)
+                {
+					GUI.DrawTexture(rect, Textures.BannerGroupSlave);
+				}
+				else
+                {
+					GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
+                }
+			}
+		}
+
 		private int curHoverPeriod;
         public override void DrawOverlays(Rect rect)
         {

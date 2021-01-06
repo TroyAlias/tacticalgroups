@@ -48,7 +48,8 @@
     <Compile Include="Jobs\JobGiver_TendWounded.cs" />
     <Compile Include="Jobs\JobGiver_RescueNearby.cs" />
     <Compile Include="Lords\ThinkNode_ConditionalAutonomyLords.cs" />
-    <Compile Include="Menus\MedicalMenu.cs" />
+    <Compile Include="Menus\OptionsSlideMenuTab.cs" />
+    <Compile Include="Menus\OptionsSlideMenu.cs" />
     <Compile Include="Menus\PawnInfoMenu.cs" />
     <Compile Include="Utils\SettingsHelper.cs" />
     <Compile Include="Utils\TacticSkillUI.cs" />

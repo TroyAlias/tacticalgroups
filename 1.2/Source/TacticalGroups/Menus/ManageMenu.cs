@@ -14,6 +14,9 @@ namespace TacticalGroups
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(27f, 60f);
+
+		private TieredFloatMenu optionsSlideMenu;
+		private TieredFloatMenu optionsSlideMenuTab;
 		public ManageMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -40,9 +43,23 @@ namespace TacticalGroups
         {
             base.PostOpen();
 			AddManagementWindow(options[3]);
+			optionsSlideMenuTab = new OptionsSlideMenuTab(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenuTab);
+			Find.WindowStack.Add(optionsSlideMenuTab);
 		}
 
-		public void AddRenameButton()
+        public override void PostClose()
+        {
+            base.PostClose();
+			if (this.optionsSlideMenu != null)
+            {
+				this.optionsSlideMenu.Close(false);
+            }
+			if (this.optionsSlideMenuTab != null)
+			{
+				this.optionsSlideMenuTab.Close(false);
+			}
+		}
+        public void AddRenameButton()
         {
 			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
@@ -122,6 +139,7 @@ namespace TacticalGroups
 			option.bottomIndent = Textures.MenuButton.height + 5;
 			options.Add(option);
 		}
+
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);

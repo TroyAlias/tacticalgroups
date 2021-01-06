@@ -339,7 +339,6 @@ namespace TacticalGroups
 				{
 					break;
 				}
-				Log.Message(pawn + " - can use: " + workGiver + " - " + PawnCanUseWorkGiver(pawn, workGiver));
 				if (!PawnCanUseWorkGiver(pawn, workGiver))
 				{
 					continue;
@@ -473,7 +472,6 @@ namespace TacticalGroups
 		}
 		public static void GiveJob(Pawn pawn, Job job, WorkGiver_Scanner localScanner)
 		{
-			Log.Message(pawn + " gets " + job);
 			job.workGiverDef = localScanner?.def;
 			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner, pawn.Position);
 		}
@@ -484,7 +482,6 @@ namespace TacticalGroups
 			{
 				return false;
 			}
-			Log.Message(pawn + " - " + giver.def.workTags);
 			if (pawn.WorkTagIsDisabled(giver.def.workTags))
 			{
 				return false;

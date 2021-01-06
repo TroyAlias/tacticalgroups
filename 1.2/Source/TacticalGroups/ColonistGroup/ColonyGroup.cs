@@ -58,7 +58,16 @@ namespace TacticalGroups
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
 		}
 
-		public override void Disband()
+        public override void Draw(Rect rect)
+        {
+            base.Draw(rect);
+			if (this.activeWorkState)
+            {
+				GUI.DrawTexture(rect, Textures.ColonySlave);
+            }
+        }
+
+        public override void Disband()
 		{
 			TacticUtils.TacticalGroups.colonyGroups.Remove(this.Map);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();

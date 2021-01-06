@@ -69,6 +69,18 @@ namespace TacticalGroups
 				.Select(grp => grp.Key).First();
 			return most;
 		}
+
+		public static bool IsCommonEnabledWork(List<Pawn> pawns, WorkTypeDef wType)
+        {
+			foreach (var pawn in pawns)
+            {
+				if (!pawn.WorkTypeIsDisabled(wType) && pawn.workSettings.GetPriority(wType) == 0)
+                {
+					return false;
+                }
+			}
+			return true;
+		}
 		public static void DrawWorkBoxFor(float x, float y, WorkTypeDef wType, ColonistGroup group)
 		{
 			Rect rect = new Rect(x, y, 25f, 25f);
@@ -107,7 +119,7 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 1)
 				{
-					int num3 = group.pawns.First().workSettings.GetPriority(wType) + 1;
+					int num3 = MostCommonWorkPriorities(group.pawns, wType) + 1;
 					if (num3 > 4)
 					{
 						num3 = 0;
@@ -126,7 +138,8 @@ namespace TacticalGroups
 				PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.ManualWorkPriorities, KnowledgeAmount.SmallInteraction);
 				return;
 			}
-			if (group.pawns.Where(p => p.workSettings.GetPriority(wType) > 0).Any())
+
+			if (IsCommonEnabledWork(group.pawns, wType))
 			{
 				GUI.DrawTexture(rect, WorkBoxCheckTex);
 			}
@@ -134,7 +147,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			if (group.pawns.Where(pawn => pawn.workSettings.GetPriority(wType) > 0).Any())
+			if (IsCommonEnabledWork(group.pawns, wType))
 			{
 				foreach (var pawn in group.pawns)
                 {

@@ -344,27 +344,40 @@ namespace TacticalGroups
             {
 				UpdateIcon();
 			}
-			GUI.DrawTexture(groupRect, this.groupBanner);
-			GUI.DrawTexture(groupRect, this.groupIcon);
-			if (!groupButtonRightClicked && Mouse.IsOver(groupRect))
-            {
-				GUI.DrawTexture(groupRect, Textures.GroupIconHover);
+			if (!hideGroupIcon)
+			{
+				GUI.DrawTexture(groupRect, this.groupBanner);
+				GUI.DrawTexture(groupRect, this.groupIcon);
 			}
-			else if (groupButtonRightClicked)
+			else if (Mouse.IsOver(groupRect))
             {
-				if (this.bannerModeEnabled)
-                {
-					GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
-				}
-				else if (this.isPawnGroup)
-                {
-					GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
-                }
-				else if (this.isColonyGroup)
+				GUI.DrawTexture(groupRect, this.groupBanner);
+				GUI.DrawTexture(groupRect, this.groupIcon);
+			}
+
+			if (!hideGroupIcon)
+            {
+				if (!groupButtonRightClicked && Mouse.IsOver(groupRect))
 				{
-					GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
+					GUI.DrawTexture(groupRect, Textures.GroupIconHover);
+				}
+				else if (groupButtonRightClicked)
+				{
+					if (this.bannerModeEnabled)
+					{
+						GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
+					}
+					else if (this.isPawnGroup)
+					{
+						GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
+					}
+					else if (this.isColonyGroup)
+					{
+						GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
+					}
 				}
 			}
+
 
 			if (!this.bannerModeEnabled)
 			{
@@ -423,7 +436,14 @@ namespace TacticalGroups
 			{
 				pawnWindowIsActive = false;
 				expandPawnIcons = false;
-				DrawPawnDots(groupRect);
+				if (!this.hidePawnDots)
+                {
+					DrawPawnDots(groupRect);
+                }
+				else if (!this.hideLifeOverlay)
+                {
+					DrawLifeOverlayWithDisabledDots(rect);
+				}
 			}
 		}
 
@@ -552,8 +572,38 @@ namespace TacticalGroups
 				}
 			}
 
+
 			if (showDownedState)
             {
+				if (downedStateBlink < 30)
+				{
+					GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
+				}
+				else if (downedStateBlink > 60)
+				{
+					downedStateBlink = 0;
+				}
+			}
+		}
+
+		private void DrawLifeOverlayWithDisabledDots(Rect rect)
+        {
+			bool showDownedState = false;
+			foreach (var pawn in this.pawns)
+            {
+				if (IsDownedOrIncapable(pawn))
+				{
+					if (!showDownedState)
+					{
+						downedStateBlink++;
+					}
+					showDownedState = true;
+					break;
+				}
+			}
+
+			if (showDownedState)
+			{
 				if (downedStateBlink < 30)
 				{
 					GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
@@ -873,13 +923,13 @@ namespace TacticalGroups
             }
         }
 		//public void SyncPoliciesWithRestOfMembers(Pawn pawn)
-        //{
+		//{
 		//	var otherMembers = this.pawns.Where(x => x != pawn);
 		//	if (otherMembers.Any())
-        //    {
+		//    {
 		//		var curFoodPolicy = otherMembers.FirstOrDefault().foodRestriction.CurrentFoodRestriction;
 		//		if (otherMembers.Where(x => x.foodRestriction.CurrentFoodRestriction == curFoodPolicy).Count() == otherMembers.Count())
-        //        {
+		//        {
 		//			pawn.foodRestriction.CurrentFoodRestriction = curFoodPolicy;
 		//		}
 		//
@@ -908,38 +958,49 @@ namespace TacticalGroups
 		//		}
 		//
 		//		if (AssignTimeValue(otherMembers.ToList()))
-        //        {
+		//        {
 		//			for (int i = 0; i < 24; i++)
 		//			{
 		//				pawn.timetable.SetAssignment(i, otherMembers.First().timetable.GetAssignment(i));
 		//			}
 		//		}
 		//	}
-        //}
+		//}
 
-		private bool AssignTimeValue(List<Pawn> otherMembers)
-        {
-			for (int i = 0; i < 24; i++)
-			{
-				foreach (var p in otherMembers)
-				{
-					foreach (var p2 in otherMembers)
-					{
-						if (p != p2 && p.timetable.GetAssignment(i) != p2.timetable.GetAssignment(i))
-                        {
-							return false;
-                        }
-					}
-				}
-			}
-			return true;
-		}
+		//private bool AssignTimeValue(List<Pawn> otherMembers)
+		//{
+		//	for (int i = 0; i < 24; i++)
+		//	{
+		//		foreach (var p in otherMembers)
+		//		{
+		//			foreach (var p2 in otherMembers)
+		//			{
+		//				if (p != p2 && p.timetable.GetAssignment(i) != p2.timetable.GetAssignment(i))
+		//                {
+		//					return false;
+		//                }
+		//			}
+		//		}
+		//	}
+		//	return true;
+		//}
+
 		public void RemoveWorkState(WorkType workType)
 		{
 			if (this.activeWorkTypes.ContainsKey(workType))
 			{
 				this.activeWorkTypes[workType] = WorkState.Inactive;
 			}
+
+			foreach (var aw in this.activeWorkTypes)
+            {
+				if (aw.Value == WorkState.ForcedLabor)
+                {
+					activeWorkState = true;
+					return;
+				}
+            }
+			activeWorkState = false;
 		}
 
 		public void ChangeWorkState(WorkType workType)
@@ -960,6 +1021,15 @@ namespace TacticalGroups
             {
 				this.activeWorkTypes[workType] = WorkState.Active;
 			}
+			foreach (var aw in this.activeWorkTypes)
+			{
+				if (aw.Value == WorkState.ForcedLabor)
+				{
+					activeWorkState = true;
+					return;
+				}
+			}
+			activeWorkState = false;
 		}
 		public virtual void ExposeData()
         {
@@ -980,6 +1050,10 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
 			Scribe_Values.Look(ref isPawnGroup, "isPawnGroup");
 			Scribe_Values.Look(ref colorFolder, "colorFolder");
+			Scribe_Values.Look(ref activeWorkState, "activeWorkState");
+			Scribe_Values.Look(ref hideGroupIcon, "hideGroupIcon");
+			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
+			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 
@@ -991,6 +1065,9 @@ namespace TacticalGroups
 
 		public int groupID;
 		public bool entireGroupIsVisible;
+		public bool hideGroupIcon;
+		public bool hidePawnDots;
+		public bool hideLifeOverlay;
 		public bool isColonyGroup;
 		public bool isPawnGroup;
 		public string groupName;
@@ -1004,6 +1081,8 @@ namespace TacticalGroups
 		public string groupIconName;
 		public bool bannerModeEnabled;
 		public string colorFolder;
+		protected bool activeWorkState;
+
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;

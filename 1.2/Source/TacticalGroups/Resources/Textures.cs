@@ -218,5 +218,15 @@ namespace TacticalGroups
 		public static readonly Texture2D TreasuryButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/TreasuryButton");
 		public static readonly Texture2D PawnInfoMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Management/PawnInfoMenu");
 		public static readonly Texture2D ColonyManageDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyManageDropMenu");
+
+		public static readonly Texture2D PawnDotsButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PawnDotsButton");
+		public static readonly Texture2D OptionsSlideMenuTab = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/OptionsSlideMenuTab");
+		public static readonly Texture2D OptionsSlideMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/OptionsSlideMenu");
+		public static readonly Texture2D ManageOptionsX = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ManageOptionsX");
+		public static readonly Texture2D ColonyHideButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyHideButton");
+		public static readonly Texture2D GroupOverlayButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupOverlayButton");
+		public static readonly Texture2D DefaultGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultGroupSlave");
+		public static readonly Texture2D BannerGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/BannerGroupSlave");
+		public static readonly Texture2D ColonySlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonySlave");
 	}
 }
