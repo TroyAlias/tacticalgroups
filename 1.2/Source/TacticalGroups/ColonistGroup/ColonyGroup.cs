@@ -17,7 +17,6 @@ namespace TacticalGroups
 			this.pawnDocRowCount = 11;
 			this.groupIcon = Textures.ColonyGroupIcon_Default;
 			this.groupBanner = Textures.ColonyGroupBanner_Default;
-
 			this.groupIconFolder = "ColonyIcons";
 			this.groupBannerFolder = "ColonyBlue";
 			this.defaultBannerFolder = "ColonyBlue";
@@ -44,7 +43,6 @@ namespace TacticalGroups
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
-
 		}
 		public ColonyGroup(Pawn pawn)
         {
@@ -55,10 +53,27 @@ namespace TacticalGroups
 			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
+			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isColonyGroup).Count() + 1;
 		}
 
-        public override void Draw(Rect rect)
+		public void ConvertToWarband()
+        {
+			this.defaultGroupName = Strings.Warband;
+			this.isWarband = true;
+			this.isColonyGroup = false;
+			this.groupIcon = Textures.WarbandIcon_Default;
+			this.groupBanner = Textures.WarbandBanner_Default;
+		}
+
+		public void ConvertToScout()
+		{
+			this.defaultGroupName = Strings.Scout;
+			this.isScout = true;
+			this.isColonyGroup = false;
+			this.groupIcon = Textures.ScoutIcon_Default;
+			this.groupBanner = Textures.WarbandBanner_Default;
+		}
+		public override void Draw(Rect rect)
         {
             base.Draw(rect);
 			if (this.activeWorkState)
@@ -102,6 +117,17 @@ namespace TacticalGroups
         {
             base.ExposeData();
 			Scribe_Values.Look(ref colorFolder, "colorFolder", "Colony");
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+				if (this.isWarband)
+                {
+					this.ConvertToWarband();
+                }
+				else if (this.isScout)
+                {
+					this.ConvertToScout();
+                }
+            }
 		}
 
 		public override string ToString()

@@ -1,6 +1,7 @@
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -193,17 +194,43 @@ namespace TacticalGroups
 		{
 			float curLevel = colonist.needs.mood.CurLevel;
 			Texture2D result;
-			if (curLevel <= 0.35f)
-			{
-				result = Textures.RedMoodBar;
-			}
-			else if (curLevel <= 0.69f)
-			{
-				result = Textures.YellowMoodBar;
+			if (TacticalGroupsSettings.ColorBarMode == ColorBarMode.Default)
+            {
+				if (curLevel <= 0.35f)
+				{
+					result = Textures.RedMoodBar;
+				}
+				else if (curLevel <= 0.69f)
+				{
+					result = Textures.YellowMoodBar;
+				}
+				else
+				{
+					result = MoodBGTex;
+				}
 			}
 			else
-			{
-				result = MoodBGTex;
+            {
+				if (curLevel <= 0.19f)
+				{
+					result = Textures.ToxicYellowMoodBar;
+				}
+				else if (curLevel <= 0.39f)
+				{
+					result = Textures.YellowMoodBar;
+				}
+				else if (curLevel <= 0.59f) 
+				{
+					result = Textures.PurpleMoodBar;
+				}
+				else if (curLevel <= 0.79f)
+                {
+					result = MoodBGTex;
+                }
+				else
+                {
+					result = Textures.GreenMoodBar;
+                }
 			}
 			return result;
 		}
@@ -467,6 +494,10 @@ namespace TacticalGroups
 			{
 				return;
 			}
+			if (colonist.TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Where(x => x.hideWeaponOverlay).Any())
+            {
+				return;
+            }
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			if (colonist.Map != Find.CurrentMap || WorldRendererUtility.WorldRenderedNow)
 			{

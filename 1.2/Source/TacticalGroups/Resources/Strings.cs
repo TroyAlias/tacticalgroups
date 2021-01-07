@@ -20,6 +20,8 @@ namespace TacticalGroups
 
 		public static readonly string Group = "TG.Group".Translate();
 		public static readonly string Colony = "TG.Colony".Translate();
+		public static readonly string Warband = "TG.Warband".Translate();
+		public static readonly string Scout = "TG.Scout".Translate();
 		public static readonly string Caravan = "TG.Caravan".Translate();
 
 		public static readonly string GetToWork = "TG.GetToWork".Translate();
@@ -148,6 +150,10 @@ namespace TacticalGroups
 		public static readonly string GroupHideOptionsTooltip = "TG.GroupHideOptionsTooltip".Translate();
 		public static readonly string HideGroupPawnDotsOptionsTooltip = "TG.HideGroupPawnDotsOptionsTooltip".Translate();
 		public static readonly string HideGroupHealthAlertOverlayOptionsTooltip = "TG.HideGroupHealthAlertOverlayOptionsTooltip".Translate();
+		public static readonly string HideWeaponOverlayOptionsTooltip = "TG.HideWeaponOverlayOptionsTooltip".Translate();
 
+		public static readonly string ColorBarModeLabel = "TG.ColorBarModeLabel".Translate();
+		public static readonly string ColorBarModeDefault = "TG.ColorBarModeDefault".Translate();
+		public static readonly string ColorBarModeExtended = "TG.ColorBarModeExtended".Translate();
 	}
 }

@@ -90,8 +90,16 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
 
 			topRightHalf.y += 25f;
-
-
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.ColorBarModeLabel);
+			topRightHalf.y += 25f;
+			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.ColorBarModeDefault, TacticalGroupsSettings.ColorBarMode == ColorBarMode.Default))
+			{
+				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Default;
+			}
+			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 100f, 30f), Strings.ColorBarModeExtended, TacticalGroupsSettings.ColorBarMode != ColorBarMode.Default))
+			{
+				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Extended;
+			}
 			topRightHalf.y += 25f;
 			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayWeapons);
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayWeapons);

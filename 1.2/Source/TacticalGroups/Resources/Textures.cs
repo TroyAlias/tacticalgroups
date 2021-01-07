@@ -50,9 +50,12 @@ namespace TacticalGroups
 		public static readonly Texture2D GroupingIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupingIcon");
 
 		public static readonly Texture2D ColonyGroupBanner_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyBlue/Default");
+		public static readonly Texture2D WarbandBanner_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default2");
 		public static readonly Texture2D PawnGroupBanner_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupBlue/Default");
-
 		public static readonly Texture2D ColonyGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
+		public static readonly Texture2D WarbandIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default2");
+		public static readonly Texture2D ScoutIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/h3");
+
 		public static readonly Texture2D CaravanGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/ColonyIcons/Default");
 		public static readonly Texture2D PawnGroupIcon_Default = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupIcons/GroupIcons/Default");
 
@@ -175,6 +178,9 @@ namespace TacticalGroups
 
 		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(95, 63, 65, 255).ToColor);
 		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
+		public static readonly Texture2D ToxicYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(111, 116, 57, 255).ToColor);
+		public static readonly Texture2D PurpleMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
+		public static readonly Texture2D GreenMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(45, 95, 55, 255).ToColor);
 
 		public static readonly Texture2D PawnDrafted = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnDrafted");
 		public static readonly Texture2D GroupArrowRightHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRightHover");
@@ -225,6 +231,7 @@ namespace TacticalGroups
 		public static readonly Texture2D ManageOptionsX = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ManageOptionsX");
 		public static readonly Texture2D ColonyHideButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyHideButton");
 		public static readonly Texture2D GroupOverlayButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupOverlayButton");
+		public static readonly Texture2D ShowWeaponButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ShowWeaponButton");
 		public static readonly Texture2D DefaultGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultGroupSlave");
 		public static readonly Texture2D BannerGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/BannerGroupSlave");
 		public static readonly Texture2D ColonySlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonySlave");

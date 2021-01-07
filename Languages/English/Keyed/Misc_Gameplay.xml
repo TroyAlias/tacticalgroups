@@ -10,6 +10,8 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Manage>Manage</TG.Manage>
 	<TG.Group>Group</TG.Group>
 	<TG.Colony>Colony</TG.Colony>
+	<TG.Warband>Warband</TG.Warband>
+	<TG.Scout>Scout</TG.Scout>
 	<TG.Caravan>Caravan</TG.Caravan>
 	<TG.Diplomacy>Diplomacy</TG.Diplomacy>
 
@@ -49,8 +51,9 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
 	<TG.TopMargin>Colonist Bar Y Position</TG.TopMargin>
 	<TG.WeaponOverlayPlacement>Weapon Overlay Placement</TG.WeaponOverlayPlacement>
-	<TG.WeaponOverlayInside>Inside</TG.WeaponOverlayInside>
-	<TG.WeaponOverlayUnder>Under</TG.WeaponOverlayUnder>
+	<TG.ColorBarModeLabel>Color mood bar preset:</TG.ColorBarModeLabel>
+	<TG.ColorBarModeDefault>Default</TG.ColorBarModeDefault>
+	<TG.ColorBarModeExtended>Extended</TG.ColorBarModeExtended>
 	<TG.DisableLabelBackground>Disable Label Background (for performance)</TG.DisableLabelBackground>
 
 	<TG.Attack>Attack</TG.Attack>
@@ -167,5 +170,6 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.GroupHideOptionsTooltip>Hide Colony Group until mouse over</TG.GroupHideOptionsTooltip>
 	<TG.HideGroupPawnDotsOptionsTooltip>Hide group pawn dots display</TG.HideGroupPawnDotsOptionsTooltip>
 	<TG.HideGroupHealthAlertOverlayOptionsTooltip>Hide group health alert overlay</TG.HideGroupHealthAlertOverlayOptionsTooltip>
+	<TG.HideWeaponOverlayOptionsTooltip>Hide group weapon overlay</TG.HideWeaponOverlayOptionsTooltip>
 	
 </LanguageData>

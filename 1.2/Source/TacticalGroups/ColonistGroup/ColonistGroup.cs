@@ -381,9 +381,11 @@ namespace TacticalGroups
 
 			if (!this.bannerModeEnabled)
 			{
-				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, 20f);
+				var label = this.GetGroupName();
+				var labelHeight = Text.CalcHeight(label, groupRect.width);
+				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, labelHeight);
 				Text.Anchor = TextAnchor.MiddleCenter;
-				Widgets.Label(groupLabelRect, this.GetGroupName());
+				Widgets.Label(groupLabelRect, label);
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 		}
@@ -1033,12 +1035,15 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
 			Scribe_Values.Look(ref entireGroupIsVisible, "entireGroupIsVisible");
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
+			Scribe_Values.Look(ref isWarband, "isWarband");
+			Scribe_Values.Look(ref isScout, "isScout");
 			Scribe_Values.Look(ref isPawnGroup, "isPawnGroup");
 			Scribe_Values.Look(ref colorFolder, "colorFolder");
 			Scribe_Values.Look(ref activeWorkState, "activeWorkState");
 			Scribe_Values.Look(ref hideGroupIcon, "hideGroupIcon");
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
+			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 		}
 
@@ -1053,7 +1058,10 @@ namespace TacticalGroups
 		public bool hideGroupIcon;
 		public bool hidePawnDots;
 		public bool hideLifeOverlay;
+		public bool hideWeaponOverlay;
 		public bool isColonyGroup;
+		public bool isWarband;
+		public bool isScout;
 		public bool isPawnGroup;
 		public string groupName;
 		public string defaultGroupName;

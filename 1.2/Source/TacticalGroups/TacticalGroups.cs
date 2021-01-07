@@ -1,3 +1,4 @@
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
@@ -98,9 +99,19 @@ namespace TacticalGroups
             else
             {
                 this.colonyGroups[map] = new ColonyGroup(pawns);
+                if ((map.ParentFaction?.HostileTo(Faction.OfPlayer) ?? false) || map.mapPawns.AllPawns.Where(x => x.HostileTo(Faction.OfPlayer) && !x.Fogged()).Any())
+                {
+                    this.colonyGroups[map].ConvertToWarband();
+                    this.colonyGroups[map].groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isWarband).Count() + 1;
+                }
+                else
+                {
+                    this.colonyGroups[map].ConvertToScout();
+                    this.colonyGroups[map].groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isWarband).Count() + 1;
+                }
             }
-            RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
 
+            RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
             foreach (var pawnGroup in this.pawnGroups.Where(x => x.Map == map))
             {
                 foreach (var pawn in pawns)
