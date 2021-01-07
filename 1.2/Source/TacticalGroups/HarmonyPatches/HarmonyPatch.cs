@@ -299,7 +299,8 @@ namespace TacticalGroups
             }
         }
 
-        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
+        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state, 
+            bool canReturnToPool = true)
         {
             if (__state?.Count > 0)
             {

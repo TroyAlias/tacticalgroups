@@ -230,7 +230,7 @@ namespace TacticalGroups
 							{
 								if (!WorldRendererUtility.WorldRenderedNow)
 								{
-									var list = TacticUtils.TacticalGroups.pawnGroups.Where(x => x.Map == entries[j].colonyGroup.Map).ToList();
+									var list = TacticUtils.GetAllPawnGroupFor(entries[j].colonyGroup);
 									if (list.Any())
                                     {
 										list.Reverse();
