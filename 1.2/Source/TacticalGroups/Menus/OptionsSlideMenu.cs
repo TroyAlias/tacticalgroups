@@ -24,18 +24,32 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			var colonyHideButtonRect = new Rect(rect.x + 13, rect.y + 15, Textures.ColonyHideButton.width, Textures.ColonyHideButton.height);
-			GUI.DrawTexture(colonyHideButtonRect, Textures.ColonyHideButton);
-			if (Mouse.IsOver(colonyHideButtonRect))
-			{
-				GUI.DrawTexture(colonyHideButtonRect, Textures.RescueTendHover);
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			if (this.colonistGroup.isColonyGroup)
+            {
+				GUI.DrawTexture(colonyHideButtonRect, Textures.ColonyHideButton);
+				TooltipHandler.TipRegion(colonyHideButtonRect, Strings.GroupHideOptionsTooltip);
+				if (this.colonistGroup.hideGroupIcon)
+                {
+					GUI.DrawTexture(colonyHideButtonRect, Textures.ManageOptionsX);
+                }
+				if (Mouse.IsOver(colonyHideButtonRect))
 				{
-					this.colonistGroup.hideGroupIcon = !this.colonistGroup.hideGroupIcon;
+					GUI.DrawTexture(colonyHideButtonRect, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						this.colonistGroup.hideGroupIcon = !this.colonistGroup.hideGroupIcon;
+					}
 				}
 			}
 
+
 			var hidePawnDotsRect = new Rect(colonyHideButtonRect.xMax + 10, colonyHideButtonRect.y, Textures.PawnDotsButton.width, Textures.PawnDotsButton.height);
 			GUI.DrawTexture(hidePawnDotsRect, Textures.PawnDotsButton);
+			TooltipHandler.TipRegion(hidePawnDotsRect, Strings.HideGroupPawnDotsOptionsTooltip);
+			if (this.colonistGroup.hidePawnDots)
+			{
+				GUI.DrawTexture(hidePawnDotsRect, Textures.ManageOptionsX);
+			}
 			if (Mouse.IsOver(hidePawnDotsRect))
 			{
 				GUI.DrawTexture(hidePawnDotsRect, Textures.RescueTendHover);
@@ -47,6 +61,11 @@ namespace TacticalGroups
 
 			var hideLifeOverlayRect = new Rect(hidePawnDotsRect.x, hidePawnDotsRect.yMax + 10, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
 			GUI.DrawTexture(hideLifeOverlayRect, Textures.GroupOverlayButton);
+			if (this.colonistGroup.hideLifeOverlay)
+			{
+				GUI.DrawTexture(hideLifeOverlayRect, Textures.ManageOptionsX);
+			}
+			TooltipHandler.TipRegion(hideLifeOverlayRect, Strings.HideGroupHealthAlertOverlayOptionsTooltip);
 			if (Mouse.IsOver(hideLifeOverlayRect))
 			{
 				GUI.DrawTexture(hideLifeOverlayRect, Textures.RescueTendHover);

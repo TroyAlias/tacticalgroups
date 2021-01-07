@@ -164,4 +164,8 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.RestIconTooltip>Group's overall rest</TG.RestIconTooltip>
 	<TG.HungerIconTooltip>Group's overall hunger</TG.HungerIconTooltip>
 	
+	<TG.GroupHideOptionsTooltip>Hide Colony Group until mouse over</TG.GroupHideOptionsTooltip>
+	<TG.HideGroupPawnDotsOptionsTooltip>Hide group pawn dots display</TG.HideGroupPawnDotsOptionsTooltip>
+	<TG.HideGroupHealthAlertOverlayOptionsTooltip>Hide group health alert overlay</TG.HideGroupHealthAlertOverlayOptionsTooltip>
+	
 </LanguageData>

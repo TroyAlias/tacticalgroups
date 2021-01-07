@@ -97,15 +97,8 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayWeapons);
 			
 			topRightHalf.y += 25f;
+			TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.WeaponPlacementOffset, 0, 100);
 
-			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayInside, TacticalGroupsSettings.WeaponOverlayInside))
-            {
-				TacticalGroupsSettings.WeaponOverlayInside = true;
-			}
-			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 80f, 30f), Strings.WeaponOverlayUnder, !TacticalGroupsSettings.WeaponOverlayInside))
-			{
-				TacticalGroupsSettings.WeaponOverlayInside = false;
-			}
 			topRightHalf.y += 55f;
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupRowCount + ": " + TacticalGroupsSettings.GroupRowCount.ToString());
 			topRightHalf.y += 25f;

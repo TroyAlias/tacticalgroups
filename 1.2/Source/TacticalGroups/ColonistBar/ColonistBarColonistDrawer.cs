@@ -125,7 +125,7 @@ namespace TacticalGroups
 
 			DrawHealthBar(colonist, rect);
 			DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
-			ShowDrafteesWeapon(rect, colonist, (TacticalGroupsSettings.WeaponOverlayInside ? 10 : 40));
+			ShowDrafteesWeapon(rect, colonist, TacticalGroupsSettings.WeaponPlacementOffset);
 
 			if (ModCompatibility.PawnBadgesIsActive)
             {

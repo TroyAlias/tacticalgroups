@@ -145,5 +145,9 @@ namespace TacticalGroups
 		public static readonly string WeaponOverlayPlacement = "TG.WeaponOverlayPlacement".Translate();
 		public static readonly string DisableLabelBackground = "TG.DisableLabelBackground".Translate();
 
+		public static readonly string GroupHideOptionsTooltip = "TG.GroupHideOptionsTooltip".Translate();
+		public static readonly string HideGroupPawnDotsOptionsTooltip = "TG.HideGroupPawnDotsOptionsTooltip".Translate();
+		public static readonly string HideGroupHealthAlertOverlayOptionsTooltip = "TG.HideGroupHealthAlertOverlayOptionsTooltip".Translate();
+
 	}
 }

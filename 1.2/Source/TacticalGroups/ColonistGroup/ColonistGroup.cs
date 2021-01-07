@@ -992,15 +992,7 @@ namespace TacticalGroups
 				this.activeWorkTypes[workType] = WorkState.Inactive;
 			}
 
-			foreach (var aw in this.activeWorkTypes)
-            {
-				if (aw.Value == WorkState.ForcedLabor)
-                {
-					activeWorkState = true;
-					return;
-				}
-            }
-			activeWorkState = false;
+			activeWorkState = this.activeWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.activeWorkTypes.Count();
 		}
 
 		public void ChangeWorkState(WorkType workType)
@@ -1021,15 +1013,8 @@ namespace TacticalGroups
             {
 				this.activeWorkTypes[workType] = WorkState.Active;
 			}
-			foreach (var aw in this.activeWorkTypes)
-			{
-				if (aw.Value == WorkState.ForcedLabor)
-				{
-					activeWorkState = true;
-					return;
-				}
-			}
-			activeWorkState = false;
+
+			activeWorkState = this.activeWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.activeWorkTypes.Count();
 		}
 		public virtual void ExposeData()
         {

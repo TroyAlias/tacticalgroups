@@ -58,18 +58,6 @@ namespace TacticalGroups
 			}
 		}
 
-		public static int MostCommonWorkPriorities(List<Pawn> pawns, WorkTypeDef wType)
-        {
-			var priorities = new List<int>();
-			foreach (var pawn in pawns)
-            {
-				priorities.Add(pawn.workSettings.GetPriority(wType));
-            }
-			var most = priorities.GroupBy(i => i).OrderByDescending(grp => grp.Count())
-				.Select(grp => grp.Key).First();
-			return most;
-		}
-
 		public static bool IsCommonEnabledWork(List<Pawn> pawns, WorkTypeDef wType)
         {
 			foreach (var pawn in pawns)
@@ -81,6 +69,23 @@ namespace TacticalGroups
 			}
 			return true;
 		}
+
+		public static int GetAllCommonWorkPriority(List<Pawn> pawns, WorkTypeDef wType)
+        {
+			HashSet<int> workPriority = new HashSet<int>();
+			foreach (var pawn in pawns)
+			{
+				if (!pawn.WorkTypeIsDisabled(wType))
+				{
+					workPriority.Add(pawn.workSettings.GetPriority(wType));
+				}
+			}
+			if (workPriority.Count > 1)
+            {
+				return 0;
+            }
+			return workPriority.First();
+		}
 		public static void DrawWorkBoxFor(float x, float y, WorkTypeDef wType, ColonistGroup group)
 		{
 			Rect rect = new Rect(x, y, 25f, 25f);
@@ -88,7 +93,7 @@ namespace TacticalGroups
 			DrawWorkBoxBackground(rect, wType);
 			if (Find.PlaySettings.useWorkPriorities)
 			{
-				int priority = MostCommonWorkPriorities(group.pawns, wType);
+				int priority = GetAllCommonWorkPriority(group.pawns, wType);
 				if (priority > 0)
 				{
 					Text.Anchor = TextAnchor.MiddleCenter;
@@ -103,7 +108,7 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 0)
 				{
-					int num2 = MostCommonWorkPriorities(group.pawns, wType) - 1;
+					int num2 = GetAllCommonWorkPriority(group.pawns, wType) - 1;
 					if (num2 < 0)
 					{
 						num2 = 4;
@@ -119,7 +124,7 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 1)
 				{
-					int num3 = MostCommonWorkPriorities(group.pawns, wType) + 1;
+					int num3 = GetAllCommonWorkPriority(group.pawns, wType) + 1;
 					if (num3 > 4)
 					{
 						num3 = 0;

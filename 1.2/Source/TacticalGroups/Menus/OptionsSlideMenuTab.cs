@@ -39,6 +39,7 @@ namespace TacticalGroups
 					else
                     {
 						this.childWindow = new OptionsSlideMenu(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenu);
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 						Find.WindowStack.Add(this.childWindow);
 					}
 				}
