@@ -161,36 +161,34 @@ namespace TacticalGroups
                 int reorderableGroup = -1;
                 GUI.color = Color.white;
                 Text.Font = GameFont.Tiny;
-                if (!TacticalGroupsSettings.HideCreateGroup)
-                {
-                    var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
-                    if (Mouse.IsOver(createGroupRect))
-                    {
-                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
-                    }
-                    else
-                    {
-                        GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
-                    }
-                    TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
 
-                    HandleGroupingClicks(createGroupRect);
-                    Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
-                    if (Mouse.IsOver(optionsGearRect))
-                    {
-                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
-                        if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
-                        {
-                            TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
-                            Find.WindowStack.Add(floatMenu);
-                        }
-                    }
-                    else
-                    {
-                        GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
-                    }
-                    TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
+                var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
+                if (Mouse.IsOver(createGroupRect))
+                {
+                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
                 }
+                else if (!TacticalGroupsSettings.HideCreateGroup)
+                {
+                    GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
+                }
+                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
+
+                HandleGroupingClicks(createGroupRect);
+                Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
+                if (Mouse.IsOver(optionsGearRect))
+                {
+                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGearHover);
+                    if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+                    {
+                        TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
+                        Find.WindowStack.Add(floatMenu);
+                    }
+                }
+                else if (!TacticalGroupsSettings.HideCreateGroup)
+                {
+                    GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
+                }
+                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {

@@ -173,6 +173,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.HideGroupPawnDotsOptionsTooltip>Hide group pawn dots display</TG.HideGroupPawnDotsOptionsTooltip>
 	<TG.HideGroupHealthAlertOverlayOptionsTooltip>Hide group health alert overlay</TG.HideGroupHealthAlertOverlayOptionsTooltip>
 	<TG.HideWeaponOverlayOptionsTooltip>Hide group weapon overlay</TG.HideWeaponOverlayOptionsTooltip>
+	<TG.HidePawnGroupOptionsTooltip>Move group to subgroups</TG.HidePawnGroupOptionsTooltip>
 	<TG.WeaponModeShowDrafted>Drafted</TG.WeaponModeShowDrafted>
 	<TG.WeaponModeShowAlways>Always</TG.WeaponModeShowAlways>
 	

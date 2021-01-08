@@ -94,6 +94,35 @@ namespace TacticalGroups
 					}
 				}
 			}
+			if (this.colonistGroup.isPawnGroup && this.colonistGroup is PawnGroup pawnGroup)
+            {
+				var subgroupButton = new Rect(hidePawnDotsRect.x - 30, hidePawnDotsRect.yMax + 30, Textures.SubGroupButton.width, Textures.SubGroupButton.height);
+				GUI.DrawTexture(subgroupButton, Textures.SubGroupButton);
+				if (this.colonistGroup.isSubGroup)
+				{
+					GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
+				}
+				TooltipHandler.TipRegion(subgroupButton, Strings.HideWeaponOverlayOptionsTooltip);
+				if (Mouse.IsOver(subgroupButton))
+				{
+					GUI.DrawTexture(subgroupButton, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						if (pawnGroup.isSubGroup)
+                        {
+							pawnGroup.ConvertToPawnGroup();
+						}
+						else
+                        {
+							pawnGroup.ConvertToSubGroup();
+                        }
+
+						pawnGroup.ResetDrawOptions();
+						this.CloseAllWindows();
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+					}
+				}
+			}
 		}
 	}
 }

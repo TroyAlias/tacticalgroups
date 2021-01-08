@@ -25,6 +25,7 @@ namespace TacticalGroups
 			this.defaultBannerFolder = "GroupBlue";
 			this.groupIconFolder = "GroupIcons";
 			this.colorFolder = "Group";
+			this.isSubGroup = false;
 			this.defaultGroupName = Strings.Group;
 			this.updateIcon = true;
 		}
@@ -69,6 +70,15 @@ namespace TacticalGroups
 				groupID += caravan.formerGroups.Count;
 			}
 			return groupID;
+        }
+
+		public void ConvertToSubGroup()
+        {
+			this.isSubGroup = true;
+        }
+		public void ConvertToPawnGroup()
+        {
+			this.isSubGroup = false;
         }
         public override void Add(Pawn pawn)
         {
@@ -158,7 +168,11 @@ namespace TacticalGroups
         {
             base.DrawOverlays(rect);
 			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
-
+			if (this.isSubGroup)
+            {
+				groupRect.width /= 2f;
+				groupRect.height /= 2f;
+			}
 			bool reset = true;
 			if (Mouse.IsOver(groupRect))
             {

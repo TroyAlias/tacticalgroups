@@ -202,7 +202,7 @@ namespace TacticalGroups
             base.PostClose();
 			this.colonistGroup.groupButtonRightClicked = false;
 			this.colonistGroup.showPawnIconsRightClickMenu = false;
-
+			this.colonistGroup.Notify_WindowsClosed();
 		}
 		public override void Close(bool doCloseSound = true)
         {

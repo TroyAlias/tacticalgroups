@@ -173,6 +173,14 @@ namespace TacticalGroups
                     mainFloatMenu.CloseAllWindows();
                 }
             }
+            else if (!Find.WindowStack.IsOpen<TieredFloatMenu>())
+            {
+                if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup) && colonyGroup.subGroupsExpanded)
+                {
+                    colonyGroup.subGroupsExpanded = false;
+                    TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+                }
+            }
             return false;
         }
 

@@ -152,6 +152,7 @@ namespace TacticalGroups
 		public static readonly string HideGroupPawnDotsOptionsTooltip = "TG.HideGroupPawnDotsOptionsTooltip".Translate();
 		public static readonly string HideGroupHealthAlertOverlayOptionsTooltip = "TG.HideGroupHealthAlertOverlayOptionsTooltip".Translate();
 		public static readonly string HideWeaponOverlayOptionsTooltip = "TG.HideWeaponOverlayOptionsTooltip".Translate();
+		public static readonly string HidePawnGroupOptionsTooltip = "TG.HidePawnGroupOptionsTooltip".Translate();
 
 		public static readonly string ColorBarModeLabel = "TG.ColorBarModeLabel".Translate();
 		public static readonly string ColorBarModeDefault = "TG.ColorBarModeDefault".Translate();

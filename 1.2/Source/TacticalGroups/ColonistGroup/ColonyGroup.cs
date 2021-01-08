@@ -129,7 +129,6 @@ namespace TacticalGroups
                 }
             }
 		}
-
 		public override string ToString()
         {
 			return GetGroupName() + " - " + this.pawns.Count;
