@@ -24,6 +24,7 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			Text.Anchor = TextAnchor.LowerLeft;
+			Text.Font = GameFont.Small;
 			Vector2 topLeftHalf = new Vector2(rect.x + ((rect.width / 2f) - 50f), rect.y + 25f);
 
 			var showAllColonistsRect = new Rect(rect.x + 10, topLeftHalf.y, Textures.MenuButton.width, 25f);
@@ -90,8 +91,7 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
 
 			topRightHalf.y += 25f;
-			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.ColorBarModeLabel);
-			topRightHalf.y += 25f;
+
 			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.ColorBarModeDefault, TacticalGroupsSettings.ColorBarMode == ColorBarMode.Default))
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Default;
@@ -100,14 +100,26 @@ namespace TacticalGroups
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Extended;
 			}
+
 			topRightHalf.y += 25f;
 			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayWeapons);
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayWeapons);
 			
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.WeaponPlacementOffset, 0, 100);
+			topRightHalf.y += 15f;
 
-			topRightHalf.y += 55f;
+			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.WeaponModeShowDrafted, TacticalGroupsSettings.WeaponShowMode == WeaponShowMode.Drafted))
+			{
+				TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Drafted;
+			}
+			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 100f, 30f), Strings.WeaponModeShowAlways, TacticalGroupsSettings.WeaponShowMode != WeaponShowMode.Drafted))
+			{
+				TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Always;
+			}
+
+			topRightHalf.y += 40f;
+
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupRowCount + ": " + TacticalGroupsSettings.GroupRowCount.ToString());
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.GroupRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupRowCount, 1f, 12f);

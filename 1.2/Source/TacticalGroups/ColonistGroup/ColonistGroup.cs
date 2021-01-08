@@ -379,7 +379,7 @@ namespace TacticalGroups
 			}
 
 
-			if (!this.bannerModeEnabled)
+			if (!this.bannerModeEnabled && !this.hideGroupIcon)
 			{
 				var label = this.GetGroupName();
 				var labelHeight = Text.CalcHeight(label, groupRect.width);
@@ -817,7 +817,10 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, ColonistBarColonistDrawer.DeadColonistTex);
 			}
-
+			else if (colonist.IsPrisoner)
+            {
+				GUI.DrawTexture(rect, Textures.PawnPrisoner);
+			}
 			if (ShowExpanded)
             {
 				float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
@@ -1035,8 +1038,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref bannerModeEnabled, "bannerModeEnabled");
 			Scribe_Values.Look(ref entireGroupIsVisible, "entireGroupIsVisible");
 			Scribe_Values.Look(ref isColonyGroup, "isColonyGroup");
-			Scribe_Values.Look(ref isWarband, "isWarband");
-			Scribe_Values.Look(ref isScout, "isScout");
+			Scribe_Values.Look(ref isTaskForce, "isTaskForce");
 			Scribe_Values.Look(ref isPawnGroup, "isPawnGroup");
 			Scribe_Values.Look(ref colorFolder, "colorFolder");
 			Scribe_Values.Look(ref activeWorkState, "activeWorkState");
@@ -1060,8 +1062,7 @@ namespace TacticalGroups
 		public bool hideLifeOverlay;
 		public bool hideWeaponOverlay;
 		public bool isColonyGroup;
-		public bool isWarband;
-		public bool isScout;
+		public bool isTaskForce;
 		public bool isPawnGroup;
 		public string groupName;
 		public string defaultGroupName;

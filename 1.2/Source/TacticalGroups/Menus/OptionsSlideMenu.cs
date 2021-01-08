@@ -75,19 +75,23 @@ namespace TacticalGroups
 				}
 			}
 
-			var hideWeaponOverlayRect = new Rect(hideLifeOverlayRect.x, hideLifeOverlayRect.yMax + 5, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
-			GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
-			if (this.colonistGroup.hideWeaponOverlay)
-			{
-				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ManageOptionsX);
-			}
-			TooltipHandler.TipRegion(hideWeaponOverlayRect, Strings.HideWeaponOverlayOptionsTooltip);
-			if (Mouse.IsOver(hideWeaponOverlayRect))
-			{
-				GUI.DrawTexture(hideWeaponOverlayRect, Textures.RescueTendHover);
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+
+			var hideWeaponOverlayRect = new Rect(rect.x + 13, rect.y + 13, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
+			if (!this.colonistGroup.isColonyGroup)
+            {
+				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
+				if (this.colonistGroup.hideWeaponOverlay)
 				{
-					this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
+					GUI.DrawTexture(hideWeaponOverlayRect, Textures.ManageOptionsX);
+				}
+				TooltipHandler.TipRegion(hideWeaponOverlayRect, Strings.HideWeaponOverlayOptionsTooltip);
+				if (Mouse.IsOver(hideWeaponOverlayRect))
+				{
+					GUI.DrawTexture(hideWeaponOverlayRect, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
+					}
 				}
 			}
 		}

@@ -24,6 +24,10 @@ namespace TacticalGroups
 		public static bool AlteredCarbonIsActive;
 		public static MethodInfo alteredCarbonHandleClicks_PatchMethod;
 		public static MethodInfo alteredCarbonDrawColonist_PatchMethod;
+
+		public static bool CombatExtendedIsActive;
+		public static MethodInfo combatExtendedHasAmmo_Method;
+
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -42,6 +46,11 @@ namespace TacticalGroups
 			{
 				alteredCarbonHandleClicks_PatchMethod = AccessTools.Method(AccessTools.TypeByName("AlteredCarbon.HandleClicks_Patch"), "Prefix");
 				alteredCarbonDrawColonist_PatchMethod = AccessTools.Method(AccessTools.TypeByName("AlteredCarbon.DrawColonist_Patch"), "Prefix");
+			}
+			CombatExtendedIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "ceteam.combatextended").Any();
+			if (CombatExtendedIsActive)
+			{
+				combatExtendedHasAmmo_Method = AccessTools.Method(AccessTools.TypeByName("CombatExtended.CE_Utility"), "HasAmmo");
 			}
 		}
 	}

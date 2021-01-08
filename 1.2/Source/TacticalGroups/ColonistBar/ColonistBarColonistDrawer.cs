@@ -118,6 +118,10 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, DeadColonistTex);
 			}
+			else if (colonist.IsPrisoner)
+            {
+				GUI.DrawTexture(rect, Textures.PawnPrisoner);
+			}
 			float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
 			GenMapUIOptimized.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticUtils.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
@@ -143,15 +147,18 @@ namespace TacticalGroups
 				Color color = GUI.color;
 				GUI.color = Color.white;
 				Rect healthBar = new Rect(rect.x - Textures.HealthBar.width, rect.y, Textures.HealthBar.width, rect.height);
-				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
 				float num = Mathf.Clamp(p.health.summaryHealth.SummaryHealthPercent, 0f, 1f);
-				Color color2 = new ColorInt(154, 55, 55, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				Rect rect3 = GenUI.ContractedBy(healthBar, 1f);
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
+
+				Color color2 = new ColorInt(154, 55, 55, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+
+				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
+
 				GUI.color = color;
 			}
 		}
@@ -159,33 +166,36 @@ namespace TacticalGroups
 		public static void DrawRestAndFoodBars(Pawn p, Rect rect, float needWidth)
 		{
 			Color color = GUI.color;
-			GUI.color = Color.white;
 			Rect needBar = new Rect(rect.x + rect.width, rect.y, needWidth, rect.height);
 			GUI.color = Color.white;
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
 			{
-				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				float num = Mathf.Clamp(p.needs.food.CurLevelPercentage, 0f, 1f);
-				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
+
+				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+
+				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				needBar.x += needWidth;
 			}
 			if (TacticalGroupsSettings.DisplayRest && p.needs?.rest != null)
             {
-				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				float num = Mathf.Clamp(p.needs.rest.CurLevelPercentage, 0f, 1f);
-				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				Rect rect3 = GenUI.ContractedBy(needBar, 1f);
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
+				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
+				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+
+				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
+
 			}
 			GUI.color = color;
 		}
@@ -213,23 +223,23 @@ namespace TacticalGroups
             {
 				if (curLevel <= 0.19f)
 				{
+					result = Textures.DarkRedMoodBar;
+				}
+				else if (curLevel <= 0.27f)
+				{
+					result = Textures.DarkYellowMoodBar;
+				}
+				else if (curLevel <= 0.56f) 
+				{
 					result = Textures.ToxicYellowMoodBar;
-				}
-				else if (curLevel <= 0.39f)
-				{
-					result = Textures.YellowMoodBar;
-				}
-				else if (curLevel <= 0.59f) 
-				{
-					result = Textures.PurpleMoodBar;
 				}
 				else if (curLevel <= 0.79f)
                 {
-					result = MoodBGTex;
+					result = Textures.CyanMoodBar;
                 }
 				else
                 {
-					result = Textures.GreenMoodBar;
+					result = Textures.LightGreenMoodBar;
                 }
 			}
 			return result;
@@ -495,6 +505,10 @@ namespace TacticalGroups
 				return;
 			}
 			if (colonist.TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Where(x => x.hideWeaponOverlay).Any())
+            {
+				return;
+            }
+			if (TacticalGroupsSettings.WeaponShowMode == WeaponShowMode.Drafted && !colonist.Drafted)
             {
 				return;
             }

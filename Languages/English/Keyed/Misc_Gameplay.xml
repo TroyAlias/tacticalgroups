@@ -10,8 +10,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.Manage>Manage</TG.Manage>
 	<TG.Group>Group</TG.Group>
 	<TG.Colony>Colony</TG.Colony>
-	<TG.Warband>Warband</TG.Warband>
-	<TG.Scout>Scout</TG.Scout>
+	<TG.TaskForce>Task Force</TG.TaskForce>
 	<TG.Caravan>Caravan</TG.Caravan>
 	<TG.Diplomacy>Diplomacy</TG.Diplomacy>
 
@@ -61,6 +60,9 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.BattleStations>Battle Stations</TG.BattleStations>
 	<TG.Set>Set</TG.Set>
 	<TG.Clear>Clear</TG.Clear>
+	<TG.Send>Send</TG.Send>
+	<TG.Unload>Unload</TG.Unload>
+	
 	<TG.Formation>Formation</TG.Formation>
 	<TG.Medical>Medical</TG.Medical>
 	<TG.FireAtWill>Fire At Will</TG.FireAtWill>
@@ -171,5 +173,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.HideGroupPawnDotsOptionsTooltip>Hide group pawn dots display</TG.HideGroupPawnDotsOptionsTooltip>
 	<TG.HideGroupHealthAlertOverlayOptionsTooltip>Hide group health alert overlay</TG.HideGroupHealthAlertOverlayOptionsTooltip>
 	<TG.HideWeaponOverlayOptionsTooltip>Hide group weapon overlay</TG.HideWeaponOverlayOptionsTooltip>
+	<TG.WeaponModeShowDrafted>Drafted</TG.WeaponModeShowDrafted>
+	<TG.WeaponModeShowAlways>Always</TG.WeaponModeShowAlways>
 	
 </LanguageData>

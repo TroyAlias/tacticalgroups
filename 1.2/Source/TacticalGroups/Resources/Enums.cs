@@ -59,4 +59,15 @@ namespace TacticalGroups
 		Active,
 		ForcedLabor
     }
+	public enum ColorBarMode
+	{
+		Default,
+		Extended
+	}
+
+	public enum WeaponShowMode
+	{
+		Drafted,
+		Always
+	}
 }

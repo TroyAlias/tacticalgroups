@@ -53,25 +53,29 @@ namespace TacticalGroups
 			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
-			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isColonyGroup).Count() + 1;
+			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isColonyGroup).Count() + 1;
 		}
 
-		public void ConvertToWarband()
+		public void ConvertToTaskForce()
         {
-			this.defaultGroupName = Strings.Warband;
-			this.isWarband = true;
+			this.defaultGroupName = Strings.TaskForce;
+			this.isTaskForce = true;
 			this.isColonyGroup = false;
-			this.groupIcon = Textures.WarbandIcon_Default;
-			this.groupBanner = Textures.WarbandBanner_Default;
+			this.groupIcon = Textures.TaskForceIcon_Default;
+			this.groupBanner = Textures.TaskForceBanner_Default;
+			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isTaskForce).Count() + 1;
+			this.updateIcon = true;
 		}
 
-		public void ConvertToScout()
+		public void ConvertToColonyGroup()
 		{
-			this.defaultGroupName = Strings.Scout;
-			this.isScout = true;
-			this.isColonyGroup = false;
-			this.groupIcon = Textures.ScoutIcon_Default;
-			this.groupBanner = Textures.WarbandBanner_Default;
+			this.defaultGroupName = Strings.Colony;
+			this.isTaskForce = false;
+			this.isColonyGroup = true;
+			this.groupIcon = Textures.ColonyGroupIcon_Default;
+			this.groupBanner = Textures.ColonyGroupBanner_Default;
+			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isColonyGroup).Count() + 1;
+			this.updateIcon = true;
 		}
 		public override void Draw(Rect rect)
         {
@@ -119,13 +123,9 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref colorFolder, "colorFolder", "Colony");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-				if (this.isWarband)
+				if (this.isTaskForce)
                 {
-					this.ConvertToWarband();
-                }
-				else if (this.isScout)
-                {
-					this.ConvertToScout();
+					this.ConvertToTaskForce();
                 }
             }
 		}

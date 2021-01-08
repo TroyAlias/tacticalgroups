@@ -130,6 +130,27 @@ namespace TacticalGroups
 					GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
                 }
 			}
+			if (ModCompatibility.CombatExtendedIsActive)
+            {
+				for (var i = 0; i < this.pawns.Count; i++)
+                {
+					var gun = this.pawns[i].equipment?.Primary ?? null;
+					if (gun != null && gun.def.IsRangedWeapon && (!(bool)ModCompatibility.combatExtendedHasAmmo_Method.Invoke(null, new object[] 
+					{
+						gun
+					})))
+                    {
+						if (this.bannerModeEnabled)
+                        {
+							GUI.DrawTexture(rect, Textures.OutofAmmoBanner);
+						}
+						else
+                        {
+							GUI.DrawTexture(rect, Textures.OutofAmmoDefault);
+						}
+					}
+                }
+            }
 		}
 
 		private int curHoverPeriod;

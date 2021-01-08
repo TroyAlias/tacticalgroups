@@ -20,9 +20,8 @@ namespace TacticalGroups
 
 		public static readonly string Group = "TG.Group".Translate();
 		public static readonly string Colony = "TG.Colony".Translate();
-		public static readonly string Warband = "TG.Warband".Translate();
-		public static readonly string Scout = "TG.Scout".Translate();
 		public static readonly string Caravan = "TG.Caravan".Translate();
+		public static readonly string TaskForce = "TG.TaskForce".Translate();
 
 		public static readonly string GetToWork = "TG.GetToWork".Translate();
 		public static readonly string TakeABreak = "TG.TakeABreak".Translate();
@@ -60,6 +59,8 @@ namespace TacticalGroups
 		public static readonly string BattleStations = "TG.BattleStations".Translate();
 		public static readonly string Set = "TG.Set".Translate();
 		public static readonly string Clear = "TG.Clear".Translate();
+		public static readonly string Send = "TG.Send".Translate();
+		public static readonly string Unload = "TG.Unload".Translate();
 		public static readonly string Formation = "TG.Formation".Translate();
 		public static readonly string Medical = "TG.Medical".Translate();
 
@@ -155,5 +156,8 @@ namespace TacticalGroups
 		public static readonly string ColorBarModeLabel = "TG.ColorBarModeLabel".Translate();
 		public static readonly string ColorBarModeDefault = "TG.ColorBarModeDefault".Translate();
 		public static readonly string ColorBarModeExtended = "TG.ColorBarModeExtended".Translate();
+
+		public static readonly string WeaponModeShowDrafted = "TG.WeaponModeShowDrafted".Translate();
+		public static readonly string WeaponModeShowAlways = "TG.WeaponModeShowAlways".Translate();
 	}
 }

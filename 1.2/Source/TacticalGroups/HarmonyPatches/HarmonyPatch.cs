@@ -9,6 +9,7 @@ using System;
 using Verse.Sound;
 using Verse.AI;
 using System.Linq;
+using System.Reflection.Emit;
 
 namespace TacticalGroups 
 {
@@ -65,6 +66,10 @@ namespace TacticalGroups
                 typeof(bool)
             }), prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanEnter)));
 
+
+            harmony.Patch(AccessTools.Method(typeof(SettleInExistingMapUtility), nameof(SettleInExistingMapUtility.Settle)), 
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Settle)));
+
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnAdded", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnRemoved", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "PostAdd", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
@@ -98,7 +103,32 @@ namespace TacticalGroups
 
             harmony.Patch(AccessTools.Method(typeof(PawnTable), "PawnTableOnGUI", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(WorldObject), "Destroy", null, null), new HarmonyMethod(typeof(HarmonyPatches), "Caravan_Destroy_Prefix", null), null, null, null);
+            
+            harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), "HandleLowPriorityShortcuts", null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
 
+        }
+
+        private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            FieldInfo wantedModeInfo = AccessTools.Field(typeof(WorldRenderer), "wantedMode");
+            foreach (var ins in instructions)
+            {
+                if (ins.OperandIs(wantedModeInfo))
+                {
+                    yield return ins;
+                    yield return new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(HarmonyPatches), "HandleLowPriorityShortcuts", null, null));
+                }
+                else
+                {
+                    yield return ins;
+                }
+            }
+            yield break;
+        }
+
+        public static void HandleLowPriorityShortcuts()
+        {
+            TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
         public static Pawn curClickedColonist;
         public static void ReorderableWidgetOnGUI_AfterWindowStack(bool ___released, bool ___dragBegun, int ___draggingReorderable)
@@ -224,7 +254,16 @@ namespace TacticalGroups
             TacticUtils.TacticalGroups.RemoveCaravanGroup(caravan);
             TacticUtils.TacticalGroups.CreateOrJoinColony(caravan.PawnsListForReading, map);
         }
-
+        private static void Settle(Map map)
+        {
+            if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(map, out ColonyGroup group))
+            {
+                if (group.isTaskForce)
+                {
+                    group.ConvertToColonyGroup();
+                }
+            }
+        }
         private static void Pawn_SpawnSetup_Postfix(Pawn __instance)
         {
             if (__instance.Spawned && __instance.FactionOrExtraMiniOrHomeFaction == Faction.OfPlayer && __instance.RaceProps.Humanlike)

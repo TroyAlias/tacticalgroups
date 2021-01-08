@@ -293,23 +293,10 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
-					var window = new Dialog_FormCaravan(this.colonistGroup.Map);
-					Find.WindowStack.Add(window);
 
-					foreach (var pawn in this.colonistGroup.pawns)
-                    {
-						foreach (var trad in window.transferables)
-                        {
-							if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.pawns.Contains(pawn2))
-                            {
-								trad.AdjustTo(1);
-                            }
-                        }
-					}
-
-					Traverse.Create(window).Method("CountToTransferChanged").GetValue();
+					var floatMenu = new CaravanMenu(this, this.colonistGroup, this.windowRect, Textures.CaravanMenu);
+					this.OpenNewMenu(floatMenu);
 					Event.current.Use();
-					this.CloseAllWindows();
 				}
 			}
 

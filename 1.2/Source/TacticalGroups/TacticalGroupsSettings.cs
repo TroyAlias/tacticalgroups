@@ -6,11 +6,6 @@ using Verse;
 
 namespace TacticalGroups
 {
-    public enum ColorBarMode
-    {
-        Default,
-        Extended
-    }
     class TacticalGroupsSettings : ModSettings
     {
         public static bool DisplayFood;
@@ -30,6 +25,7 @@ namespace TacticalGroups
         public static float PawnNeedsWidth = 4f;
         public static int WeaponPlacementOffset = 10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
+        public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
 
         public override void ExposeData()
         {
@@ -50,6 +46,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
             Scribe_Values.Look(ref ColorBarMode, "ColorBarMode", ColorBarMode.Default);
+            Scribe_Values.Look(ref WeaponShowMode, "WeaponShowMode", WeaponShowMode.Drafted);
         }
 
         public void DoSettingsWindowContents(Rect inRect)

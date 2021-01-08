@@ -98,16 +98,11 @@ namespace TacticalGroups
             }
             else
             {
-                this.colonyGroups[map] = new ColonyGroup(pawns);
-                if ((map.ParentFaction?.HostileTo(Faction.OfPlayer) ?? false) || map.mapPawns.AllPawns.Where(x => x.HostileTo(Faction.OfPlayer) && !x.Fogged()).Any())
+                var newColony = new ColonyGroup(pawns);
+                this.colonyGroups[map] = newColony;
+                if (!map.IsPlayerHome || map.ParentFaction != Faction.OfPlayer)
                 {
-                    this.colonyGroups[map].ConvertToWarband();
-                    this.colonyGroups[map].groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isWarband).Count() + 1;
-                }
-                else
-                {
-                    this.colonyGroups[map].ConvertToScout();
-                    this.colonyGroups[map].groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value.isWarband).Count() + 1;
+                    newColony.ConvertToTaskForce();
                 }
             }
 

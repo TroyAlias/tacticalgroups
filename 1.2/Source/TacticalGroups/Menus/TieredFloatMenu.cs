@@ -26,7 +26,7 @@ namespace TacticalGroups
 
 		protected List<TieredFloatMenuOption> options;
 
-		private Color baseColor = Color.white;
+		protected Color baseColor = Color.white;
 		protected virtual Vector2 InitialPositionShift => new Vector2(4f, 0f);
 		protected virtual Vector2 InitialFloatOptionPositionShift => new Vector2(0f, 0f);
 		protected override float Margin => 0f;
@@ -179,7 +179,7 @@ namespace TacticalGroups
 		{
 		}
 
-		private void UpdateBaseColor()
+		protected virtual void UpdateBaseColor()
 		{
 			if (!Selected && !HasActiveParent)
 			{
