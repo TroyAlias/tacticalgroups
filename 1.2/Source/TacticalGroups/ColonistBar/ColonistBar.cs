@@ -58,7 +58,7 @@ namespace TacticalGroups
 
         private bool entriesDirty = true;
 
-        private List<Pawn> colonistsToHighlight = new List<Pawn>();
+        private HashSet<Pawn> colonistsToHighlight = new HashSet<Pawn>();
 
         public static readonly Texture2D BGTex = Command.BGTex;
 
@@ -263,12 +263,8 @@ namespace TacticalGroups
                     if (entry.pawn != null)
                     {
                         drawer.DrawColonist(rect, entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
-                        Faction faction = null;
-                        if (entry.pawn.HasExtraMiniFaction())
-                        {
-                            faction = entry.pawn.GetExtraMiniFaction();
-                        }
-                        else if (entry.pawn.HasExtraHomeFaction())
+                        Faction faction = entry.pawn.GetExtraMiniFaction();
+                        if (faction == null)
                         {
                             faction = entry.pawn.GetExtraHomeFaction();
                         }

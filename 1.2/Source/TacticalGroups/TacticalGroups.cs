@@ -14,20 +14,6 @@ namespace TacticalGroups
 
         }
 
-        private TacticalColonistBar colonistBar;
-        public TacticalColonistBar TacticalColonistBar
-        {
-            get
-            {
-                if (colonistBar is null)
-                {
-                    colonistBar = new TacticalColonistBar();
-                    colonistBar.UpdateSizes();
-                }
-                return colonistBar;
-            }
-        }
-
         public List<PawnGroup> pawnGroups;
 
         public Dictionary<Caravan, CaravanGroup> caravanGroups;

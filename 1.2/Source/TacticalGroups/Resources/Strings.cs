@@ -161,5 +161,14 @@ namespace TacticalGroups
 
 		public static readonly string WeaponModeShowDrafted = "TG.WeaponModeShowDrafted".Translate();
 		public static readonly string WeaponModeShowAlways = "TG.WeaponModeShowAlways".Translate();
+
+		public static readonly string ActivityIconFormingCaravan = "ActivityIconFormingCaravan".Translate();
+		public static readonly string ActivityIconMedicalRest = "ActivityIconMedicalRest".Translate();
+		public static readonly string ActivityIconSleeping = "ActivityIconSleeping".Translate();
+		public static readonly string ActivityIconFleeing = "ActivityIconFleeing".Translate();
+		public static readonly string ActivityIconAttacking = "ActivityIconAttacking".Translate();
+		public static readonly string ActivityIconIdle = "ActivityIconIdle".Translate();
+		public static readonly string ActivityIconBurning = "ActivityIconBurning".Translate();
+
 	}
 }

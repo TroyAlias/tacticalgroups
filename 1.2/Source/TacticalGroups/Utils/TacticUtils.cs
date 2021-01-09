@@ -13,6 +13,7 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	internal static class TacticUtils
 	{
+		private static TacticalGroups tacticalGroups;
 		public static TacticalGroups TacticalGroups
 		{
 			get
@@ -92,6 +93,8 @@ namespace TacticalGroups
 		public static void ResetTacticGroups()
 		{
 			tacticalGroups = Find.World.GetComponent<TacticalGroups>();
+			TacticalColonistBar = new TacticalColonistBar();
+			TacticalColonistBar.UpdateSizes();
 		}
 
 		public static bool IsDownedOrIncapable(this Pawn pawn)
@@ -667,7 +670,6 @@ namespace TacticalGroups
 			}
 		}
 
-		private static TacticalGroups tacticalGroups;
-		public static TacticalColonistBar TacticalColonistBar => TacticalGroups.TacticalColonistBar;
+		public static TacticalColonistBar TacticalColonistBar;
 	}
 }
