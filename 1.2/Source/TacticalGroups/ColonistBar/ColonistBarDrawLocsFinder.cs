@@ -13,11 +13,11 @@ namespace TacticalGroups
 		private List<int> horizontalSlotsPerGroup = new List<int>();
 		private static float MaxColonistBarWidth => (float)UI.screenWidth - 520f;
 
-		public static Dictionary<CaravanGroup, Vector2> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Vector2>();
-		public static Dictionary<ColonyGroup, Vector2> colonyGroupDrawLoc = new Dictionary<ColonyGroup, Vector2>();
-		public static Dictionary<PawnGroup, Vector2> pawnGroupDrawLoc = new Dictionary<PawnGroup, Vector2>();
+		public static Dictionary<CaravanGroup, Rect> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Rect>();
+		public static Dictionary<ColonyGroup, Rect> colonyGroupDrawLoc = new Dictionary<ColonyGroup, Rect>();
+		public static Dictionary<PawnGroup, Rect> pawnGroupDrawLoc = new Dictionary<PawnGroup, Rect>();
 		public static Rect createGroupRect;
-		public void CalculateDrawLocs(List<Vector2> outDrawLocs, out float scale)
+		public void CalculateDrawLocs(List<Rect> outDrawLocs, out float scale)
 		{
 			caravanGroupDrawLoc.Clear();
 			colonyGroupDrawLoc.Clear();
@@ -164,7 +164,7 @@ namespace TacticalGroups
 			}
 			return 3;
 		}
-		private void CalculateDrawLocs(List<Vector2> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
+		private void CalculateDrawLocs(List<Rect> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
 			int num = maxPerGlobalRow;
@@ -222,9 +222,10 @@ namespace TacticalGroups
                     {
 						if (entries[j].caravanGroup != null)
 						{
-							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (25f * scale), TacticalGroupsSettings.ColonistBarPositionY);
-							num7 += entries[j].caravanGroup.groupIcon.width * TacticalGroupsSettings.GroupScale;
-		}
+							caravanGroupDrawLoc[entries[j].caravanGroup] = new Rect(num7 - (25f * scale), TacticalGroupsSettings.ColonistBarPositionY,
+								entries[j].caravanGroup.groupBanner.width * TacticalGroupsSettings.GroupScale, entries[j].caravanGroup.groupBanner.height * TacticalGroupsSettings.GroupScale);
+							num7 += entries[j].caravanGroup.groupBanner.width * TacticalGroupsSettings.GroupScale;
+						}
 						else if (entries[j].colonyGroup != null)
 						{
 							if (entries[j].colonyGroup.Map == Find.CurrentMap)
@@ -245,7 +246,8 @@ namespace TacticalGroups
 												xPos = initPos;
 												yPos += ((list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale) / 2) + 7;
 											}
-											pawnGroupDrawLoc[list[groupID]] = new Vector2(xPos, yPos);
+											pawnGroupDrawLoc[list[groupID]] = new Rect(xPos, yPos, list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale, 
+												list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale);
 											xPos += ((list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale) / 2) + 5;
 										}
 										list = list.Take(3).ToList();
@@ -253,7 +255,8 @@ namespace TacticalGroups
 									}
 								}
 							}
-							colonyGroupDrawLoc[entries[j].colonyGroup] = new Vector2(num7, TacticalGroupsSettings.ColonistBarPositionY);
+							colonyGroupDrawLoc[entries[j].colonyGroup] = new Rect(num7, TacticalGroupsSettings.ColonistBarPositionY, entries[j].colonyGroup.groupBanner.width * TacticalGroupsSettings.GroupScale,
+												entries[j].colonyGroup.groupBanner.height * TacticalGroupsSettings.GroupScale);
 							num7 += (entries[j].colonyGroup.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10;
 							if (entries[j].colonyGroup.Map == Find.CurrentMap)
 							{
@@ -273,7 +276,8 @@ namespace TacticalGroups
 												xPos = initPos;
 												yPos += (list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale) + 25;
 											}
-											pawnGroupDrawLoc[list[groupID]] = new Vector2(xPos, yPos);
+											pawnGroupDrawLoc[list[groupID]] = new Rect(xPos, yPos, list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale,
+												list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale);
 											xPos += (list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale) + 10;
 										}
 										list = list.Take(TacticalGroupsSettings.GroupRowCount).ToList();
@@ -305,7 +309,7 @@ namespace TacticalGroups
 					num6++;
 				}
 				Vector2 drawLoc = GetDrawLoc(num7, TacticalGroupsSettings.ColonistBarPositionY, entries[j].group, num6, scale);
-				outDrawLocs.Add(drawLoc);
+				outDrawLocs.Add(new Rect(drawLoc.x, drawLoc.y, TacticUtils.TacticalColonistBar.Size.x, TacticUtils.TacticalColonistBar.Size.y));
 			}
 		}
 

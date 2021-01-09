@@ -251,7 +251,7 @@ namespace TacticalGroups
 			float num2 = 0f;
 			float num3 = 0f;
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-			List<Vector2> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
+			List<Rect> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
 			for (int i = 0; i < entries.Count; i++)
 			{
 				if (entries[i].group == group)
