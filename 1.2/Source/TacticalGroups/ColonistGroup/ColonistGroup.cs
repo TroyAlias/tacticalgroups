@@ -23,6 +23,8 @@ namespace TacticalGroups
 		protected int pawnRowCount;
 		protected int pawnDocRowCount;
 		protected float pawnRowXPosShift;
+		public string curGroupName;
+		private float cachedGroupNameHeight;
 		public bool ShowExpanded
         {
 			get
@@ -62,6 +64,13 @@ namespace TacticalGroups
 			Log.Message("Init: " + temporaryWorkers);
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
+		}
+
+		public void SetName(string name)
+        {
+			this.groupName = name;
+			this.curGroupName = this.groupName;
+			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
 		}
 		public virtual void Add(Pawn pawn)
         {
@@ -115,21 +124,6 @@ namespace TacticalGroups
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
 		}
-
-		public string GetGroupName
-        {
-			get
-            {
-				if (this.groupName != null)
-				{
-					return this.groupName;
-				}
-				else
-				{
-					return this.defaultGroupName + " " + this.groupID;
-				}
-			}
-        }
 
 		private Dictionary<int, List<List<Pawn>>> cachedPawnRows = new Dictionary<int, List<List<Pawn>>>();
 		public List<List<Pawn>> GetPawnRows(int columnCount)
@@ -396,6 +390,7 @@ namespace TacticalGroups
 				this.groupIcon = icon;
 			}
 			this.updateIcon = false;
+			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
@@ -403,47 +398,46 @@ namespace TacticalGroups
         {
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			if (this.isSubGroup)
             {
-				groupRect.width /= 2;
-				groupRect.height /= 2;
+				rect.width /= 2;
+				rect.height /= 2;
 			}
-			this.curRect = groupRect;
+			this.curRect = rect;
 			if (this.updateIcon)
             {
 				UpdateIcon();
 			}
 			if (!hideGroupIcon)
 			{
-				GUI.DrawTexture(groupRect, this.groupBanner);
-				GUI.DrawTexture(groupRect, this.groupIcon);
+				GUI.DrawTexture(rect, this.groupBanner);
+				GUI.DrawTexture(rect, this.groupIcon);
 			}
-			else if (Mouse.IsOver(groupRect))
+			else if (Mouse.IsOver(rect))
             {
-				GUI.DrawTexture(groupRect, this.groupBanner);
-				GUI.DrawTexture(groupRect, this.groupIcon);
+				GUI.DrawTexture(rect, this.groupBanner);
+				GUI.DrawTexture(rect, this.groupIcon);
 			}
 
 			if (!hideGroupIcon)
             {
-				if (!groupButtonRightClicked && Mouse.IsOver(groupRect))
+				if (!groupButtonRightClicked && Mouse.IsOver(rect))
 				{
-					GUI.DrawTexture(groupRect, Textures.GroupIconHover);
+					GUI.DrawTexture(rect, Textures.GroupIconHover);
 				}
 				else if (groupButtonRightClicked)
 				{
 					if (this.bannerModeEnabled)
 					{
-						GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
+						GUI.DrawTexture(rect, Textures.BannerIconSelected);
 					}
 					else if (this.isPawnGroup)
 					{
-						GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
+						GUI.DrawTexture(rect, Textures.GroupIconSelected);
 					}
 					else if (this.isColonyGroup || this.isTaskForce)
 					{
-						GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
+						GUI.DrawTexture(rect, Textures.ColonyIconSelected);
 					}
 				}
 			}
@@ -451,11 +445,9 @@ namespace TacticalGroups
 
 			if (!this.isSubGroup && !this.bannerModeEnabled && !this.hideGroupIcon)
 			{
-				var label = this.GetGroupName;
-				var labelHeight = Text.CalcHeight(label, groupRect.width);
-				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, labelHeight);
+				var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, cachedGroupNameHeight);
 				Text.Anchor = TextAnchor.MiddleCenter;
-				Widgets.Label(groupLabelRect, label);
+				Widgets.Label(groupLabelRect, this.curGroupName);
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 		}
@@ -508,7 +500,7 @@ namespace TacticalGroups
 				}
 				if (!ShowExpanded)
 				{
-					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(GetGroupName)));
+					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
 				}
 				HandleClicks(groupRect);
 			}
@@ -1137,6 +1129,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
+
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -1145,6 +1138,14 @@ namespace TacticalGroups
 				if (this.activeWorkTypes is null) this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 				if (this.formations is null) this.formations = new Dictionary<Pawn, IntVec3>();
 				if (this.pawnIcons is null) this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+				if (this.groupName != null)
+				{
+					this.curGroupName = this.groupName;
+				}
+				else
+				{
+					this.curGroupName = this.defaultGroupName + " " + this.groupID;
+				}
 			}
 		}
 

@@ -166,13 +166,13 @@ namespace TacticalGroups
                 if (Mouse.IsOver(createGroupRect))
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
+                    TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
                 }
                 else if (!TacticalGroupsSettings.HideCreateGroup)
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
                 }
-                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
-
+                
                 HandleGroupingClicks(createGroupRect);
                 Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
                 if (Mouse.IsOver(optionsGearRect))
@@ -183,48 +183,38 @@ namespace TacticalGroups
                         TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
                         Find.WindowStack.Add(floatMenu);
                     }
+                    TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
                 }
                 else if (!TacticalGroupsSettings.HideCreateGroup)
                 {
                     GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
                 }
-                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    data.Key.Draw(data.Value);
+                    ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
+                }
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                {
+                    ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
+                }
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                {
+                    ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    data.Key.Draw(data.Value);
+                    ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    data.Key.Draw(data.Value);
+                    ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
                 }
 
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    data.Key.DrawOverlays(data.Value);
-                }
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
-                {
-                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    data.Key.DrawOverlays(data.Value);
-                }
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
-                {
-                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    data.Key.DrawOverlays(data.Value);
+                    ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
 
                 for (int i = 0; i < cachedDrawLocs.Count; i++)
