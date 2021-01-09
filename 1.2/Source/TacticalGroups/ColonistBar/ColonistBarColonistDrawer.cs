@@ -372,7 +372,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-
+			
 			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			bool flag = false;
@@ -424,17 +424,17 @@ namespace TacticalGroups
 			{
 				DrawIcon(Icon_Idle, ref pos, Strings.ActivityIconIdle);
 			}
-
+			
 			if (colonist.IsBurning() && pos.x + num <= rect.xMax)
 			{
 				DrawIcon(Icon_Burning, ref pos, Strings.ActivityIconBurning);
 			}
-
+			
 			if (colonist.Inspired && pos.x + num <= rect.xMax)
 			{
 				DrawIcon(Icon_Inspired, ref pos, colonist.InspirationDef.LabelCap);
 			}
-
+			
 			if (ModCompatibility.RimworldOfMagicIsActive)
 			{
 				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]

@@ -167,21 +167,20 @@ namespace TacticalGroups
         public override void DrawOverlays(Rect rect)
         {
             base.DrawOverlays(rect);
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			if (this.isSubGroup)
             {
-				groupRect.width /= 2f;
-				groupRect.height /= 2f;
+				rect.width /= 2f;
+				rect.height /= 2f;
 			}
 			bool reset = true;
-			if (Mouse.IsOver(groupRect))
+			if (Mouse.IsOver(rect))
             {
 				curHoverPeriod++;
 				reset = false;
 			}
 			if (curHoverPeriod > 30)
             {
-				var rightGroupArrowRect = new Rect(groupRect.x + groupRect.width, groupRect.y, Textures.GroupArrowRight.width, Textures.GroupArrowRight.height);
+				var rightGroupArrowRect = new Rect(rect.x + rect.width, rect.y, Textures.GroupArrowRight.width, Textures.GroupArrowRight.height);
 				if (Mouse.IsOver(rightGroupArrowRect))
                 {
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -207,7 +206,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(rightGroupArrowRect, Textures.GroupArrowRight);
 				}
 
-				var leftGroupArrowRect = new Rect(groupRect.x - Textures.GroupArrowLeft.width, groupRect.y, Textures.GroupArrowLeft.width, Textures.GroupArrowLeft.height);
+				var leftGroupArrowRect = new Rect(rect.x - Textures.GroupArrowLeft.width, rect.y, Textures.GroupArrowLeft.width, Textures.GroupArrowLeft.height);
 				if (Mouse.IsOver(leftGroupArrowRect))
 				{
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)

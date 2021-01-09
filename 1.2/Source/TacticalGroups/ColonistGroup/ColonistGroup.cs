@@ -9,6 +9,16 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
+	public class PawnDownedStateCache
+	{
+		public PawnDownedStateCache()
+		{
+
+		}
+		public bool downed;
+		public int updateCount;
+	}
+
 	public class PawnDot
     {
 		public Pawn pawn;
@@ -469,17 +479,16 @@ namespace TacticalGroups
         {
 			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			if (this.isSubGroup)
 			{
-				groupRect.width /= 2;
-				groupRect.height /= 2;
+				rect.width /= 2;
+				rect.height /= 2;
 			}
 			if (ShowExpanded)
 			{
-				totalRect = new Rect(groupRect.x, groupRect.y, groupRect.width, groupRect.height);
+				totalRect = rect;
 				totalRect.height += pawnRows.Count * 75f;
-				totalRect.x = (groupRect.x + (groupRect.width / 2f));
+				totalRect.x = (rect.x + (rect.width / 2f));
 				totalRect.x -= ((this.pawnRowCount * 75f) / 2f);
 				totalRect.width = 75f * pawnRowCount;
 			}
@@ -487,18 +496,18 @@ namespace TacticalGroups
 			{
 				if (this.bannerModeEnabled)
 				{
-					totalRect = new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, groupRect.height);
+					totalRect = new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, rect.height);
 				}
 				else
 				{
-					totalRect = new Rect(rect.x, rect.y, rect.width, groupRect.height);
+					totalRect = new Rect(rect.x, rect.y, rect.width, rect.height);
 				}
 
 				totalRect = totalRect.ScaledBy(1.2f);
 				totalRect.height += pawnRows.Count * 30;
 			}
 
-			if (Mouse.IsOver(groupRect))
+			if (Mouse.IsOver(rect))
 			{
 				if (!this.isSubGroup)
                 {
@@ -508,19 +517,19 @@ namespace TacticalGroups
 					//	subGroupsExpanded = true;
 					//	TacticUtils.TacticalColonistBar.MarkColonistsDirty();
                     //}
-					DrawPawnRows(groupRect, pawnRows);
-					DrawPawnArrows(groupRect, pawnRows);
+					DrawPawnRows(rect, pawnRows);
+					DrawPawnArrows(rect, pawnRows);
 				}
 				if (!ShowExpanded)
 				{
-					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
+					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
 				}
-				HandleClicks(groupRect);
+				HandleClicks(rect);
 			}
 			else if (!this.isSubGroup && (Mouse.IsOver(totalRect) && pawnWindowIsActive || showPawnIconsRightClickMenu))
 			{
-				DrawPawnRows(groupRect, pawnRows);
-				DrawPawnArrows(groupRect, pawnRows);
+				DrawPawnRows(rect, pawnRows);
+				DrawPawnArrows(rect, pawnRows);
 			}
 			else if (!this.isSubGroup)
 			{
@@ -528,12 +537,12 @@ namespace TacticalGroups
 				expandPawnIcons = false;
 				if (!this.hidePawnDots)
                 {
-					DrawPawnDots(groupRect);
+					DrawPawnDots(rect);
                 }
-				else if (!this.hideLifeOverlay)
-                {
-					DrawLifeOverlayWithDisabledDots(rect);
-				}
+			}
+			else if (this.isSubGroup && !this.hideLifeOverlay)
+			{
+				DrawLifeOverlayWithDisabledDots(rect);
 			}
 		}
 
@@ -627,12 +636,34 @@ namespace TacticalGroups
 			}
 		}
 
+		private Dictionary<Pawn, PawnDownedStateCache> pawnDownedStates = new Dictionary<Pawn, PawnDownedStateCache>();
+		private bool GetPawnDownedState(Pawn pawn)
+		{
+			if (pawnDownedStates.TryGetValue(pawn, out PawnDownedStateCache pawnDownedStateCache))
+			{
+
+				if (pawnDownedStateCache.updateCount == 0)
+				{
+					pawnDownedStateCache.downed = pawn.IsDownedOrIncapable();
+					pawnDownedStateCache.updateCount = 60;
+				}
+				pawnDownedStateCache.updateCount--;
+				return pawnDownedStateCache.downed;
+			}
+			else
+			{
+				pawnDownedStates[pawn] = new PawnDownedStateCache();
+				pawnDownedStates[pawn].downed = pawn.IsDownedOrIncapable();
+				return pawnDownedStates[pawn].downed;
+			}
+		}
+
 		private void DrawLifeOverlayWithDisabledDots(Rect rect)
         {
 			bool showDownedState = false;
 			foreach (var pawn in this.pawns)
             {
-				if (pawn.IsDownedOrIncapable())
+				if (GetPawnDownedState(pawn))
 				{
 					if (!showDownedState)
 					{
