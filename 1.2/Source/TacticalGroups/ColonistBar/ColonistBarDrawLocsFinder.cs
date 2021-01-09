@@ -90,7 +90,7 @@ namespace TacticalGroups
 					scaleMultiplier += (float)count / 10f;
 				}
 
-				float num3 = ((TacticalColonistBar.BaseSize.x + 24f) * num);
+				float num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * num);
 				float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
@@ -177,7 +177,7 @@ namespace TacticalGroups
 				num = TacticUtils.TacticalColonistBar.Entries.Count;
 			}
 			int num2 = CalculateGroupsCount();
-			float num3 = (TacticalColonistBar.BaseSize.x + 24f) * scale;
+			float num3 = (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * scale;
 			float num4 = ((float)num * num3 + (float)(num2 - 1) * 25f * scale);
 			if (!TacticalGroupsSettings.HideGroups)
             {
@@ -207,6 +207,7 @@ namespace TacticalGroups
 			int num5 = -1;
 			int num6 = -1;
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
+			num7 += TacticalGroupsSettings.ColonistBarPositionX;
 			bool createGroupAssigned = false;
 			for (int j = 0; j < entries.Count; j++)
 			{
@@ -215,18 +216,18 @@ namespace TacticalGroups
 					if (num5 >= 0)
 					{
 						num7 += 25f * scale;
-						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + 24f);
+						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing);
 					}
 					if (!TacticalGroupsSettings.HideGroups)
                     {
 						if (entries[j].caravanGroup != null)
 						{
-							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (25f * scale), TacticalGroupsSettings.MarginTop);
+							caravanGroupDrawLoc[entries[j].caravanGroup] = new Vector2(num7 - (25f * scale), TacticalGroupsSettings.ColonistBarPositionY);
 							num7 += entries[j].caravanGroup.groupIcon.width * TacticalGroupsSettings.GroupScale;
 		}
 						else if (entries[j].colonyGroup != null)
 						{
-							if (entries[j].colonyGroup.subGroupsExpanded && entries[j].colonyGroup.Map == Find.CurrentMap)
+							if (entries[j].colonyGroup.Map == Find.CurrentMap)
 							{
 								if (!WorldRendererUtility.WorldRenderedNow)
 								{
@@ -236,7 +237,7 @@ namespace TacticalGroups
 										list.Reverse();
 										var initPos = num7;
 										var xPos = num7;
-										var yPos = TacticalGroupsSettings.MarginTop;
+										var yPos = TacticalGroupsSettings.ColonistBarPositionY;
 										for (var groupID = 0; groupID < list.Count(); groupID++)
 										{
 											if (groupID > 0 && groupID % 3 == 0)
@@ -252,7 +253,7 @@ namespace TacticalGroups
 									}
 								}
 							}
-							colonyGroupDrawLoc[entries[j].colonyGroup] = new Vector2(num7, TacticalGroupsSettings.MarginTop);
+							colonyGroupDrawLoc[entries[j].colonyGroup] = new Vector2(num7, TacticalGroupsSettings.ColonistBarPositionY);
 							num7 += (entries[j].colonyGroup.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10;
 							if (entries[j].colonyGroup.Map == Find.CurrentMap)
 							{
@@ -264,7 +265,7 @@ namespace TacticalGroups
 										list.Reverse();
 										var initPos = num7;
 										var xPos = num7;
-										var yPos = TacticalGroupsSettings.MarginTop;
+										var yPos = TacticalGroupsSettings.ColonistBarPositionY;
 										for (var groupID = 0; groupID < list.Count(); groupID++)
 										{
 											if (groupID > 0 && groupID % TacticalGroupsSettings.GroupRowCount == 0)
@@ -286,14 +287,14 @@ namespace TacticalGroups
                     {
 						if (entries[j].colonyGroup?.Map == Find.CurrentMap)
 						{
-							createGroupRect = new Rect(num7, TacticalGroupsSettings.MarginTop, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+							createGroupRect = new Rect(num7, TacticalGroupsSettings.ColonistBarPositionY, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 							num7 += Textures.CreateGroupIcon.width + 20f;
 							createGroupAssigned = true;
 						}
 					}
 					else if (!createGroupAssigned)
                     {
-						createGroupRect = new Rect(num7, TacticalGroupsSettings.MarginTop, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+						createGroupRect = new Rect(num7, TacticalGroupsSettings.ColonistBarPositionY, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
 						num7 += Textures.CreateGroupIcon.width + 20f;
 					}
 					num6 = 0;
@@ -303,7 +304,7 @@ namespace TacticalGroups
 				{
 					num6++;
 				}
-				Vector2 drawLoc = GetDrawLoc(num7, TacticalGroupsSettings.MarginTop, entries[j].group, num6, scale);
+				Vector2 drawLoc = GetDrawLoc(num7, TacticalGroupsSettings.ColonistBarPositionY, entries[j].group, num6, scale);
 				outDrawLocs.Add(drawLoc);
 			}
 		}
@@ -312,12 +313,12 @@ namespace TacticalGroups
 
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
-			float num = groupStartX + (float)(numInGroup % horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.x + 24f);
+			float num = groupStartX + (float)(numInGroup % horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing);
 			float y = groupStartY + (float)(numInGroup / horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.y + 32f);
 			if (numInGroup >= entriesInGroup[group] - entriesInGroup[group] % horizontalSlotsPerGroup[group])
 			{
 				int num2 = horizontalSlotsPerGroup[group] - entriesInGroup[group] % horizontalSlotsPerGroup[group];
-				num += (float)num2 * scale * (TacticalColonistBar.BaseSize.x + 24f) * 0.5f;
+				num += (float)num2 * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * 0.5f;
 			}
 			return new Vector2(num, y);
 		}

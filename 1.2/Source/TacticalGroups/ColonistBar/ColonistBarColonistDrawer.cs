@@ -83,6 +83,7 @@ namespace TacticalGroups
 				if (TacticalGroupsSettings.DisplayColorBars)
                 {
 					GUI.DrawTexture(position, GetMoodBarTexture(colonist));
+					GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
 				}
 				else
                 {

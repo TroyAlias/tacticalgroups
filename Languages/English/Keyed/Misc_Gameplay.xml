@@ -44,11 +44,12 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.HideCreateGroup>Hide Create Group</TG.HideCreateGroup>
 	<TG.HideCreateGroupDesc>Create Group &amp; Options menu can be found in Assign Menu / Mod Settings.</TG.HideCreateGroupDesc>
 	<TG.ColonistBarPositionY>Colonist Bar Position (Y)</TG.ColonistBarPositionY>
+	<TG.ColonistBarPositionX>Colonist Bar Position (X)</TG.ColonistBarPositionX>
+	<TG.ColonistBarSpacing>Colonist Bar Spacing</TG.ColonistBarSpacing>
 	<TG.GroupRowCount>Group Row Count</TG.GroupRowCount>
 	<TG.PawnScale>Pawn Scale</TG.PawnScale>
 	<TG.GroupScale>Group Scale</TG.GroupScale>
 	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
-	<TG.TopMargin>Colonist Bar Y Position</TG.TopMargin>
 	<TG.WeaponOverlayPlacement>Weapon Overlay Placement</TG.WeaponOverlayPlacement>
 	<TG.ColorBarModeLabel>Color mood bar preset:</TG.ColorBarModeLabel>
 	<TG.ColorBarModeDefault>Default</TG.ColorBarModeDefault>

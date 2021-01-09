@@ -42,7 +42,8 @@ namespace TacticalGroups
 		Art,
 		RescueFallen,
 		TendWounded,
-		Research
+		Research,
+		UnloadCaravan
 	}
 	public enum BreakType
 	{
@@ -57,7 +58,8 @@ namespace TacticalGroups
     {
 		Inactive,
 		Active,
-		ForcedLabor
+		ForcedLabor,
+		Temporary
     }
 	public enum ColorBarMode
 	{

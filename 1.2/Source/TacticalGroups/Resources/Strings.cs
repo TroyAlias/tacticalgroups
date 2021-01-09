@@ -138,11 +138,12 @@ namespace TacticalGroups
 		public static readonly string Diplomacy = "TG.Diplomacy".Translate();
 
 		public static readonly string ColonistBarPositionY = "TG.ColonistBarPositionY".Translate();
+		public static readonly string ColonistBarPositionX = "TG.ColonistBarPositionX".Translate();
+		public static readonly string ColonistBarSpacing = "TG.ColonistBarSpacing".Translate();
 		public static readonly string GroupRowCount = "TG.GroupRowCount".Translate();
 		public static readonly string PawnScale = "TG.PawnScale".Translate();
 		public static readonly string GroupScale = "TG.GroupScale".Translate();
 		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
-		public static readonly string TopMargin = "TG.TopMargin".Translate();
 		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
 		public static readonly string WeaponOverlayUnder = "TG.WeaponOverlayUnder".Translate();
 		public static readonly string WeaponOverlayPlacement = "TG.WeaponOverlayPlacement".Translate();

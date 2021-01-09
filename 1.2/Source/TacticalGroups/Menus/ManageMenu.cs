@@ -148,7 +148,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var font = Text.Font;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(groupNameRect, this.colonistGroup.GetGroupName());
+			Widgets.Label(groupNameRect, this.colonistGroup.GetGroupName);
 			Text.Font = font;
 			Text.Anchor = TextAnchor.UpperLeft;
 			zero += InitialFloatOptionPositionShift;

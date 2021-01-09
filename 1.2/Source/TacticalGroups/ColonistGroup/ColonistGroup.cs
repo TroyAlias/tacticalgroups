@@ -58,6 +58,8 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
+			this.temporaryWorkers = new Dictionary<Pawn, WorkType>();
+			Log.Message("Init: " + temporaryWorkers);
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
 		}
@@ -114,16 +116,19 @@ namespace TacticalGroups
 			}
 		}
 
-		public string GetGroupName()
+		public string GetGroupName
         {
-			if (this.groupName != null)
+			get
             {
-				return this.groupName;
-            }
-			else
-            {
-				return this.defaultGroupName + " " + this.groupID;
-            }
+				if (this.groupName != null)
+				{
+					return this.groupName;
+				}
+				else
+				{
+					return this.defaultGroupName + " " + this.groupID;
+				}
+			}
         }
 
 		private Dictionary<int, List<List<Pawn>>> cachedPawnRows = new Dictionary<int, List<List<Pawn>>>();
@@ -273,10 +278,10 @@ namespace TacticalGroups
 					this.showPawnIconsRightClickMenu = true;
 					this.expandPawnIcons = false;
 					this.groupButtonRightClicked = true;
-					if (this.isColonyGroup && this is ColonyGroup colonyGroup)
-                    {
-						colonyGroup.subGroupsExpanded = true;
-					}
+					//if (this.isColonyGroup && this is ColonyGroup colonyGroup)
+                    //{
+					//	colonyGroup.subGroupsExpanded = true;
+					//}
 					var rect2 = new Rect(rect.x, rect.y + rect.height, rect.width, rect.height);
 					TieredFloatMenu floatMenu = new MainFloatMenu(null, this, rect2, Textures.DropMenuRightClick);
 					Find.WindowStack.Add(floatMenu);
@@ -403,7 +408,7 @@ namespace TacticalGroups
 
 			if (!this.isSubGroup && !this.bannerModeEnabled && !this.hideGroupIcon)
 			{
-				var label = this.GetGroupName();
+				var label = this.GetGroupName;
 				var labelHeight = Text.CalcHeight(label, groupRect.width);
 				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, labelHeight);
 				Text.Anchor = TextAnchor.MiddleCenter;
@@ -450,17 +455,17 @@ namespace TacticalGroups
 				if (!this.isSubGroup)
                 {
 					pawnWindowIsActive = true;
-					if (!subGroupsExpanded)
-                    {
-						subGroupsExpanded = true;
-						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-                    }
+					//if (!subGroupsExpanded)
+                    //{
+					//	subGroupsExpanded = true;
+					//	TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+                    //}
 					DrawPawnRows(groupRect, pawnRows);
 					DrawPawnArrows(groupRect, pawnRows);
-					if (!ShowExpanded)
-					{
-						TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(groupName)));
-					}
+				}
+				if (!ShowExpanded)
+				{
+					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(GetGroupName)));
 				}
 				HandleClicks(groupRect);
 			}
@@ -842,6 +847,17 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
 			}
+			if (ModCompatibility.CombatExtendedIsActive)
+            {
+				var gun = colonist.equipment?.Primary ?? null;
+				if (gun != null && gun.def.IsRangedWeapon && (!(bool)ModCompatibility.combatExtendedHasAmmo_Method.Invoke(null, new object[]
+				{
+						gun
+				})))
+				{
+					GUI.DrawTexture(rect, Textures.PawnOutofAmmo);
+				}
+			}
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			if (ShowExpanded)
             {
@@ -1025,6 +1041,7 @@ namespace TacticalGroups
 		//	return true;
 		//}
 
+
 		public void RemoveWorkState(WorkType workType)
 		{
 			if (this.activeWorkTypes.ContainsKey(workType))
@@ -1056,11 +1073,21 @@ namespace TacticalGroups
 
 			activeWorkState = this.activeWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.activeWorkTypes.Count();
 		}
+
+		public void AssignTemporaryWorkers(WorkType workType)
+        {
+			foreach (var pawn in pawns)
+            {
+				Log.Message("this.temporaryWorkers: " + this.temporaryWorkers);
+				this.temporaryWorkers[pawn] = workType;
+			}
+		}
 		public virtual void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
+			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Value, ref pawnKeys3, ref workTypeValues2);
 			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
 			Scribe_References.Look(ref Map, "Map");
 			Scribe_Values.Look(ref groupName, "groupName");
@@ -1082,8 +1109,15 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
-			Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
+			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
+			if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+				if (this.temporaryWorkers is null) this.temporaryWorkers = new Dictionary<Pawn, WorkType>();
+				if (this.activeWorkTypes is null) this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
+				if (this.formations is null) this.formations = new Dictionary<Pawn, IntVec3>();
+				if (this.pawnIcons is null) this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+			}
 		}
 
 		public List<Pawn> pawns;
@@ -1091,6 +1125,7 @@ namespace TacticalGroups
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
+		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
 
 		public int groupID;
 		public bool entireGroupIsVisible;
@@ -1102,7 +1137,7 @@ namespace TacticalGroups
 		public bool isTaskForce;
 		public bool isPawnGroup;
 		public bool isSubGroup;
-		public bool subGroupsExpanded;
+		//public bool subGroupsExpanded;
 		public string groupName;
 		public string defaultGroupName;
 		public string defaultBannerFolder;
@@ -1116,7 +1151,6 @@ namespace TacticalGroups
 		public string colorFolder;
 		protected bool activeWorkState;
 
-
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
 
@@ -1125,5 +1159,8 @@ namespace TacticalGroups
 
 		private List<WorkType> workTypesKeys;
 		private List<WorkState> workStateValues;
+
+		private List<Pawn> pawnKeys3;
+		private List<WorkType> workTypeValues2;
 	}
 }

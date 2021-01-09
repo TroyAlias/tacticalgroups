@@ -248,5 +248,8 @@ namespace TacticalGroups
 		public static readonly Texture2D OutofAmmoBanner = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/OutofAmmoBanner");
 		public static readonly Texture2D PawnPrisoner = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnPrisoner");
 		public static readonly Texture2D GroupPawnPrisoner = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupPawnPrisoner");
+
+		public static readonly Texture2D PawnOutofAmmo = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnOutofAmmo");
+		public static readonly Texture2D ColorMoodBarOverlay = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/ColorMoodBarOverlay");
 	}
 }

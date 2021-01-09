@@ -102,7 +102,7 @@ namespace TacticalGroups
 				{
 					GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
 				}
-				TooltipHandler.TipRegion(subgroupButton, Strings.HideWeaponOverlayOptionsTooltip);
+				TooltipHandler.TipRegion(subgroupButton, Strings.GroupHideOptionsTooltip);
 				if (Mouse.IsOver(subgroupButton))
 				{
 					GUI.DrawTexture(subgroupButton, Textures.RescueTendHover);
