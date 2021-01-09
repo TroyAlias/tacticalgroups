@@ -152,6 +152,7 @@ namespace TacticalGroups
             }
         }
 
+
         public override void FinalizeInit()
         {
             base.FinalizeInit();

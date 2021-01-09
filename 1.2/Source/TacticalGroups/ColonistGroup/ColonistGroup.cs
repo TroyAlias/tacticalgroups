@@ -1154,6 +1154,7 @@ namespace TacticalGroups
 				{
 					this.curGroupName = this.defaultGroupName + " " + this.groupID;
 				}
+				this.UpdateData();
 			}
 		}
 
