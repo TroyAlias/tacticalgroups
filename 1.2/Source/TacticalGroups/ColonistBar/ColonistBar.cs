@@ -51,14 +51,14 @@ namespace TacticalGroups
 
         private List<Entry> cachedEntries = new List<Entry>();
 
-        private List<Vector2> cachedDrawLocs = new List<Vector2>();
-        public List<Vector2> DrawLocs => cachedDrawLocs;
+        private List<Rect> cachedDrawLocs = new List<Rect>();
+        public List<Rect> DrawLocs => cachedDrawLocs;
 
         private float cachedScale = 1f;
 
         private bool entriesDirty = true;
 
-        private List<Pawn> colonistsToHighlight = new List<Pawn>();
+        private HashSet<Pawn> colonistsToHighlight = new HashSet<Pawn>();
 
         public static readonly Texture2D BGTex = Command.BGTex;
 
@@ -166,13 +166,13 @@ namespace TacticalGroups
                 if (Mouse.IsOver(createGroupRect))
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
+                    TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
                 }
                 else if (!TacticalGroupsSettings.HideCreateGroup)
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
                 }
-                TooltipHandler.TipRegion(createGroupRect, Strings.CreateGroupTooltip);
-
+                
                 HandleGroupingClicks(createGroupRect);
                 Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
                 if (Mouse.IsOver(optionsGearRect))
@@ -183,59 +183,42 @@ namespace TacticalGroups
                         TieredFloatMenu floatMenu = new OptionsMenu(null, null, optionsGearRect, Textures.OptionsMenu);
                         Find.WindowStack.Add(floatMenu);
                     }
+                    TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
                 }
                 else if (!TacticalGroupsSettings.HideCreateGroup)
                 {
                     GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
                 }
-                TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.Draw(pawnGroupIconRect);
+                    ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
+                }
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                {
+                    ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
+                }
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                {
+                    ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.Draw(colonyGroupIconRect);
+                    ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.Draw(caravanIconRect);
+                    ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
                 }
 
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
-                    var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    var pawnGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.DrawOverlays(pawnGroupIconRect);
-                }
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
-                {
-                    var data = ColonistBarDrawLocsFinder.colonyGroupDrawLoc.ElementAt(i);
-                    var colonyGroupIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.DrawOverlays(colonyGroupIconRect);
-                }
-
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
-                {
-                    var data = ColonistBarDrawLocsFinder.caravanGroupDrawLoc.ElementAt(i);
-                    var caravanIconRect = new Rect(data.Value.x, data.Value.y, data.Key.groupIcon.width * TacticalGroupsSettings.GroupScale, data.Key.groupIcon.height * TacticalGroupsSettings.GroupScale);
-                    data.Key.DrawOverlays(caravanIconRect);
+                    ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
 
                 for (int i = 0; i < cachedDrawLocs.Count; i++)
                 {
-                    Rect rect = new Rect(cachedDrawLocs[i].x, cachedDrawLocs[i].y, Size.x, Size.y);
                     Entry entry = entries[i];
                     bool flag = num != entry.group;
                     num = entry.group;
@@ -246,7 +229,7 @@ namespace TacticalGroups
                     bool reordering;
                     if (entry.pawn != null)
                     {
-                        drawer.HandleClicks(rect, entry.pawn, reorderableGroup, out reordering);
+                        drawer.HandleClicks(cachedDrawLocs[i], entry.pawn, reorderableGroup, out reordering);
                     }
                     else
                     {
@@ -262,21 +245,17 @@ namespace TacticalGroups
                     }
                     if (entry.pawn != null)
                     {
-                        drawer.DrawColonist(rect, entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
-                        Faction faction = null;
-                        if (entry.pawn.HasExtraMiniFaction())
-                        {
-                            faction = entry.pawn.GetExtraMiniFaction();
-                        }
-                        else if (entry.pawn.HasExtraHomeFaction())
+                        drawer.DrawColonist(cachedDrawLocs[i], entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
+                        Faction faction = entry.pawn.GetExtraMiniFaction();
+                        if (faction == null)
                         {
                             faction = entry.pawn.GetExtraHomeFaction();
                         }
                         if (faction != null)
                         {
                             GUI.color = faction.Color;
-                            float num2 = rect.width * 0.5f;
-                            GUI.DrawTexture(new Rect(rect.xMax - num2 - 2f, rect.yMax - num2 - 2f, num2, num2), faction.def.FactionIcon);
+                            float num2 = cachedDrawLocs[i].width * 0.5f;
+                            GUI.DrawTexture(new Rect(cachedDrawLocs[i].xMax - num2 - 2f, cachedDrawLocs[i].yMax - num2 - 2f, num2, num2), faction.def.FactionIcon);
                             GUI.color = Color.white;
                         }
                     }
@@ -592,7 +571,7 @@ namespace TacticalGroups
                     if (num == index)
                     {
                         pawn = cachedEntries[i].pawn;
-                        vector = cachedDrawLocs[i];
+                        vector = new Vector2(cachedDrawLocs[i].x, cachedDrawLocs[i].y);
                         break;
                     }
                     num++;

@@ -23,6 +23,8 @@ namespace TacticalGroups
 		protected int pawnRowCount;
 		protected int pawnDocRowCount;
 		protected float pawnRowXPosShift;
+		public string curGroupName;
+		private float cachedGroupNameHeight;
 		public bool ShowExpanded
         {
 			get
@@ -62,6 +64,13 @@ namespace TacticalGroups
 			Log.Message("Init: " + temporaryWorkers);
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
+		}
+
+		public void SetName(string name)
+        {
+			this.groupName = name;
+			this.curGroupName = this.groupName;
+			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
 		}
 		public virtual void Add(Pawn pawn)
         {
@@ -116,21 +125,6 @@ namespace TacticalGroups
 			}
 		}
 
-		public string GetGroupName
-        {
-			get
-            {
-				if (this.groupName != null)
-				{
-					return this.groupName;
-				}
-				else
-				{
-					return this.defaultGroupName + " " + this.groupID;
-				}
-			}
-        }
-
 		private Dictionary<int, List<List<Pawn>>> cachedPawnRows = new Dictionary<int, List<List<Pawn>>>();
 		public List<List<Pawn>> GetPawnRows(int columnCount)
         {
@@ -168,6 +162,48 @@ namespace TacticalGroups
 			return pawnRows;
 		}
 
+		private Dictionary<Pawn, Rect> cachedPawnDots;
+		public Dictionary<Pawn, Rect> GetPawnDots(Rect rect)
+        {
+			if (cachedPawnDots != null)
+			{
+				return cachedPawnDots;
+			}
+			else
+			{
+				cachedPawnDots = GetPawnDotsInt(rect);
+				return cachedPawnDots;
+			}
+		}
+
+		public Dictionary<Pawn, Rect> GetPawnDotsInt(Rect rect)
+		{
+			var pawnDots = new Dictionary<Pawn, Rect>();
+			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
+			var initialRect = new Rect(rect);
+			if (this.bannerModeEnabled)
+			{
+				initialRect.y += rect.height;
+				initialRect.x -= 4f;
+			}
+			else
+			{
+				initialRect.y += initialRect.height * 1.2f;
+			}
+			initialRect.x -= Textures.ColonistDot.width - 3f;
+
+			for (var i = 0; i < pawnRows.Count; i++)
+			{
+				for (var j = 0; j < pawnRows[i].Count; j++)
+				{
+					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1)
+						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
+						Textures.ColonistDot.width, Textures.ColonistDot.height);
+					pawnDots[pawnRows[i][j]] = dotRect;
+				}
+			}
+			return pawnDots;
+		}
 		public void HandleClicks(Rect rect)
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -213,7 +249,7 @@ namespace TacticalGroups
 						}
 					}
 				}
-
+				
 				foreach (var group in TacticUtils.AllGroups)
 				{
 					if (group != this)
@@ -229,6 +265,7 @@ namespace TacticalGroups
                         }
 					}
 				}
+
 				if (Event.current.button == 0)
 				{
 					if (Event.current.clickCount == 1)
@@ -353,6 +390,7 @@ namespace TacticalGroups
 				this.groupIcon = icon;
 			}
 			this.updateIcon = false;
+			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 
@@ -360,47 +398,46 @@ namespace TacticalGroups
         {
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
-			var groupRect = new Rect(rect.x, rect.y, this.groupBanner.width * TacticalGroupsSettings.GroupScale, this.groupBanner.height * TacticalGroupsSettings.GroupScale);
 			if (this.isSubGroup)
             {
-				groupRect.width /= 2;
-				groupRect.height /= 2;
+				rect.width /= 2;
+				rect.height /= 2;
 			}
-			this.curRect = groupRect;
+			this.curRect = rect;
 			if (this.updateIcon)
             {
 				UpdateIcon();
 			}
 			if (!hideGroupIcon)
 			{
-				GUI.DrawTexture(groupRect, this.groupBanner);
-				GUI.DrawTexture(groupRect, this.groupIcon);
+				GUI.DrawTexture(rect, this.groupBanner);
+				GUI.DrawTexture(rect, this.groupIcon);
 			}
-			else if (Mouse.IsOver(groupRect))
+			else if (Mouse.IsOver(rect))
             {
-				GUI.DrawTexture(groupRect, this.groupBanner);
-				GUI.DrawTexture(groupRect, this.groupIcon);
+				GUI.DrawTexture(rect, this.groupBanner);
+				GUI.DrawTexture(rect, this.groupIcon);
 			}
 
 			if (!hideGroupIcon)
             {
-				if (!groupButtonRightClicked && Mouse.IsOver(groupRect))
+				if (!groupButtonRightClicked && Mouse.IsOver(rect))
 				{
-					GUI.DrawTexture(groupRect, Textures.GroupIconHover);
+					GUI.DrawTexture(rect, Textures.GroupIconHover);
 				}
 				else if (groupButtonRightClicked)
 				{
 					if (this.bannerModeEnabled)
 					{
-						GUI.DrawTexture(groupRect, Textures.BannerIconSelected);
+						GUI.DrawTexture(rect, Textures.BannerIconSelected);
 					}
 					else if (this.isPawnGroup)
 					{
-						GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
+						GUI.DrawTexture(rect, Textures.GroupIconSelected);
 					}
 					else if (this.isColonyGroup || this.isTaskForce)
 					{
-						GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
+						GUI.DrawTexture(rect, Textures.ColonyIconSelected);
 					}
 				}
 			}
@@ -408,11 +445,9 @@ namespace TacticalGroups
 
 			if (!this.isSubGroup && !this.bannerModeEnabled && !this.hideGroupIcon)
 			{
-				var label = this.GetGroupName;
-				var labelHeight = Text.CalcHeight(label, groupRect.width);
-				var groupLabelRect = new Rect(groupRect.x, groupRect.y + groupRect.height, groupRect.width, labelHeight);
+				var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, cachedGroupNameHeight);
 				Text.Anchor = TextAnchor.MiddleCenter;
-				Widgets.Label(groupLabelRect, label);
+				Widgets.Label(groupLabelRect, this.curGroupName);
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
 		}
@@ -465,7 +500,7 @@ namespace TacticalGroups
 				}
 				if (!ShowExpanded)
 				{
-					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(GetGroupName)));
+					TooltipHandler.TipRegion(groupRect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
 				}
 				HandleClicks(groupRect);
 			}
@@ -541,6 +576,7 @@ namespace TacticalGroups
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
 			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
+			cachedPawnDots = null;
 			foreach (var pawn in this.pawns) 
 			{
 				pawnsDownedOrIncapable[pawn] = pawn.IsDownedOrIncapable();
@@ -548,73 +584,57 @@ namespace TacticalGroups
 				pawnsSick[pawn] = pawn.IsSick();
 			}
 		}
+
 		public void DrawPawnDots(Rect rect)
         {
-			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
-			var initialRect = new Rect(rect);
-			if (this.bannerModeEnabled)
-            {
-				initialRect.y += rect.height;
-				initialRect.x -= 4f;
-			}
-			else
-            {
-				initialRect.y += initialRect.height * 1.2f;
-            }
-			initialRect.x -= Textures.ColonistDot.width - 3f;
-
+			var pawnDots = GetPawnDots(rect);
 			bool showDownedState = false;
-			for (var i = 0; i < pawnRows.Count; i++)
+			foreach (var pawnDot in pawnDots)
 			{
-				for (var j = 0; j < pawnRows[i].Count; j++)
+				var pawn = pawnDot.Key;
+				var dotRect = pawnDot.Value;
+				if (pawn.MentalState != null)
 				{
-					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1) 
-						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
-						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					if (pawnRows[i][j].MentalState != null)
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
-					}
-					else if (IsDownedOrIncapable(pawnRows[i][j]))
+					GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
+				}
+				else if (IsDownedOrIncapable(pawn))
+				{
+					if (!showDownedState)
 					{
-						if (!showDownedState)
-                        {
-							downedStateBlink++;
-                        }
-						showDownedState = true;
-						if (downedStateBlink < 30)
-						{
-							GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
-						}
-						else if (downedStateBlink > 60)
-						{
-							downedStateBlink = 0;
-						}
+						downedStateBlink++;
 					}
-					else if (IsShotOrBleeding(pawnRows[i][j]))
+					showDownedState = true;
+					if (downedStateBlink < 30)
 					{
 						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
 					}
-					else if (IsSick(pawnRows[i][j]))
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
-					}
-					else if (pawnRows[i][j].Inspired)
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
-					}
-					else
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDot);
-                    }
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
+					else if (downedStateBlink > 60)
 					{
-						Event.current.Use();
-						CameraJumper.TryJumpAndSelect(pawnRows[i][j]);
+						downedStateBlink = 0;
 					}
 				}
+				else if (IsShotOrBleeding(pawn))
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+				}
+				else if (IsSick(pawn))
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
+				}
+				else if (pawn.Inspired)
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
+				}
+				else
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDot);
+				}
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
+				{
+					Event.current.Use();
+					CameraJumper.TryJumpAndSelect(pawn);
+				}
 			}
-
 
 			if (showDownedState)
             {
@@ -1109,6 +1129,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
+
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -1117,6 +1138,14 @@ namespace TacticalGroups
 				if (this.activeWorkTypes is null) this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 				if (this.formations is null) this.formations = new Dictionary<Pawn, IntVec3>();
 				if (this.pawnIcons is null) this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
+				if (this.groupName != null)
+				{
+					this.curGroupName = this.groupName;
+				}
+				else
+				{
+					this.curGroupName = this.defaultGroupName + " " + this.groupID;
+				}
 			}
 		}
 
