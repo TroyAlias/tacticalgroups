@@ -212,7 +212,7 @@ namespace TacticalGroups
                 for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     var data = ColonistBarDrawLocsFinder.pawnGroupDrawLoc.ElementAt(i);
-                    data.Key.Draw(data.Value);
+                    data.Key.DrawOverlays(data.Value);
                 }
 
                 for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)

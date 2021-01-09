@@ -168,6 +168,48 @@ namespace TacticalGroups
 			return pawnRows;
 		}
 
+		private Dictionary<Pawn, Rect> cachedPawnDots;
+		public Dictionary<Pawn, Rect> GetPawnDots(Rect rect)
+        {
+			if (cachedPawnDots != null)
+			{
+				return cachedPawnDots;
+			}
+			else
+			{
+				cachedPawnDots = GetPawnDotsInt(rect);
+				return cachedPawnDots;
+			}
+		}
+
+		public Dictionary<Pawn, Rect> GetPawnDotsInt(Rect rect)
+		{
+			var pawnDots = new Dictionary<Pawn, Rect>();
+			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
+			var initialRect = new Rect(rect);
+			if (this.bannerModeEnabled)
+			{
+				initialRect.y += rect.height;
+				initialRect.x -= 4f;
+			}
+			else
+			{
+				initialRect.y += initialRect.height * 1.2f;
+			}
+			initialRect.x -= Textures.ColonistDot.width - 3f;
+
+			for (var i = 0; i < pawnRows.Count; i++)
+			{
+				for (var j = 0; j < pawnRows[i].Count; j++)
+				{
+					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1)
+						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
+						Textures.ColonistDot.width, Textures.ColonistDot.height);
+					pawnDots[pawnRows[i][j]] = dotRect;
+				}
+			}
+			return pawnDots;
+		}
 		public void HandleClicks(Rect rect)
 		{
 			if (Event.current.type == EventType.MouseDown)
@@ -213,7 +255,7 @@ namespace TacticalGroups
 						}
 					}
 				}
-
+				
 				foreach (var group in TacticUtils.AllGroups)
 				{
 					if (group != this)
@@ -229,6 +271,7 @@ namespace TacticalGroups
                         }
 					}
 				}
+
 				if (Event.current.button == 0)
 				{
 					if (Event.current.clickCount == 1)
@@ -541,6 +584,7 @@ namespace TacticalGroups
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
 			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
+			cachedPawnDots = null;
 			foreach (var pawn in this.pawns) 
 			{
 				pawnsDownedOrIncapable[pawn] = pawn.IsDownedOrIncapable();
@@ -548,73 +592,57 @@ namespace TacticalGroups
 				pawnsSick[pawn] = pawn.IsSick();
 			}
 		}
+
 		public void DrawPawnDots(Rect rect)
         {
-			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
-			var initialRect = new Rect(rect);
-			if (this.bannerModeEnabled)
-            {
-				initialRect.y += rect.height;
-				initialRect.x -= 4f;
-			}
-			else
-            {
-				initialRect.y += initialRect.height * 1.2f;
-            }
-			initialRect.x -= Textures.ColonistDot.width - 3f;
-
+			var pawnDots = GetPawnDots(rect);
 			bool showDownedState = false;
-			for (var i = 0; i < pawnRows.Count; i++)
+			foreach (var pawnDot in pawnDots)
 			{
-				for (var j = 0; j < pawnRows[i].Count; j++)
+				var pawn = pawnDot.Key;
+				var dotRect = pawnDot.Value;
+				if (pawn.MentalState != null)
 				{
-					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1) 
-						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
-						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					if (pawnRows[i][j].MentalState != null)
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
-					}
-					else if (IsDownedOrIncapable(pawnRows[i][j]))
+					GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
+				}
+				else if (IsDownedOrIncapable(pawn))
+				{
+					if (!showDownedState)
 					{
-						if (!showDownedState)
-                        {
-							downedStateBlink++;
-                        }
-						showDownedState = true;
-						if (downedStateBlink < 30)
-						{
-							GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
-						}
-						else if (downedStateBlink > 60)
-						{
-							downedStateBlink = 0;
-						}
+						downedStateBlink++;
 					}
-					else if (IsShotOrBleeding(pawnRows[i][j]))
+					showDownedState = true;
+					if (downedStateBlink < 30)
 					{
 						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
 					}
-					else if (IsSick(pawnRows[i][j]))
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
-					}
-					else if (pawnRows[i][j].Inspired)
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
-					}
-					else
-                    {
-						GUI.DrawTexture(dotRect, Textures.ColonistDot);
-                    }
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
+					else if (downedStateBlink > 60)
 					{
-						Event.current.Use();
-						CameraJumper.TryJumpAndSelect(pawnRows[i][j]);
+						downedStateBlink = 0;
 					}
 				}
+				else if (IsShotOrBleeding(pawn))
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+				}
+				else if (IsSick(pawn))
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
+				}
+				else if (pawn.Inspired)
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
+				}
+				else
+				{
+					GUI.DrawTexture(dotRect, Textures.ColonistDot);
+				}
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
+				{
+					Event.current.Use();
+					CameraJumper.TryJumpAndSelect(pawn);
+				}
 			}
-
 
 			if (showDownedState)
             {
