@@ -9,6 +9,18 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
+	public class PawnDot
+    {
+		public Pawn pawn;
+		public Rect rect;
+		public PawnState state;
+		public PawnDot(Pawn pawn, Rect rect, PawnState state)
+        {
+			this.pawn = pawn;
+			this.rect = rect;
+			this.state = state;
+        }
+    }
     public class ColonistGroup : IExposable
     {
 		public bool Visible => pawnWindowIsActive;
@@ -61,7 +73,6 @@ namespace TacticalGroups
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 			this.formations = new Dictionary<Pawn, IntVec3>();
 			this.temporaryWorkers = new Dictionary<Pawn, WorkType>();
-			Log.Message("Init: " + temporaryWorkers);
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
 		}
@@ -162,8 +173,8 @@ namespace TacticalGroups
 			return pawnRows;
 		}
 
-		private Dictionary<Pawn, Rect> cachedPawnDots;
-		public Dictionary<Pawn, Rect> GetPawnDots(Rect rect)
+		private List<PawnDot> cachedPawnDots = new List<PawnDot>();
+		public List<PawnDot> GetPawnDots(Rect rect)
         {
 			if (cachedPawnDots != null)
 			{
@@ -176,9 +187,9 @@ namespace TacticalGroups
 			}
 		}
 
-		public Dictionary<Pawn, Rect> GetPawnDotsInt(Rect rect)
+		public List<PawnDot> GetPawnDotsInt(Rect rect)
 		{
-			var pawnDots = new Dictionary<Pawn, Rect>();
+			var pawnDots = new List<PawnDot>();
 			var pawnRows = GetPawnRows(this.bannerModeEnabled ? 4 : this.pawnDocRowCount);
 			var initialRect = new Rect(rect);
 			if (this.bannerModeEnabled)
@@ -199,7 +210,9 @@ namespace TacticalGroups
 					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1)
 						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
-					pawnDots[pawnRows[i][j]] = dotRect;
+					var pawn = pawnRows[i][j];
+					var state = GetPawnState(pawn);
+					pawnDots.Add(new PawnDot(pawn, dotRect, state));
 				}
 			}
 			return pawnDots;
@@ -525,63 +538,39 @@ namespace TacticalGroups
 		}
 
 		private int downedStateBlink;
-
-		private Dictionary<Pawn, bool> pawnsDownedOrIncapable = new Dictionary<Pawn, bool>();
-		private bool IsDownedOrIncapable(Pawn pawn)
-        {
-			if (pawnsDownedOrIncapable.TryGetValue(pawn, out bool value))
-            {
-				return value;
-            }
-			else
-            {
-				var value2 = pawn.IsDownedOrIncapable();
-				pawnsDownedOrIncapable[pawn] = value2;
-				return value2;
-			}
-		}
-
-		private Dictionary<Pawn, bool> pawnsShotOrBleeding = new Dictionary<Pawn, bool>();
-		private bool IsShotOrBleeding(Pawn pawn)
-		{
-			if (pawnsShotOrBleeding.TryGetValue(pawn, out bool value))
-			{
-				return value;
-			}
-			else
-			{
-				var value2 = pawn.IsShotOrBleeding();
-				pawnsShotOrBleeding[pawn] = value2;
-				return value2;
-			}
-		}
-
-		private Dictionary<Pawn, bool> pawnsSick = new Dictionary<Pawn, bool>();
-		private bool IsSick(Pawn pawn)
-		{
-			if (pawnsShotOrBleeding.TryGetValue(pawn, out bool value))
-			{
-				return value;
-			}
-			else
-			{
-				var value2 = pawn.IsSick();
-				pawnsSick[pawn] = value2;
-				return value2;
-			}
-		}
-
 		public void UpdateData()
         {
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
 			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
 			cachedPawnDots = null;
-			foreach (var pawn in this.pawns) 
+		}
+
+		public PawnState GetPawnState(Pawn pawn)
+        {
+			if (pawn.MentalState != null)
 			{
-				pawnsDownedOrIncapable[pawn] = pawn.IsDownedOrIncapable();
-				pawnsShotOrBleeding[pawn] = pawn.IsShotOrBleeding();
-				pawnsSick[pawn] = pawn.IsSick();
+				return PawnState.MentalState;
+			}
+			else if (pawn.IsDownedOrIncapable())
+			{
+				return PawnState.IsDownedOrIncapable;
+			}
+			else if (pawn.IsShotOrBleeding())
+			{
+				return PawnState.IsShotOrBleeding;
+			}
+			else if (pawn.IsSick())
+			{
+				return PawnState.Sick;
+			}
+			else if (pawn.Inspired)
+			{
+				return PawnState.Inspired;
+			}
+			else
+			{
+				return PawnState.None;
 			}
 		}
 
@@ -589,45 +578,34 @@ namespace TacticalGroups
         {
 			var pawnDots = GetPawnDots(rect);
 			bool showDownedState = false;
-			foreach (var pawnDot in pawnDots)
+			for (var i = 0; i < pawnDots.Count; i++)
 			{
-				var pawn = pawnDot.Key;
-				var dotRect = pawnDot.Value;
-				if (pawn.MentalState != null)
+				var pawnDot = pawnDots[i];
+				var pawn = pawnDot.pawn;
+				var dotRect = pawnDot.rect;
+				switch (pawnDot.state)
 				{
-					GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState);
-				}
-				else if (IsDownedOrIncapable(pawn))
-				{
-					if (!showDownedState)
-					{
-						downedStateBlink++;
-					}
-					showDownedState = true;
-					if (downedStateBlink < 30)
-					{
-						GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
-					}
-					else if (downedStateBlink > 60)
-					{
-						downedStateBlink = 0;
-					}
-				}
-				else if (IsShotOrBleeding(pawn))
-				{
-					GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
-				}
-				else if (IsSick(pawn))
-				{
-					GUI.DrawTexture(dotRect, Textures.ColonistDotToxic);
-				}
-				else if (pawn.Inspired)
-				{
-					GUI.DrawTexture(dotRect, Textures.ColonistDotInspired);
-				}
-				else
-				{
-					GUI.DrawTexture(dotRect, Textures.ColonistDot);
+					case PawnState.MentalState: GUI.DrawTexture(dotRect, Textures.ColonistDotMentalState); break;
+					case PawnState.IsDownedOrIncapable:
+						if (!showDownedState)
+						{
+							downedStateBlink++;
+						}
+						showDownedState = true;
+						if (downedStateBlink < 30)
+						{
+							GUI.DrawTexture(dotRect, Textures.ColonistDotDowned);
+						}
+						else if (downedStateBlink > 60)
+						{
+							downedStateBlink = 0;
+						}
+						break;
+					case PawnState.IsShotOrBleeding: GUI.DrawTexture(dotRect, Textures.ColonistDotDowned); break;
+					case PawnState.Sick: GUI.DrawTexture(dotRect, Textures.ColonistDotToxic); break;
+					case PawnState.Inspired: GUI.DrawTexture(dotRect, Textures.ColonistDotInspired); break;
+					case PawnState.None: GUI.DrawTexture(dotRect, Textures.ColonistDot); break;
+					default: break;
 				}
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
 				{
@@ -654,7 +632,7 @@ namespace TacticalGroups
 			bool showDownedState = false;
 			foreach (var pawn in this.pawns)
             {
-				if (IsDownedOrIncapable(pawn))
+				if (pawn.IsDownedOrIncapable())
 				{
 					if (!showDownedState)
 					{
@@ -1098,7 +1076,6 @@ namespace TacticalGroups
         {
 			foreach (var pawn in pawns)
             {
-				Log.Message("this.temporaryWorkers: " + this.temporaryWorkers);
 				this.temporaryWorkers[pawn] = workType;
 			}
 		}

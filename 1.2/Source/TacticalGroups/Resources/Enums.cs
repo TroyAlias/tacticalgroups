@@ -72,4 +72,15 @@ namespace TacticalGroups
 		Drafted,
 		Always
 	}
+
+	public enum PawnState
+    {
+		MentalState,
+		IsDownedOrIncapable,
+		IsShotOrBleeding,
+		Sick,
+		Inspired,
+		None
+	}
 }
+
