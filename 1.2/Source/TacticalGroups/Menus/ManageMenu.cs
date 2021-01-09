@@ -169,7 +169,7 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
-			if (this.colonistGroup.isColonyGroup)
+			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 			{
 				Rect treasureButtonRect = new Rect(rect.x + Textures.TreasuryButton.width, rect.height - 113, Textures.TreasuryButton.width, Textures.TreasuryButton.height);
 				GUI.DrawTexture(treasureButtonRect, Textures.TreasuryButton);

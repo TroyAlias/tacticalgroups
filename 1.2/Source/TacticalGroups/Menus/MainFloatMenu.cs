@@ -99,7 +99,7 @@ namespace TacticalGroups
 		{
 			MarkOptionAsSelected(option);
 			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
-			TieredFloatMenu floatMenu = new ManageMenu(this, colonistGroup, rect, this.colonistGroup.isColonyGroup ? Textures.ColonyManageDropMenu : Textures.ManageDropMenu);
+			TieredFloatMenu floatMenu = new ManageMenu(this, colonistGroup, rect, (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce) ? Textures.ColonyManageDropMenu : Textures.ManageDropMenu);
 			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)

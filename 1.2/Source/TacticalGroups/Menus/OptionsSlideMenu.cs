@@ -24,7 +24,7 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			var colonyHideButtonRect = new Rect(rect.x + 13, rect.y + 13, Textures.ColonyHideButton.width, Textures.ColonyHideButton.height);
-			if (this.colonistGroup.isColonyGroup)
+			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
             {
 				GUI.DrawTexture(colonyHideButtonRect, Textures.ColonyHideButton);
 				TooltipHandler.TipRegion(colonyHideButtonRect, Strings.GroupHideOptionsTooltip);
@@ -77,7 +77,7 @@ namespace TacticalGroups
 
 
 			var hideWeaponOverlayRect = new Rect(rect.x + 13, rect.y + 13, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
-			if (!this.colonistGroup.isColonyGroup)
+			if (!this.colonistGroup.isColonyGroup && !this.colonistGroup.isTaskForce)
             {
 				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
 				if (this.colonistGroup.hideWeaponOverlay)

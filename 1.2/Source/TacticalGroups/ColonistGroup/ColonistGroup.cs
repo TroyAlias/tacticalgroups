@@ -398,7 +398,7 @@ namespace TacticalGroups
 					{
 						GUI.DrawTexture(groupRect, Textures.GroupIconSelected);
 					}
-					else if (this.isColonyGroup)
+					else if (this.isColonyGroup || this.isTaskForce)
 					{
 						GUI.DrawTexture(groupRect, Textures.ColonyIconSelected);
 					}
@@ -568,7 +568,8 @@ namespace TacticalGroups
 			{
 				for (var j = 0; j < pawnRows[i].Count; j++)
 				{
-					Rect dotRect = new Rect(initialRect.x + ((j + 1) * Textures.ColonistDot.width), initialRect.y + ((i + 1) * Textures.ColonistDot.height),
+					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1) 
+						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
 					if (pawnRows[i][j].MentalState != null)
                     {
@@ -677,7 +678,6 @@ namespace TacticalGroups
 			}
 			else
             {
-
 				Rect backGroundRect = Rect.zero;
 				if (this.bannerModeEnabled)
                 {

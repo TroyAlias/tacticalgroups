@@ -64,6 +64,8 @@ namespace TacticalGroups
 			this.groupIcon = Textures.TaskForceIcon_Default;
 			this.groupBanner = Textures.TaskForceBanner_Default;
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isTaskForce).Count() + 1;
+			this.pawnRowCount = 3;
+			this.pawnDocRowCount = 8;
 			this.updateIcon = true;
 		}
 
