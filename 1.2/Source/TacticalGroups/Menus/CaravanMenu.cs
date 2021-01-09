@@ -64,14 +64,8 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					foreach (var pawn in this.colonistGroup.pawns)
-                    {
-						var workType = DefDatabase<WorkGiverDef>.GetNamed("UnloadCarriers");
-						if (pawn.CurJob?.workGiverDef != workType)
-						{
-							WorkSearchUtility.GetJobFor(pawn, new List<WorkGiverDef> { workType });
-						}
-					}
+					this.colonistGroup.AssignTemporaryWorkers(WorkType.UnloadCaravan);
+					WorkSearchUtility.SearchForWork(WorkType.UnloadCaravan, this.colonistGroup.pawns);
 					Event.current.Use();
 				}
 				GUI.DrawTexture(unloadRect, Textures.WorkButtonHover);

@@ -15,8 +15,6 @@ namespace TacticalGroups
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(27f, 60f);
 
-		private TieredFloatMenu optionsSlideMenu;
-		private TieredFloatMenu optionsSlideMenuTab;
 		public ManageMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
@@ -43,22 +41,11 @@ namespace TacticalGroups
         {
             base.PostOpen();
 			AddManagementWindow(options[3]);
-			optionsSlideMenuTab = new OptionsSlideMenuTab(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenuTab);
-			Find.WindowStack.Add(optionsSlideMenuTab);
+			var floatMenu = new OptionsSlideMenu(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenu);
+			this.childWindows.Add(floatMenu);
+			Find.WindowStack.Add(floatMenu);
 		}
 
-        public override void PostClose()
-        {
-            base.PostClose();
-			if (this.optionsSlideMenu != null)
-            {
-				this.optionsSlideMenu.Close(false);
-            }
-			if (this.optionsSlideMenuTab != null)
-			{
-				this.optionsSlideMenuTab.Close(false);
-			}
-		}
         public void AddRenameButton()
         {
 			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
@@ -148,7 +135,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var font = Text.Font;
 			Text.Font = GameFont.Medium;
-			Widgets.Label(groupNameRect, this.colonistGroup.GetGroupName());
+			Widgets.Label(groupNameRect, this.colonistGroup.curGroupName);
 			Text.Font = font;
 			Text.Anchor = TextAnchor.UpperLeft;
 			zero += InitialFloatOptionPositionShift;
@@ -169,7 +156,7 @@ namespace TacticalGroups
 
 		public override void DrawExtraGui(Rect rect)
 		{
-			if (this.colonistGroup.isColonyGroup)
+			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 			{
 				Rect treasureButtonRect = new Rect(rect.x + Textures.TreasuryButton.width, rect.height - 113, Textures.TreasuryButton.width, Textures.TreasuryButton.height);
 				GUI.DrawTexture(treasureButtonRect, Textures.TreasuryButton);

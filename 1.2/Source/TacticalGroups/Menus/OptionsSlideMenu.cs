@@ -12,7 +12,7 @@ namespace TacticalGroups
 {
 	public class OptionsSlideMenu : TieredFloatMenu
 	{
-		protected override Vector2 InitialPositionShift => new Vector2(-102f, 0f);
+		protected override Vector2 InitialPositionShift => new Vector2(-304f, 165f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 		public OptionsSlideMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
@@ -24,7 +24,7 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			var colonyHideButtonRect = new Rect(rect.x + 13, rect.y + 13, Textures.ColonyHideButton.width, Textures.ColonyHideButton.height);
-			if (this.colonistGroup.isColonyGroup)
+			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
             {
 				GUI.DrawTexture(colonyHideButtonRect, Textures.ColonyHideButton);
 				TooltipHandler.TipRegion(colonyHideButtonRect, Strings.GroupHideOptionsTooltip);
@@ -59,7 +59,7 @@ namespace TacticalGroups
 				}
 			}
 
-			var hideLifeOverlayRect = new Rect(hidePawnDotsRect.x, hidePawnDotsRect.yMax + 5, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
+			var hideLifeOverlayRect = new Rect(hidePawnDotsRect.x, hidePawnDotsRect.yMax + 15, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
 			GUI.DrawTexture(hideLifeOverlayRect, Textures.GroupOverlayButton);
 			if (this.colonistGroup.hideLifeOverlay)
 			{
@@ -75,9 +75,8 @@ namespace TacticalGroups
 				}
 			}
 
-
 			var hideWeaponOverlayRect = new Rect(rect.x + 13, rect.y + 13, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
-			if (!this.colonistGroup.isColonyGroup)
+			if (!this.colonistGroup.isColonyGroup && !this.colonistGroup.isTaskForce)
             {
 				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
 				if (this.colonistGroup.hideWeaponOverlay)
@@ -102,7 +101,7 @@ namespace TacticalGroups
 				{
 					GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
 				}
-				TooltipHandler.TipRegion(subgroupButton, Strings.HideWeaponOverlayOptionsTooltip);
+				TooltipHandler.TipRegion(subgroupButton, Strings.GroupHideOptionsTooltip);
 				if (Mouse.IsOver(subgroupButton))
 				{
 					GUI.DrawTexture(subgroupButton, Textures.RescueTendHover);

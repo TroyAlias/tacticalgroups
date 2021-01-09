@@ -83,6 +83,7 @@ namespace TacticalGroups
 				if (TacticalGroupsSettings.DisplayColorBars)
                 {
 					GUI.DrawTexture(position, GetMoodBarTexture(colonist));
+					GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
 				}
 				else
                 {
@@ -250,7 +251,7 @@ namespace TacticalGroups
 			float num2 = 0f;
 			float num3 = 0f;
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-			List<Vector2> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
+			List<Rect> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
 			for (int i = 0; i < entries.Count; i++)
 			{
 				if (entries[i].group == group)
@@ -371,7 +372,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-
+			
 			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			bool flag = false;
@@ -393,7 +394,7 @@ namespace TacticalGroups
 			}
 			if (colonist.IsFormingCaravan())
 			{
-				DrawIcon(Icon_FormingCaravan, ref pos, "ActivityIconFormingCaravan".Translate());
+				DrawIcon(Icon_FormingCaravan, ref pos, Strings.ActivityIconFormingCaravan);
 			}
 			if (colonist.InAggroMentalState)
 			{
@@ -405,35 +406,35 @@ namespace TacticalGroups
 			}
 			else if (colonist.InBed() && colonist.CurrentBed().Medical)
 			{
-				DrawIcon(Icon_MedicalRest, ref pos, "ActivityIconMedicalRest".Translate());
+				DrawIcon(Icon_MedicalRest, ref pos, Strings.ActivityIconMedicalRest);
 			}
 			else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
 			{
-				DrawIcon(Icon_Sleeping, ref pos, "ActivityIconSleeping".Translate());
+				DrawIcon(Icon_Sleeping, ref pos, Strings.ActivityIconSleeping);
 			}
 			else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
 			{
-				DrawIcon(Icon_Fleeing, ref pos, "ActivityIconFleeing".Translate());
+				DrawIcon(Icon_Fleeing, ref pos, Strings.ActivityIconFleeing);
 			}
 			else if (flag)
 			{
-				DrawIcon(Icon_Attacking, ref pos, "ActivityIconAttacking".Translate());
+				DrawIcon(Icon_Attacking, ref pos, Strings.ActivityIconAttacking);
 			}
 			else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
 			{
-				DrawIcon(Icon_Idle, ref pos, "ActivityIconIdle".Translate());
+				DrawIcon(Icon_Idle, ref pos, Strings.ActivityIconIdle);
 			}
-
+			
 			if (colonist.IsBurning() && pos.x + num <= rect.xMax)
 			{
-				DrawIcon(Icon_Burning, ref pos, "ActivityIconBurning".Translate());
+				DrawIcon(Icon_Burning, ref pos, Strings.ActivityIconBurning);
 			}
-
+			
 			if (colonist.Inspired && pos.x + num <= rect.xMax)
 			{
 				DrawIcon(Icon_Inspired, ref pos, colonist.InspirationDef.LabelCap);
 			}
-
+			
 			if (ModCompatibility.RimworldOfMagicIsActive)
 			{
 				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]

@@ -39,6 +39,7 @@ namespace TacticalGroups
 				case WorkType.FireExtinguish: SearchForWorkFireExtinguish(pawns); break;
 				case WorkType.TendWounded: SearchForWorkTendWounded(pawns); break;
 				case WorkType.RescueFallen: SearchForWorkRescueFallen(pawns); break;
+				case WorkType.UnloadCaravan: SearchForWorkUnloadCaravan(pawns); break;
 				default: return;
 			}
 		}
@@ -303,6 +304,18 @@ namespace TacticalGroups
 				if (result.Job != null)
 				{
 					pawn.jobs.TryTakeOrderedJob(result.Job);
+				}
+			}
+		}
+
+		public static void SearchForWorkUnloadCaravan(List<Pawn> pawns)
+		{
+			foreach (var pawn in pawns)
+			{
+				var workType = DefDatabase<WorkGiverDef>.GetNamed("UnloadCarriers");
+				if (pawn.CurJob?.workGiverDef != workType)
+				{
+					GetJobFor(pawn, new List<WorkGiverDef> { workType });
 				}
 			}
 		}

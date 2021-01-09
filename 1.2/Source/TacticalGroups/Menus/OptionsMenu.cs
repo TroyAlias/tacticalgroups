@@ -65,28 +65,34 @@ namespace TacticalGroups
 			TacticalGroupsSettings.PawnNeedsWidth = (int)Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnNeedsWidth, 1f, 25f);
 
 			topLeftHalf.y += 30f;
-			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ColonistBarPositionY + ": " + (int)TacticalGroupsSettings.MarginTop);
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ColonistBarPositionY + ": " + (int)TacticalGroupsSettings.ColonistBarPositionY);
 			topLeftHalf.y += 25f;
-			TacticalGroupsSettings.MarginTop = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.MarginTop, 0f, 100f);
+			TacticalGroupsSettings.ColonistBarPositionY = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.ColonistBarPositionY, 0f, 100f);
+			
+			topLeftHalf.y += 25f;
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ColonistBarPositionX + ": " + (int)TacticalGroupsSettings.ColonistBarPositionX);
+			topLeftHalf.y += 25f;
+			TacticalGroupsSettings.ColonistBarPositionX = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), 
+				TacticalGroupsSettings.ColonistBarPositionX, -400f, 400f);
 
 			topLeftHalf.y += 25f;
-			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.PawnScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
+			Widgets.Label(new Rect(rect.x + 20, topLeftHalf.y, rect.width - 55f, 25f), Strings.ColonistBarSpacing + ": " + (int)TacticalGroupsSettings.ColonistBarSpacing);
 			topLeftHalf.y += 25f;
-			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
+			TacticalGroupsSettings.ColonistBarSpacing = Widgets.HorizontalSlider(new Rect(rect.x + 20, topLeftHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.ColonistBarSpacing, 0f, 100f);
+
 
 			Vector2 topRightHalf = new Vector2(topLeftHalf.x + ((rect.width / 2f) - 20f), rect.y + 25f);
 			float xRightHalfPos = rect.x + 230;
 			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.HideCreateGroup);
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.HideCreateGroup);
-			topRightHalf.y += 30f;
-			var labelDescRect = new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f + 10), 60f);
-			Text.Font = GameFont.Tiny;
-			Text.Anchor = TextAnchor.UpperLeft;
-			Widgets.Label(labelDescRect, Strings.HideCreateGroupDesc);
-			Text.Font = GameFont.Small;
-			Text.Anchor = TextAnchor.LowerLeft;
 
-			topRightHalf.y += 65f;
+			topRightHalf.y += 25f;
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.PawnScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
+			topRightHalf.y += 25f;
+			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
+
+
+			topRightHalf.y += 45f;
 			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayColorBars);
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
 

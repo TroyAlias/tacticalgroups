@@ -14,8 +14,8 @@ namespace TacticalGroups
 	{
 		public ColonistGroup colonistGroup;
 
-		public TieredFloatMenu childWindow;
-		public bool Selected => childWindow != null;
+		public List<TieredFloatMenu> childWindows;
+		public bool Selected => childWindows != null && childWindows.Any();
 
 		public TieredFloatMenu parentWindow;
 		public bool HasActiveParent => parentWindow != null; 
@@ -122,11 +122,19 @@ namespace TacticalGroups
 
 		public void OpenNewMenu(TieredFloatMenu floatMenu)
 		{
-			if (this.childWindow != null)
-			{
-				this.childWindow.Close();
+			if (this.childWindows != null)
+            {
+				for (int num = childWindows.Count - 1; num >= 0; num--)
+                {
+					childWindows[num].Close();
+				}
+				this.childWindows.Clear();
 			}
-			this.childWindow = floatMenu;
+			else
+            {
+				this.childWindows = new List<TieredFloatMenu>();
+            }
+			this.childWindows.Add(floatMenu);
 			Find.WindowStack.Add(floatMenu);
 		}
 
@@ -137,10 +145,13 @@ namespace TacticalGroups
 		}
 		public void TryCloseChildWindow()
         {
-			if (childWindow != null)
+			if (childWindows != null)
 			{
-				childWindow.Close();
-				this.childWindow = null;
+				for (int num = childWindows.Count - 1; num >= 0; num--)
+                {
+					childWindows[num].Close();
+                }
+				this.childWindows = null;
 			}
 		}
 		public override void PostClose()
@@ -164,6 +175,7 @@ namespace TacticalGroups
 
 		public override void Close(bool doCloseSound = true)
         {
+			parentWindow?.childWindows?.Remove(this);
 			TryCloseChildWindow();
 			base.Close(doCloseSound);
 			Log.Message("Close");
@@ -173,6 +185,13 @@ namespace TacticalGroups
         {
 			this.Close();
 			this.parentWindow?.CloseAllWindows();
+			if (this.childWindows != null)
+            {
+				foreach (var childWindow in this.childWindows)
+				{
+					childWindow.CloseAllWindows();
+				}
+			}
         }
 
         public virtual void PreOptionChosen(TieredFloatMenuOption opt)

@@ -18,7 +18,10 @@ namespace TacticalGroups
         public static bool HideCreateGroup;
         public static bool DisableLabelBackground;
 
-        public static float MarginTop = 21f;
+        public static float ColonistBarPositionY = 21f;
+        public static float ColonistBarPositionX = 24f;
+        public static float ColonistBarSpacing = 0f;
+
         public static float PawnScale = 1f;
         public static float GroupScale = 1f;
         public static int GroupRowCount = 4;
@@ -40,7 +43,9 @@ namespace TacticalGroups
             Scribe_Values.Look(ref HideCreateGroup, "HideCreateGroup");
             Scribe_Values.Look(ref DisableLabelBackground, "DisableLabelBackground");
             Scribe_Values.Look(ref WeaponPlacementOffset, "WeaponPlacementOffset", 10);
-            Scribe_Values.Look(ref MarginTop, "MarginTop", 21f);
+            Scribe_Values.Look(ref ColonistBarPositionY, "MarginTop", 21f);
+            Scribe_Values.Look(ref ColonistBarPositionX, "ColonistBarPositionX", 24f);
+            Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 0f);
             Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
@@ -64,7 +69,9 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
             listingStandard.CheckboxLabeled(Strings.DisableLabelBackground, ref DisableLabelBackground);
-            listingStandard.SliderLabeled(Strings.TopMargin, ref MarginTop, MarginTop.ToStringDecimalIfSmall(), 0, 100);
+            listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 100);
+            listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 100);
+            listingStandard.SliderLabeled(Strings.ColonistBarSpacing, ref ColonistBarSpacing, ColonistBarSpacing.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.PawnScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);

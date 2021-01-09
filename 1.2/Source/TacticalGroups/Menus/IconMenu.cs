@@ -155,7 +155,7 @@ namespace TacticalGroups
 					}
 					else
                     {
-						if (this.colonistGroup.isColonyGroup)
+						if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 						{
 							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.ColonyBannerSelect);
 						}
@@ -193,7 +193,7 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, iconRows[i][j], ScaleMode.ScaleToFit);
 					if (this.colonistGroup.groupIcon == iconRows[i][j])
 					{
-						if (this.colonistGroup.isColonyGroup)
+						if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 						{
 							GUI.DrawTexture(iconRect.ExpandedBy(3f), Textures.ColonyIconSelect);
 						}
@@ -269,7 +269,7 @@ namespace TacticalGroups
 			}
 			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Blue")
             {
-				if (this.colonistGroup.isColonyGroup)
+				if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 				{
 					GUI.DrawTexture(blueRect.ExpandedBy(6f), Textures.ColonyIconSelect);
 				}
@@ -288,7 +288,7 @@ namespace TacticalGroups
 			}
 			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Red")
 			{
-				if (this.colonistGroup.isColonyGroup)
+				if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 				{
 					GUI.DrawTexture(redRect.ExpandedBy(6f), Textures.ColonyIconSelect);
 				}
@@ -307,7 +307,7 @@ namespace TacticalGroups
 			}
 			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Dark")
 			{
-				if (this.colonistGroup.isColonyGroup)
+				if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 				{
 					GUI.DrawTexture(darkRect.ExpandedBy(6f), Textures.ColonyIconSelect);
 				}
@@ -326,7 +326,7 @@ namespace TacticalGroups
 			}
 			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Yellow")
 			{
-				if (this.colonistGroup.isColonyGroup)
+				if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
 				{
 					GUI.DrawTexture(yellowRect.ExpandedBy(6f), Textures.ColonyIconSelect);
 				}
@@ -345,7 +345,7 @@ namespace TacticalGroups
 			}
 			if (this.groupBannerFolder == this.colonistGroup.colorFolder + "Green")
 			{
-				if (this.colonistGroup.isColonyGroup)
+				if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
                 {
 					GUI.DrawTexture(greenRect.ExpandedBy(6f), Textures.ColonyIconSelect);
 				}

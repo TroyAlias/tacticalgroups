@@ -173,14 +173,14 @@ namespace TacticalGroups
                     mainFloatMenu.CloseAllWindows();
                 }
             }
-            else if (!Find.WindowStack.IsOpen<TieredFloatMenu>())
-            {
-                if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup) && colonyGroup.subGroupsExpanded)
-                {
-                    colonyGroup.subGroupsExpanded = false;
-                    TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-                }
-            }
+            //else if (!Find.WindowStack.IsOpen<TieredFloatMenu>())
+            //{
+            //    if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup) && colonyGroup.subGroupsExpanded)
+            //    {
+            //        colonyGroup.subGroupsExpanded = false;
+            //        TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+            //    }
+            //}
             return false;
         }
 
@@ -331,9 +331,20 @@ namespace TacticalGroups
                 {
                     foreach (var group in groups)
                     {
+                        if (group.temporaryWorkers.TryGetValue(___pawn, out WorkType workType))
+                        {
+                            if (CanWork(___pawn) && CanWorkActive(___pawn))
+                            {
+                                __state = new Dictionary<WorkType, WorkState> { { workType, WorkState.Temporary } };
+                                startNewJob = false;
+                                return;
+                            }
+                        }
+
                         if (group.activeWorkTypes?.Count > 0)
                         {
-                            if (group.activeWorkTypes.Where(x => x.Value == WorkState.Active).Count() == group.activeWorkTypes.Count && (!CanWork(___pawn) || !CanWorkActive(___pawn)))
+                            if (group.activeWorkTypes.Where(x => x.Value == WorkState.Active).Count() == group.activeWorkTypes.Count 
+                                && (!CanWork(___pawn) || !CanWorkActive(___pawn)))
                             {
                                 return;
                             }
@@ -364,6 +375,13 @@ namespace TacticalGroups
                         if (curJob != ___pawn.CurJob)
                         {
                             break;
+                        }
+                        else if (state.Value == WorkState.Temporary && ___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
+                        {
+                            foreach (var group in groups)
+                            {
+                                group.temporaryWorkers.Remove(___pawn);
+                            }
                         }
                     }
                 }
