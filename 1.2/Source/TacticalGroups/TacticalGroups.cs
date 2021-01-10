@@ -78,6 +78,7 @@ namespace TacticalGroups
 
         public ColonyGroup CreateOrJoinColony(List<Pawn> pawns, Map map)
         {
+
             if (this.colonyGroups.ContainsKey(map))
             {
                 this.colonyGroups[map].Add(pawns);
@@ -123,8 +124,7 @@ namespace TacticalGroups
                 if (colonyGroups.ContainsKey(key))
                 {
                     colonyGroups[key].Disband(pawns);
-                    if (colonyGroups.ContainsKey(key)
-                        && colonyGroups[key].pawns.Count == 0)
+                    if (colonyGroups.ContainsKey(key) && colonyGroups[key].PawnsOnMap.Count == 0)
                     {
                         colonyGroups.Remove(key);
                     }
@@ -237,7 +237,7 @@ namespace TacticalGroups
                 RemoveAllNullPawns();
                 foreach (var group in TacticUtils.AllGroups)
                 {
-                    foreach (var pawn in group.pawns)
+                    foreach (var pawn in group.PawnsOnMap)
                     {
                         if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
                         {

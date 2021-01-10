@@ -144,7 +144,6 @@ namespace TacticalGroups
         public void MarkColonistsDirty()
         {
             entriesDirty = true;
-            GenMapUIOptimized.ForceUpdateLabels();
         }
 
         public void ColonistBarOnGUI()
@@ -468,6 +467,8 @@ namespace TacticalGroups
             tmpPawns.Clear();
             tmpMaps.Clear();
             tmpCaravans.Clear();
+            GenMapUIOptimized.ForceUpdateLabels();
+            TacticUtils.ForceUpdateGroups();
             drawLocsFinder.CalculateDrawLocs(cachedDrawLocs, out cachedScale);
         }
         public float GetEntryRectAlpha(Rect rect)

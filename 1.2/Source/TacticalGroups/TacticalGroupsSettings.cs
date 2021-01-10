@@ -20,7 +20,7 @@ namespace TacticalGroups
 
         public static float ColonistBarPositionY = 21f;
         public static float ColonistBarPositionX = 24f;
-        public static float ColonistBarSpacing = 0f;
+        public static float ColonistBarSpacing = 20f;
 
         public static float PawnScale = 1f;
         public static float GroupScale = 1f;
@@ -45,7 +45,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref WeaponPlacementOffset, "WeaponPlacementOffset", 10);
             Scribe_Values.Look(ref ColonistBarPositionY, "MarginTop", 21f);
             Scribe_Values.Look(ref ColonistBarPositionX, "ColonistBarPositionX", 24f);
-            Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 0f);
+            Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 20f);
             Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);

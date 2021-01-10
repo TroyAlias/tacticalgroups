@@ -199,7 +199,10 @@ namespace TacticalGroups
 			{
 				Event.current.Use();
 				Find.Selector.ClearSelection();
-				Find.Selector.Select(colonist);
+				if (!colonist.IsWorldPawn())
+                {
+					Find.Selector.Select(colonist);
+                }
 				AddPawnInfoWindow(colonist);
 			}
 		}

@@ -86,14 +86,15 @@ namespace TacticalGroups
 
 		public void AddRegroupButton()
 		{
-			var option = new TieredFloatMenuOption(Strings.Regroup, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, -1f, Strings.RegroupTooltip);
+			var option = new TieredFloatMenuOption(Strings.Regroup, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, 
+				TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f, -1f, Strings.RegroupTooltip);
 			option.action = delegate
 			{
 				TacticDefOf.TG_RegroupSFX.PlayOneShotOnCamera();
 				this.colonistGroup.RemoveOldLord();
 				this.colonistGroup.Draft();
-				var firstPawn = this.colonistGroup.pawns.First();
-				foreach (var pawn in this.colonistGroup.pawns)
+				var firstPawn = this.colonistGroup.PawnsOnMap.First();
+				foreach (var pawn in this.colonistGroup.PawnsOnMap)
                 {
 					if (pawn != null)
                     {
@@ -113,7 +114,7 @@ namespace TacticalGroups
 			option.action = delegate
 			{
 				TacticDefOf.TG_BattleStationsSFX.PlayOneShotOnCamera();
-				foreach (var pawn in this.colonistGroup.pawns)
+				foreach (var pawn in this.colonistGroup.PawnsOnMap)
 				{
 					this.colonistGroup.Draft();
 					this.colonistGroup.SelectAll();
@@ -139,7 +140,7 @@ namespace TacticalGroups
 				{
 					respectTimetable = false
 				};
-				foreach (var pawn in this.colonistGroup.pawns)
+				foreach (var pawn in this.colonistGroup.PawnsOnMap)
 				{
 					ThinkResult thinkResult = jgp.TryIssueJobPackage(pawn, default(JobIssueParams));
 					if (thinkResult.IsValid)
@@ -197,7 +198,7 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.RemoveWorkState(WorkType.TendWounded);
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
+					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.PawnsOnMap);
 					Event.current.Use();
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
@@ -211,7 +212,7 @@ namespace TacticalGroups
 					{
 						TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 					}
-					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.pawns);
+					WorkSearchUtility.SearchForWork(WorkType.TendWounded, this.colonistGroup.PawnsOnMap);
 					Event.current.Use();
 				}
 				TooltipHandler.TipRegion(tendWounded, Strings.ForcedLaborTooltip);
@@ -237,7 +238,7 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.RemoveWorkState(WorkType.RescueFallen);
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
+					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.PawnsOnMap);
 					Event.current.Use();
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
@@ -251,7 +252,7 @@ namespace TacticalGroups
 					{
 						TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
 					}
-					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.pawns);
+					WorkSearchUtility.SearchForWork(WorkType.RescueFallen, this.colonistGroup.PawnsOnMap);
 					Event.current.Use();
 				}
 				GUI.DrawTexture(rescureFallen, Textures.RescueTendHover);
@@ -264,7 +265,7 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(shooterIconRect, Textures.ShootingMeleeHover);
 			}
-			var shooters = this.colonistGroup.pawns.Where(x => x.equipment?.Primary?.def.IsRangedWeapon ?? false);
+			var shooters = this.colonistGroup.PawnsOnMap.Where(x => x.equipment?.Primary?.def.IsRangedWeapon ?? false);
 			var shooterCountRect = new Rect(shooterIconRect.x + shooterIconRect.width + 2f, shooterIconRect.y, 30, shooterIconRect.height);
 
 			Text.Anchor = TextAnchor.MiddleLeft;
@@ -286,8 +287,8 @@ namespace TacticalGroups
 			}
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var middlePawnCountRect = new Rect(totalShooterRect.x + totalShooterRect.width, totalShooterRect.y, 70, totalShooterRect.height);
-			var capablePawns = this.colonistGroup.pawns.Where(x => !x.IsDownedOrIncapable());
-			Widgets.Label(middlePawnCountRect, capablePawns.Count() + " / " + this.colonistGroup.pawns.Count);
+			var capablePawns = this.colonistGroup.PawnsOnMap.Where(x => !x.IsDownedOrIncapable());
+			Widgets.Label(middlePawnCountRect, capablePawns.Count() + " / " + this.colonistGroup.PawnsOnMap.Count);
 			
 			TooltipHandler.TipRegion(middlePawnCountRect, Strings.MiddlePawnCountToolTip);
 			if (Mouse.IsOver(middlePawnCountRect))
@@ -311,7 +312,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(meleeIconRect, Textures.ShootingMeleeHover);
 			}
 
-			var melees = this.colonistGroup.pawns.Where(x => x.equipment?.Primary?.def.IsMeleeWeapon ?? false);
+			var melees = this.colonistGroup.PawnsOnMap.Where(x => x.equipment?.Primary?.def.IsMeleeWeapon ?? false);
 			var meleeCountRect = new Rect(meleeIconRect.x - (Textures.MeleeIcon.width + 5f), meleeIconRect.y, 30, meleeIconRect.height);
 
 			Text.Anchor = TextAnchor.MiddleRight;
@@ -377,7 +378,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_UpgradeArmorWeaponsSFX.PlayOneShotOnCamera();
-					foreach (var pawn in this.colonistGroup.pawns)
+					foreach (var pawn in this.colonistGroup.PawnsOnMap)
                     {
 						var thing = TacticUtils.PickBestArmorFor(pawn);
 						if (thing != null)
@@ -400,7 +401,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_TakeBuffSFX.PlayOneShotOnCamera();
-					foreach (var pawn in this.colonistGroup.pawns)
+					foreach (var pawn in this.colonistGroup.PawnsOnMap)
 					{
 						var jbg = new JobGiver_TakeCombatEnhancingDrug();
 						var result = jbg.TryIssueJobPackage(pawn, default(JobIssueParams));
@@ -422,7 +423,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_UpgradeWeaponSFX.PlayOneShotOnCamera();
-					foreach (var pawn in this.colonistGroup.pawns)
+					foreach (var pawn in this.colonistGroup.PawnsOnMap)
 					{
 						var thing = TacticUtils.PickBestWeaponFor(pawn);
 						if (thing != null)
@@ -448,7 +449,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.LowerLeft;
 			var totalArmorLabel = new Rect(totalArmorRect.x + totalArmorRect.width + 2, totalArmorRect.y - 3, 30, 24);
 			var armorValues = new List<float>();
-			foreach (var pawn in this.colonistGroup.pawns)
+			foreach (var pawn in this.colonistGroup.PawnsOnMap)
             {
 				if (pawn.apparel.WornApparel != null)
                 {
@@ -456,14 +457,14 @@ namespace TacticalGroups
 					armorValues.Add(armorValue);
                 }
             }
-			var averageArmor = armorValues.Sum() / this.colonistGroup.pawns.Count();
+			var averageArmor = armorValues.Sum() / this.colonistGroup.PawnsOnMap.Count();
 			Widgets.Label(totalArmorLabel, averageArmor.ToStringDecimalIfSmall());
 			TooltipHandler.TipRegion(totalArmorLabel, Strings.ArmorTooltip);
 
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var totalDPSLabel = new Rect(totalArmorRect.x + totalArmorRect.width + 50, totalArmorRect.y - 3, 30, 24);
 			var dpsValues = new List<float>();
-			foreach (var pawn in this.colonistGroup.pawns)
+			foreach (var pawn in this.colonistGroup.PawnsOnMap)
 			{
 				if (pawn.equipment.Primary != null)
 				{

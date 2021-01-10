@@ -37,7 +37,7 @@ namespace TacticalGroups
 			{
 				TacticDefOf.TG_RallySFX.PlayOneShotOnCamera();
 				Find.Selector.ClearSelection();
-				foreach (var pawn in this.colonistGroup.pawns)
+				foreach (var pawn in this.colonistGroup.PawnsOnMap)
                 {
 					Find.Selector.Select(pawn);
 					pawn.drafter.Drafted = true;

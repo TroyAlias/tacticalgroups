@@ -41,7 +41,7 @@ namespace TacticalGroups
 			this.groupBanner = Textures.PawnGroupBanner_Default;
 			this.groupIconName = "Caravan_GroupIcon";
 			this.defaultGroupName = Strings.Caravan;
-			this.pawnRowCount = 3;
+            this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.updateIcon = true;
 		}
@@ -75,15 +75,18 @@ namespace TacticalGroups
                 this.pawnIcons[pawn] = new PawnIcon(pawn);
             }
             this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
+            this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }
 
-		public CaravanGroup(Pawn pawn)
+        public override List<Pawn> PawnsOnMap => this.pawns;
+        public CaravanGroup(Pawn pawn)
         {
 			this.Init();
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
-		}
+            this.curGroupName = this.defaultGroupName + " " + this.groupID;
+        }
 
         public override void Disband(Pawn pawn)
         {

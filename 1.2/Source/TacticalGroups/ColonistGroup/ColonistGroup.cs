@@ -58,17 +58,21 @@ namespace TacticalGroups
 				return false;
 			}
 		}
-		public List<Pawn> VisiblePawns
+		public virtual List<Pawn> PawnsOnMap
         {
 			get
             {
-				if (TacticalGroupsSettings.HidePawnsWhenOffMap)
-                {
-					return this.pawns.Where(x => x.Map == this.Map).ToList();
-                }
-				return this.pawns;
-            }
-        }
+				// old
+				//if (TacticalGroupsSettings.HidePawnsWhenOffMap)
+                //{
+				//	return this.pawns.Where(x => x.Map == this.Map && x.Spawned);
+                //}
+				//return this.pawns.Where(x => x.Spawned);
+
+				// new
+				return this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
+			}
+		}
 
 		public void ResetDrawOptions()
         {
@@ -165,7 +169,23 @@ namespace TacticalGroups
 			int num = 0;
 			List<List<Pawn>> pawnRows = new List<List<Pawn>>();
 			List<Pawn> row = new List<Pawn>();
-			foreach (var pawn in VisiblePawns)
+			bool refresh = false;
+			for (int ind = pawns.Count - 1; ind >= 0; ind--)
+            {
+				if (pawns[ind].Destroyed || pawns[ind].Dead)
+                {
+					this.pawns.Remove(pawns[ind]);
+					this.pawnIcons.Remove(pawns[ind]);
+					refresh = true;
+				}
+            }
+			if (refresh)
+            {
+				Sort();
+				this.UpdateData();
+				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+			}
+			foreach (var pawn in PawnsOnMap)
 			{
 				if (num == columnCount)
 				{
@@ -296,7 +316,7 @@ namespace TacticalGroups
 						TacticDefOf.TG_LeftClickGroupSFX.PlayOneShotOnCamera();
 						if (WorldRendererUtility.WorldRenderedNow && this.Map != null || this.Map != null && this.Map != Find.CurrentMap)
 						{
-							CameraJumper.TryJump(this.pawns.First());
+							CameraJumper.TryJump(this.PawnsOnMap.First());
 							if (this is CaravanGroup caravanGroup)
 							{
 								var caravan = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Value == caravanGroup).FirstOrDefault().Key;
@@ -469,7 +489,7 @@ namespace TacticalGroups
 			if (!this.isSubGroup && !this.bannerModeEnabled && !this.hideGroupIcon)
 			{
 				var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, cachedGroupNameHeight);
-				Text.Anchor = TextAnchor.MiddleCenter;
+				Text.Anchor = TextAnchor.UpperCenter;
 				Widgets.Label(groupLabelRect, this.curGroupName);
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
@@ -549,6 +569,13 @@ namespace TacticalGroups
 		private int downedStateBlink;
 		public void UpdateData()
         {
+			//for (int num = pawns.Count - 1; num >= 0; num--)
+            //{
+			//	if (pawns[num].Destroyed || pawns[num].Dead || !pawns[num].Spawned)
+            //    {
+			//		Disband(pawns[num]);
+            //    }
+            //}
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
 			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
@@ -1070,7 +1097,9 @@ namespace TacticalGroups
 		//	return true;
 		//}
 
-
+		public Dictionary<WorkType, WorkState> ActiveWorkTypes => this.activeWorkTypes
+			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary)
+			.ToDictionary(y => y.Key, y => y.Value);
 		public void RemoveWorkState(WorkType workType)
 		{
 			if (this.activeWorkTypes.ContainsKey(workType))
@@ -1078,7 +1107,7 @@ namespace TacticalGroups
 				this.activeWorkTypes[workType] = WorkState.Inactive;
 			}
 
-			activeWorkState = this.activeWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.activeWorkTypes.Count();
+			activeWorkState = this.ActiveWorkTypes.Count > 0 ? this.ActiveWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.ActiveWorkTypes.Count() : false;
 		}
 
 		public void ChangeWorkState(WorkType workType)
@@ -1100,7 +1129,12 @@ namespace TacticalGroups
 				this.activeWorkTypes[workType] = WorkState.Active;
 			}
 
-			activeWorkState = this.activeWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.activeWorkTypes.Count();
+			activeWorkState = this.ActiveWorkTypes.Count > 0 ? this.ActiveWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.ActiveWorkTypes.Count() : false;
+			foreach (var at in ActiveWorkTypes)
+            {
+				Log.Message(at.Key + " - " + at.Value);
+            }
+			Log.Message(workType + " - " + activeWorkState + " - " + this.activeWorkTypes[workType]);
 		}
 
 		public void AssignTemporaryWorkers(WorkType workType)

@@ -69,6 +69,22 @@ namespace TacticalGroups
 			}
 		}
 
+		public static void ForceUpdateGroups()
+        {
+			foreach (var group in TacticalGroups.pawnGroups)
+            {
+				group.UpdateData();
+            }
+			foreach (var group in TacticalGroups.caravanGroups.Values)
+            {
+				group.UpdateData();
+            }
+			foreach (var group in TacticalGroups.colonyGroups.Values)
+            {
+				group.UpdateData();
+			}
+		}
+
 		public static Dictionary<Pawn, HashSet<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, HashSet<ColonistGroup>>();
 
 		public static bool TryGetGroups(this Pawn pawn, out HashSet<ColonistGroup> groups)
@@ -155,14 +171,14 @@ namespace TacticalGroups
 		public static void SelectAll(this ColonistGroup colonistGroup)
 		{
 			Find.Selector.ClearSelection();
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				Find.Selector.Select(pawn);
 			}
 		}
 		public static void Draft(this ColonistGroup colonistGroup)
         {
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
             {
 				if (!pawn.Downed && pawn.drafter != null)
                 {
@@ -173,7 +189,7 @@ namespace TacticalGroups
 
 		public static void Undraft(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				if (pawn.drafter != null)
 				{
@@ -184,7 +200,7 @@ namespace TacticalGroups
 
 		public static void SwitchToAttackMode(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				if (pawn.playerSettings != null)
 				{
@@ -195,7 +211,7 @@ namespace TacticalGroups
 
 		public static void RemoveOldLord(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				var lord = pawn.GetLord();
 				if (lord != null)
@@ -208,7 +224,7 @@ namespace TacticalGroups
 
 		public static void SearchForJob(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				try
                 {
@@ -225,14 +241,14 @@ namespace TacticalGroups
 		public static void SetBattleStations(this ColonistGroup colonistGroup)
 		{
 			if (colonistGroup.formations is null) colonistGroup.formations = new Dictionary<Pawn, IntVec3>();
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				colonistGroup.formations[pawn] = pawn.Position;
 			}
 		}
 		public static void ClearBattleStations(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.pawns)
+			foreach (var pawn in colonistGroup.PawnsOnMap)
 			{
 				colonistGroup.formations.Remove(pawn);
 			}

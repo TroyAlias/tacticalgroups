@@ -43,6 +43,7 @@ namespace TacticalGroups
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
 		public ColonyGroup(Pawn pawn)
         {
@@ -54,6 +55,7 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isColonyGroup).Count() + 1;
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
 
 		public void ConvertToTaskForce()
@@ -64,6 +66,7 @@ namespace TacticalGroups
 			this.groupIcon = Textures.TaskForceIcon_Default;
 			this.groupBanner = Textures.TaskForceBanner_Default;
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isTaskForce).Count() + 1;
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 			this.pawnRowCount = 3;
 			this.pawnDocRowCount = 8;
 			this.updateIcon = true;
@@ -77,6 +80,7 @@ namespace TacticalGroups
 			this.groupIcon = Textures.ColonyGroupIcon_Default;
 			this.groupBanner = Textures.ColonyGroupBanner_Default;
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isColonyGroup).Count() + 1;
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 			this.updateIcon = true;
 		}
 		public override void Draw(Rect rect)

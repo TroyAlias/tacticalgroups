@@ -48,6 +48,7 @@ namespace TacticalGroups
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
 			}
 			this.groupID = CreateGroupID();
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
 
 		public PawnGroup(Pawn pawn)
@@ -60,6 +61,7 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
 			this.groupID = CreateGroupID();
+			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
 
 		public int CreateGroupID()

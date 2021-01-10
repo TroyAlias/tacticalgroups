@@ -137,12 +137,14 @@ namespace TacticalGroups
 			var bannerRowRect = new Rect(rect);
 			bannerRowRect.x += 10f;
 			bannerRowRect.y += 20f;
-			bannerRowRect.height -= 350f;
+			bannerRowRect.height -= 340f;
 			bannerRowRect.width -= 97f;
 			
 			float listWidth = bannerRow.Count * bannerRow[0].width;
 			Rect rect1 = new Rect(0f, 0f, listWidth, bannerRowRect.height - 16f);
 			Widgets.BeginScrollView(bannerRowRect, ref scrollPosition2, rect1);
+			Widgets.DrawBox(rect1);
+
 			for (var b = 0; b < bannerRow.Count; b++)
 			{
 				Rect iconRect = new Rect(rect1.x + (b * 80) + b * 4, rect1.y, 80, 64);

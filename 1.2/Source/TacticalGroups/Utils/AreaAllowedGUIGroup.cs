@@ -55,7 +55,7 @@ namespace TacticalGroups
 			rect2.xMin += 3f;
 			rect2.yMin += 2f;
 			Widgets.Label(rect2, text);
-			if (group.pawns.First().playerSettings.AreaRestriction == area)
+			if (group.PawnsOnMap.First().playerSettings.AreaRestriction == area)
 			{
 				Widgets.DrawBox(rect, 2);
 			}
@@ -76,7 +76,7 @@ namespace TacticalGroups
 				}
 				if (dragging)
 				{
-					foreach (var p in group.pawns)
+					foreach (var p in group.PawnsOnMap)
                     {
 						if (p.playerSettings.AreaRestriction != area)
                         {
