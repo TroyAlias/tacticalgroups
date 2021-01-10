@@ -387,6 +387,8 @@ namespace TacticalGroups
 
         }
 
+		private Texture2D mergedTexture;
+		private Texture2D darkenMergedTexture;
 		public void UpdateIcon()
 		{
 			var bannerPath = "";
@@ -421,6 +423,9 @@ namespace TacticalGroups
 			{
 				this.groupIcon = icon;
 			}
+			mergedTexture = TexturesUtils.GetMergedTexture(this.groupBanner, this.groupIcon);
+			darkenMergedTexture = TexturesUtils.GetMergedDarkenTexture(this.groupBanner, this.groupIcon);
+
 			this.updateIcon = false;
 			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -442,24 +447,18 @@ namespace TacticalGroups
 			}
 			if (!hideGroupIcon)
 			{
-				GUI.DrawTexture(rect, this.groupBanner);
-				GUI.DrawTexture(rect, this.groupIcon);
-
-				//if (Find.CurrentMap == this.Map)
-                //{
-				//	GUI.DrawTexture(rect, this.groupBanner);
-				//	GUI.DrawTexture(rect, this.groupIcon);
-				//}
-				//else
-                //{
-				//	GUI.DrawTexture(rect, this.groupBanner.GetDarkenTexture());
-				//	GUI.DrawTexture(rect, this.groupIcon.GetDarkenTexture());
-				//}
+				if (!this.isColonyGroup || Find.CurrentMap == this.Map)
+                {
+					GUI.DrawTexture(rect, mergedTexture);
+				}
+				else
+                {
+					GUI.DrawTexture(rect, darkenMergedTexture);
+				}
 			}
 			else if (Mouse.IsOver(rect))
             {
-				GUI.DrawTexture(rect, this.groupBanner);
-				GUI.DrawTexture(rect, this.groupIcon);
+				GUI.DrawTexture(rect, mergedTexture);
 			}
 
 			if (!hideGroupIcon)
