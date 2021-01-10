@@ -93,9 +93,9 @@ namespace TacticalGroups
 				GUI.DrawTexture(hidePawnDotsRect, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 					this.colonistGroup.hidePawnDots = !this.colonistGroup.hidePawnDots;
 				}
-				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 
 			var hideLifeOverlayRect = new Rect(colonyHideButtonRect.x, colonyHideButtonRect.yMax + 14, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
@@ -110,9 +110,9 @@ namespace TacticalGroups
 				GUI.DrawTexture(hideLifeOverlayRect, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 					this.colonistGroup.hideLifeOverlay = !this.colonistGroup.hideLifeOverlay;
 				}
-				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 
 			var hideWeaponOverlayRect = new Rect(colonyHideButtonRect.xMax + 10, hideLifeOverlayRect.y, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
@@ -128,9 +128,9 @@ namespace TacticalGroups
 				GUI.DrawTexture(hideWeaponOverlayRect, Textures.RescueTendHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 					this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
 				}
-				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 		}
 	}
