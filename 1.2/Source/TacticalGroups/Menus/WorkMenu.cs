@@ -334,7 +334,10 @@ namespace TacticalGroups
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
 					this.colonistGroup.ChangeWorkState(WorkType.Research);
-					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
+					if (this.colonistGroup.activeWorkTypes[WorkType.Research] == WorkState.ForcedLabor)
+                    {
+						TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
+                    }
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
 					Event.current.Use();
 				}
