@@ -39,11 +39,11 @@ namespace TacticalGroups
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					var window = new Dialog_FormCaravan(this.colonistGroup.Map);
 					Find.WindowStack.Add(window);
-					foreach (var pawn in this.colonistGroup.PawnsOnMap)
+					foreach (var pawn in this.colonistGroup.ActivePawns)
 					{
 						foreach (var trad in window.transferables)
 						{
-							if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.PawnsOnMap.Contains(pawn2))
+							if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.ActivePawns.Contains(pawn2))
 							{
 								trad.AdjustTo(1);
 							}
@@ -65,7 +65,7 @@ namespace TacticalGroups
 				{
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					this.colonistGroup.AssignTemporaryWorkers(WorkType.UnloadCaravan);
-					WorkSearchUtility.SearchForWork(WorkType.UnloadCaravan, this.colonistGroup.PawnsOnMap);
+					WorkSearchUtility.SearchForWork(WorkType.UnloadCaravan, this.colonistGroup.ActivePawns);
 					Event.current.Use();
 				}
 				GUI.DrawTexture(unloadRect, Textures.WorkButtonHover);

@@ -78,7 +78,7 @@ namespace TacticalGroups
             this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }
 
-        public override List<Pawn> PawnsOnMap => this.pawns;
+        public override List<Pawn> ActivePawns => this.pawns;
         public CaravanGroup(Pawn pawn)
         {
 			this.Init();

@@ -58,21 +58,7 @@ namespace TacticalGroups
 				return false;
 			}
 		}
-		public virtual List<Pawn> PawnsOnMap
-        {
-			get
-            {
-				// old
-				//if (TacticalGroupsSettings.HidePawnsWhenOffMap)
-                //{
-				//	return this.pawns.Where(x => x.Map == this.Map && x.Spawned);
-                //}
-				//return this.pawns.Where(x => x.Spawned);
-
-				// new
-				return this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
-			}
-		}
+		public virtual List<Pawn> ActivePawns { get; }
 
 		public void ResetDrawOptions()
         {
@@ -185,7 +171,7 @@ namespace TacticalGroups
 				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
-			foreach (var pawn in PawnsOnMap)
+			foreach (var pawn in ActivePawns)
 			{
 				if (num == columnCount)
 				{
@@ -316,7 +302,10 @@ namespace TacticalGroups
 						TacticDefOf.TG_LeftClickGroupSFX.PlayOneShotOnCamera();
 						if (WorldRendererUtility.WorldRenderedNow && this.Map != null || this.Map != null && this.Map != Find.CurrentMap)
 						{
-							CameraJumper.TryJump(this.PawnsOnMap.First());
+							if (this.ActivePawns.Any())
+                            {
+								CameraJumper.TryJump(this.ActivePawns.First());
+                            }
 							if (this is CaravanGroup caravanGroup)
 							{
 								var caravan = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Value == caravanGroup).FirstOrDefault().Key;
@@ -455,6 +444,17 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, this.groupBanner);
 				GUI.DrawTexture(rect, this.groupIcon);
+
+				//if (Find.CurrentMap == this.Map)
+                //{
+				//	GUI.DrawTexture(rect, this.groupBanner);
+				//	GUI.DrawTexture(rect, this.groupIcon);
+				//}
+				//else
+                //{
+				//	GUI.DrawTexture(rect, this.groupBanner.GetDarkenTexture());
+				//	GUI.DrawTexture(rect, this.groupIcon.GetDarkenTexture());
+				//}
 			}
 			else if (Mouse.IsOver(rect))
             {

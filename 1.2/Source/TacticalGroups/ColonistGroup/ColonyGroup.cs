@@ -58,6 +58,23 @@ namespace TacticalGroups
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
 
+        public override List<Pawn> ActivePawns
+        {
+			get
+			{
+				// old
+				//if (TacticalGroupsSettings.HidePawnsWhenOffMap)
+				//{
+				//	return this.pawns.Where(x => x.Map == this.Map && x.Spawned);
+				//}
+				//return this.pawns.Where(x => x.Spawned);
+
+				// new
+				return this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
+			}
+		}
+
+
 		public void ConvertToTaskForce()
         {
 			this.defaultGroupName = Strings.TaskForce;

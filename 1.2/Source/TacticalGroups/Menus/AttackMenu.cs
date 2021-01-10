@@ -36,7 +36,7 @@ namespace TacticalGroups
 			option.action = delegate
 			{
 				this.colonistGroup.Draft();
-				foreach (var pawn in this.colonistGroup.PawnsOnMap)
+				foreach (var pawn in this.colonistGroup.ActivePawns)
                 {
 					if (pawn.drafter != null)
                     {
@@ -63,8 +63,8 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.PawnsOnMap.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
-				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsStrongest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.PawnsOnMap);
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.ActivePawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
+				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsStrongest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.ActivePawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};
@@ -83,8 +83,8 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.PawnsOnMap.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
-				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsWeakest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.PawnsOnMap);
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.ActivePawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
+				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsWeakest(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.ActivePawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};
@@ -103,8 +103,8 @@ namespace TacticalGroups
 				this.colonistGroup.SelectAll();
 				this.colonistGroup.SwitchToAttackMode();
 				this.colonistGroup.RemoveOldLord();
-				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.PawnsOnMap.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
-				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsPursueFleeing(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.PawnsOnMap);
+				var targets = this.colonistGroup.Map.attackTargetsCache.GetPotentialTargetsFor(this.colonistGroup.ActivePawns.First()).Where(x => !x.Thing.Fogged()).Select(x => x.Thing).ToList();
+				LordMaker.MakeNewLord(Faction.OfPlayer, new LordJob_AssaultThingsPursueFleeing(Faction.OfPlayer, targets, 0, true), this.colonistGroup.Map, this.colonistGroup.ActivePawns);
 				this.colonistGroup.SearchForJob();
 				this.CloseAllWindows();
 			};

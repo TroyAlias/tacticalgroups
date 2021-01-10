@@ -32,7 +32,7 @@ namespace TacticalGroups
 			lookBusy.action = delegate
 			{
 				TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
-				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.PawnsOnMap);
+				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.ActivePawns);
 			};
 			lookBusy.bottomIndent = 400f;
 			options.Add(lookBusy);
@@ -42,7 +42,7 @@ namespace TacticalGroups
 			takeFive.action = delegate
 			{
 				TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-				WorkSearchUtility.TakeABreak(BreakType.None, this.colonistGroup.PawnsOnMap);
+				WorkSearchUtility.TakeABreak(BreakType.None, this.colonistGroup.ActivePawns);
 			};
 			options.Add(takeFive);
 
@@ -210,7 +210,7 @@ namespace TacticalGroups
 						{
 							this.colonistGroup.RemoveWorkState(workIconStates[iconRows[i][j]]);
 							TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
-							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.PawnsOnMap);
+							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.ActivePawns);
 							Event.current.Use();
 						}
 						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
@@ -224,7 +224,7 @@ namespace TacticalGroups
                             {
 								TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
                             }
-							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.PawnsOnMap);
+							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.ActivePawns);
 							Event.current.Use();
 						}
 					}
@@ -255,7 +255,7 @@ namespace TacticalGroups
                             {
 								TacticDefOf.TG_ChowTimeSFX.PlayOneShotOnCamera();
 							}
-							WorkSearchUtility.TakeABreak(breakIconStates[iconRows2[i][j]], this.colonistGroup.PawnsOnMap);
+							WorkSearchUtility.TakeABreak(breakIconStates[iconRows2[i][j]], this.colonistGroup.ActivePawns);
 							Event.current.Use();
 						}
 					}
@@ -328,14 +328,14 @@ namespace TacticalGroups
 				{
 					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
 					this.colonistGroup.RemoveWorkState(WorkType.Research);
-					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.PawnsOnMap);
+					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
 					Event.current.Use();
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
 					this.colonistGroup.ChangeWorkState(WorkType.Research);
 					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
-					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.PawnsOnMap);
+					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
 					Event.current.Use();
 				}
 			}
@@ -437,7 +437,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			List<Pawn> pawnsListForReading = colonistGroup.PawnsOnMap; ;
+			List<Pawn> pawnsListForReading = colonistGroup.ActivePawns; ;
 			for (int i = 0; i < pawnsListForReading.Count; i++)
 			{
 				Pawn pawn = pawnsListForReading[i];

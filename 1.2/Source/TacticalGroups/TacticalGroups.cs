@@ -124,7 +124,7 @@ namespace TacticalGroups
                 if (colonyGroups.ContainsKey(key))
                 {
                     colonyGroups[key].Disband(pawns);
-                    if (colonyGroups.ContainsKey(key) && colonyGroups[key].PawnsOnMap.Count == 0)
+                    if (colonyGroups.ContainsKey(key) && colonyGroups[key].ActivePawns.Count == 0)
                     {
                         colonyGroups.Remove(key);
                     }
@@ -237,7 +237,7 @@ namespace TacticalGroups
                 RemoveAllNullPawns();
                 foreach (var group in TacticUtils.AllGroups)
                 {
-                    foreach (var pawn in group.PawnsOnMap)
+                    foreach (var pawn in group.ActivePawns)
                     {
                         if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
                         {

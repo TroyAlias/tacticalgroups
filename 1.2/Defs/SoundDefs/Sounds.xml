@@ -319,4 +319,36 @@
 		</subSounds>
 	</SoundDef>
 	
+		<SoundDef>
+		<defName>TG_SlideMenuOptionSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SlideMenuOptionSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+		<SoundDef>
+		<defName>TG_SubGroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SubGroupSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
 </Defs>

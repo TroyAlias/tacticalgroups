@@ -171,14 +171,14 @@ namespace TacticalGroups
 		public static void SelectAll(this ColonistGroup colonistGroup)
 		{
 			Find.Selector.ClearSelection();
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				Find.Selector.Select(pawn);
 			}
 		}
 		public static void Draft(this ColonistGroup colonistGroup)
         {
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
             {
 				if (!pawn.Downed && pawn.drafter != null)
                 {
@@ -189,7 +189,7 @@ namespace TacticalGroups
 
 		public static void Undraft(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				if (pawn.drafter != null)
 				{
@@ -200,7 +200,7 @@ namespace TacticalGroups
 
 		public static void SwitchToAttackMode(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				if (pawn.playerSettings != null)
 				{
@@ -211,7 +211,7 @@ namespace TacticalGroups
 
 		public static void RemoveOldLord(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				var lord = pawn.GetLord();
 				if (lord != null)
@@ -224,7 +224,7 @@ namespace TacticalGroups
 
 		public static void SearchForJob(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				try
                 {
@@ -241,14 +241,14 @@ namespace TacticalGroups
 		public static void SetBattleStations(this ColonistGroup colonistGroup)
 		{
 			if (colonistGroup.formations is null) colonistGroup.formations = new Dictionary<Pawn, IntVec3>();
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				colonistGroup.formations[pawn] = pawn.Position;
 			}
 		}
 		public static void ClearBattleStations(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.PawnsOnMap)
+			foreach (var pawn in colonistGroup.ActivePawns)
 			{
 				colonistGroup.formations.Remove(pawn);
 			}
