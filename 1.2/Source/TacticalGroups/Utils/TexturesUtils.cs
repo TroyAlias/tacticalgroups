@@ -25,13 +25,7 @@ namespace TacticalGroups
 		}
 		public static Texture2D GetMergedDarkenTexture(Texture2D background, Texture2D overlay)
 		{
-			var readableBackground = GetReadableTexture(background);
-			var readableOverlay = GetReadableTexture(overlay);
-
-			var darkenBackground = GetDarkenTexture(readableBackground);
-			var darkenOverlay = GetDarkenTexture(readableOverlay);
-
-			return MergeTextures(darkenBackground, darkenOverlay, 0, 0);
+			return GetDarkenTexture(GetMergedTexture(background, overlay));
 		}
 
 		public static Texture2D GetDarkenTexture(this Texture2D origin)
@@ -41,7 +35,7 @@ namespace TacticalGroups
 			var darkenColors = new Color[pixels.Length];
 			for (int i = 0; i < pixels.Length; i++)
 			{
-				darkenColors[i] = Color.Lerp(pixels[i], Color.black, 0.12f);
+				darkenColors[i] = Color.Lerp(pixels[i], Color.black, 0.25f);
 			}
 			copy.SetPixels(darkenColors);
 			copy.Apply();
