@@ -37,13 +37,19 @@ namespace TacticalGroups
 			}
 		}
 
-        public override void PostOpen()
+		private OptionsSlideMenu optionsSlideMenu;
+		public override void PostOpen()
         {
             base.PostOpen();
 			AddManagementWindow(options[3]);
-			var floatMenu = new OptionsSlideMenu(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenu);
-			this.childWindows.Add(floatMenu);
-			Find.WindowStack.Add(floatMenu);
+			optionsSlideMenu = new OptionsSlideMenu(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenu);
+			Find.WindowStack.Add(optionsSlideMenu);
+		}
+
+        public override void PostClose()
+        {
+            base.PostClose();
+			optionsSlideMenu?.Close();
 		}
 
         public void AddRenameButton()

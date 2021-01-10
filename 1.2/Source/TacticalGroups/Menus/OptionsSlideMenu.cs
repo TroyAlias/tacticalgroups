@@ -37,7 +37,45 @@ namespace TacticalGroups
 					GUI.DrawTexture(colonyHideButtonRect, Textures.RescueTendHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
-						this.colonistGroup.hideGroupIcon = !this.colonistGroup.hideGroupIcon;
+						var value = !this.colonistGroup.hideGroupIcon;
+						this.colonistGroup.hideGroupIcon = value;
+						if (this.colonistGroup is ColonyGroup colonyGroup)
+                        {
+							foreach (var subGroup in TacticUtils.GetAllSubGroupFor(colonyGroup))
+                            {
+								subGroup.hideGroupIcon = value;
+                            }
+                        }
+						TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					}
+				}
+			}
+			else if (this.colonistGroup.isPawnGroup && this.colonistGroup is PawnGroup pawnGroup)
+			{
+				var subgroupButton = new Rect(colonyHideButtonRect);
+				GUI.DrawTexture(subgroupButton, Textures.SubGroupButton);
+				if (this.colonistGroup.isSubGroup)
+				{
+					GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
+				}
+				TooltipHandler.TipRegion(subgroupButton, Strings.HidePawnGroupOptionsTooltip);
+				if (Mouse.IsOver(subgroupButton))
+				{
+					GUI.DrawTexture(subgroupButton, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						if (pawnGroup.isSubGroup)
+			            {
+							pawnGroup.ConvertToPawnGroup();
+						}
+						else
+			            {
+							pawnGroup.ConvertToSubGroup();
+			            }
+						pawnGroup.ResetDrawOptions();
+						this.CloseAllWindows();
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+						TacticDefOf.TG_SubGroupSFX.PlayOneShotOnCamera();
 					}
 				}
 			}
@@ -57,9 +95,10 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.hidePawnDots = !this.colonistGroup.hidePawnDots;
 				}
+				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 
-			var hideLifeOverlayRect = new Rect(hidePawnDotsRect.x, hidePawnDotsRect.yMax + 15, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
+			var hideLifeOverlayRect = new Rect(colonyHideButtonRect.x, colonyHideButtonRect.yMax + 14, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
 			GUI.DrawTexture(hideLifeOverlayRect, Textures.GroupOverlayButton);
 			if (this.colonistGroup.hideLifeOverlay)
 			{
@@ -73,54 +112,25 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.hideLifeOverlay = !this.colonistGroup.hideLifeOverlay;
 				}
+				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 
-			var hideWeaponOverlayRect = new Rect(rect.x + 13, rect.y + 13, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
-			if (!this.colonistGroup.isColonyGroup && !this.colonistGroup.isTaskForce)
-            {
-				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
-				if (this.colonistGroup.hideWeaponOverlay)
-				{
-					GUI.DrawTexture(hideWeaponOverlayRect, Textures.ManageOptionsX);
-				}
-				TooltipHandler.TipRegion(hideWeaponOverlayRect, Strings.HideWeaponOverlayOptionsTooltip);
-				if (Mouse.IsOver(hideWeaponOverlayRect))
-				{
-					GUI.DrawTexture(hideWeaponOverlayRect, Textures.RescueTendHover);
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
-					{
-						this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
-					}
-				}
+			var hideWeaponOverlayRect = new Rect(colonyHideButtonRect.xMax + 10, hideLifeOverlayRect.y, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
+			
+			GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
+			if (this.colonistGroup.hideWeaponOverlay)
+			{
+				GUI.DrawTexture(hideWeaponOverlayRect, Textures.ManageOptionsX);
 			}
-			if (this.colonistGroup.isPawnGroup && this.colonistGroup is PawnGroup pawnGroup)
-            {
-				var subgroupButton = new Rect(hidePawnDotsRect.x - 30, hidePawnDotsRect.yMax + 30, Textures.SubGroupButton.width, Textures.SubGroupButton.height);
-				GUI.DrawTexture(subgroupButton, Textures.SubGroupButton);
-				if (this.colonistGroup.isSubGroup)
+			TooltipHandler.TipRegion(hideWeaponOverlayRect, Strings.HideWeaponOverlayOptionsTooltip);
+			if (Mouse.IsOver(hideWeaponOverlayRect))
+			{
+				GUI.DrawTexture(hideWeaponOverlayRect, Textures.RescueTendHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
+					this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
 				}
-				TooltipHandler.TipRegion(subgroupButton, Strings.GroupHideOptionsTooltip);
-				if (Mouse.IsOver(subgroupButton))
-				{
-					GUI.DrawTexture(subgroupButton, Textures.RescueTendHover);
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
-					{
-						if (pawnGroup.isSubGroup)
-                        {
-							pawnGroup.ConvertToPawnGroup();
-						}
-						else
-                        {
-							pawnGroup.ConvertToSubGroup();
-                        }
-
-						pawnGroup.ResetDrawOptions();
-						this.CloseAllWindows();
-						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-					}
-				}
+				TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 			}
 		}
 	}

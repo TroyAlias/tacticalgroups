@@ -37,5 +37,8 @@ namespace TacticalGroups
 		public static SoundDef TG_RegroupSFX;
 		public static SoundDef TG_SlaveLaborSFX;
 		public static SoundDef TG_UpgradeWeaponSFX;
+		public static SoundDef TG_SlideMenuOptionSFX;
+		public static SoundDef TG_SubGroupSFX;
+
 	}
 }

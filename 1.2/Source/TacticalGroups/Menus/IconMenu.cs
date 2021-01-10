@@ -143,7 +143,6 @@ namespace TacticalGroups
 			float listWidth = bannerRow.Count * bannerRow[0].width;
 			Rect rect1 = new Rect(0f, 0f, listWidth, bannerRowRect.height - 16f);
 			Widgets.BeginScrollView(bannerRowRect, ref scrollPosition2, rect1);
-			Widgets.DrawBox(rect1);
 
 			for (var b = 0; b < bannerRow.Count; b++)
 			{

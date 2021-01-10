@@ -555,7 +555,7 @@ namespace TacticalGroups
 			{
 				pawnWindowIsActive = false;
 				expandPawnIcons = false;
-				if (!this.hidePawnDots)
+				if (!this.hidePawnDots && !this.hideGroupIcon)
                 {
 					DrawPawnDots(rect);
                 }
