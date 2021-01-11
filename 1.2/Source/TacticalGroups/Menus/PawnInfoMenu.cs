@@ -79,8 +79,8 @@ namespace TacticalGroups
 			Widgets.InfoCardButton(pawnBox.x + pawnBox.width - 18f, pawnBox.x + pawnBox.height - 23f, pawn);
 			Text.Anchor = TextAnchor.MiddleLeft;
 
-			var pawnTabsRect = new Rect(pawnBox.x, pawnBox.yMax + 10, 120, 120);
-			Widgets.DrawBox(pawnTabsRect);
+			//var pawnTabsRect = new Rect(pawnBox.x, pawnBox.yMax + 10, 120, 120);
+			//Widgets.DrawBox(pawnTabsRect);
 
 			//MainTabWindow_Inspect mainTabWindow_Inspect = (MainTabWindow_Inspect)MainButtonDefOf.Inspect.TabWindow;
 			//
