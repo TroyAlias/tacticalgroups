@@ -62,7 +62,7 @@ namespace TacticalGroups
         {
 			foreach (var pawn in pawns)
             {
-				if (!pawn.WorkTypeIsDisabled(wType) && pawn.workSettings.GetPriority(wType) == 0)
+				if (pawn.workSettings != null && !pawn.WorkTypeIsDisabled(wType) && pawn.workSettings.GetPriority(wType) == 0)
                 {
 					return false;
                 }
@@ -75,7 +75,7 @@ namespace TacticalGroups
 			HashSet<int> workPriority = new HashSet<int>();
 			foreach (var pawn in pawns)
 			{
-				if (!pawn.WorkTypeIsDisabled(wType))
+				if (pawn.workSettings != null && !pawn.WorkTypeIsDisabled(wType))
 				{
 					workPriority.Add(pawn.workSettings.GetPriority(wType));
 				}
