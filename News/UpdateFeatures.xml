@@ -5,39 +5,10 @@
 		<modNameReadable>Colony Groups</modNameReadable>
 		<modIdentifier>ColonyGroups</modIdentifier>
 		<!-- <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2345493945</linkUrl> -->
-		<defName>ColonyGroups_1_0_0_0</defName>
-		<assemblyVersion>1.0.0.0</assemblyVersion>
+		<defName>ColonyGroups_1_0_05</defName>
+		<assemblyVersion>1.0.05</assemblyVersion>
 		<content>
-		  &lt;color=blue&gt;&lt;b&gt;[LTO] Colony Groups&lt;/b&gt;&lt;/color&gt; - &lt;color=orange&gt;&lt;b&gt;[Update]&lt;/b&gt;&lt;/color&gt;
-		
-
-		|- Hey guys, it's Bickley
-First I just want to thank everyone for their unwavering support; we've managed make &lt;color=green&gt;&lt;b&gt;22%&lt;/b&gt;&lt;/color&gt; of our total cost back and I'd love nothing more than to eventually at least break even - so if you love the mod and want to show your support please feel free to donate to the cause man, links can be found on the steam page and it truly means the world.  
-
-Alright so back to the UPDATE
-
-
-	&lt;color=orange&gt;&lt;b&gt;NEW FEATURES&lt;/b&gt;&lt;/color&gt;
-		|- &lt;b&gt;Sub Groups&lt;/b&gt;
-In the Manage menu, you'll find we've added a new slide menu with a few group specific options, one of which is our new  &lt;b&gt;Sub Groups&lt;/b&gt; button - This will toggle the group into the sub group area located to the left of the map's Colony Group.
-
-
-		|-&lt;b&gt;Options&lt;/b&gt;
-We've added Pawn Spacing / Colonist Bar (X axis) adjustment / Display weapon (drafted or always) / and an extended mood bar display featuring more colors for all of you Color Mood Bars fans.  We wish to soon include an entirely new Pawn Customization menu which will give the player a wide range of possible pawn configurations for their displays.
-
-
-		|-&lt;b&gt;Caravan Mechanics&lt;/b&gt;
-Rework of Caravan/Group interactions.  Hopefully now sending and returning caravans will act a bit more natural in regards to which groups the pawns were in.  This has proven an extrememly tricky feature as different situations bring new challenges and it's tough to find the perfect method.  But I'm sure with enough time we'll smooth it out to Gold Standard.
-
-
-		|-&lt;b&gt;Fixes & More&lt;/b&gt;
-We've also added some minor additions like a new "Unload" caravan option - you can find this by clicking the Caravan button in the Work Menu.   As well as a few more odds and ends like visual appearance (new vanilla style default group banners), SFX, and overall ease of use.  Not to mention the GIGANTIC amount of fixes /tweaks /compatibility patches - including extensive performance optimization to make sure this mod doesn't act like a... Mod.  -Which is a huge priority for this project, ensuring players can use this mod without worry.
-		
-		|- There is still much to do, cool features to implement, and tweaks/fixes to work out but with your help we can continue developement of this epic expansion.
-Feel free to hop into the discord as well - and all of our donate links can be found on the steam page if you wish to chip in.
-		
-		
-		|Alright guys that pretty much wraps it up.  Enjoy the mod, and I'll see you next time \m/
+		img:pics/update1
 		</content>
 	</HugsLib.UpdateFeatureDef>
 
