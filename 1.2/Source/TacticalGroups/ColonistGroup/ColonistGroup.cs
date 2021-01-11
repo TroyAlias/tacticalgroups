@@ -515,19 +515,15 @@ namespace TacticalGroups
 				if (!this.isSubGroup)
                 {
 					pawnWindowIsActive = true;
-					//if (!subGroupsExpanded)
-                    //{
-					//	subGroupsExpanded = true;
-					//	TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-                    //}
 					DrawPawnRows(rect, pawnRows);
 					DrawPawnArrows(rect, pawnRows);
 				}
 				else if (showPawnIconsRightClickMenu)
                 {
-					Log.Message("Subgroup drawing");
-					DrawPawnRows(rect, pawnRows);
-					DrawPawnArrows(rect, pawnRows);
+					var subGroupRect = new Rect(rect);
+					subGroupRect.x -= (rect.width);
+					DrawPawnRows(subGroupRect, pawnRows);
+					DrawPawnArrows(subGroupRect, pawnRows);
 				}
 				if (!ShowExpanded)
 				{
@@ -542,9 +538,10 @@ namespace TacticalGroups
 			}
 			else if (this.isSubGroup && showPawnIconsRightClickMenu)
             {
-				Log.Message("Subgroup drawing");
-				DrawPawnRows(rect, pawnRows);
-				DrawPawnArrows(rect, pawnRows);
+				var subGroupRect = new Rect(rect);
+				subGroupRect.x -= (rect.width);
+				DrawPawnRows(subGroupRect, pawnRows);
+				DrawPawnArrows(subGroupRect, pawnRows);
 			}
 			else if (!this.isSubGroup)
 			{

@@ -145,8 +145,6 @@ namespace TacticalGroups
 		{
 			if (TacticalGroupsSettings.DisplayHealth)
 			{
-				Color color = GUI.color;
-				GUI.color = Color.white;
 				Rect healthBar = new Rect(rect.x - Textures.HealthBar.width, rect.y, Textures.HealthBar.width, rect.height);
 				float num = Mathf.Clamp(p.health.summaryHealth.SummaryHealthPercent, 0f, 1f);
 				Rect rect3 = GenUI.ContractedBy(healthBar, 1f);
@@ -154,19 +152,14 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 
-				Color color2 = new ColorInt(154, 55, 55, 255).ToColor;
-				GUI.color = color2;
-				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(rect3, Textures.HealthNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
-				GUI.color = color;
 			}
 		}
 
 		public static void DrawRestAndFoodBars(Pawn p, Rect rect, float needWidth)
 		{
-			Color color = GUI.color;
 			Rect needBar = new Rect(rect.x + rect.width, rect.y, needWidth, rect.height);
-			GUI.color = Color.white;
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)
 			{
 				float num = Mathf.Clamp(p.needs.food.CurLevelPercentage, 0f, 1f);
@@ -175,9 +168,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 
-				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
-				GUI.color = color2;
-				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(rect3, Textures.FoodNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				needBar.x += needWidth;
 			}
@@ -188,12 +179,10 @@ namespace TacticalGroups
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
-				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
-				GUI.color = color2;
-				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
+
+				GUI.DrawTexture(rect3, Textures.RestNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 			}
-			GUI.color = color;
 		}
 
 		public static Texture2D GetMoodBarTexture(Pawn colonist)
