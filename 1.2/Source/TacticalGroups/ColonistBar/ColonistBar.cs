@@ -379,7 +379,7 @@ namespace TacticalGroups
                 for (int i = 0; i < tmpMaps.Count; i++)
                 {
                     tmpPawns.Clear();
-                    tmpPawns.AddRange(tmpMaps[i].mapPawns.FreeColonistsAndPrisoners);
+                    tmpPawns.AddRange(tmpMaps[i].mapPawns.FreeColonistsAndPrisoners.Where(x => x.Faction == Faction.OfPlayer));
                     List<Thing> list = tmpMaps[i].listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
                     for (int j = 0; j < list.Count; j++)
                     {
