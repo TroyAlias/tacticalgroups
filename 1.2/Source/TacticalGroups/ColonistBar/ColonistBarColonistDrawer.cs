@@ -155,11 +155,9 @@ namespace TacticalGroups
 				rect3.height = num5;
 
 				Color color2 = new ColorInt(154, 55, 55, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				GUI.color = color2;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-
 				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
-
 				GUI.color = color;
 			}
 		}
@@ -178,9 +176,8 @@ namespace TacticalGroups
 				rect3.height = num5;
 
 				Color color2 = new ColorInt(45, 127, 59, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				GUI.color = color2;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				needBar.x += needWidth;
 			}
@@ -192,11 +189,9 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 				Color color2 = new ColorInt(58, 96, 152, 255).ToColor;
-				GUI.color = new Color(color2.r, color2.g, color2.b, 1f);
+				GUI.color = color2;
 				GUI.DrawTexture(rect3, Textures.WhiteTexture, ScaleMode.ScaleAndCrop);
-
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
-
 			}
 			GUI.color = color;
 		}

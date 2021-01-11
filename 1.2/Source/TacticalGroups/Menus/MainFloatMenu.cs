@@ -200,16 +200,8 @@ namespace TacticalGroups
 		public override void PostClose()
         {
             base.PostClose();
-			this.colonistGroup.groupButtonRightClicked = false;
-			this.colonistGroup.showPawnIconsRightClickMenu = false;
 			this.colonistGroup.Notify_WindowsClosed();
 			this.CloseAllWindows();
 		}
-		public override void Close(bool doCloseSound = true)
-        {
-            base.Close(doCloseSound);
-			this.colonistGroup.groupButtonRightClicked = false;
-			this.colonistGroup.showPawnIconsRightClickMenu = false;
-        }
     }
 }

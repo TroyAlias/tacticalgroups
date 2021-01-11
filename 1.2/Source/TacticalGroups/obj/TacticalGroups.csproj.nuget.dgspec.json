@@ -1,26 +1,22 @@
 {
   "format": 1,
   "restore": {
-    "D:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\[LTO]ColonyGroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {}
+    "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {}
   },
   "projects": {
-    "D:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\[LTO]ColonyGroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {
+    "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\[LTO]ColonyGroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
+        "projectUniqueName": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
         "projectName": "TacticalGroups",
-        "projectPath": "D:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\[LTO]ColonyGroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
-        "packagesPath": "C:\\Users\\derek\\.nuget\\packages\\",
-        "outputPath": "D:\\SteamLibrary\\steamapps\\common\\RimWorld\\Mods\\[LTO]ColonyGroups\\1.2\\Source\\TacticalGroups\\obj\\",
+        "projectPath": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
+        "packagesPath": "C:\\Users\\Vova\\.nuget\\packages\\",
+        "outputPath": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
-        "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\derek\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Vova\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net472"

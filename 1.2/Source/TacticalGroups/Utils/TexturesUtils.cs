@@ -17,6 +17,7 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public static class TexturesUtils
 	{
+		public static Dictionary<Color, Texture2D> needBars = new Dictionary<Color, Texture2D>();
 		public static Texture2D GetMergedTexture(Texture2D background, Texture2D overlay)
 		{
 			var readableBackground = GetReadableTexture(background);

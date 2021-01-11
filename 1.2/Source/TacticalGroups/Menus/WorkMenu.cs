@@ -333,6 +333,7 @@ namespace TacticalGroups
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					this.colonistGroup.ChangeWorkState(WorkType.Research);
 					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
 					Event.current.Use();
@@ -345,7 +346,7 @@ namespace TacticalGroups
 				GUI.DrawTexture(researchMenuRect, Textures.ResearchHover);
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					Find.MainTabsRoot.ToggleTab(MainButtonDefOf.Research);
 					Event.current.Use();
 				}

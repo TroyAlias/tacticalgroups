@@ -243,37 +243,25 @@ namespace TacticalGroups
 					{
 						if (group.groupButtonRightClicked && !this.groupButtonRightClicked)
 						{
-							//Log.Message("1 group.expandPawnIcons: " + group.expandPawnIcons);
-							//Log.Message("1 this.expandPawnIcons: " + this.expandPawnIcons);
-							//Log.Message("1 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							//Log.Message("1 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							//Log.Message("1 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							//Log.Message("1 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							group.groupButtonRightClicked = false;
 						}
 						else if (group.expandPawnIcons && !this.pawnWindowIsActive)
 						{
-							//Log.Message("2 group.expandPawnIcons: " + group.expandPawnIcons);
-							//Log.Message("2 this.expandPawnIcons: " + this.expandPawnIcons);
-							//Log.Message("2 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							//Log.Message("2 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							//Log.Message("2 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							//Log.Message("2 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							group.expandPawnIcons = false;
 						}
-						else if (group.expandPawnIcons && group.pawnWindowIsActive && this.pawnWindowIsActive)
+						else if (group.pawnWindowIsActive && this.pawnWindowIsActive)
                         {
 							group.pawnWindowIsActive = false;
 							group.expandPawnIcons = false;
 						}
 						else if (group.pawnWindowIsActive)
 						{
-							//Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
-							//Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
-							//Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							//Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							//Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							//Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
+							Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
+							Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
+							Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							return;
 						}
 					}
@@ -347,10 +335,6 @@ namespace TacticalGroups
 					this.showPawnIconsRightClickMenu = true;
 					this.expandPawnIcons = false;
 					this.groupButtonRightClicked = true;
-					//if (this.isColonyGroup && this is ColonyGroup colonyGroup)
-                    //{
-					//	colonyGroup.subGroupsExpanded = true;
-					//}
 					var rect2 = new Rect(rect.x, rect.y + rect.height, rect.width, rect.height);
 					TieredFloatMenu floatMenu = new MainFloatMenu(null, this, rect2, Textures.DropMenuRightClick);
 					Find.WindowStack.Add(floatMenu);
@@ -384,7 +368,7 @@ namespace TacticalGroups
 
 		public void Notify_WindowsClosed()
         {
-
+			this.ResetDrawOptions();
         }
 
 		private Texture2D mergedTexture;
@@ -539,6 +523,12 @@ namespace TacticalGroups
 					DrawPawnRows(rect, pawnRows);
 					DrawPawnArrows(rect, pawnRows);
 				}
+				else if (showPawnIconsRightClickMenu)
+                {
+					Log.Message("Subgroup drawing");
+					DrawPawnRows(rect, pawnRows);
+					DrawPawnArrows(rect, pawnRows);
+				}
 				if (!ShowExpanded)
 				{
 					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
@@ -547,6 +537,12 @@ namespace TacticalGroups
 			}
 			else if (!this.isSubGroup && (Mouse.IsOver(totalRect) && pawnWindowIsActive || showPawnIconsRightClickMenu))
 			{
+				DrawPawnRows(rect, pawnRows);
+				DrawPawnArrows(rect, pawnRows);
+			}
+			else if (this.isSubGroup && showPawnIconsRightClickMenu)
+            {
+				Log.Message("Subgroup drawing");
 				DrawPawnRows(rect, pawnRows);
 				DrawPawnArrows(rect, pawnRows);
 			}
