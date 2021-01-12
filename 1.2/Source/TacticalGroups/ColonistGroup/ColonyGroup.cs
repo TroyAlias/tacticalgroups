@@ -100,12 +100,17 @@ namespace TacticalGroups
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 			this.updateIcon = true;
 		}
+
 		public override void Draw(Rect rect)
         {
             base.Draw(rect);
-			if (this.activeWorkState)
+			if (this.activeWorkState == WorkState.ForcedLabor)
             {
 				GUI.DrawTexture(rect, Textures.ColonySlave);
+            }
+			else if (this.activeWorkState == WorkState.Active)
+            {
+				GUI.DrawTexture(rect, Textures.DefaultColonyWork);
             }
         }
 

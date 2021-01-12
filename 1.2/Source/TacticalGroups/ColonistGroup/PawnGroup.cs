@@ -146,7 +146,7 @@ namespace TacticalGroups
 		public override void Draw(Rect rect)
 		{
 			base.Draw(rect);
-			if (this.activeWorkState)
+			if (this.activeWorkState == WorkState.ForcedLabor)
 			{
 				if (this.bannerModeEnabled)
                 {
@@ -157,6 +157,18 @@ namespace TacticalGroups
 					GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
                 }
 			}
+			else if (this.activeWorkState == WorkState.Active)
+            {
+				if (this.bannerModeEnabled)
+				{
+					GUI.DrawTexture(rect, Textures.DefaultGroupWorkBanner);
+				}
+				else
+				{
+					GUI.DrawTexture(rect, Textures.DefaultGroupWork);
+				}
+			}
+
 			if (ModCompatibility.CombatExtendedIsActive)
             {
 				for (var i = 0; i < this.pawns.Count; i++)

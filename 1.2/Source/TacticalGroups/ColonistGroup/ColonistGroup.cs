@@ -1099,7 +1099,7 @@ namespace TacticalGroups
 				this.activeWorkTypes[workType] = WorkState.Inactive;
 			}
 
-			activeWorkState = this.ActiveWorkTypes.Count > 0 ? this.ActiveWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.ActiveWorkTypes.Count() : false;
+			SetCurrentActiveState();
 		}
 
 		public void ChangeWorkState(WorkType workType)
@@ -1121,12 +1121,30 @@ namespace TacticalGroups
 				this.activeWorkTypes[workType] = WorkState.Active;
 			}
 
-			activeWorkState = this.ActiveWorkTypes.Count > 0 ? this.ActiveWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.ActiveWorkTypes.Count() : false;
-			foreach (var at in ActiveWorkTypes)
+			SetCurrentActiveState();
+		}
+
+		private void SetCurrentActiveState()
+        {
+			if (this.ActiveWorkTypes.Count > 0)
+			{
+				if (this.ActiveWorkTypes.Where(x => x.Value == WorkState.ForcedLabor).Count() == this.ActiveWorkTypes.Count())
+				{
+					activeWorkState = WorkState.ForcedLabor;
+				}
+				else if (this.ActiveWorkTypes.Where(x => x.Value == WorkState.Active).Count() == this.ActiveWorkTypes.Count())
+				{
+					activeWorkState = WorkState.Active;
+				}
+				else
+				{
+					activeWorkState = WorkState.Inactive;
+				}
+			}
+			else
             {
-				Log.Message(at.Key + " - " + at.Value);
-            }
-			Log.Message(workType + " - " + activeWorkState + " - " + this.activeWorkTypes[workType]);
+				activeWorkState = WorkState.Inactive;
+			}
 		}
 
 		public void AssignTemporaryWorkers(WorkType workType)
@@ -1213,7 +1231,7 @@ namespace TacticalGroups
 		public string groupIconName;
 		public bool bannerModeEnabled;
 		public string colorFolder;
-		protected bool activeWorkState;
+		protected WorkState activeWorkState;
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
