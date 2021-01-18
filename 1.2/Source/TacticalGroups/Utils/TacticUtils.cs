@@ -180,7 +180,7 @@ namespace TacticalGroups
         {
 			foreach (var pawn in colonistGroup.ActivePawns)
             {
-				if (!pawn.Downed && pawn.drafter != null)
+				if (!pawn.Downed && pawn.drafter != null && pawn.IsFreeColonist && !pawn.IsPrisoner)
                 {
 					pawn.drafter.Drafted = true;
 				}

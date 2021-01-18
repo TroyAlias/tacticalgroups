@@ -241,6 +241,7 @@ namespace TacticalGroups
 		public static readonly Texture2D ColonyHideButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ColonyHideButton");
 		public static readonly Texture2D GroupOverlayButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GroupOverlayButton");
 		public static readonly Texture2D ShowWeaponButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ShowWeaponButton");
+		public static readonly Texture2D BanishPawnButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/BanishPawnButton");
 		public static readonly Texture2D DefaultGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultGroupSlave");
 		public static readonly Texture2D BannerGroupSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/BannerGroupSlave");
 		public static readonly Texture2D ColonySlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/ColonySlave");

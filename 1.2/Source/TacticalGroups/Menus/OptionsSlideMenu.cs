@@ -132,6 +132,26 @@ namespace TacticalGroups
 					this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
 				}
 			}
+
+			var banishPawnRect = new Rect(hideWeaponOverlayRect.x, hideWeaponOverlayRect.yMax + 14, Textures.BanishPawnButton.width, Textures.BanishPawnButton.height);
+
+			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
+            {
+				GUI.DrawTexture(banishPawnRect, Textures.BanishPawnButton);
+				TooltipHandler.TipRegion(banishPawnRect, Strings.BanishPawnTooltip);
+				if (Mouse.IsOver(banishPawnRect))
+				{
+					GUI.DrawTexture(banishPawnRect, Textures.RescueTendHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						foreach (var pawn in Find.Selector.SelectedPawns)
+                        {
+							this.colonistGroup.Disband(pawn);
+                        }
+						TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					}
+				}
+			}
 		}
 	}
 }

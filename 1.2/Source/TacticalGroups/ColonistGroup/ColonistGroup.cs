@@ -60,6 +60,8 @@ namespace TacticalGroups
 		}
 		public virtual List<Pawn> ActivePawns { get; }
 
+		public virtual List<Pawn> VisiblePawns { get;  }
+
 		public void ResetDrawOptions()
         {
 			this.groupButtonRightClicked = false;
@@ -171,7 +173,7 @@ namespace TacticalGroups
 				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
-			foreach (var pawn in ActivePawns)
+			foreach (var pawn in VisiblePawns)
 			{
 				if (num == columnCount)
 				{

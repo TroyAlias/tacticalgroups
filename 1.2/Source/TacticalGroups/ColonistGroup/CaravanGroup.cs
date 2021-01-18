@@ -71,14 +71,15 @@ namespace TacticalGroups
                         }
                     }
                 }
-                this.pawns.Add(pawn);
-                this.pawnIcons[pawn] = new PawnIcon(pawn);
+                this.Add(pawn);
             }
             this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
             this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }
 
         public override List<Pawn> ActivePawns => this.pawns;
+        public override List<Pawn> VisiblePawns => this.pawns;
+
         public CaravanGroup(Pawn pawn)
         {
 			this.Init();

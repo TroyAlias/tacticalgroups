@@ -140,6 +140,13 @@ namespace TacticalGroups
 					rect, colonist, pawnMap, highlight, reordering
 				});
 			}
+			if (ModCompatibility.JobInBarIsActive)
+			{
+				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
+				{
+					null, pawnLabelsCache, rect, colonist, pawnMap, highlight, reordering
+				});
+			}
 		}
 		public static void DrawHealthBar(Pawn p, Rect rect)
 		{

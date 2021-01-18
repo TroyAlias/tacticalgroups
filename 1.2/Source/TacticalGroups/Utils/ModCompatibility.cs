@@ -16,9 +16,9 @@ namespace TacticalGroups
 	public static class ModCompatibility
 	{
 		public static bool PawnBadgesIsActive;
-		public static bool RimworldOfMagicIsActive;
-
 		public static MethodInfo pawnBadgesDrawMethod;
+
+		public static bool RimworldOfMagicIsActive;
 		public static MethodInfo rimworldOfMagicDrawMethod;
 
 		public static bool AlteredCarbonIsActive;
@@ -28,6 +28,8 @@ namespace TacticalGroups
 		public static bool CombatExtendedIsActive;
 		public static MethodInfo combatExtendedHasAmmo_Method;
 
+		public static bool JobInBarIsActive;
+		public static MethodInfo jobInBarDrawMethod;
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -51,6 +53,12 @@ namespace TacticalGroups
 			if (CombatExtendedIsActive)
 			{
 				combatExtendedHasAmmo_Method = AccessTools.Method(AccessTools.TypeByName("CombatExtended.CE_Utility"), "HasAmmo");
+			}
+
+			JobInBarIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.Name == "Job In Bar").Any();
+			if (JobInBarIsActive)
+			{
+				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.LabelPatch"), "Postfix");
 			}
 		}
 	}
