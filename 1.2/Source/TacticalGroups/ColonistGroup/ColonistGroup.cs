@@ -258,12 +258,12 @@ namespace TacticalGroups
 						}
 						else if (group.pawnWindowIsActive)
 						{
-							Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
-							Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
-							Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
+							//Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
+							//Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
+							//Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
+							//Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
+							//Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
+							//Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
 							return;
 						}
 					}
@@ -332,7 +332,7 @@ namespace TacticalGroups
 						}
 					}
 				}
-				else if (Event.current.button == 1)
+				else if (Event.current.button == 1 && !(this is CaravanGroup))
 				{
 					this.showPawnIconsRightClickMenu = true;
 					this.expandPawnIcons = false;

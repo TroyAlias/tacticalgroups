@@ -94,6 +94,7 @@ namespace TacticalGroups
                 typeof(Vector3)
             }, null), new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null, null);
 
+            harmony.Patch(AccessTools.Method(typeof(MainTabsRoot), "ToggleTab", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(MainButtonWorker_ToggleWorld), "Activate", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryHideWorld", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
 

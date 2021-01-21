@@ -80,7 +80,7 @@ namespace TacticalGroups
 					workPriority.Add(pawn.workSettings.GetPriority(wType));
 				}
 			}
-			if (workPriority.Count > 1)
+			if (workPriority.Count > 1 || !workPriority.Any())
             {
 				return 0;
             }

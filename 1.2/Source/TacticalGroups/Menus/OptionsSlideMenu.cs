@@ -134,7 +134,6 @@ namespace TacticalGroups
 			}
 
 			var banishPawnRect = new Rect(hideWeaponOverlayRect.x, hideWeaponOverlayRect.yMax + 14, Textures.BanishPawnButton.width, Textures.BanishPawnButton.height);
-
 			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
             {
 				GUI.DrawTexture(banishPawnRect, Textures.BanishPawnButton);

@@ -162,15 +162,14 @@ namespace TacticalGroups
 			{
 				onCloseCallback();
 			}
-			Log.Message("PostClose");
-
+			//Log.Message("PostClose");
 		}
 
 		public void Cancel()
 		{
 			TryCloseChildWindow();
 			Find.WindowStack.TryRemove(this);
-			Log.Message("Cancel");
+			//Log.Message("Cancel");
 		}
 
 		public override void Close(bool doCloseSound = true)
@@ -178,7 +177,7 @@ namespace TacticalGroups
 			parentWindow?.childWindows?.Remove(this);
 			TryCloseChildWindow();
 			base.Close(doCloseSound);
-			Log.Message("Close");
+			//Log.Message("Close");
         }
 
 		public void CloseAllWindows()
