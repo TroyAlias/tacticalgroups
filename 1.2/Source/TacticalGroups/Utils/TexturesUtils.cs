@@ -66,7 +66,7 @@ namespace TacticalGroups
 			newTex.Apply();
 			return newTex;
 		}
-		private static Texture2D GetReadableTexture(Texture2D texture)
+		public static Texture2D GetReadableTexture(Texture2D texture)
         {
 			RenderTexture temporary = RenderTexture.GetTemporary(
 					texture.width,

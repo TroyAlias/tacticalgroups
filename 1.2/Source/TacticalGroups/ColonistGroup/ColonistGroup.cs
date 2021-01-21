@@ -409,8 +409,17 @@ namespace TacticalGroups
 			{
 				this.groupIcon = icon;
 			}
-			mergedTexture = TexturesUtils.GetMergedTexture(this.groupBanner, this.groupIcon);
-			darkenMergedTexture = TexturesUtils.GetMergedDarkenTexture(this.groupBanner, this.groupIcon);
+			if (this is CaravanGroup)
+            {
+				mergedTexture = this.groupIcon;
+				darkenMergedTexture = TexturesUtils.GetDarkenTexture(TexturesUtils.GetReadableTexture(this.groupIcon));
+			}
+			else
+            {
+				mergedTexture = TexturesUtils.GetMergedTexture(this.groupBanner, this.groupIcon);
+				darkenMergedTexture = TexturesUtils.GetMergedDarkenTexture(this.groupBanner, this.groupIcon);
+			}
+
 
 			this.updateIcon = false;
 			this.cachedGroupNameHeight = Text.CalcHeight(this.curGroupName, groupBanner.width);
