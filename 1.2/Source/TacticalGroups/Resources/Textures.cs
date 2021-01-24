@@ -258,5 +258,7 @@ namespace TacticalGroups
 		public static readonly Texture2D DefaultGroupWork = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultGroupWork");
 		public static readonly Texture2D DefaultColonyWork = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultColonyWork");
 		public static readonly Texture2D DefaultGroupWorkBanner = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/DefaultGroupWorkBanner");
+
+		public static readonly Texture2D CryosleepOverlay = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/CryosleepOverlay");
 	}
 }

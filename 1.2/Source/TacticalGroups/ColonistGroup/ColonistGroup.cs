@@ -868,7 +868,11 @@ namespace TacticalGroups
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool reordering)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
-			TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
+			bool inCryptosleep = !colonist.Spawned && colonist.ParentHolder is Building_CryptosleepCasket;
+			if (!inCryptosleep)
+            {
+				TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
+            }
 			if (reordering)
 			{
 				alpha *= 0.5f;
@@ -930,6 +934,10 @@ namespace TacticalGroups
 			else if (colonist.IsPrisoner)
             {
 				GUI.DrawTexture(rect, Textures.PawnPrisoner);
+			}
+			if (inCryptosleep)
+			{
+				GUI.DrawTexture(rect, Textures.CryosleepOverlay);
 			}
 			if (ShowExpanded)
             {

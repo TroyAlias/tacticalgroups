@@ -120,6 +120,10 @@ namespace TacticalGroups
 							pawn.workSettings.SetPriority(wType, num2);
 						}
 					}
+					if (ModCompatibility.BetterPawnControlIsActive)
+                    {
+						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
+                    }
 					SoundDefOf.DragSlider.PlayOneShotOnCamera();
 				}
 				if (Event.current.button == 1)
@@ -135,6 +139,10 @@ namespace TacticalGroups
                         {
 							pawn.workSettings.SetPriority(wType, num3);
 						}
+					}
+					if (ModCompatibility.BetterPawnControlIsActive)
+					{
+						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 					}
 					SoundDefOf.DragSlider.PlayOneShotOnCamera();
 				}
@@ -161,6 +169,10 @@ namespace TacticalGroups
 						pawn.workSettings.SetPriority(wType, 0);
 					}
 				}
+				if (ModCompatibility.BetterPawnControlIsActive)
+				{
+					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
+				}
 				SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
 			}
 			else
@@ -171,6 +183,10 @@ namespace TacticalGroups
                     {
 						pawn.workSettings.SetPriority(wType, 3);
 					}
+				}
+				if (ModCompatibility.BetterPawnControlIsActive)
+				{
+					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 				}
 				SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
 			}

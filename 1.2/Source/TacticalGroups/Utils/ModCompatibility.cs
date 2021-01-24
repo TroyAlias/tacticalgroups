@@ -30,6 +30,9 @@ namespace TacticalGroups
 
 		public static bool JobInBarIsActive;
 		public static MethodInfo jobInBarDrawMethod;
+
+		public static bool BetterPawnControlIsActive;
+		public static MethodInfo workManagerSaveCurrentStateMethod;
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -59,6 +62,11 @@ namespace TacticalGroups
 			if (JobInBarIsActive)
 			{
 				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.LabelPatch"), "Postfix");
+			}
+			BetterPawnControlIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "voult.betterpawncontrol").Any();
+			if (BetterPawnControlIsActive)
+			{
+				workManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.WorkManager"), "SaveCurrentState");
 			}
 		}
 	}
