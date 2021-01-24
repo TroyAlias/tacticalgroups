@@ -41,6 +41,7 @@ namespace TacticalGroups
 			var timeTableRect = new Rect(rect.x + 10, rect.y + 105, rect.width - 20f, 30f);
 			DoTimeTableCell(timeTableRect);
 
+
 			var policyButtonWidth = rect.width * 0.45f;
 			var areaHeaderRect = new Rect(rect.x + 10, rect.y + 195f, policyButtonWidth, 20f);
 			DoAreaHeader(areaHeaderRect);
@@ -62,6 +63,10 @@ namespace TacticalGroups
 			var foodRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 315, policyButtonWidth, 30f);
 			DoFoodCell(foodRect);
 
+			if (ModCompatibility.BetterPawnControlIsActive)
+            {
+				ModCompatibility.restrictManagerSaveCurrentStateMethod.Invoke(null, new object[] { this.colonistGroup.pawns });
+            }
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var moodTexture = GetMoodTexture(out string moodLabel);
 			var moodRect = new Rect(rect.x + policyButtonWidth + 135f, rect.y + 25, moodTexture.width, moodTexture.height);

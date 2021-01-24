@@ -33,6 +33,8 @@ namespace TacticalGroups
 
 		public static bool BetterPawnControlIsActive;
 		public static MethodInfo workManagerSaveCurrentStateMethod;
+		public static MethodInfo assignManagerSaveCurrentStateMethod;
+		public static MethodInfo restrictManagerSaveCurrentStateMethod;
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -67,6 +69,8 @@ namespace TacticalGroups
 			if (BetterPawnControlIsActive)
 			{
 				workManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.WorkManager"), "SaveCurrentState");
+				assignManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.AssignManager"), "SaveCurrentState");
+				restrictManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.RestrictManager"), "SaveCurrentState");
 			}
 		}
 	}

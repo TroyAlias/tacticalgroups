@@ -49,10 +49,18 @@ namespace TacticalGroups
 				{
 					option = new FloatMenuOption(assignedDrugs.label, delegate
 					{
+
 						foreach (var pawn in group.pawns)
                         {
 							pawn.drugs.CurrentPolicy = assignedDrugs;
 						}
+						if (ModCompatibility.BetterPawnControlIsActive)
+                        {
+							ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[]
+							{
+								group.pawns
+							});
+                        }
 					}),
 					payload = assignedDrugs
 				};
