@@ -11,7 +11,7 @@ using Verse.Sound;
 namespace TacticalGroups
 {
 	[StaticConstructorOnStartup]
-	internal static class TacticUtils
+	public static class TacticUtils
 	{
 		private static TacticalGroups tacticalGroups;
 		public static TacticalGroups TacticalGroups

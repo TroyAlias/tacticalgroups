@@ -66,22 +66,23 @@ namespace TacticalGroups
 			newTex.Apply();
 			return newTex;
 		}
+
 		public static Texture2D GetReadableTexture(Texture2D texture)
-        {
+		{
+			RenderTexture previous = RenderTexture.active;
 			RenderTexture temporary = RenderTexture.GetTemporary(
 					texture.width,
 					texture.height,
 					0,
 					RenderTextureFormat.Default,
 					RenderTextureReadWrite.Linear);
-
+			
 			Graphics.Blit(texture, temporary);
-			RenderTexture active = RenderTexture.active;
 			RenderTexture.active = temporary;
 			Texture2D texture2D = new Texture2D(texture.width, texture.height);
 			texture2D.ReadPixels(new Rect(0f, 0f, (float)temporary.width, (float)temporary.height), 0, 0);
 			texture2D.Apply();
-			RenderTexture.active = active;
+			RenderTexture.active = previous;
 			RenderTexture.ReleaseTemporary(temporary);
 			return texture2D;
 		}

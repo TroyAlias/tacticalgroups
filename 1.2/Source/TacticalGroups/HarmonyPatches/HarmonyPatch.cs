@@ -10,6 +10,7 @@ using Verse.Sound;
 using Verse.AI;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Diagnostics;
 
 namespace TacticalGroups 
 {
@@ -147,6 +148,8 @@ namespace TacticalGroups
         }
         public static void MarkColonistsDirty()
         {
+            //StackTrace stackTrace = new StackTrace();
+            //Log.Message(stackTrace.GetFrame(2).GetMethod().Name + " - " + stackTrace.GetFrame(1).GetMethod().Name + " - MarkColonistsDirty");
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
