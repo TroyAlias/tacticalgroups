@@ -34,7 +34,6 @@ namespace TacticalGroups
     public class ColonistGroup : IExposable
     {
 		public bool Visible => pawnWindowIsActive;
-		public Map Map;
 		private bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
 		public Rect curRect;
@@ -58,6 +57,8 @@ namespace TacticalGroups
 				return false;
 			}
 		}
+
+		public virtual Map Map { get; }
 		public virtual List<Pawn> ActivePawns { get; }
 
 		public virtual List<Pawn> VisiblePawns { get;  }
@@ -91,15 +92,11 @@ namespace TacticalGroups
             {
 				return;
             }
-			if (this.Map == null)
-            {
-				this.Map = pawn.Map;
-            }
 			if (!this.pawns.Contains(pawn))
             {
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn, this.entireGroupIsVisible ? true : false);
-				//SyncPoliciesWithRestOfMembers(pawn);
+				SyncPoliciesFor(pawn);
 				Sort();
 				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -1044,68 +1041,28 @@ namespace TacticalGroups
 				this.UpdateData();
             }
         }
-		//public void SyncPoliciesWithRestOfMembers(Pawn pawn)
-		//{
-		//	var otherMembers = this.pawns.Where(x => x != pawn);
-		//	if (otherMembers.Any())
-		//    {
-		//		var curFoodPolicy = otherMembers.FirstOrDefault().foodRestriction.CurrentFoodRestriction;
-		//		if (otherMembers.Where(x => x.foodRestriction.CurrentFoodRestriction == curFoodPolicy).Count() == otherMembers.Count())
-		//        {
-		//			pawn.foodRestriction.CurrentFoodRestriction = curFoodPolicy;
-		//		}
-		//
-		//		var curOutfitPolicy = otherMembers.FirstOrDefault().outfits.CurrentOutfit;
-		//		if (otherMembers.Where(x => x.outfits.CurrentOutfit == curOutfitPolicy).Count() == otherMembers.Count())
-		//		{
-		//			pawn.outfits.CurrentOutfit = curOutfitPolicy;
-		//		}
-		//
-		//		var curDrugsPolicy = otherMembers.FirstOrDefault().drugs.CurrentPolicy;
-		//		if (otherMembers.Where(x => x.drugs.CurrentPolicy == curDrugsPolicy).Count() == otherMembers.Count())
-		//		{
-		//			pawn.drugs.CurrentPolicy = curDrugsPolicy;
-		//		}
-		//
-		//		var curAreaPolicy = otherMembers.FirstOrDefault().playerSettings?.AreaRestriction;
-		//		if (pawn.playerSettings != null && curAreaPolicy != null && otherMembers.Where(x => x.playerSettings?.AreaRestriction == curAreaPolicy).Count() == otherMembers.Count())
-		//		{
-		//			pawn.playerSettings.AreaRestriction = curAreaPolicy;
-		//		}
-		//
-		//		var curHostilityPolicy = otherMembers.FirstOrDefault().playerSettings?.hostilityResponse;
-		//		if (pawn.playerSettings != null && curHostilityPolicy.HasValue && otherMembers.Where(x => x.playerSettings?.hostilityResponse == curHostilityPolicy).Count() == otherMembers.Count())
-		//		{
-		//			pawn.playerSettings.hostilityResponse = curHostilityPolicy.Value;
-		//		}
-		//
-		//		if (AssignTimeValue(otherMembers.ToList()))
-		//        {
-		//			for (int i = 0; i < 24; i++)
-		//			{
-		//				pawn.timetable.SetAssignment(i, otherMembers.First().timetable.GetAssignment(i));
-		//			}
-		//		}
-		//	}
-		//}
+		public void SyncPoliciesFor(Pawn pawn)
+		{
+			if (groupFoodRestriction != null)
+			{
+				pawn.foodRestriction.CurrentFoodRestriction = groupFoodRestriction;
+			}
 
-		//private bool AssignTimeValue(List<Pawn> otherMembers)
-		//{
-		//	for (int i = 0; i < 24; i++)
-		//	{
-		//		foreach (var p in otherMembers)
-		//		{
-		//			foreach (var p2 in otherMembers)
-		//			{
-		//				if (p != p2 && p.timetable.GetAssignment(i) != p2.timetable.GetAssignment(i))
-		//                {
-		//					return false;
-		//                }
-		//			}
-		//		}
-		//	}
-		//	return true;
-		//}
+			if (groupOutfit != null)
+			{
+				pawn.outfits.CurrentOutfit = groupOutfit;
+			}
+
+			if (groupDrugPolicy != null)
+			{
+				pawn.drugs.CurrentPolicy = groupDrugPolicy;
+			}
+
+			if (pawn.playerSettings != null && groupArea != null)
+			{
+				pawn.playerSettings.AreaRestriction = groupArea;
+			}
+		}
 
 		public Dictionary<WorkType, WorkState> ActiveWorkTypes => this.activeWorkTypes
 			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary)
@@ -1179,7 +1136,6 @@ namespace TacticalGroups
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
 			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Value, ref pawnKeys3, ref workTypeValues2);
 			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
-			Scribe_References.Look(ref Map, "Map");
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
@@ -1199,6 +1155,17 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
+
+
+			Scribe_References.Look(ref groupArea, "groupArea");
+			Scribe_References.Look(ref groupDrugPolicy, "groupDrugPolicy");
+			Scribe_References.Look(ref groupFoodRestriction, "groupFoodRestriction");
+			Scribe_References.Look(ref groupOutfit, "groupOutfit");
+
+			Scribe_Values.Look(ref groupAreaEnabled, "groupAreaEnabled");
+			Scribe_Values.Look(ref groupDrugPolicyEnabled, "groupDrugPolicyEnabled");
+			Scribe_Values.Look(ref groupFoodRestrictionEnabled, "groupFoodRestrictionEnabled");
+			Scribe_Values.Look(ref groupOutfitEnabled, "groupOutfitEnabled");
 
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
@@ -1249,6 +1216,19 @@ namespace TacticalGroups
 		public string groupIconName;
 		public bool bannerModeEnabled;
 		public string colorFolder;
+
+		public Outfit groupOutfit;
+		public bool groupOutfitEnabled;
+
+		public Area groupArea;
+		public bool groupAreaEnabled;
+
+		public DrugPolicy groupDrugPolicy;
+		public bool groupDrugPolicyEnabled;
+
+		public FoodRestriction groupFoodRestriction;
+		public bool groupFoodRestrictionEnabled;
+
 		protected WorkState activeWorkState;
 
 		private List<Pawn> pawnKeys;

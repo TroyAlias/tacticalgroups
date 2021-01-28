@@ -84,6 +84,10 @@ namespace TacticalGroups
 							SoundDefOf.Designate_DragStandard_Changed.PlayOneShotOnCamera();
 						}
 					}
+					if (group.groupAreaEnabled)
+                    {
+						group.groupArea = area;
+					}
 				}
 			}
 			Text.Anchor = TextAnchor.UpperLeft;

@@ -10,6 +10,18 @@ namespace TacticalGroups
 {
     public class ColonyGroup : ColonistGroup
 	{
+		private Map map;
+        public override Map Map
+        {
+			get
+            {
+				if (map is null)
+                {
+					map = this.pawns?.FirstOrDefault()?.Map;
+                }
+				return map;
+            }
+        }
         public override void Init()
         {
             base.Init();
@@ -35,9 +47,9 @@ namespace TacticalGroups
 			this.pawns = new List<Pawn>();
 			foreach (var pawn in pawns)
             {
-				if (this.Map == null)
+				if (this.map == null)
 				{
-					this.Map = pawn.Map;
+					this.map = pawn.Map;
 				}
 				this.pawns.Add(pawn);
 				this.pawnIcons[pawn] = new PawnIcon(pawn);
@@ -50,7 +62,7 @@ namespace TacticalGroups
 			this.Init();
 			if (this.Map == null)
 			{
-				this.Map = pawn.Map;
+				this.map = pawn.Map;
 			}
 			this.pawns = new List<Pawn> { pawn } ;
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
@@ -135,13 +147,14 @@ namespace TacticalGroups
         {
             base.ExposeData();
 			Scribe_Values.Look(ref colorFolder, "colorFolder", "Colony");
+			Scribe_References.Look(ref map, "map");
 			if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
 				if (this.isTaskForce)
                 {
 					this.ConvertToTaskForce();
                 }
-            }
+			}
 		}
 	}
 }

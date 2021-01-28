@@ -30,7 +30,8 @@ namespace TacticalGroups
 	}
     public class CaravanGroup : ColonistGroup
 	{
-		private Caravan caravan;
+        public override Map Map => null;
+        private Caravan caravan;
 
 		public Dictionary<Pawn, FormerGroup> formerGroups;
         public override void Init()

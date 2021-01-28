@@ -45,21 +45,49 @@ namespace TacticalGroups
 			var policyButtonWidth = rect.width * 0.45f;
 			var areaHeaderRect = new Rect(rect.x + 10, rect.y + 195f, policyButtonWidth, 20f);
 			DoAreaHeader(areaHeaderRect);
+
+			var check = new Vector2(areaHeaderRect.xMax - 25f, areaHeaderRect.yMax - 34);
+			Widgets.Checkbox(check, ref this.colonistGroup.groupAreaEnabled);
+			var drawBoxRect = new Rect(check, new Vector2(24f, 24f));
+			Widgets.DrawBox(drawBoxRect);
+			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupAreaTooltip);
+
 			var areaRect = new Rect(rect.x + 10, rect.y + 205, policyButtonWidth, 30f);
 			DoAreaCell(areaRect);
 
 			var outfitHeaderRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 195f, policyButtonWidth, 20f);
 			DoOutfitHeader(outfitHeaderRect);
-			var	outfitRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 205, policyButtonWidth, 30f);
+
+			check = new Vector2(outfitHeaderRect.xMax - 26f, outfitHeaderRect.yMax - 33);
+			Widgets.Checkbox(check, ref this.colonistGroup.groupOutfitEnabled);
+			drawBoxRect = new Rect(check, new Vector2(24f, 24f));
+			Widgets.DrawBox(drawBoxRect);
+			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupFoodTooltip);
+
+			var outfitRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 205, policyButtonWidth, 30f);
 			DoOutfitCell(outfitRect);
 
 			var drugPolicyHeaderRect = new Rect(rect.x + 10, rect.y + 305f, policyButtonWidth, 20f);
 			DoDrugPolicyHeader(drugPolicyHeaderRect);
+
+			check = new Vector2(drugPolicyHeaderRect.xMax - 25f, drugPolicyHeaderRect.yMax - 33);
+			Widgets.Checkbox(check, ref this.colonistGroup.groupDrugPolicyEnabled);
+			drawBoxRect = new Rect(check, new Vector2(24f, 24f));
+			Widgets.DrawBox(drawBoxRect);
+			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupDrugsTooltip);
+
 			var drugPolicyRect = new Rect(rect.x + 10, rect.y + 315, policyButtonWidth, 30f);
 			DoDrugPolicyCell(drugPolicyRect);
 
 			var foodHeaderRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 305f, policyButtonWidth, 20f);
 			DoFoodHeader(foodHeaderRect);
+
+			check = new Vector2(foodHeaderRect.xMax - 26f, foodHeaderRect.yMax - 33);
+			Widgets.Checkbox(check, ref this.colonistGroup.groupFoodRestrictionEnabled);
+			drawBoxRect = new Rect(check, new Vector2(24f, 24f));
+			Widgets.DrawBox(drawBoxRect);
+			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupFoodTooltip);
+
 			var foodRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 315, policyButtonWidth, 30f);
 			DoFoodCell(foodRect);
 
@@ -535,6 +563,10 @@ namespace TacticalGroups
                         {
 							pawn.outfits.CurrentOutfit = outfit;
 						}
+						if (group.groupOutfitEnabled)
+                        {
+							group.groupOutfit = outfit;
+                        }
 					}),
 					payload = outfit
 				};
@@ -586,6 +618,10 @@ namespace TacticalGroups
                         {
 							pawn.foodRestriction.CurrentFoodRestriction = foodRestriction;
 						}
+						if (group.groupFoodRestrictionEnabled)
+                        {
+							group.groupFoodRestriction = foodRestriction;
+                        }
 					}),
 					payload = foodRestriction
 				};

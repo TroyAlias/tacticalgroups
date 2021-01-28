@@ -171,5 +171,11 @@ namespace TacticalGroups
 		public static readonly string ActivityIconIdle = "ActivityIconIdle".Translate();
 		public static readonly string ActivityIconBurning = "ActivityIconBurning".Translate();
 
+		public static readonly string GroupAreaTooltip = "TG.GroupAreaTooltip".Translate();
+		public static readonly string GroupOutfitTooltip = "TG.GroupOutfitTooltip".Translate();
+		public static readonly string GroupDrugsTooltip = "TG.GroupDrugsTooltip".Translate();
+		public static readonly string GroupFoodTooltip = "TG.GroupFoodTooltip".Translate();
+
+
 	}
 }

@@ -179,4 +179,9 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.WeaponModeShowDrafted>Drafted</TG.WeaponModeShowDrafted>
 	<TG.WeaponModeShowAlways>Always</TG.WeaponModeShowAlways>
 	
+	<TG.GroupAreaTooltip>Group area tooltip</TG.GroupAreaTooltip>
+	<TG.GroupOutfitTooltip>Group outfit tooltip</TG.GroupOutfitTooltip>
+	<TG.GroupDrugsTooltip>Group drugs tooltip</TG.GroupDrugsTooltip>
+	<TG.GroupFoodTooltip>Group food tooltip</TG.GroupFoodTooltip>
+	
 </LanguageData>
