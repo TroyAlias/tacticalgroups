@@ -11,6 +11,12 @@ namespace TacticalGroups
     public class PawnGroup : ColonistGroup
 	{
 		public List<Pawn> formerPawns;
+
+		public override Map Map => Find.CurrentMap;
+		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == Map && x.Spawned).ToList();
+		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == Map && x.Spawned
+			|| x.ParentHolder is Building_CryptosleepCasket casket && casket.Map == Map).ToList();
+
 		public override void Init()
         {
             base.Init();
@@ -37,25 +43,17 @@ namespace TacticalGroups
 		public PawnGroup(List<Pawn> pawns)
         {
 			this.Init();
-			this.pawns = new List<Pawn>();
 			foreach (var pawn in pawns)
             {
-				this.pawns.Add(pawn);
-				this.pawnIcons[pawn] = new PawnIcon(pawn);
+				this.Add(pawn);
 			}
 			this.groupID = CreateGroupID();
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
-
-        public override Map Map => Find.CurrentMap;
-        public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == Map && x.Spawned).ToList();
-		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == Map && x.Spawned 
-			|| x.ParentHolder is Building_CryptosleepCasket casket && casket.Map == Map).ToList();
 		public PawnGroup(Pawn pawn)
         {
 			this.Init();
-			this.pawns = new List<Pawn> { pawn } ;
-			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
+			this.Add(pawn);
 			this.groupID = CreateGroupID();
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}

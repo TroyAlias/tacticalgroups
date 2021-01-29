@@ -92,6 +92,10 @@ namespace TacticalGroups
             {
 				return;
             }
+
+			if (this.pawns is null) 
+				this.pawns = new List<Pawn>();
+
 			if (!this.pawns.Contains(pawn))
             {
 				this.pawns.Add(pawn);
@@ -101,14 +105,7 @@ namespace TacticalGroups
 				this.UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 			}
-			if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
-			{
-				TacticUtils.pawnsWithGroups[pawn].Add(this);
-			}
-			else
-			{
-				TacticUtils.pawnsWithGroups[pawn] = new HashSet<ColonistGroup> { this };
-			}
+			TacticUtils.RegisterGroupFor(pawn, this);
 		}
 
 		public void Add(List<Pawn> newPawns)
@@ -226,7 +223,7 @@ namespace TacticalGroups
 						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
 					var pawn = pawnRows[i][j];
-					var state = GetPawnState(pawn);
+					var state = PawnStateUtility.GetPawnState(pawn);
 					pawnDots.Add(new PawnDot(pawn, dotRect, state));
 				}
 			}
@@ -568,47 +565,11 @@ namespace TacticalGroups
 		private int downedStateBlink;
 		public void UpdateData()
         {
-			//for (int num = pawns.Count - 1; num >= 0; num--)
-            //{
-			//	if (pawns[num].Destroyed || pawns[num].Dead || !pawns[num].Spawned)
-            //    {
-			//		Disband(pawns[num]);
-            //    }
-            //}
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
 			cachedPawnRows[pawnDocCount] = GetPawnRowsInt(pawnDocCount);
 			cachedPawnDots = null;
 		}
-
-		public PawnState GetPawnState(Pawn pawn)
-        {
-			if (pawn.MentalState != null)
-			{
-				return PawnState.MentalState;
-			}
-			else if (pawn.IsDownedOrIncapable())
-			{
-				return PawnState.IsDownedOrIncapable;
-			}
-			else if (pawn.IsShotOrBleeding())
-			{
-				return PawnState.IsShotOrBleeding;
-			}
-			else if (pawn.IsSick())
-			{
-				return PawnState.Sick;
-			}
-			else if (pawn.Inspired)
-			{
-				return PawnState.Inspired;
-			}
-			else
-			{
-				return PawnState.None;
-			}
-		}
-
 		public void DrawPawnDots(Rect rect)
         {
 			var pawnDots = GetPawnDots(rect);
@@ -642,10 +603,26 @@ namespace TacticalGroups
 					case PawnState.None: GUI.DrawTexture(dotRect, Textures.ColonistDot); break;
 					default: break;
 				}
+
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(dotRect))
 				{
-					Event.current.Use();
-					CameraJumper.TryJumpAndSelect(pawn);
+					bool select = true;
+					foreach (var group in TacticUtils.AllGroups)
+					{
+						if (group != this)
+						{
+							if (group.pawnWindowIsActive)
+							{
+								select = false;
+								break;
+							}
+						}
+					}
+					if (select)
+                    {
+						Event.current.Use();
+						CameraJumper.TryJumpAndSelect(pawn);
+					}
 				}
 			}
 
@@ -931,6 +908,13 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.PawnPrisoner);
 			}
+
+			var pawnStates = PawnStateUtility.GetAllPawnStatesCache(colonist);
+			if (pawnStates.Contains(PawnState.IsShotOrBleeding))
+			{
+				GUI.DrawTexture(rect, Textures.PawnBleeding);
+			}
+
 			if (inCryptosleep)
 			{
 				GUI.DrawTexture(rect, Textures.CryosleepOverlay);

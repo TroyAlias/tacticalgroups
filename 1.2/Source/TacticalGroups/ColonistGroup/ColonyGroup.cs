@@ -22,7 +22,10 @@ namespace TacticalGroups
 				return map;
             }
         }
-        public override void Init()
+
+		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
+		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned || x.ParentHolder is Building_CryptosleepCasket).ToList();
+		public override void Init()
         {
             base.Init();
 			this.pawnRowCount = 4;
@@ -51,8 +54,7 @@ namespace TacticalGroups
 				{
 					this.map = pawn.Map;
 				}
-				this.pawns.Add(pawn);
-				this.pawnIcons[pawn] = new PawnIcon(pawn);
+				this.Add(pawn);
 			}
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Count + 1;
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
@@ -64,15 +66,10 @@ namespace TacticalGroups
 			{
 				this.map = pawn.Map;
 			}
-			this.pawns = new List<Pawn> { pawn } ;
-			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
+			this.Add(pawn);
 			this.groupID = TacticUtils.TacticalGroups.colonyGroups.Where(x => x.Value != this && x.Value.isColonyGroup).Count() + 1;
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
 		}
-
-		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
-		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned || x.ParentHolder is Building_CryptosleepCasket).ToList();
-
 		public void ConvertToTaskForce()
         {
 			this.defaultGroupName = Strings.TaskForce;

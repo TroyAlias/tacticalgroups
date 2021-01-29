@@ -239,14 +239,7 @@ namespace TacticalGroups
                 {
                     foreach (var pawn in group.ActivePawns)
                     {
-                        if (TacticUtils.pawnsWithGroups.ContainsKey(pawn))
-                        {
-                            TacticUtils.pawnsWithGroups[pawn].Add(group);
-                        }
-                        else
-                        {
-                            TacticUtils.pawnsWithGroups[pawn] = new HashSet<ColonistGroup> { group };
-                        }
+                        TacticUtils.RegisterGroupFor(pawn, group);
                     }
                 }
             }

@@ -84,8 +84,7 @@ namespace TacticalGroups
         public CaravanGroup(Pawn pawn)
         {
 			this.Init();
-			this.pawns = new List<Pawn> { pawn } ;
-			this.pawnIcons = new Dictionary<Pawn, PawnIcon> { { pawn, new PawnIcon(pawn) } };
+            this.Add(pawn);
 			this.groupID = TacticUtils.TacticalGroups.caravanGroups.Count + 1;
             this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }

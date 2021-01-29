@@ -44,6 +44,7 @@
     <Compile Include="ColonistGroup\PawnGroup.cs" />
     <Compile Include="ColonistGroup\CaravanGroup.cs" />
     <Compile Include="ColonistGroup\ColonyGroup.cs" />
+    <Compile Include="Utils\PawnStateUtility.cs" />
     <Compile Include="ColonistGroup\PawnIcon.cs" />
     <Compile Include="Jobs\JobGiver_TendWounded.cs" />
     <Compile Include="Jobs\JobGiver_RescueNearby.cs" />

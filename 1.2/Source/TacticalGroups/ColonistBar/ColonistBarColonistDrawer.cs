@@ -123,6 +123,13 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.PawnPrisoner);
 			}
+
+			var pawnStates = PawnStateUtility.GetAllPawnStatesCache(colonist);
+			if (pawnStates.Contains(PawnState.IsShotOrBleeding))
+            {
+				GUI.DrawTexture(rect, Textures.PawnBleeding);
+			}
+
 			float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
 			GenMapUIOptimized.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticUtils.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
@@ -496,14 +503,21 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			if (colonist.TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Where(x => x.hideWeaponOverlay).Any())
-            {
-				return;
-            }
 			if (TacticalGroupsSettings.WeaponShowMode == WeaponShowMode.Drafted && !colonist.Drafted)
             {
 				return;
             }
+			if (colonist.TryGetGroups(out HashSet<ColonistGroup> test))
+            {
+				foreach (var group in test)
+                {
+					Log.Message(colonist + " - " + group.hideWeaponOverlay);
+                }
+            }
+			if (colonist.TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Any(x => x.hideWeaponOverlay))
+			{
+				return;
+			}
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			if (colonist.Map != Find.CurrentMap || WorldRendererUtility.WorldRenderedNow)
 			{
