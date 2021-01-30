@@ -179,9 +179,13 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.WeaponModeShowDrafted>Drafted</TG.WeaponModeShowDrafted>
 	<TG.WeaponModeShowAlways>Always</TG.WeaponModeShowAlways>
 	
-	<TG.GroupAreaTooltip>Area Policy will also apply to new Pawns</TG.GroupAreaTooltip>
-	<TG.GroupOutfitTooltip>Outfit Policy will also apply to new Pawns</TG.GroupOutfitTooltip>
-	<TG.GroupDrugsTooltip>Drug Policy will also apply to new Pawns</TG.GroupDrugsTooltip>
-	<TG.GroupFoodTooltip>Food Policy will also apply to new Pawns</TG.GroupFoodTooltip>
+	<TG.GroupAreaTooltip>Area Policy will also apply to new Pawns
+-You must select a new policy AFTER checking this box	</TG.GroupAreaTooltip>
+	<TG.GroupOutfitTooltip>Outfit Policy will also apply to new Pawns
+-You must select a new policy AFTER checking this box</TG.GroupOutfitTooltip>
+	<TG.GroupDrugsTooltip>Drug Policy will also apply to new Pawns
+-You must select a new policy AFTER checking this box</TG.GroupDrugsTooltip>
+	<TG.GroupFoodTooltip>Food Policy will also apply to new Pawns
+-You must select a new policy AFTER checking this box</TG.GroupFoodTooltip>
 	
 </LanguageData>
