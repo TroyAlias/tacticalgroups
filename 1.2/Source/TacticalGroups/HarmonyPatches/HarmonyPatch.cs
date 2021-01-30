@@ -148,8 +148,6 @@ namespace TacticalGroups
         }
         public static void MarkColonistsDirty()
         {
-            //StackTrace stackTrace = new StackTrace();
-            //Log.Message(stackTrace.GetFrame(2).GetMethod().Name + " - " + stackTrace.GetFrame(1).GetMethod().Name + " - MarkColonistsDirty");
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 

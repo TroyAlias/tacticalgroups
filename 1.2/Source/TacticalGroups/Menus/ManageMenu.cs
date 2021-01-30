@@ -219,11 +219,23 @@ namespace TacticalGroups
 					GUI.DrawTexture(disbandGroup, Textures.DisbandGroupHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 					{
-						TacticDefOf.TG_DisbandGroupSFX.PlayOneShotOnCamera();
-						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-						this.colonistGroup.Disband();
 						this.CloseAllWindows();
+						TacticDefOf.TG_DisbandGroupSFX.PlayOneShotOnCamera();
 						Event.current.Use();
+						if (Find.CurrentMap != null && this.colonistGroup.pawns != null)
+                        {
+							for (int num = this.colonistGroup.pawns.Count - 1; num >= 0; num--)
+                            {
+								if (this.colonistGroup.pawns[num].Map == Find.CurrentMap)
+                                {
+									this.colonistGroup.Disband(this.colonistGroup.pawns[num]);
+                                }
+                            }
+                        }
+						else
+                        {
+							this.colonistGroup.Disband();
+                        }
 					}
 				}
 				else
@@ -234,7 +246,6 @@ namespace TacticalGroups
 				Widgets.Label(disbandGroupLabelRect, Strings.DisbandGroup);
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
-
 		}
 	}
 }

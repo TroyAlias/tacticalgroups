@@ -88,7 +88,6 @@ namespace TacticalGroups
 		private static Dictionary<Pawn, HashSet<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, HashSet<ColonistGroup>>();
 		public static void RegisterGroupFor(Pawn pawn, ColonistGroup group)
         {
-			Log.Message($"Registering {group} for " + pawn);
 			if (pawnsWithGroups.ContainsKey(pawn))
 			{
 				pawnsWithGroups[pawn].Add(group);

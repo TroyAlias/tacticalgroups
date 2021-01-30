@@ -7,7 +7,7 @@ using Verse;
 
 namespace TacticalGroups
 {
-	public class TacticalGroups : WorldComponent
+    public class TacticalGroups : WorldComponent
     {
         public TacticalGroups(World world) : base(world)
         {
@@ -78,8 +78,15 @@ namespace TacticalGroups
 
         public ColonyGroup CreateOrJoinColony(List<Pawn> pawns, Map map)
         {
-
-            if (this.colonyGroups.ContainsKey(map))
+            if (this.colonyGroups is null)
+            {
+                this.colonyGroups = new Dictionary<Map, ColonyGroup>();
+            }
+            if (this.pawnGroups is null)
+            {
+                this.pawnGroups = new List<PawnGroup>();
+            }
+            if (this.colonyGroups.ContainsKey(map) && this.colonyGroups[map] != null)
             {
                 this.colonyGroups[map].Add(pawns);
             }
@@ -98,7 +105,7 @@ namespace TacticalGroups
             {
                 foreach (var pawn in pawns)
                 {
-                    if (pawnGroup.formerPawns.Contains(pawn))
+                    if (pawnGroup.formerPawns != null && pawnGroup.formerPawns.Contains(pawn))
                     {
                         pawnGroup.Add(pawn);
                     }
@@ -108,6 +115,7 @@ namespace TacticalGroups
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.colonyGroups[map];
         }
+
         public void RemovePawnsFromOtherColonies(ColonyGroup mainGroup, List<Pawn> pawns)
         {
             var colonyKeysToRemove = new List<Map>();
@@ -162,68 +170,94 @@ namespace TacticalGroups
         }
         public void RemoveAllNullPawns()
         {
-            for (int num = pawnGroups.Count - 1; num >= 0; num--)
+            if (pawnGroups != null)
             {
-                var group = pawnGroups[num];
-                for (int num2 = pawnGroups[num].pawns.Count - 1; num2 >= 0; num2--)
+                for (int num = pawnGroups.Count - 1; num >= 0; num--)
                 {
-                    var pawn = pawnGroups[num].pawns[num2];
-                    if (pawn == null)
-                    {            
-                        group.pawns.RemoveAt(num2);
+                    var group = pawnGroups[num];
+                    if (group.pawns != null)
+                    {
+                        for (int num2 = group.pawns.Count - 1; num2 >= 0; num2--)
+                        {
+                            var pawn = group.pawns[num2];
+                            if (pawn == null)
+                            {
+                                group.pawns.RemoveAt(num2);
+                            }
+                        }
+                        if (group.pawns.Count == 0)
+                        {
+                            pawnGroups.RemoveAt(num);
+                        }
+                    }
+                    else
+                    {
+                        pawnGroups.RemoveAt(num);
                     }
                 }
-                if (group.pawns.Count == 0)
-                {
-                    pawnGroups.RemoveAt(num);
-                }
             }
-            
+
+
             var caravanKeysToRemove = new List<Caravan>();
             foreach (var group in caravanGroups)
             {
-                for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                if (group.Value.pawns != null)
                 {
-                    var pawn = group.Value.pawns[num];
-                    if (pawn == null)
-                    {            
-                        group.Value.pawns.RemoveAt(num);
+                    for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                    {
+                        var pawn = group.Value.pawns[num];
+                        if (pawn == null)
+                        {
+                            group.Value.pawns.RemoveAt(num);
+                        }
+                    }
+                    if (group.Value.pawns.Count == 0)
+                    {
+                        caravanKeysToRemove.Add(group.Key);
                     }
                 }
-                if (group.Value.pawns.Count == 0)
+                else
                 {
                     caravanKeysToRemove.Add(group.Key);
                 }
             }
-            
+
             foreach (var key in caravanKeysToRemove)
             {
                 caravanGroups.Remove(key);
             }
-            
+
             var colonyKeysToRemove = new List<Map>();
             foreach (var group in colonyGroups)
             {
-                for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                if (group.Value?.pawns != null)
                 {
-                    var pawn = group.Value.pawns[num];
-                    if (pawn == null)
-                    {            
-                        group.Value.pawns.RemoveAt(num);
+                    for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                    {
+                        var pawn = group.Value.pawns[num];
+                        if (pawn == null)
+                        {
+                            group.Value.pawns.RemoveAt(num);
+                        }
+                    }
+                    if (group.Value.pawns.Count == 0)
+                    {
+                        colonyKeysToRemove.Add(group.Key);
                     }
                 }
-                if (group.Value.pawns.Count == 0)
+                else
                 {
                     colonyKeysToRemove.Add(group.Key);
                 }
             }
-            
+
             foreach (var key in colonyKeysToRemove)
             {
                 colonyGroups.Remove(key);
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
+
 
         public override void ExposeData()
         {

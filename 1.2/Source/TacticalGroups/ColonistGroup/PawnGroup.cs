@@ -125,50 +125,66 @@ namespace TacticalGroups
 		public override void Draw(Rect rect)
 		{
 			base.Draw(rect);
-			if (this.activeWorkState == WorkState.ForcedLabor)
-			{
-				if (this.bannerModeEnabled)
-                {
-					GUI.DrawTexture(rect, Textures.BannerGroupSlave);
-				}
-				else
-                {
-					GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
-                }
-			}
-			else if (this.activeWorkState == WorkState.Active)
+			if (this.isSubGroup)
             {
-				if (this.bannerModeEnabled)
+				var workIconRect = new Rect(rect.x, rect.yMax + 5, Textures.ClockSlave.width, Textures.ClockSlave.height);
+				if (this.activeWorkState == WorkState.ForcedLabor)
 				{
-					GUI.DrawTexture(rect, Textures.DefaultGroupWorkBanner);
+					GUI.DrawTexture(workIconRect, Textures.ClockSlave);
 				}
-				else
+				else if (this.activeWorkState == WorkState.Active)
 				{
-					GUI.DrawTexture(rect, Textures.DefaultGroupWork);
+					GUI.DrawTexture(workIconRect, Textures.Clock);
+				}
+			}
+			else
+            {
+				if (this.activeWorkState == WorkState.ForcedLabor)
+				{
+					if (this.bannerModeEnabled)
+					{
+						GUI.DrawTexture(rect, Textures.BannerGroupSlave);
+					}
+					else
+					{
+						GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
+					}
+				}
+				else if (this.activeWorkState == WorkState.Active)
+				{
+					if (this.bannerModeEnabled)
+					{
+						GUI.DrawTexture(rect, Textures.DefaultGroupWorkBanner);
+					}
+					else
+					{
+						GUI.DrawTexture(rect, Textures.DefaultGroupWork);
+					}
+				}
+
+				if (ModCompatibility.CombatExtendedIsActive)
+				{
+					for (var i = 0; i < this.pawns.Count; i++)
+					{
+						var gun = this.pawns[i].equipment?.Primary ?? null;
+						if (gun != null && gun.def.IsRangedWeapon && (!(bool)ModCompatibility.combatExtendedHasAmmo_Method.Invoke(null, new object[]
+						{
+							gun
+						})))
+						{
+							if (this.bannerModeEnabled)
+							{
+								GUI.DrawTexture(rect, Textures.OutofAmmoBanner);
+							}
+							else
+							{
+								GUI.DrawTexture(rect, Textures.OutofAmmoDefault);
+							}
+						}
+					}
 				}
 			}
 
-			if (ModCompatibility.CombatExtendedIsActive)
-            {
-				for (var i = 0; i < this.pawns.Count; i++)
-                {
-					var gun = this.pawns[i].equipment?.Primary ?? null;
-					if (gun != null && gun.def.IsRangedWeapon && (!(bool)ModCompatibility.combatExtendedHasAmmo_Method.Invoke(null, new object[] 
-					{
-						gun
-					})))
-                    {
-						if (this.bannerModeEnabled)
-                        {
-							GUI.DrawTexture(rect, Textures.OutofAmmoBanner);
-						}
-						else
-                        {
-							GUI.DrawTexture(rect, Textures.OutofAmmoDefault);
-						}
-					}
-                }
-            }
 		}
 
 		private int curHoverPeriod;
