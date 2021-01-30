@@ -626,7 +626,7 @@ namespace TacticalGroups
 				}
 			}
 
-			if (showDownedState)
+			if (!this.hideLifeOverlay && showDownedState)
             {
 				if (downedStateBlink < 30)
 				{
@@ -663,31 +663,35 @@ namespace TacticalGroups
 
 		private void DrawLifeOverlayWithDisabledDots(Rect rect)
         {
-			bool showDownedState = false;
-			foreach (var pawn in this.pawns)
+			if (!this.hideLifeOverlay)
             {
-				if (GetPawnDownedState(pawn))
+				bool showDownedState = false;
+				foreach (var pawn in this.pawns)
 				{
-					if (!showDownedState)
+					if (GetPawnDownedState(pawn))
 					{
-						downedStateBlink++;
+						if (!showDownedState)
+						{
+							downedStateBlink++;
+						}
+						showDownedState = true;
+						break;
 					}
-					showDownedState = true;
-					break;
+				}
+
+				if (showDownedState)
+				{
+					if (downedStateBlink < 30)
+					{
+						GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
+					}
+					else if (downedStateBlink > 60)
+					{
+						downedStateBlink = 0;
+					}
 				}
 			}
 
-			if (showDownedState)
-			{
-				if (downedStateBlink < 30)
-				{
-					GUI.DrawTexture(rect, Textures.GroupOverlayColonistDown);
-				}
-				else if (downedStateBlink > 60)
-				{
-					downedStateBlink = 0;
-				}
-			}
 		}
 
 		public void DrawPawnRows(Rect rect, List<List<Pawn>> pawnRows)

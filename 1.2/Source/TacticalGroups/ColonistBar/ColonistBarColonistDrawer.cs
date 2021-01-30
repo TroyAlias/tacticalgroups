@@ -507,13 +507,6 @@ namespace TacticalGroups
             {
 				return;
             }
-			if (colonist.TryGetGroups(out HashSet<ColonistGroup> test))
-            {
-				foreach (var group in test)
-                {
-					Log.Message(colonist + " - " + group.hideWeaponOverlay);
-                }
-            }
 			if (colonist.TryGetGroups(out HashSet<ColonistGroup> groups) && groups.Any(x => x.hideWeaponOverlay))
 			{
 				return;

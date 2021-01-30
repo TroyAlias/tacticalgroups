@@ -416,8 +416,12 @@ namespace TacticalGroups
                     }
                     if (!tmpPawns.Any())
                     {
-                        var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
-                        cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
+                        try
+                        {
+                            var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
+                            cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
+                        }
+                        catch { };
                     }
                     num++;
                 }
