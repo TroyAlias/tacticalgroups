@@ -1053,7 +1053,7 @@ namespace TacticalGroups
 		}
 
 		public Dictionary<WorkType, WorkState> ActiveWorkTypes => this.activeWorkTypes
-			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary)
+			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary && x.Key != WorkType.RescueFallen && x.Key != WorkType.TendWounded)
 			.ToDictionary(y => y.Key, y => y.Value);
 		public void RemoveWorkState(WorkType workType)
 		{
