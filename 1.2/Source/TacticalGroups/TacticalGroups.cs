@@ -272,22 +272,42 @@ namespace TacticalGroups
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
-            Scribe_Collections.Look(ref caravanGroups, "caravanGroups", LookMode.Reference, LookMode.Deep, ref caravanKeys, ref caravanValues);
-            Scribe_Collections.Look(ref colonyGroups, "colonyGroups", LookMode.Reference, LookMode.Deep, ref mapKeys, ref groupValues);
-            Scribe_Collections.Look(ref visiblePawns, "visiblePawns", LookMode.Reference);
+            try
+            {
+                Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
+            }
+            catch { }
+            try
+            {
+                Scribe_Collections.Look(ref caravanGroups, "caravanGroups", LookMode.Reference, LookMode.Deep, ref caravanKeys, ref caravanValues);
+            }
+            catch { }
+            try
+            {
+                Scribe_Collections.Look(ref colonyGroups, "colonyGroups", LookMode.Reference, LookMode.Deep, ref mapKeys, ref groupValues);
+            }
+            catch { }
+            try
+            {
+                Scribe_Collections.Look(ref visiblePawns, "visiblePawns", LookMode.Reference);
+            }
+            catch { }
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 try
                 {
                     RemoveAllNullPawns();
-                    foreach (var group in TacticUtils.AllGroups)
+                    try
                     {
-                        foreach (var pawn in group.ActivePawns)
+                        foreach (var group in TacticUtils.AllGroups)
                         {
-                            TacticUtils.RegisterGroupFor(pawn, group);
+                            foreach (var pawn in group.ActivePawns)
+                            {
+                                TacticUtils.RegisterGroupFor(pawn, group);
+                            }
                         }
                     }
+                    catch { }
                 }
                 catch { }
             }
