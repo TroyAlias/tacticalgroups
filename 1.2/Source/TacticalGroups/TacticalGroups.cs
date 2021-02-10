@@ -170,91 +170,101 @@ namespace TacticalGroups
         }
         public void RemoveAllNullPawns()
         {
-            if (pawnGroups != null)
+            try
             {
-                for (int num = pawnGroups.Count - 1; num >= 0; num--)
+                if (pawnGroups != null)
                 {
-                    var group = pawnGroups[num];
-                    if (group.pawns != null)
+                    for (int num = pawnGroups.Count - 1; num >= 0; num--)
                     {
-                        for (int num2 = group.pawns.Count - 1; num2 >= 0; num2--)
+                        var group = pawnGroups[num];
+                        if (group.pawns != null)
                         {
-                            var pawn = group.pawns[num2];
-                            if (pawn == null)
+                            for (int num2 = group.pawns.Count - 1; num2 >= 0; num2--)
                             {
-                                group.pawns.RemoveAt(num2);
+                                var pawn = group.pawns[num2];
+                                if (pawn == null)
+                                {
+                                    group.pawns.RemoveAt(num2);
+                                }
+                            }
+                            if (group.pawns.Count == 0)
+                            {
+                                pawnGroups.RemoveAt(num);
                             }
                         }
-                        if (group.pawns.Count == 0)
+                        else
                         {
                             pawnGroups.RemoveAt(num);
                         }
                     }
-                    else
-                    {
-                        pawnGroups.RemoveAt(num);
-                    }
                 }
             }
+            catch { }
 
-
-            var caravanKeysToRemove = new List<Caravan>();
-            foreach (var group in caravanGroups)
+            try
             {
-                if (group.Value.pawns != null)
+                var caravanKeysToRemove = new List<Caravan>();
+                foreach (var group in caravanGroups)
                 {
-                    for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                    if (group.Value.pawns != null)
                     {
-                        var pawn = group.Value.pawns[num];
-                        if (pawn == null)
+                        for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
                         {
-                            group.Value.pawns.RemoveAt(num);
+                            var pawn = group.Value.pawns[num];
+                            if (pawn == null)
+                            {
+                                group.Value.pawns.RemoveAt(num);
+                            }
+                        }
+                        if (group.Value.pawns.Count == 0)
+                        {
+                            caravanKeysToRemove.Add(group.Key);
                         }
                     }
-                    if (group.Value.pawns.Count == 0)
+                    else
                     {
                         caravanKeysToRemove.Add(group.Key);
                     }
                 }
-                else
+
+                foreach (var key in caravanKeysToRemove)
                 {
-                    caravanKeysToRemove.Add(group.Key);
+                    caravanGroups.Remove(key);
                 }
             }
-
-            foreach (var key in caravanKeysToRemove)
+            catch { }
+            try
             {
-                caravanGroups.Remove(key);
-            }
-
-            var colonyKeysToRemove = new List<Map>();
-            foreach (var group in colonyGroups)
-            {
-                if (group.Value?.pawns != null)
+                var colonyKeysToRemove = new List<Map>();
+                foreach (var group in colonyGroups)
                 {
-                    for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
+                    if (group.Value?.pawns != null)
                     {
-                        var pawn = group.Value.pawns[num];
-                        if (pawn == null)
+                        for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
                         {
-                            group.Value.pawns.RemoveAt(num);
+                            var pawn = group.Value.pawns[num];
+                            if (pawn == null)
+                            {
+                                group.Value.pawns.RemoveAt(num);
+                            }
+                        }
+                        if (group.Value.pawns.Count == 0)
+                        {
+                            colonyKeysToRemove.Add(group.Key);
                         }
                     }
-                    if (group.Value.pawns.Count == 0)
+                    else
                     {
                         colonyKeysToRemove.Add(group.Key);
                     }
                 }
-                else
+
+                foreach (var key in colonyKeysToRemove)
                 {
-                    colonyKeysToRemove.Add(group.Key);
+                    colonyGroups.Remove(key);
                 }
             }
-
-            foreach (var key in colonyKeysToRemove)
-            {
-                colonyGroups.Remove(key);
-            }
+            catch { }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
@@ -268,14 +278,18 @@ namespace TacticalGroups
             Scribe_Collections.Look(ref visiblePawns, "visiblePawns", LookMode.Reference);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                RemoveAllNullPawns();
-                foreach (var group in TacticUtils.AllGroups)
+                try
                 {
-                    foreach (var pawn in group.ActivePawns)
+                    RemoveAllNullPawns();
+                    foreach (var group in TacticUtils.AllGroups)
                     {
-                        TacticUtils.RegisterGroupFor(pawn, group);
+                        foreach (var pawn in group.ActivePawns)
+                        {
+                            TacticUtils.RegisterGroupFor(pawn, group);
+                        }
                     }
                 }
+                catch { }
             }
         }
 
