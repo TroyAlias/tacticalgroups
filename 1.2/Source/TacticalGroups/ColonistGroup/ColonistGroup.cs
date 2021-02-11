@@ -1144,8 +1144,11 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
 
-
-			Scribe_References.Look(ref groupArea, "groupArea");
+			try
+            {
+				Scribe_References.Look(ref groupArea, "groupArea");
+			}
+			catch { };
 			Scribe_References.Look(ref groupDrugPolicy, "groupDrugPolicy");
 			Scribe_References.Look(ref groupFoodRestriction, "groupFoodRestriction");
 			Scribe_References.Look(ref groupOutfit, "groupOutfit");
