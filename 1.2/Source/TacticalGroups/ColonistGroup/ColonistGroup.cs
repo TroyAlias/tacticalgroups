@@ -1144,19 +1144,45 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
 
-			try
-            {
-				Scribe_References.Look(ref groupArea, "groupArea");
-			}
-			catch { };
-			Scribe_References.Look(ref groupDrugPolicy, "groupDrugPolicy");
-			Scribe_References.Look(ref groupFoodRestriction, "groupFoodRestriction");
-			Scribe_References.Look(ref groupOutfit, "groupOutfit");
+
 
 			Scribe_Values.Look(ref groupAreaEnabled, "groupAreaEnabled");
 			Scribe_Values.Look(ref groupDrugPolicyEnabled, "groupDrugPolicyEnabled");
 			Scribe_Values.Look(ref groupFoodRestrictionEnabled, "groupFoodRestrictionEnabled");
 			Scribe_Values.Look(ref groupOutfitEnabled, "groupOutfitEnabled");
+			try
+			{
+				Scribe_References.Look(ref groupArea, "groupArea");
+			}
+			catch
+			{
+				groupAreaEnabled = false;
+			};
+			try
+			{
+				Scribe_References.Look(ref groupDrugPolicy, "groupDrugPolicy");
+			}
+			catch
+			{
+				groupDrugPolicyEnabled = false;
+			}
+
+			try
+			{
+				Scribe_References.Look(ref groupFoodRestriction, "groupFoodRestriction");
+			}
+			catch
+			{
+				groupFoodRestrictionEnabled = false;
+			}
+			try
+			{
+				Scribe_References.Look(ref groupOutfit, "groupOutfit");
+			}
+			catch
+			{
+				groupOutfitEnabled = false;
+			}
 
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
