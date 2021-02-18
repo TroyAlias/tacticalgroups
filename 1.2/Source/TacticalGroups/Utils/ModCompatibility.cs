@@ -65,7 +65,7 @@ namespace TacticalGroups
 			{
 				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.LabelPatch"), "Postfix");
 			}
-			BetterPawnControlIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "voult.betterpawncontrol").Any();
+			BetterPawnControlIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower().Contains("voult.betterpawncontrol")).Any();
 			if (BetterPawnControlIsActive)
 			{
 				workManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.WorkManager"), "SaveCurrentState");

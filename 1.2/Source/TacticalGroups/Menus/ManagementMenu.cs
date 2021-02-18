@@ -567,6 +567,13 @@ namespace TacticalGroups
                         {
 							group.groupOutfit = outfit;
                         }
+						if (ModCompatibility.BetterPawnControlIsActive)
+						{
+							ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[]
+							{
+								group.pawns
+							});
+						}
 					}),
 					payload = outfit
 				};

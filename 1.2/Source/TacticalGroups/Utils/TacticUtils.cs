@@ -110,11 +110,11 @@ namespace TacticalGroups
 
 		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
         {
-			return TacticalGroups.pawnGroups.Where(x => !x.isSubGroup && x.pawns.Where(y => y.Map == colonyGroup.Map).Any()).ToList();
+			return TacticalGroups.pawnGroups.Where(x => !x.isSubGroup && x.pawns.Any(y => y.Map == colonyGroup.Map)).ToList();
 		}
 		public static List<PawnGroup> GetAllSubGroupFor(ColonyGroup colonyGroup)
 		{
-			return TacticalGroups.pawnGroups.Where(x => x.isSubGroup && x.pawns.Where(y => y.Map == colonyGroup.Map).Any()).ToList();
+			return TacticalGroups.pawnGroups.Where(x => x.isSubGroup && x.pawns.Any(y => y.Map == colonyGroup.Map)).ToList();
 		}
 		public static void ResetTacticGroups()
 		{

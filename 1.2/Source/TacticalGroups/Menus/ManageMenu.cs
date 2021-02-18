@@ -31,7 +31,7 @@ namespace TacticalGroups
 			{
 				options[i].SetSizeMode(SizeMode);
 			}
-			if (this.colonistGroup.isColonyGroup)
+			if (this.colonistGroup.isColonyGroup && this.colonistGroup.Map != null)
             {
 				this.colonistGroup.Map.wealthWatcher.ForceRecount();
 			}
