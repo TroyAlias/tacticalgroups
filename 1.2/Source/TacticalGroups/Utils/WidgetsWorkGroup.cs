@@ -58,34 +58,24 @@ namespace TacticalGroups
 			}
 		}
 
-		public static bool IsCommonEnabledWork(List<Pawn> pawns, WorkTypeDef wType)
+		public static bool IsCommonEnabledWork(ColonistGroup group, WorkTypeDef wType)
         {
-			foreach (var pawn in pawns)
-            {
-				if (pawn.workSettings != null && !pawn.WorkTypeIsDisabled(wType) && pawn.workSettings.GetPriority(wType) == 0)
-                {
-					return false;
-                }
+			if (group?.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(wType, out int priority))
+			{
+				return priority != 0;
 			}
-			return true;
+			return false;
 		}
 
-		public static int GetAllCommonWorkPriority(List<Pawn> pawns, WorkTypeDef wType)
+		public static int GetAllCommonWorkPriority(ColonistGroup group, WorkTypeDef wType)
         {
-			HashSet<int> workPriority = new HashSet<int>();
-			foreach (var pawn in pawns)
-			{
-				if (pawn.workSettings != null && !pawn.WorkTypeIsDisabled(wType))
-				{
-					workPriority.Add(pawn.workSettings.GetPriority(wType));
-				}
-			}
-			if (workPriority.Count > 1 || !workPriority.Any())
+			if (group?.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(wType, out int priority))
             {
-				return 0;
+				return priority;
             }
-			return workPriority.First();
+			return 0;
 		}
+
 		public static void DrawWorkBoxFor(float x, float y, WorkTypeDef wType, ColonistGroup group)
 		{
 			Rect rect = new Rect(x, y, 25f, 25f);
@@ -93,7 +83,7 @@ namespace TacticalGroups
 			DrawWorkBoxBackground(rect, wType);
 			if (Find.PlaySettings.useWorkPriorities)
 			{
-				int priority = GetAllCommonWorkPriority(group.pawns, wType);
+				int priority = GetAllCommonWorkPriority(group, wType);
 				if (priority > 0)
 				{
 					Text.Anchor = TextAnchor.MiddleCenter;
@@ -108,18 +98,14 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 0)
 				{
-					int num2 = GetAllCommonWorkPriority(group.pawns, wType) - 1;
+					int num2 = GetAllCommonWorkPriority(group, wType) - 1;
 					if (num2 < 0)
 					{
 						num2 = 4;
 					}
-					foreach (var pawn in group.pawns)
-                    {
-						if (!pawn.WorkTypeIsDisabled(wType))
-                        {
-							pawn.workSettings.SetPriority(wType, num2);
-						}
-					}
+
+					group.SetGroupWorkPriorityFor(wType, num2);
+
 					if (ModCompatibility.BetterPawnControlIsActive)
                     {
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -128,18 +114,14 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 1)
 				{
-					int num3 = GetAllCommonWorkPriority(group.pawns, wType) + 1;
+					int num3 = GetAllCommonWorkPriority(group, wType) + 1;
 					if (num3 > 4)
 					{
 						num3 = 0;
 					}
-					foreach (var pawn in group.pawns)
-					{
-						if (!pawn.WorkTypeIsDisabled(wType))
-                        {
-							pawn.workSettings.SetPriority(wType, num3);
-						}
-					}
+
+					group.SetGroupWorkPriorityFor(wType, num3);
+
 					if (ModCompatibility.BetterPawnControlIsActive)
 					{
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -152,7 +134,7 @@ namespace TacticalGroups
 				return;
 			}
 
-			if (IsCommonEnabledWork(group.pawns, wType))
+			if (IsCommonEnabledWork(group, wType))
 			{
 				GUI.DrawTexture(rect, WorkBoxCheckTex);
 			}
@@ -160,15 +142,10 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			if (IsCommonEnabledWork(group.pawns, wType))
+			if (IsCommonEnabledWork(group, wType))
 			{
-				foreach (var pawn in group.pawns)
-                {
-					if (!pawn.WorkTypeIsDisabled(wType))
-                    {
-						pawn.workSettings.SetPriority(wType, 0);
-					}
-				}
+				group.SetGroupWorkPriorityFor(wType, 0);
+
 				if (ModCompatibility.BetterPawnControlIsActive)
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -177,13 +154,8 @@ namespace TacticalGroups
 			}
 			else
 			{
-				foreach (var pawn in group.pawns)
-				{
-					if (!pawn.WorkTypeIsDisabled(wType))
-                    {
-						pawn.workSettings.SetPriority(wType, 3);
-					}
-				}
+				group.SetGroupWorkPriorityFor(wType, 3);
+
 				if (ModCompatibility.BetterPawnControlIsActive)
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });

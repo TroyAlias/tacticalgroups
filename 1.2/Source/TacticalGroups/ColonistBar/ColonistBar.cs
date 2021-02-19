@@ -621,13 +621,14 @@ namespace TacticalGroups
         {
             foreach (var group in TacticUtils.AllGroups)
             {
-                if (group.Visible)
+                if (group.pawnWindowIsActive || group.showPawnIconsRightClickMenu)
                 {
                     foreach (var pawnRect in group.pawnRects)
                     {
                         if (pawnRect.Value.Contains(pos))
                         {
                             pawn = pawnRect.Key;
+                            Log.Message($"TryGetGroupPawnAt: " + group + " - " + pawn);
                             return true;
                         }
                     }
@@ -685,7 +686,7 @@ namespace TacticalGroups
 
             foreach (var group in TacticUtils.AllGroups)
             {
-                if (group.Visible)
+                if (group.pawnWindowIsActive || group.showPawnIconsRightClickMenu)
                 {
                     foreach (var pawnRect in group.pawnRects)
                     {
@@ -772,6 +773,7 @@ namespace TacticalGroups
             {
                 return null;
             }
+
             if (!TryGetEntryAt(pos, out Entry entry))
             {
                 if (TryGetGroupPawnAt(pos, out Pawn groupPawn))

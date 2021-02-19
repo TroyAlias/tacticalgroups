@@ -182,10 +182,9 @@ namespace TacticalGroups
 		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(95, 63, 65, 255).ToColor);
 		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
 		public static readonly Texture2D PurpleMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
-		public static readonly Texture2D GreenMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(45, 95, 55, 255).ToColor);
 
 		public static readonly Texture2D CyanMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(61, 119, 140, 255).ToColor);
-		public static readonly Texture2D LightGreenMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(0, 86, 8, 255).ToColor);
+		public static readonly Texture2D GreenMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(7, 172, 27, 255).ToColor);
 		public static readonly Texture2D ToxicYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(111, 116, 57, 255).ToColor);
 		public static readonly Texture2D DarkYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(91, 92, 61, 255).ToColor);
 		public static readonly Texture2D DarkRedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);

@@ -238,7 +238,7 @@ namespace TacticalGroups
                 }
 				else
                 {
-					result = Textures.LightGreenMoodBar;
+					result = Textures.GreenMoodBar;
                 }
 			}
 			return result;

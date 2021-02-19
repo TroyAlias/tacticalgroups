@@ -166,23 +166,18 @@ namespace TacticalGroups
         public static bool ColonistOrCorpseAt(ref Thing __result, Vector2 pos)
         {
             __result = TacticUtils.TacticalColonistBar.ColonistOrCorpseAt(pos);
-            var mainFloatMenu = Find.WindowStack.WindowOfType<MainFloatMenu>();
-            if (mainFloatMenu != null)
+            if (__result is null)
             {
-                var window = Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted);
-                if (!(window is TieredFloatMenu))
+                var mainFloatMenu = Find.WindowStack.WindowOfType<MainFloatMenu>();
+                if (mainFloatMenu != null)
                 {
-                    mainFloatMenu.CloseAllWindows();
+                    var window = Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted);
+                    if (!(window is TieredFloatMenu))
+                    {
+                        mainFloatMenu.CloseAllWindows();
+                    }
                 }
             }
-            //else if (!Find.WindowStack.IsOpen<TieredFloatMenu>())
-            //{
-            //    if (TacticUtils.TacticalGroups.colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup) && colonyGroup.subGroupsExpanded)
-            //    {
-            //        colonyGroup.subGroupsExpanded = false;
-            //        TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-            //    }
-            //}
             return false;
         }
 
@@ -326,7 +321,7 @@ namespace TacticalGroups
         }
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
-            __state = null;
+            __state = new Dictionary<WorkType, WorkState>();
             if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && !___pawn.Drafted)
             {
                 if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
@@ -345,21 +340,25 @@ namespace TacticalGroups
 
                         if (group.activeWorkTypes?.Count > 0)
                         {
-                            if (group.activeWorkTypes.Where(x => x.Value == WorkState.Active).Count() == group.activeWorkTypes.Count 
-                                && (!CanWork(___pawn) || !CanWorkActive(___pawn)))
+                            foreach (var data in group.activeWorkTypes)
                             {
-                                return;
+                                if (data.Value != WorkState.Inactive || data.Value == WorkState.Active && CanWork(___pawn) && CanWorkActive(___pawn))
+                                {
+                                    __state[data.Key] = data.Value;
+                                }
                             }
-                            __state = group.activeWorkTypes;
-                            startNewJob = false;
-                            return;
                         }
+                    }
+
+                    if (__state.Count > 0)
+                    {
+                        startNewJob = false;
                     }
                 }
             }
         }
 
-        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state, 
+        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state,
             bool canReturnToPool = true)
         {
             if (__state?.Count > 0)
@@ -400,11 +399,11 @@ namespace TacticalGroups
         }
         private static bool CanWork(Pawn pawn)
         {
-            if (pawn.needs.food?.CurLevel < 0.10)
+            if (pawn.needs.food?.CurLevel < 0.10f)
             {
                 return false;
             }
-            if (pawn.needs.rest?.CurLevel < 0.10)
+            if (pawn.needs.rest?.CurLevel < 0.10f)
             {
                 return false;
             }
@@ -422,6 +421,7 @@ namespace TacticalGroups
             }
             return true;
         }
+
 
         public static void PawnTableOnGUI(Vector2 position, PawnTableDef ___def, List<float> ___cachedColumnWidths, Vector2 ___cachedSize, float ___cachedHeaderHeight, float ___cachedHeightNoScrollbar)
         {

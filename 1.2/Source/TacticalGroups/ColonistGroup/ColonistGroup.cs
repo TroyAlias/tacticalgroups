@@ -33,8 +33,7 @@ namespace TacticalGroups
     }
     public class ColonistGroup : IExposable
     {
-		public bool Visible => pawnWindowIsActive;
-		private bool pawnWindowIsActive;
+		public bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
 		public Rect curRect;
 		private bool expandPawnIcons;
@@ -50,7 +49,7 @@ namespace TacticalGroups
         {
 			get
             {
-				if (Visible && expandPawnIcons)
+				if (pawnWindowIsActive && expandPawnIcons)
                 {
 					return true;
                 }
@@ -1050,6 +1049,17 @@ namespace TacticalGroups
 			{
 				pawn.playerSettings.AreaRestriction = groupArea;
 			}
+
+			if (pawn.workSettings != null && groupWorkPriorities != null)
+            {
+				foreach (var workPriority in groupWorkPriorities)
+                {
+					if (!pawn.WorkTypeIsDisabled(workPriority.Key))
+					{
+						pawn.workSettings.SetPriority(workPriority.Key, workPriority.Value);
+					}
+				}
+            }
 		}
 
 		public Dictionary<WorkType, WorkState> ActiveWorkTypes => this.activeWorkTypes
@@ -1117,6 +1127,20 @@ namespace TacticalGroups
 				this.temporaryWorkers[pawn] = workType;
 			}
 		}
+
+		public void SetGroupWorkPriorityFor(WorkTypeDef workType, int priority)
+        {
+			if (groupWorkPriorities is null) 
+				groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
+			groupWorkPriorities[workType] = priority;
+			foreach (var pawn in this.pawns)
+			{
+				if (!pawn.WorkTypeIsDisabled(workType))
+				{
+					pawn.workSettings.SetPriority(workType, priority);
+				}
+			}
+		}
 		public virtual void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
@@ -1124,6 +1148,8 @@ namespace TacticalGroups
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
 			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Value, ref pawnKeys3, ref workTypeValues2);
 			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
+			Scribe_Collections.Look(ref groupWorkPriorities, "groupWorkPriorities", LookMode.Def, LookMode.Value, ref workTypesDefKeys, ref intValues);
+
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
 			Scribe_Values.Look(ref groupIconName, "groupIconName");
@@ -1201,15 +1227,25 @@ namespace TacticalGroups
 					this.curGroupName = this.defaultGroupName + " " + this.groupID;
 				}
 				this.UpdateData();
+				foreach (var pawn in pawns)
+                {
+					TacticUtils.RegisterGroupFor(pawn, this);
+				}
 			}
 		}
 
-		public List<Pawn> pawns;
+        public override string ToString()
+        {
+			return this.curGroupName + " - " + this.pawns?.Count;
+        }
+
+        public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
+		public Dictionary<WorkTypeDef, int> groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
 
 		public int groupID;
 		public bool entireGroupIsVisible;
@@ -1259,5 +1295,8 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys3;
 		private List<WorkType> workTypeValues2;
+
+		private List<WorkTypeDef> workTypesDefKeys;
+		private List<int> intValues;
 	}
 }

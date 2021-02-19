@@ -297,17 +297,6 @@ namespace TacticalGroups
                 try
                 {
                     RemoveAllNullPawns();
-                    try
-                    {
-                        foreach (var group in TacticUtils.AllGroups)
-                        {
-                            foreach (var pawn in group.ActivePawns)
-                            {
-                                TacticUtils.RegisterGroupFor(pawn, group);
-                            }
-                        }
-                    }
-                    catch { }
                 }
                 catch { }
             }
