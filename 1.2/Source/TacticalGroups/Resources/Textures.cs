@@ -189,7 +189,6 @@ namespace TacticalGroups
 		public static readonly Texture2D DarkYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(91, 92, 61, 255).ToColor);
 		public static readonly Texture2D DarkRedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
 
-
 		public static readonly Texture2D PawnDrafted = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnDrafted");
 		public static readonly Texture2D GroupArrowRightHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRightHover");
 		public static readonly Texture2D GroupArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRight");
@@ -260,5 +259,10 @@ namespace TacticalGroups
 
 		public static readonly Texture2D CryosleepOverlay = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/CryosleepOverlay");
 		public static readonly Texture2D PawnBleeding = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnBleeding");
+
+		public static readonly Texture2D TrashCan = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/trashcan");
+		public static readonly Texture2D PresetMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/presetmenu");
+		public static readonly Texture2D PresetButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/presetbutton");
+		public static readonly Texture2D SaveIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Saveicon");
 	}
 }

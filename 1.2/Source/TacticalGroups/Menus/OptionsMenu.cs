@@ -144,8 +144,7 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.UpperLeft;
 			Text.Font = GameFont.Small;
 
-			var mod = LoadedModManager.GetMod(typeof(TacticalGroupsMod));
-			mod.WriteSettings();
+			TacticalGroupsMod.instance.WriteSettings();
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 	}

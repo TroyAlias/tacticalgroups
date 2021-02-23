@@ -116,7 +116,6 @@ namespace TacticalGroups
 			}
 
 			var hideWeaponOverlayRect = new Rect(colonyHideButtonRect.xMax + 10, hideLifeOverlayRect.y, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
-			
 			GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
 			if (this.colonistGroup.hideWeaponOverlay)
 			{
@@ -133,24 +132,51 @@ namespace TacticalGroups
 				}
 			}
 
-			var banishPawnRect = new Rect(hideWeaponOverlayRect.x, hideWeaponOverlayRect.yMax + 14, Textures.BanishPawnButton.width, Textures.BanishPawnButton.height);
-			if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
-            {
-				GUI.DrawTexture(banishPawnRect, Textures.BanishPawnButton);
-				TooltipHandler.TipRegion(banishPawnRect, Strings.BanishPawnTooltip);
-				if (Mouse.IsOver(banishPawnRect))
+			var presetButtonRect = new Rect(hideLifeOverlayRect.x + 5, hideLifeOverlayRect.yMax + 17, Textures.PresetButton.width, Textures.PresetButton.height);
+			GUI.DrawTexture(presetButtonRect, Textures.PresetButton);
+			Text.Anchor = TextAnchor.MiddleCenter;
+			Widgets.Label(presetButtonRect, Strings.PresetLabel);
+			Text.Anchor = TextAnchor.UpperLeft;
+
+			TooltipHandler.TipRegion(presetButtonRect, Strings.PresetMenuOverlayOptionsTooltip);
+			if (Mouse.IsOver(presetButtonRect))
+			{
+				GUI.DrawTexture(presetButtonRect, Textures.RescueTendHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
-					GUI.DrawTexture(banishPawnRect, Textures.RescueTendHover);
-					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
-					{
-						foreach (var pawn in Find.Selector.SelectedPawns)
-                        {
-							this.colonistGroup.Disband(pawn);
-                        }
-						TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					var presetMenu = this.childWindows?.FirstOrDefault(x => x is PresetMenu);
+					if (presetMenu != null)
+                    {
+						presetMenu.Close();
+						this.childWindows.Remove(presetMenu);
+					}
+					else
+                    {
+						TieredFloatMenu floatMenu = new PresetMenu(this, colonistGroup, windowRect, Textures.PresetMenu);
+						OpenNewMenu(floatMenu);
 					}
 				}
 			}
+
+			//var banishPawnRect = new Rect(hideWeaponOverlayRect.x, hideWeaponOverlayRect.yMax + 14, Textures.BanishPawnButton.width, Textures.BanishPawnButton.height);
+			//if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
+			//{
+			//	GUI.DrawTexture(banishPawnRect, Textures.BanishPawnButton);
+			//	TooltipHandler.TipRegion(banishPawnRect, Strings.BanishPawnTooltip);
+			//	if (Mouse.IsOver(banishPawnRect))
+			//	{
+			//		GUI.DrawTexture(banishPawnRect, Textures.RescueTendHover);
+			//		if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			//		{
+			//			foreach (var pawn in Find.Selector.SelectedPawns)
+			//            {
+			//				this.colonistGroup.Disband(pawn);
+			//            }
+			//			TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+			//		}
+			//	}
+			//}
 		}
 	}
 }

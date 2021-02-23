@@ -155,6 +155,16 @@ namespace TacticalGroups
 		public static readonly string HideWeaponOverlayOptionsTooltip = "TG.HideWeaponOverlayOptionsTooltip".Translate();
 		public static readonly string BanishPawnTooltip = "TG.BanishPawnTooltip".Translate();
 		public static readonly string HidePawnGroupOptionsTooltip = "TG.HidePawnGroupOptionsTooltip".Translate();
+		public static readonly string PresetMenuOverlayOptionsTooltip = "TG.PresetMenuOverlayOptionsTooltip".Translate();
+		public static readonly string PresetLabel = "TG.PresetLabel".Translate();
+		public static readonly string GroupsLabel = "TG.GroupsLabel".Translate();
+		public static readonly string CreateNew = "TG.CreateNew".Translate();
+		public static readonly string CreateNewTooltip = "TG.CreateNewTooltip".Translate();
+		public static readonly string TrashCanTooltip = "TG.TrashCanTooltip".Translate();
+		public static readonly string SavePresetTooltip = "TG.SavePresetTooltip".Translate();
+		public static readonly string ActivatePresetTooltip = "TG.ActivatePresetTooltip".Translate();
+		public static readonly string DisactivatePresetTooltip = "TG.DisactivatePresetTooltip".Translate();
+
 
 		public static readonly string ColorBarModeLabel = "TG.ColorBarModeLabel".Translate();
 		public static readonly string ColorBarModeDefault = "TG.ColorBarModeDefault".Translate();

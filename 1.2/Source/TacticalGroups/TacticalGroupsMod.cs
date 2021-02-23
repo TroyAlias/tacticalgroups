@@ -9,9 +9,11 @@ namespace TacticalGroups
     class TacticalGroupsMod : Mod
     {
         public static TacticalGroupsSettings settings;
+        public static TacticalGroupsMod instance;
         public TacticalGroupsMod(ModContentPack pack) : base(pack)
         {
             settings = GetSettings<TacticalGroupsSettings>();
+            instance = this;
         }
         public override void DoSettingsWindowContents(Rect inRect)
         {

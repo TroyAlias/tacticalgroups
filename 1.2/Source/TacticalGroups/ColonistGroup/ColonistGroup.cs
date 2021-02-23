@@ -1141,6 +1141,78 @@ namespace TacticalGroups
 				}
 			}
 		}
+
+		public void ActivatePreset(GroupPreset preset)
+		{
+			this.activeGroupPresets.Add(preset);
+			if (preset.groupDrugPolicy != null)
+			{
+				this.groupDrugPolicy = preset.groupDrugPolicy;
+				this.groupDrugPolicyEnabled = true;
+			}
+			if (preset.groupFoodRestriction != null)
+			{
+				this.groupFoodRestriction = null;
+				this.groupFoodRestrictionEnabled = true;
+			}
+			if (preset.groupOutfit != null)
+			{
+				this.groupOutfit = preset.groupOutfit;
+				this.groupOutfitEnabled = true;
+			}
+			if (preset.groupArea != null)
+			{
+				this.groupArea = preset.groupArea;
+				this.groupAreaEnabled = true;
+			}
+			if (preset.activeWorkTypes != null)
+			{
+				this.activeWorkTypes = preset.activeWorkTypes;
+				SetCurrentActiveState();
+			}
+			if (preset.groupWorkPriorities != null)
+			{
+				this.groupWorkPriorities = preset.groupWorkPriorities;
+			}
+
+			foreach (var pawn in this.pawns)
+            {
+				SyncPoliciesFor(pawn);
+			}
+		}
+		public void RemovePreset(GroupPreset preset)
+        {
+			this.activeGroupPresets.Remove(preset);
+			if (this.groupDrugPolicy == preset.groupDrugPolicy)
+            {
+				this.groupDrugPolicy = null;
+				this.groupDrugPolicyEnabled = false;
+            }
+			if (this.groupFoodRestriction == preset.groupFoodRestriction)
+			{
+				this.groupFoodRestriction = null;
+				this.groupFoodRestrictionEnabled = false;
+			}
+			if (this.groupOutfit == preset.groupOutfit)
+			{
+				this.groupOutfit = null;
+				this.groupOutfitEnabled = false;
+			}
+			if (this.groupArea == preset.groupArea)
+			{
+				this.groupArea = null;
+				this.groupAreaEnabled = false;
+			}
+			if (this.activeWorkTypes == preset.activeWorkTypes)
+            {
+				this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
+				this.activeWorkState = WorkState.Inactive;
+            }
+			if (this.groupWorkPriorities == preset.groupWorkPriorities)
+            {
+				this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
+			}
+		}
 		public virtual void ExposeData()
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
@@ -1209,6 +1281,7 @@ namespace TacticalGroups
 			{
 				groupOutfitEnabled = false;
 			}
+			Scribe_Collections.Look(ref activeGroupPresets, "activeGroupPresets", LookMode.Deep);
 
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
@@ -1243,9 +1316,11 @@ namespace TacticalGroups
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
 		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
-		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
+
+		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 		public Dictionary<WorkTypeDef, int> groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
+		public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
 
 		public int groupID;
 		public bool entireGroupIsVisible;

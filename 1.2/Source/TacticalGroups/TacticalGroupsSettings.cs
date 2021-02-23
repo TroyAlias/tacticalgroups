@@ -29,7 +29,16 @@ namespace TacticalGroups
         public static int WeaponPlacementOffset = 10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
         public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
-
+        public static List<GroupPreset> AllGroupPresets
+        {
+            get
+            {
+                var comp = Current.Game.GetComponent<TacticalData>();
+                if (comp.AllGroupPresets is null) 
+                    comp.AllGroupPresets = new List<GroupPreset>();
+                return comp.AllGroupPresets;
+            }
+        }
         public override void ExposeData()
         {
             base.ExposeData();

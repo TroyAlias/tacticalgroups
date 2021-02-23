@@ -7,6 +7,22 @@ using Verse;
 
 namespace TacticalGroups
 {
+    public class TacticalData : GameComponent
+    {
+        public List<GroupPreset> AllGroupPresets = new List<GroupPreset>();
+        public TacticalData(Game game)
+        {
+        }
+        public TacticalData()
+        {
+        }
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Collections.Look(ref AllGroupPresets, "AllGroupPresets", LookMode.Deep);
+        }
+    }
+
     public class TacticalGroups : WorldComponent
     {
         public TacticalGroups(World world) : base(world)

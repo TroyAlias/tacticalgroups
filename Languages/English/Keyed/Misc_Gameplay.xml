@@ -187,5 +187,10 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 -You must select a new policy AFTER checking this box</TG.GroupDrugsTooltip>
 	<TG.GroupFoodTooltip>Food Policy will also apply to new Pawns
 -You must select a new policy AFTER checking this box</TG.GroupFoodTooltip>
+	<TG.PresetMenuOverlayOptionsTooltip>PLACEHOLDER</TG.PresetMenuOverlayOptionsTooltip>
+	<TG.PresetLabel>Preset</TG.PresetLabel>
+	<TG.GroupsLabel>Presets</TG.GroupsLabel>
+	<TG.CreateNew>Create New</TG.CreateNew>
+	<TG.CreateNewTooltip>PLACEHOLDER</TG.CreateNewTooltip>
 	
 </LanguageData>
