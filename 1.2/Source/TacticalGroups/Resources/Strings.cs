@@ -165,6 +165,10 @@ namespace TacticalGroups
 		public static readonly string ActivatePresetTooltip = "TG.ActivatePresetTooltip".Translate();
 		public static readonly string DisactivatePresetTooltip = "TG.DisactivatePresetTooltip".Translate();
 
+		public static readonly string CreateNewPreset = "TG.CreateNewPreset".Translate();
+		public static readonly string RemovePreset = "TG.RemovePreset".Translate();
+		public static readonly string SavePreset = "TG.SavePreset".Translate();
+
 
 		public static readonly string ColorBarModeLabel = "TG.ColorBarModeLabel".Translate();
 		public static readonly string ColorBarModeDefault = "TG.ColorBarModeDefault".Translate();

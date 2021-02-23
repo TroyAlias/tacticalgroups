@@ -24,10 +24,12 @@ namespace TacticalGroups
 
 		public override Vector2 InitialSize => new Vector2(280f, 175f);
 
-		public Dialog_Rename(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+		protected string confirmationText;
+		public Dialog_Rename(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string confirmationText)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.parentWindow = parentWindow;
+			this.confirmationText = confirmationText;
 			forcePause = true;
 			doCloseX = true;
 			absorbInputAroundWindow = true;
@@ -86,7 +88,7 @@ namespace TacticalGroups
             }
 			Text.Font = GameFont.Medium;
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(rect2, "OK".Translate());
+			Widgets.Label(rect2, confirmationText);;
 			Text.Font = GameFont.Small;
 			Text.Anchor = TextAnchor.UpperLeft;
 			if (!(Widgets.ButtonInvisible(rect2) || flag))

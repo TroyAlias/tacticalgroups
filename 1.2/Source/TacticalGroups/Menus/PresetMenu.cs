@@ -17,25 +17,6 @@ namespace TacticalGroups
 		public PresetMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
-			this.options = new List<TieredFloatMenuOption>();
-			CreateNewPresetButton();
-		}
-
-		public void CreateNewPresetButton()
-		{
-			var option = new TieredFloatMenuOption(Strings.CreateNew, null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
-			option.action = delegate
-			{
-				AddCreatePresetWindow(option);
-			};
-			options.Add(option);
-		}
-
-		public void AddCreatePresetWindow(TieredFloatMenuOption option)
-		{
-			MarkOptionAsSelected(option);
-			TieredFloatMenu floatMenu = new Dialog_RenameColonistGroup(this, this.colonistGroup, windowRect, Textures.RenameTab, option);
-			OpenNewMenu(floatMenu);
 		}
 		public override void DoWindowContents(Rect rect)
 		{
@@ -59,7 +40,7 @@ namespace TacticalGroups
 					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 					var newGroupPreset = new GroupPreset();
 					newGroupPreset.CopySettingsFrom(this.colonistGroup);
-					TieredFloatMenu floatMenu = new Dialog_NewPresetName(this, newGroupPreset, this.colonistGroup, windowRect, Textures.RenameTab);
+					TieredFloatMenu floatMenu = new Dialog_NewPresetName(this, newGroupPreset, this.colonistGroup, windowRect, Textures.RenameTab, Strings.CreateNewPreset);
 					OpenNewMenu(floatMenu);
 				}
 			}
@@ -87,7 +68,8 @@ namespace TacticalGroups
 						GUI.DrawTexture(trashCan, Textures.RescueTendHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							TacticalGroupsSettings.AllGroupPresets.Remove(preset);
+							TieredFloatMenu floatMenu = new Dialog_PresetRemove(this, preset, this.colonistGroup, windowRect, Textures.RenameTab, Strings.RemovePreset);
+							OpenNewMenu(floatMenu);
 						}
 					}
 
@@ -99,8 +81,8 @@ namespace TacticalGroups
 						GUI.DrawTexture(savePreset, Textures.RescueTendHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							preset.ClearSettings();
-							preset.CopySettingsFrom(this.colonistGroup);
+							TieredFloatMenu floatMenu = new Dialog_PresetSave(this, preset, this.colonistGroup, windowRect, Textures.RenameTab, Strings.SavePreset);
+							OpenNewMenu(floatMenu);
 						}
 					}
 

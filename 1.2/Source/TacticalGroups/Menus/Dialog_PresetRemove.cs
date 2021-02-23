@@ -10,7 +10,7 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class Dialog_NewPresetName : Dialog_Rename
+	public class Dialog_PresetRemove : Dialog_Rename
 	{
 		private GroupPreset groupPreset;
 		protected override void SetInitialSizeAndPosition()
@@ -18,7 +18,7 @@ namespace TacticalGroups
 			windowRect = new Rect(originRect.x, originRect.y, InitialSize.x, InitialSize.y);
 			windowRect = windowRect.Rounded();
 		}
-		public Dialog_NewPresetName(TieredFloatMenu parentWindow, GroupPreset groupPreset, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string confirmationText)
+		public Dialog_PresetRemove(TieredFloatMenu parentWindow, GroupPreset groupPreset, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string confirmationText)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture, confirmationText)
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
@@ -34,13 +34,7 @@ namespace TacticalGroups
 
 		protected override void SetName(string name)
 		{
-			if (!name.NullOrEmpty())
-            {
-				groupPreset.SetName(name);
-				TacticalGroupsSettings.AllGroupPresets.Add(groupPreset);
-				TacticalGroupsMod.instance.WriteSettings();
-			}
-			TacticDefOf.TG_RenameSFX.PlayOneShotOnCamera();
+			TacticalGroupsSettings.AllGroupPresets.Remove(groupPreset);
 		}
 	}
 }

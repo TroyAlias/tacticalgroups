@@ -66,7 +66,7 @@ namespace TacticalGroups
 		public void AddRenameWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
-			TieredFloatMenu floatMenu = new Dialog_RenameColonistGroup(this, this.colonistGroup, windowRect, Textures.RenameTab, option);
+			TieredFloatMenu floatMenu = new Dialog_RenameColonistGroup(this, this.colonistGroup, windowRect, Textures.RenameTab, option, "OK".Translate());
 			OpenNewMenu(floatMenu);
 		}
 

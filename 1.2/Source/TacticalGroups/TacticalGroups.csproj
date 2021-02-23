@@ -45,6 +45,8 @@
     <Compile Include="ColonistGroup\CaravanGroup.cs" />
     <Compile Include="ColonistGroup\ColonyGroup.cs" />
     <Compile Include="ColonistGroup\GroupPreset.cs" />
+    <Compile Include="Menus\Dialog_PresetSave.cs" />
+    <Compile Include="Menus\Dialog_PresetRemove.cs" />
     <Compile Include="Menus\Dialog_NewPresetName.cs" />
     <Compile Include="Menus\PresetMenu.cs" />
     <Compile Include="Utils\PawnStateUtility.cs" />

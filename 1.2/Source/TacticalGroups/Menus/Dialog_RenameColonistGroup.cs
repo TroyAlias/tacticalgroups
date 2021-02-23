@@ -18,8 +18,8 @@ namespace TacticalGroups
 			windowRect = new Rect(originRect.x, originRect.y, InitialSize.x, InitialSize.y);
 			windowRect = windowRect.Rounded();
 		}
-		public Dialog_RenameColonistGroup(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, TieredFloatMenuOption option)
-			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
+		public Dialog_RenameColonistGroup(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, TieredFloatMenuOption option, string confirmationText)
+			: base(parentWindow, colonistGroup, originRect, backgroundTexture, confirmationText)
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;

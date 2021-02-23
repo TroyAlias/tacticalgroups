@@ -192,5 +192,11 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.GroupsLabel>Presets</TG.GroupsLabel>
 	<TG.CreateNew>Create New</TG.CreateNew>
 	<TG.CreateNewTooltip>PLACEHOLDER</TG.CreateNewTooltip>
-	
+	<TG.TrashCanTooltip>PLACEHOLDER</TG.TrashCanTooltip>
+	<TG.SavePresetTooltip>PLACEHOLDER</TG.SavePresetTooltip>
+	<TG.ActivatePresetTooltip>PLACEHOLDEr</TG.ActivatePresetTooltip>
+	<TG.DisactivatePresetTooltip>PLACEHOLDEr</TG.DisactivatePresetTooltip>
+	<TG.CreateNewPreset>Create new preset</TG.CreateNewPreset>
+	<TG.RemovePreset>Remove preset</TG.RemovePreset>
+	<TG.SavePreset>Save preset</TG.SavePreset>
 </LanguageData>
