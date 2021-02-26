@@ -1167,12 +1167,33 @@ namespace TacticalGroups
 			}
 			if (preset.activeWorkTypes != null)
 			{
-				this.activeWorkTypes = preset.activeWorkTypes;
+				if (this.activeWorkTypes != null)
+                {
+					this.activeWorkTypes = preset.activeWorkTypes;
+				}
+				else
+                {
+					foreach (var activeWorkType in preset.activeWorkTypes)
+                    {
+						this.activeWorkTypes[activeWorkType.Key] = activeWorkType.Value;
+					}
+                }
 				SetCurrentActiveState();
 			}
+
 			if (preset.groupWorkPriorities != null)
 			{
-				this.groupWorkPriorities = preset.groupWorkPriorities;
+				if (this.groupWorkPriorities != null)
+				{
+					this.groupWorkPriorities = preset.groupWorkPriorities;
+				}
+				else
+				{
+					foreach (var groupWorkPriority in preset.groupWorkPriorities)
+					{
+						this.groupWorkPriorities[groupWorkPriority.Key] = groupWorkPriority.Value;
+					}
+				}
 			}
 
 			foreach (var pawn in this.pawns)
