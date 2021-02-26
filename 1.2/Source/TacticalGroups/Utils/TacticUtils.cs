@@ -250,17 +250,39 @@ namespace TacticalGroups
 
 		public static void SetBattleStations(this ColonistGroup colonistGroup)
 		{
-			if (colonistGroup.formations is null) colonistGroup.formations = new Dictionary<Pawn, IntVec3>();
-			foreach (var pawn in colonistGroup.ActivePawns)
-			{
-				colonistGroup.formations[pawn] = pawn.Position;
+			if (colonistGroup.formations is null) colonistGroup.formations = new List<Formation>(4);
+			var formation = colonistGroup.formations.FirstOrDefault(x => x == colonistGroup.activeFormation);
+			if (formation != null)
+            {
+				if (formation.formations is null) 
+					formation.formations = new Dictionary<Pawn, IntVec3>();
+				foreach (var pawn in colonistGroup.ActivePawns)
+				{
+					formation.formations[pawn] = pawn.Position;
+					switch (colonistGroup.formations.IndexOf(formation))
+                    {
+						case 0: formation.colorPrefix = "blue"; break;
+						case 1: formation.colorPrefix = "red"; break;
+						case 2: formation.colorPrefix = "green"; break;
+						case 3: formation.colorPrefix = "yellow"; break;
+					}
+
+				}
 			}
+
 		}
 		public static void ClearBattleStations(this ColonistGroup colonistGroup)
 		{
-			foreach (var pawn in colonistGroup.ActivePawns)
+			if (colonistGroup.formations is null) colonistGroup.formations = new List<Formation>(4);
+			var formation = colonistGroup.formations.FirstOrDefault(x => x == colonistGroup.activeFormation);
+			if (formation != null)
 			{
-				colonistGroup.formations.Remove(pawn);
+				if (formation.formations is null)
+					formation.formations = new Dictionary<Pawn, IntVec3>();
+				foreach (var pawn in colonistGroup.ActivePawns)
+				{
+					formation.formations.Remove(pawn);
+				}
 			}
 		}
 

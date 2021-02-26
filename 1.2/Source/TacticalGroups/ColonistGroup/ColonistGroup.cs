@@ -31,7 +31,38 @@ namespace TacticalGroups
 			this.state = state;
         }
     }
-    public class ColonistGroup : IExposable
+
+	public class Formation : IExposable
+    {
+		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
+		public string colorPrefix;
+		public bool isSelected;
+		public Formation()
+        {
+
+        }
+
+		public Formation(string color)
+		{
+			colorPrefix = color;
+		}
+		public void ExposeData()
+        {
+			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
+			Scribe_Values.Look(ref colorPrefix, "colorPrefix");
+		}
+
+
+		public Texture2D Icon => this.formations != null && this.formations.Any() ?
+			this.isSelected ? ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/" + colorPrefix + "select")
+			: ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/" + colorPrefix + "dark")
+			: this.isSelected ? ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greyselect")
+			: ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greydark");
+
+		private List<Pawn> pawnKeys2;
+		private List<IntVec3> intVecValues;
+	}
+	public class ColonistGroup : IExposable
     {
 		public bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -73,7 +104,7 @@ namespace TacticalGroups
         {
 			this.pawns = new List<Pawn>();
 			this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
-			this.formations = new Dictionary<Pawn, IntVec3>();
+			this.formations = new List<Formation>(4);
 			this.temporaryWorkers = new Dictionary<Pawn, WorkType>();
 			this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 			this.entireGroupIsVisible = true;
@@ -1135,9 +1166,12 @@ namespace TacticalGroups
 			groupWorkPriorities[workType] = priority;
 			foreach (var pawn in this.pawns)
 			{
-				if (!pawn.WorkTypeIsDisabled(workType))
-				{
-					pawn.workSettings.SetPriority(workType, priority);
+				foreach (var data in groupWorkPriorities)
+                {
+					if (!pawn.WorkTypeIsDisabled(data.Key))
+					{
+						pawn.workSettings.SetPriority(data.Key, data.Value);
+					}
 				}
 			}
 		}
@@ -1238,10 +1272,10 @@ namespace TacticalGroups
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
-			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
 			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Value, ref pawnKeys3, ref workTypeValues2);
 			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
 			Scribe_Collections.Look(ref groupWorkPriorities, "groupWorkPriorities", LookMode.Def, LookMode.Value, ref workTypesDefKeys, ref intValues);
+			Scribe_Collections.Look(ref formations, "formations", LookMode.Deep);
 
 			Scribe_Values.Look(ref groupName, "groupName");
 			Scribe_Values.Look(ref groupID, "groupID");
@@ -1310,7 +1344,7 @@ namespace TacticalGroups
             {
 				if (this.temporaryWorkers is null) this.temporaryWorkers = new Dictionary<Pawn, WorkType>();
 				if (this.activeWorkTypes is null) this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
-				if (this.formations is null) this.formations = new Dictionary<Pawn, IntVec3>();
+				if (this.formations is null) this.formations = new List<Formation>(4);
 				if (this.pawnIcons is null) this.pawnIcons = new Dictionary<Pawn, PawnIcon>();
 				if (this.groupName != null)
 				{
@@ -1336,13 +1370,13 @@ namespace TacticalGroups
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
-		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
 		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
 
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 		public Dictionary<WorkTypeDef, int> groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
 		public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
-
+		public List<Formation> formations = new List<Formation>(4);
+		public Formation activeFormation;
 		public int groupID;
 		public bool entireGroupIsVisible;
 		public bool hideGroupIcon;
@@ -1382,9 +1416,6 @@ namespace TacticalGroups
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
-
-		private List<Pawn> pawnKeys2;
-		private List<IntVec3> intVecValues;
 
 		private List<WorkType> workTypesKeys;
 		private List<WorkState> workStateValues;

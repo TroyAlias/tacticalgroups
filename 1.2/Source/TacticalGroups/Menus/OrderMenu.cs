@@ -60,10 +60,20 @@ namespace TacticalGroups
 			}
 		}
 
+
+		private BattleStationsMenu battleStationsMenu;
 		public override void PostOpen()
 		{
 			base.PostOpen();
 			AddAttackWindow(options[0]);
+			battleStationsMenu = new BattleStationsMenu(this, this.colonistGroup, windowRect, Textures.INVISIBLEMENU);
+			Find.WindowStack.Add(battleStationsMenu);
+		}
+
+		public override void PostClose()
+		{
+			base.PostClose();
+			battleStationsMenu?.Close();
 		}
 
 		public void AddAttackButton()
@@ -118,9 +128,9 @@ namespace TacticalGroups
 				{
 					this.colonistGroup.Draft();
 					this.colonistGroup.SelectAll();
-					if (this.colonistGroup.formations?.ContainsKey(pawn) ?? false)
+					if (this.colonistGroup.activeFormation.formations.TryGetValue(pawn, out IntVec3 cell))
 					{
-						var job = JobMaker.MakeJob(JobDefOf.Goto, this.colonistGroup.formations[pawn]);
+						var job = JobMaker.MakeJob(JobDefOf.Goto, cell);
 						job.locomotionUrgency = LocomotionUrgency.Sprint;
 						pawn.jobs.TryTakeOrderedJob(job);
 					}

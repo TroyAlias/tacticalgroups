@@ -264,5 +264,18 @@ namespace TacticalGroups
 		public static readonly Texture2D PresetMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/presetmenu");
 		public static readonly Texture2D PresetButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/presetbutton");
 		public static readonly Texture2D SaveIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/Saveicon");
+
+		public static readonly Texture2D greyselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greyselect");
+		public static readonly Texture2D greydark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greydark");
+
+		public static readonly Texture2D yellowdark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/yellowdark");
+		public static readonly Texture2D yellowselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/yellowselect");
+		public static readonly Texture2D redselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/redselect");
+		public static readonly Texture2D reddark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/reddark");
+		public static readonly Texture2D greenselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greenselect");
+		public static readonly Texture2D greendark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greendark");
+		public static readonly Texture2D blueselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/blueselect");
+		public static readonly Texture2D bluedark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/bluedark");
+		public static readonly Texture2D INVISIBLEMENU = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/INVISIBLEMENU");
 	}
 }

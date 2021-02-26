@@ -48,6 +48,7 @@
     <Compile Include="Menus\Dialog_PresetSave.cs" />
     <Compile Include="Menus\Dialog_PresetRemove.cs" />
     <Compile Include="Menus\Dialog_NewPresetName.cs" />
+    <Compile Include="Menus\BattleStationsMenu.cs" />
     <Compile Include="Menus\PresetMenu.cs" />
     <Compile Include="Utils\PawnStateUtility.cs" />
     <Compile Include="ColonistGroup\PawnIcon.cs" />

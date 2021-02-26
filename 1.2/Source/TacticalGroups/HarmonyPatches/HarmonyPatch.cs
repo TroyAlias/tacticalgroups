@@ -108,8 +108,6 @@ namespace TacticalGroups
 
             harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), "HandleLowPriorityShortcuts", null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
             
-            harmony.Patch(AccessTools.Method(typeof(Pawn_WorkSettings), "SetPriority", null, null), new HarmonyMethod(typeof(HarmonyPatches), "SetPriority_Prefix"), null, null);
-
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -463,22 +461,22 @@ namespace TacticalGroups
 
         }
 
-        private static bool SetPriority_Prefix(Pawn ___pawn, WorkTypeDef w, int priority)
-        {
-            if (___pawn.TryGetGroups(out HashSet<ColonistGroup> colonistGroups))
-            {
-                foreach(var group in colonistGroups)
-                {
-                    if (group.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(w, out int oldPriority))
-                    {
-                        if (priority != oldPriority)
-                        {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        }
+        //private static bool SetPriority_Prefix(Pawn ___pawn, WorkTypeDef w, int priority)
+        //{
+        //    if (___pawn.TryGetGroups(out HashSet<ColonistGroup> colonistGroups))
+        //    {
+        //        foreach(var group in colonistGroups)
+        //        {
+        //            if (group.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(w, out int oldPriority))
+        //            {
+        //                if (priority != oldPriority)
+        //                {
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return true;
+        //}
     }
 }
