@@ -174,7 +174,10 @@ namespace TacticalGroups
 					{
 						tooltip += Strings.PresetDrugPolicyTooltip + preset.groupDrugPolicy.label + "\n";
 					}
-
+					if (tooltip.EndsWith("--------------\n"))
+					{
+						tooltip = tooltip.Remove(tooltip.Length - "--------------\n".Length);
+					}
 					TooltipHandler.TipRegion(presetName, tooltip);
 					pos.y += 35f;
 				}

@@ -1201,32 +1201,27 @@ namespace TacticalGroups
 			}
 			if (preset.activeWorkTypes != null)
 			{
-				if (this.activeWorkTypes != null)
+				if (this.activeWorkTypes is null)
                 {
-					this.activeWorkTypes = preset.activeWorkTypes;
+					this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 				}
-				else
-                {
-					foreach (var activeWorkType in preset.activeWorkTypes)
-                    {
-						this.activeWorkTypes[activeWorkType.Key] = activeWorkType.Value;
-					}
-                }
+
+				foreach (var activeWorkType in preset.activeWorkTypes)
+				{
+					this.activeWorkTypes[activeWorkType.Key] = activeWorkType.Value;
+				}
 				SetCurrentActiveState();
 			}
 
 			if (preset.groupWorkPriorities != null)
 			{
-				if (this.groupWorkPriorities != null)
+				if (this.groupWorkPriorities is null)
 				{
-					this.groupWorkPriorities = preset.groupWorkPriorities;
+					this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
 				}
-				else
+				foreach (var groupWorkPriority in preset.groupWorkPriorities)
 				{
-					foreach (var groupWorkPriority in preset.groupWorkPriorities)
-					{
-						this.groupWorkPriorities[groupWorkPriority.Key] = groupWorkPriority.Value;
-					}
+					this.groupWorkPriorities[groupWorkPriority.Key] = groupWorkPriority.Value;
 				}
 			}
 
@@ -1266,6 +1261,11 @@ namespace TacticalGroups
 			if (this.groupWorkPriorities == preset.groupWorkPriorities)
             {
 				this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
+			}
+
+			foreach (var pawn in this.pawns)
+			{
+				SyncPoliciesFor(pawn);
 			}
 		}
 		public virtual void ExposeData()
