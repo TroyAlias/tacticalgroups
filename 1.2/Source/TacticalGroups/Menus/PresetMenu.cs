@@ -18,6 +18,27 @@ namespace TacticalGroups
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 		}
+
+		private static Dictionary<WorkType, string> workTypesLabels = new Dictionary<WorkType, string>
+		{
+			{WorkType.Construction, "TG.WorkTaskTooltipConstruction".Translate()},
+			{WorkType.Crafting, "TG.WorkTaskTooltipCraft".Translate()},
+			{WorkType.Hauling, "TG.WorkTaskTooltipHaul".Translate()},
+			{WorkType.Cleaning, "TG.WorkTaskTooltipClean".Translate()},
+			{WorkType.Hunting, "TG.WorkTaskTooltipHunt".Translate()},
+			{WorkType.Cooking, "TG.WorkTaskTooltipCook".Translate()},
+			{WorkType.Mining, "TG.WorkTaskTooltipMine".Translate()},
+			{WorkType.WoodChopping, "TG.WorkTaskTooltipChopWood".Translate()},
+			{WorkType.Plants, "TG.WorkTaskTooltipFarm".Translate()},
+			{WorkType.ClearSnow, "TG.WorkTaskTooltipClearSnow".Translate()},
+			{WorkType.Warden, "TG.WorkTaskTooltipWarden".Translate()},
+			{WorkType.Art, "TG.WorkTaskTooltipArt".Translate()},
+			{WorkType.Tailor, "TG.WorkTaskTooltipTailor".Translate()},
+			{WorkType.Smith, "TG.WorkTaskTooltipSmith".Translate()},
+			{WorkType.Handle, "TG.WorkTaskTooltipHandle".Translate()},
+			{WorkType.FireExtinguish, "TG.WorkTaskTooltipFireExtinguish".Translate()},
+			{WorkType.Research, "TG.WorkTaskTooltipResearch".Translate()},
+		};
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -39,6 +60,7 @@ namespace TacticalGroups
 				{
 					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
 					var newGroupPreset = new GroupPreset();
+					newGroupPreset.id = TacticalGroupsSettings.AllGroupPresets.Count + 1;
 					newGroupPreset.CopySettingsFrom(this.colonistGroup);
 					TieredFloatMenu floatMenu = new Dialog_NewPresetName(this, newGroupPreset, this.colonistGroup, windowRect, Textures.RenameTab, Strings.CreateNewPreset);
 					OpenNewMenu(floatMenu);
@@ -113,6 +135,47 @@ namespace TacticalGroups
 
 					Rect presetName = new Rect(drawBoxRect.xMax + 5, pos.y, 180f, 35f);
 					Widgets.Label(presetName, preset.name);
+					var tooltip = "";
+					if (preset.groupWorkPriorities != null && preset.groupWorkPriorities.Any())
+                    {
+						tooltip += Strings.PresetWorkPrioritiesTooltip + "\n";
+						foreach (var workPriority in preset.groupWorkPriorities)
+						{
+							tooltip += workPriority.Key.labelShort + ": " + workPriority.Value + "\n";
+						}
+						tooltip += "--------------\n";
+					}
+
+					if (preset.activeWorkTypes != null && preset.activeWorkTypes.Any())
+					{
+						tooltip += Strings.PresetActiveWorkStatesTooltip + "\n";
+						foreach (var activeWorkType in preset.activeWorkTypes)
+						{
+							tooltip += workTypesLabels[activeWorkType.Key] + ": " + ("TG." + activeWorkType.Value.ToString()).Translate() + "\n";
+						}
+						tooltip += "--------------\n";
+					}
+
+					if (preset.groupArea != null)
+					{
+						tooltip += Strings.PresetAreaTooltip + preset.groupArea.Label + "\n";
+					}
+					if (preset.groupOutfit != null)
+					{
+						tooltip += Strings.PresetOutfitPolicyTooltip + preset.groupOutfit.label + "\n";
+					}
+
+					if (preset.groupFoodRestriction != null)
+					{
+						tooltip += Strings.PresetFoodPolicyTooltip + preset.groupFoodRestriction.label + "\n";
+					}
+
+					if (preset.groupDrugPolicy != null)
+					{
+						tooltip += Strings.PresetDrugPolicyTooltip + preset.groupDrugPolicy.label + "\n";
+					}
+
+					TooltipHandler.TipRegion(presetName, tooltip);
 					pos.y += 35f;
 				}
 			}

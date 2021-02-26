@@ -34,7 +34,7 @@ namespace TacticalGroups
 
 		protected override void SetName(string name)
 		{
-			TacticalGroupsSettings.AllGroupPresets.Remove(groupPreset);
+			TacticalGroupsSettings.RemoveGroupPreset(groupPreset);
 		}
 	}
 }

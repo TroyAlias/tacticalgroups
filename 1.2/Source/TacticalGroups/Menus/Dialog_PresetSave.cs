@@ -36,6 +36,10 @@ namespace TacticalGroups
 		{
 			groupPreset.ClearSettings();
 			groupPreset.CopySettingsFrom(this.colonistGroup);
+
+			var saveable = TacticalGroupsSettings.AllGroupPresetsSaveable.FirstOrDefault(x => x.GetUniqueLoadID() == groupPreset.GetUniqueLoadID());
+			TacticalGroupsSettings.AllGroupPresetsSaveable.Remove(saveable);
+			TacticalGroupsSettings.AllGroupPresetsSaveable.Add(groupPreset.SaveToSaveable());
 		}
 	}
 }

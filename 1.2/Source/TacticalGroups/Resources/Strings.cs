@@ -190,6 +190,12 @@ namespace TacticalGroups
 		public static readonly string GroupDrugsTooltip = "TG.GroupDrugsTooltip".Translate();
 		public static readonly string GroupFoodTooltip = "TG.GroupFoodTooltip".Translate();
 
+		public static readonly string PresetWorkPrioritiesTooltip = "TG.PresetWorkPrioritiesTooltip".Translate();
+		public static readonly string PresetActiveWorkStatesTooltip = "TG.PresetActiveWorkStatesTooltip".Translate();
+		public static readonly string PresetAreaTooltip = "TG.PresetAreaTooltip".Translate();
+		public static readonly string PresetDrugPolicyTooltip = "TG.PresetDrugPolicyTooltip".Translate();
+		public static readonly string PresetFoodPolicyTooltip = "TG.PresetFoodPolicyTooltip".Translate();
+		public static readonly string PresetOutfitPolicyTooltip = "TG.PresetOutfitPolicyTooltip".Translate();
 
 	}
 }

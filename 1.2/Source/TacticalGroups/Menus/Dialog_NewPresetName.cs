@@ -37,7 +37,7 @@ namespace TacticalGroups
 			if (!name.NullOrEmpty())
             {
 				groupPreset.SetName(name);
-				TacticalGroupsSettings.AllGroupPresets.Add(groupPreset);
+				TacticalGroupsSettings.AddGroupPreset(groupPreset);
 				TacticalGroupsMod.instance.WriteSettings();
 			}
 			TacticDefOf.TG_RenameSFX.PlayOneShotOnCamera();

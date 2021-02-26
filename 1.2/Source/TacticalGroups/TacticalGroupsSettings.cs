@@ -6,6 +6,7 @@ using Verse;
 
 namespace TacticalGroups
 {
+
     class TacticalGroupsSettings : ModSettings
     {
         public static bool DisplayFood;
@@ -29,14 +30,45 @@ namespace TacticalGroups
         public static int WeaponPlacementOffset = 10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
         public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
+
+        public static List<GroupPresetSaveable> AllGroupPresetsSaveable;
+
+        private static List<GroupPreset> allGroupPresets;
         public static List<GroupPreset> AllGroupPresets
         {
             get
             {
-                var comp = Current.Game.GetComponent<TacticalData>();
-                if (comp.AllGroupPresets is null) 
-                    comp.AllGroupPresets = new List<GroupPreset>();
-                return comp.AllGroupPresets;
+                if (allGroupPresets is null)
+                {
+                    allGroupPresets = new List<GroupPreset>();
+                    if (AllGroupPresetsSaveable != null)
+                    {
+                        foreach (var group in AllGroupPresetsSaveable)
+                        {
+                            allGroupPresets.Add(group.LoadFromSaveable());
+                        }
+                    }
+                }
+                return allGroupPresets;
+            }
+        }
+
+        public static void AddGroupPreset(GroupPreset groupPreset)
+        {
+            var allGroupPresets = AllGroupPresets;
+            if (AllGroupPresetsSaveable is null) AllGroupPresetsSaveable = new List<GroupPresetSaveable>();
+            AllGroupPresetsSaveable.Add(groupPreset.SaveToSaveable());
+            allGroupPresets.Add(groupPreset);
+        }
+
+        public static void RemoveGroupPreset(GroupPreset groupPreset)
+        {
+            var allGroupPresets = AllGroupPresets;
+            allGroupPresets.Remove(groupPreset);
+            var groupSaveable = AllGroupPresetsSaveable.FirstOrDefault(x => x.GetUniqueLoadID() == groupPreset.GetUniqueLoadID());
+            if (groupSaveable != null)
+            {
+                AllGroupPresetsSaveable.Remove(groupSaveable);
             }
         }
         public override void ExposeData()
@@ -61,6 +93,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
             Scribe_Values.Look(ref ColorBarMode, "ColorBarMode", ColorBarMode.Default);
             Scribe_Values.Look(ref WeaponShowMode, "WeaponShowMode", WeaponShowMode.Drafted);
+            Scribe_Collections.Look(ref AllGroupPresetsSaveable, "AllGroupPresetsSaveable", LookMode.Deep);
         }
 
         public void DoSettingsWindowContents(Rect inRect)

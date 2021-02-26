@@ -201,4 +201,16 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.CreateNewPreset>Create</TG.CreateNewPreset>
 	<TG.RemovePreset>Remove preset</TG.RemovePreset>
 	<TG.SavePreset>Save preset</TG.SavePreset>
+	
+	<TG.PresetWorkPrioritiesTooltip>Work priorities:</TG.PresetWorkPrioritiesTooltip>
+	<TG.PresetActiveWorkStatesTooltip>Forced work states:</TG.PresetActiveWorkStatesTooltip>
+	<TG.PresetAreaTooltip>Group area: </TG.PresetAreaTooltip>
+	<TG.PresetDrugPolicyTooltip>Drug policy: </TG.PresetDrugPolicyTooltip>
+	<TG.PresetFoodPolicyTooltip>Food policy: </TG.PresetFoodPolicyTooltip>
+	<TG.PresetOutfitPolicyTooltip>Outfit policy: </TG.PresetOutfitPolicyTooltip>
+	<TG.Inactive>Inactive</TG.Inactive>
+	<TG.Active>Active</TG.Active>
+	<TG.ForcedLabor>Forced labor</TG.ForcedLabor>
+	<TG.Temporary>Temporary</TG.Temporary>
+	
 </LanguageData>
