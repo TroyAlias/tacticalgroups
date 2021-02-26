@@ -191,12 +191,14 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.PresetLabel>Preset</TG.PresetLabel>
 	<TG.GroupsLabel>Presets</TG.GroupsLabel>
 	<TG.CreateNew>Create New</TG.CreateNew>
-	<TG.CreateNewTooltip>PLACEHOLDER</TG.CreateNewTooltip>
-	<TG.TrashCanTooltip>PLACEHOLDER</TG.TrashCanTooltip>
-	<TG.SavePresetTooltip>PLACEHOLDER</TG.SavePresetTooltip>
-	<TG.ActivatePresetTooltip>PLACEHOLDEr</TG.ActivatePresetTooltip>
-	<TG.DisactivatePresetTooltip>PLACEHOLDEr</TG.DisactivatePresetTooltip>
-	<TG.CreateNewPreset>Create new preset</TG.CreateNewPreset>
+	<TG.CreateNewTooltip>Create New Preset
+-Presets will only save upon saving the current game session.</TG.CreateNewTooltip>
+	<TG.TrashCanTooltip>Delete Preset</TG.TrashCanTooltip>
+	<TG.SavePresetTooltip>Overwrite Preset</TG.SavePresetTooltip>
+	<TG.ActivatePresetTooltip>Activate Preset
+-Multiple Presets can be active at the same time.</TG.ActivatePresetTooltip>
+	<TG.DisactivatePresetTooltip>Deactivate Preset</TG.DisactivatePresetTooltip>
+	<TG.CreateNewPreset>Create</TG.CreateNewPreset>
 	<TG.RemovePreset>Remove preset</TG.RemovePreset>
 	<TG.SavePreset>Save preset</TG.SavePreset>
 </LanguageData>

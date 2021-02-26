@@ -5,8 +5,8 @@
 		<modNameReadable>Colony Groups</modNameReadable>
 		<modIdentifier>ColonyGroups</modIdentifier>
 		<!-- <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2345493945</linkUrl> -->
-		<defName>ColonyGroups_1_0_05</defName>
-		<assemblyVersion>1.0.05</assemblyVersion>
+		<defName>ColonyGroups_1_0_06</defName>
+		<assemblyVersion>1.0.06</assemblyVersion>
 		<content>
 		img:pics/update1
 		</content>
