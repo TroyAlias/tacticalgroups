@@ -1230,43 +1230,57 @@ namespace TacticalGroups
 				SyncPoliciesFor(pawn);
 			}
 		}
-		public void RemovePreset(GroupPreset preset)
-        {
-			this.activeGroupPresets.Remove(preset);
-			if (this.groupDrugPolicy == preset.groupDrugPolicy)
-            {
-				this.groupDrugPolicy = null;
-				this.groupDrugPolicyEnabled = false;
-            }
-			if (this.groupFoodRestriction == preset.groupFoodRestriction)
-			{
-				this.groupFoodRestriction = null;
-				this.groupFoodRestrictionEnabled = false;
-			}
-			if (this.groupOutfit == preset.groupOutfit)
-			{
-				this.groupOutfit = null;
-				this.groupOutfitEnabled = false;
-			}
-			if (this.groupArea == preset.groupArea)
-			{
-				this.groupArea = null;
-				this.groupAreaEnabled = false;
-			}
-			if (this.activeWorkTypes == preset.activeWorkTypes)
-            {
-				this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
-				this.activeWorkState = WorkState.Inactive;
-            }
-			if (this.groupWorkPriorities == preset.groupWorkPriorities)
-            {
-				this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
-			}
+		//public void RemovePreset(GroupPreset preset)
+        //{
+		//	this.activeGroupPresets.Remove(preset);
+		//	if (this.groupDrugPolicy == preset.groupDrugPolicy)
+        //    {
+		//		this.groupDrugPolicy = null;
+		//		this.groupDrugPolicyEnabled = false;
+        //    }
+		//	if (this.groupFoodRestriction == preset.groupFoodRestriction)
+		//	{
+		//		this.groupFoodRestriction = null;
+		//		this.groupFoodRestrictionEnabled = false;
+		//	}
+		//	if (this.groupOutfit == preset.groupOutfit)
+		//	{
+		//		this.groupOutfit = null;
+		//		this.groupOutfitEnabled = false;
+		//	}
+		//	if (this.groupArea == preset.groupArea)
+		//	{
+		//		this.groupArea = null;
+		//		this.groupAreaEnabled = false;
+		//	}
+		//	if (this.activeWorkTypes == preset.activeWorkTypes)
+        //    {
+		//		this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
+		//		this.activeWorkState = WorkState.Inactive;
+        //    }
+		//	if (this.groupWorkPriorities == preset.groupWorkPriorities)
+        //    {
+		//		this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
+		//	}
+		//
+		//	foreach (var pawn in this.pawns)
+		//	{
+		//		SyncPoliciesFor(pawn);
+		//	}
+		//}
 
-			foreach (var pawn in this.pawns)
-			{
-				SyncPoliciesFor(pawn);
-			}
+		public void ResetGroupPolicies()
+        {
+			this.activeWorkTypes = null;
+			this.groupWorkPriorities = null;
+			this.groupArea = null;
+			this.groupAreaEnabled = false;
+			this.groupDrugPolicy = null;
+			this.groupDrugPolicyEnabled = false;
+			this.groupFoodRestriction = null;
+			this.groupFoodRestrictionEnabled = false;
+			this.groupOutfit = null;
+			this.groupOutfitEnabled = false;
 		}
 		public virtual void ExposeData()
         {

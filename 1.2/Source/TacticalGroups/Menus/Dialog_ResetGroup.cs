@@ -10,27 +10,24 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class Dialog_PresetRemove : TieredFloatMenu
+	public class Dialog_ResetGroup : TieredFloatMenu
 	{
-		private GroupPreset groupPreset;
 		protected override void SetInitialSizeAndPosition()
         {
-			//windowRect = new Rect(originRect.x, originRect.y, InitialSize.x, InitialSize.y);
-			//windowRect = windowRect.Rounded();
 			windowRect = new Rect(((float)UI.screenWidth - InitialSize.x) / 2f, ((float)UI.screenHeight - InitialSize.y) / 2f, InitialSize.x, InitialSize.y);
 			windowRect = windowRect.Rounded();
 		}
-		public Dialog_PresetRemove(TieredFloatMenu parentWindow, GroupPreset groupPreset, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+		public Dialog_ResetGroup(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;
-			this.groupPreset = groupPreset;
 		}
 
 		public override void DoWindowContents(Rect inRect)
 		{
 			base.DoWindowContents(inRect);
+			Text.Font = GameFont.Small;
 			bool flag = false;
 			if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Return)
 			{
@@ -41,7 +38,7 @@ namespace TacticalGroups
 			Text.Font = GameFont.Medium;
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var rect1 = new Rect(55f, inRect.y + 25f, Textures.MenuButton.width, Textures.MenuButton.height);
-			Widgets.Label(rect1, Strings.RemovePreset);
+			Widgets.Label(rect1, Strings.ResetGroupTitle);
 
 			var rect2 = new Rect(55f, inRect.height - 75f, Textures.MenuButton.width, Textures.MenuButton.height);
 			if (Mouse.IsOver(rect2))
@@ -60,7 +57,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			TacticalGroupsSettings.RemoveGroupPreset(groupPreset);
+			this.colonistGroup.ResetGroupPolicies();
 			Find.WindowStack.TryRemove(this);
 		}
 	}

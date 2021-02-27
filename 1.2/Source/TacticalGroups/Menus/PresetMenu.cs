@@ -44,7 +44,7 @@ namespace TacticalGroups
 			base.DoWindowContents(rect);
 			Text.Font = GameFont.Medium;
 			Text.Anchor = TextAnchor.MiddleLeft;
-			var groupsLabel = new Rect(rect.x + 50, rect.y + 30, 100, 30);
+			var groupsLabel = new Rect(rect.x + 50, rect.y + 30, 80, 30);
 			Widgets.Label(groupsLabel, Strings.GroupsLabel);
 			Text.Font = GameFont.Small;
 
@@ -66,6 +66,21 @@ namespace TacticalGroups
 					OpenNewMenu(floatMenu);
 				}
 			}
+
+			Rect resetGroup = new Rect(createNew.xMax + 10, createNew.y, Textures.ResetIcon.width, Textures.ResetIcon.height);
+			GUI.DrawTexture(resetGroup, Textures.ResetIcon);
+			TooltipHandler.TipRegion(resetGroup, Strings.ResetGroupTooltip);
+			if (Mouse.IsOver(resetGroup))
+			{
+				GUI.DrawTexture(resetGroup, Textures.RescueTendHover);
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					TieredFloatMenu floatMenu = new Dialog_ResetGroup(this, this.colonistGroup, windowRect, Textures.RenameTab);
+					OpenNewMenu(floatMenu);
+				}
+			}
+
 			Text.Anchor = TextAnchor.UpperLeft;
 			Vector2 pos = Vector2.zero;
 			pos.y = createNew.yMax + 20;
@@ -90,7 +105,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(trashCan, Textures.RescueTendHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							TieredFloatMenu floatMenu = new Dialog_PresetRemove(this, preset, this.colonistGroup, windowRect, Textures.RenameTab, Strings.RemovePreset);
+							TieredFloatMenu floatMenu = new Dialog_PresetRemove(this, preset, this.colonistGroup, windowRect, Textures.RenameTab);
 							OpenNewMenu(floatMenu);
 						}
 					}
@@ -108,32 +123,8 @@ namespace TacticalGroups
 						}
 					}
 
-					var check = new Vector2(savePreset.xMax + 5, pos.y);
-					bool enabled = this.colonistGroup.activeGroupPresets?.Contains(preset) ?? false;
-					Widgets.Checkbox(check, ref enabled);
-					var drawBoxRect = new Rect(check, new Vector2(24f, 24f));
-					if (enabled)
-                    {
-						TooltipHandler.TipRegion(drawBoxRect, Strings.DisactivatePresetTooltip);
-						if (this.colonistGroup.activeGroupPresets is null)
-                        {
-							this.colonistGroup.activeGroupPresets = new List<GroupPreset>();
-						}
-						if (!this.colonistGroup.activeGroupPresets.Contains(preset))
-                        {
-							this.colonistGroup.ActivatePreset(preset);
-						}
-					}
-					else
-                    {
-						TooltipHandler.TipRegion(drawBoxRect, Strings.ActivatePresetTooltip);
-						if (this.colonistGroup.activeGroupPresets?.Contains(preset) ?? false)
-						{
-							this.colonistGroup.RemovePreset(preset);
-						}
-					}
-
-					Rect presetName = new Rect(drawBoxRect.xMax + 5, pos.y, 180f, 35f);
+					Rect presetName = new Rect(savePreset.xMax + 5, pos.y, 155f, 35f);
+					Text.Anchor = TextAnchor.UpperLeft;
 					Widgets.Label(presetName, preset.name);
 					var tooltip = "";
 					if (preset.groupWorkPriorities != null && preset.groupWorkPriorities.Any())
@@ -179,12 +170,35 @@ namespace TacticalGroups
 						tooltip = tooltip.Remove(tooltip.Length - "--------------\n".Length);
 					}
 					TooltipHandler.TipRegion(presetName, tooltip);
+
+					Rect applyPreset = new Rect(presetName.xMax + 5, pos.y, Textures.ApplyButton.width, Textures.ApplyButton.height);
+					GUI.DrawTexture(applyPreset, Textures.ApplyButton);
+					Text.Anchor = TextAnchor.MiddleCenter;
+					Widgets.Label(applyPreset, Strings.Apply);
+					TooltipHandler.TipRegion(applyPreset, Strings.ActivatePresetTooltip);
+					if (Mouse.IsOver(applyPreset))
+					{
+						GUI.DrawTexture(applyPreset, Textures.RescueTendHover);
+						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+						{
+							if (this.colonistGroup.activeGroupPresets is null)
+							{
+								this.colonistGroup.activeGroupPresets = new List<GroupPreset>();
+							}
+							if (!this.colonistGroup.activeGroupPresets.Contains(preset))
+							{
+								this.colonistGroup.ActivatePreset(preset);
+							}
+						}
+					}
 					pos.y += 35f;
 				}
 			}
 
 			Widgets.EndScrollView();
 			GUI.color = Color.white;
+			Text.Anchor = TextAnchor.UpperLeft;
+
 		}
 
 		private Vector2 scrollPosition;

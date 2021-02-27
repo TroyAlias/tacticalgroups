@@ -124,22 +124,22 @@ namespace TacticalGroups
 			Widgets.Label(foodLabelRect, foodPercent);
 			TooltipHandler.TipRegion(foodStatRect, Strings.HungerIconTooltip);
 
-			var pawnRowRect = new Rect(rect.x + 15, rect.y + (rect.height - 110f), rect.width - 30f, TacticalColonistBar.BaseSize.y + 42f);
+			var pawnRowRect = new Rect(rect.x + 15, rect.y + (rect.height - 110f), rect.width - 30f, TacticalColonistBar.DefaultBaseSize.y + 42f);
 			var pawnMargin = 20f;
-			float listWidth = this.colonistGroup.pawns.Count * (TacticalColonistBar.BaseSize.x + pawnMargin);
+			float listWidth = this.colonistGroup.pawns.Count * (TacticalColonistBar.DefaultBaseSize.x + pawnMargin);
 			Rect rect1 = new Rect(pawnRowRect.x, pawnRowRect.y, listWidth, pawnRowRect.height - 16f);
 			Widgets.BeginScrollView(pawnRowRect, ref scrollPosition, rect1);
 
 			for (var i = 0; i < this.colonistGroup.pawns.Count; i++ )
             {
-				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.DefaultBaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.DefaultBaseSize.x, TacticalColonistBar.DefaultBaseSize.y);
 				DrawColonist(pawnRect, this.colonistGroup.pawns[i], this.colonistGroup.pawns[i].Map, false, false);
 				HandleClicks(pawnRect, this.colonistGroup.pawns[i]);
 			}
 
 			for (var i = 0; i < this.colonistGroup.pawns.Count; i++)
 			{
-				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.BaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.y);
+				var pawnRect = new Rect(pawnRowRect.x + 13f + (i * (TacticalColonistBar.DefaultBaseSize.x + pawnMargin)), pawnRowRect.y + 17, TacticalColonistBar.DefaultBaseSize.x, TacticalColonistBar.DefaultBaseSize.y);
 				DrawPawnArrows(pawnRect, this.colonistGroup.pawns[i]);
 			}
 
@@ -190,7 +190,7 @@ namespace TacticalGroups
 			{
 				TacticUtils.TacticalColonistBar.drawer.DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.DefaultPawnTextureSize, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
 			if (colonist.Drafted)
 			{
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
@@ -217,8 +217,8 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = ColonistBarColonistDrawer.PawnTextureSize;
-			return new Rect(x + 1f, y - (vector.y - TacticalColonistBar.BaseSize.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			Vector2 vector = ColonistBarColonistDrawer.DefaultPawnTextureSize;
+			return new Rect(x + 1f, y - (vector.y - TacticalColonistBar.DefaultBaseSize.y) - 1f, vector.x, vector.y).ContractedBy(1f);
 		}
 
 		public void HandleClicks(Rect rect, Pawn colonist)

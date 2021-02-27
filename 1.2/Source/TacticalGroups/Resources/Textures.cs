@@ -277,5 +277,9 @@ namespace TacticalGroups
 		public static readonly Texture2D blueselect = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/blueselect");
 		public static readonly Texture2D bluedark = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/bluedark");
 		public static readonly Texture2D INVISIBLEMENU = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/INVISIBLEMENU");
+
+		public static readonly Texture2D ResetIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/reseticon");
+		public static readonly Texture2D ApplyButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/applybutton");
+		public static readonly Texture2D BedrollMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/bedrollwindow");
 	}
 }
