@@ -213,4 +213,8 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.ForcedLabor>Forced labor</TG.ForcedLabor>
 	<TG.Temporary>Temporary</TG.Temporary>
 	
+	<TG.Apply>Apply</TG.Apply>
+	<TG.ResetGroupTitle>PLACEHOLDER</TG.ResetGroupTitle>
+	<TG.ResetGroupTooltip>PLACEHOLDER</TG.ResetGroupTooltip>
+	
 </LanguageData>

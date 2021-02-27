@@ -196,6 +196,9 @@ namespace TacticalGroups
 		public static readonly string PresetDrugPolicyTooltip = "TG.PresetDrugPolicyTooltip".Translate();
 		public static readonly string PresetFoodPolicyTooltip = "TG.PresetFoodPolicyTooltip".Translate();
 		public static readonly string PresetOutfitPolicyTooltip = "TG.PresetOutfitPolicyTooltip".Translate();
+		public static readonly string Apply = "TG.Apply".Translate();
+		public static readonly string ResetGroupTitle = "TG.ResetGroupTitle".Translate();
+		public static readonly string ResetGroupTooltip = "TG.ResetGroupTooltip".Translate();
 
 	}
 }

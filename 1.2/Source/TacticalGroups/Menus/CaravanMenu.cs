@@ -23,8 +23,19 @@ namespace TacticalGroups
 
 		}
 
+		private CaravanOptionsMenu caravanOptionsMenu;
+		public override void PostOpen()
+		{
+			base.PostOpen();
+			caravanOptionsMenu = new CaravanOptionsMenu(this, this.colonistGroup, windowRect, Textures.BedrollMenu);
+			Find.WindowStack.Add(caravanOptionsMenu);
+		}
 
-
+		public override void PostClose()
+		{
+			base.PostClose();
+			caravanOptionsMenu?.Close();
+		}
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
