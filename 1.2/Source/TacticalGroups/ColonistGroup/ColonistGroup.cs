@@ -1271,8 +1271,8 @@ namespace TacticalGroups
 
 		public void ResetGroupPolicies()
         {
-			this.activeWorkTypes = null;
-			this.groupWorkPriorities = null;
+			this.activeWorkTypes.Clear();
+			this.groupWorkPriorities.Clear();
 			this.groupArea = null;
 			this.groupAreaEnabled = false;
 			this.groupDrugPolicy = null;

@@ -25,6 +25,7 @@ namespace TacticalGroups
 			this.colonistGroup = colonistGroup;
 			this.groupPreset = groupPreset;
 			curName = colonistGroup.groupName;
+			this.closeOnClickedOutside = true;
 		}
 
 		protected override AcceptanceReport NameIsValid(string name)
