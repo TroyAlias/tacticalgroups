@@ -76,7 +76,7 @@ namespace TacticalGroups
 				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 				{
 					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-					TieredFloatMenu floatMenu = new Dialog_ResetGroup(this, this.colonistGroup, windowRect, Textures.RenameTab);
+					TieredFloatMenu floatMenu = new Dialog_ResetGroup(this, this.colonistGroup, windowRect, Textures.ResetTab);
 					OpenNewMenu(floatMenu);
 				}
 			}
@@ -105,7 +105,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(trashCan, Textures.RescueTendHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							TieredFloatMenu floatMenu = new Dialog_PresetRemove(this, preset, this.colonistGroup, windowRect, Textures.RenameTab);
+							TieredFloatMenu floatMenu = new Dialog_PresetRemove(this, preset, this.colonistGroup, windowRect, Textures.DeleteTab);
 							OpenNewMenu(floatMenu);
 						}
 					}

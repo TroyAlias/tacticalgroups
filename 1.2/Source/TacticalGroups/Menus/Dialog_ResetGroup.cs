@@ -22,6 +22,7 @@ namespace TacticalGroups
 		{
 			this.originRect = new Rect(originRect.x + originRect.width, originRect.y, originRect.width, originRect.height);
 			this.colonistGroup = colonistGroup;
+			this.closeOnClickedOutside = true;
 		}
 
 		public override void DoWindowContents(Rect inRect)

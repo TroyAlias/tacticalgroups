@@ -281,5 +281,8 @@ namespace TacticalGroups
 		public static readonly Texture2D ResetIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/reseticon");
 		public static readonly Texture2D ApplyButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/applybutton");
 		public static readonly Texture2D BedrollMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/bedrollwindow");
+
+		public static readonly Texture2D ResetTab = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/ResetTab");
+		public static readonly Texture2D DeleteTab = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DeleteTab");
 	}
 }
