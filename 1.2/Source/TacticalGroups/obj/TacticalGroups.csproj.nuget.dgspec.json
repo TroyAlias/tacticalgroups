@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {}
+    "C:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {}
   },
   "projects": {
-    "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {
+    "C:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
+        "projectUniqueName": "C:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
         "projectName": "TacticalGroups",
-        "projectPath": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
+        "projectPath": "C:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\TacticalGroups.csproj",
         "packagesPath": "C:\\Users\\Vova\\.nuget\\packages\\",
-        "outputPath": "c:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\obj\\",
+        "outputPath": "C:\\GAMES\\Rimworld\\Mods\\tacticalgroups\\1.2\\Source\\TacticalGroups\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "configFilePaths": [
