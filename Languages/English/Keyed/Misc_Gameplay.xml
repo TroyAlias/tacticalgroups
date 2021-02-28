@@ -217,4 +217,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.ResetGroupTitle>Reset Group</TG.ResetGroupTitle>
 	<TG.ResetGroupTooltip>Reset Group</TG.ResetGroupTooltip>
 	
+	<TG.TravelSupplies>Travel supplies</TG.TravelSupplies>
+	<TG.Bedrolls>Bedrolls</TG.Bedrolls>
+	
 </LanguageData>

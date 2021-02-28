@@ -27,7 +27,7 @@ namespace TacticalGroups
 		public override void PostOpen()
 		{
 			base.PostOpen();
-			caravanOptionsMenu = new CaravanOptionsMenu(this, this.colonistGroup, windowRect, Textures.BedrollMenu);
+			caravanOptionsMenu = new CaravanOptionsMenu(this, this.colonistGroup, windowRect, Textures.LoadoutMenu);
 			Find.WindowStack.Add(caravanOptionsMenu);
 		}
 
@@ -50,17 +50,21 @@ namespace TacticalGroups
 					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
 					var window = new Dialog_FormCaravan(this.colonistGroup.Map);
 					Find.WindowStack.Add(window);
-					foreach (var pawn in this.colonistGroup.ActivePawns)
+					Traverse.Create(window).Field("autoSelectFoodAndMedicine").SetValue(this.colonistGroup.travelSuppliesEnabled);
+					List<Pawn> selectedPawns = new List<Pawn>();
+					foreach (var trad in window.transferables)
 					{
-						foreach (var trad in window.transferables)
+						if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.ActivePawns.Contains(pawn2))
 						{
-							if (trad.AnyThing is Pawn pawn2 && this.colonistGroup.ActivePawns.Contains(pawn2))
-							{
-								trad.AdjustTo(1);
-							}
+							trad.AdjustTo(1);
+							selectedPawns.Add(pawn2);
 						}
 					}
 					Traverse.Create(window).Method("CountToTransferChanged").GetValue();
+					if (!this.colonistGroup.travelSuppliesEnabled && this.colonistGroup.bedrollsEnabled)
+					{
+						this.SelectBedrolls(window, window.transferables, selectedPawns);
+					}
 					this.CloseAllWindows();
 					Event.current.Use();
 				}
@@ -85,5 +89,84 @@ namespace TacticalGroups
 			Text.Anchor = TextAnchor.UpperLeft;
 			GUI.color = Color.white;
 		}
+
+
+		private static List<TransferableOneWay> tmpBeds = new List<TransferableOneWay>();
+        private void SelectBedrolls(Dialog_FormCaravan window, List<TransferableOneWay> transferables, List<Pawn> pawnsFromTransferables)
+        {
+            IEnumerable<TransferableOneWay> enumerable = transferables.Where((TransferableOneWay x) => x.ThingDef.category != ThingCategory.Pawn && !x.ThingDef.thingCategories.NullOrEmpty() && x.ThingDef.thingCategories.Contains(ThingCategoryDefOf.Medicine));
+            IEnumerable<TransferableOneWay> enumerable2 = transferables.Where((TransferableOneWay x) => x.ThingDef.IsIngestible && !x.ThingDef.IsDrug && !x.ThingDef.IsCorpse);
+            tmpBeds.Clear();
+            for (int i = 0; i < transferables.Count; i++)
+            {
+                for (int j = 0; j < transferables[i].things.Count; j++)
+                {
+                    Thing thing = transferables[i].things[j];
+                    for (int k = 0; k < thing.stackCount; k++)
+                    {
+                        Building_Bed building_Bed;
+                        if ((building_Bed = (thing.GetInnerIfMinified() as Building_Bed)) != null && building_Bed.def.building.bed_caravansCanUse)
+                        {
+                            for (int l = 0; l < building_Bed.SleepingSlotsCount; l++)
+                            {
+                                tmpBeds.Add(transferables[i]);
+                            }
+                        }
+                    }
+                }
+            }
+            tmpBeds.SortByDescending((TransferableOneWay x) => x.AnyThing.GetStatValue(StatDefOf.BedRestEffectiveness));
+            foreach (TransferableOneWay item in enumerable)
+            {
+                item.AdjustTo(0);
+            }
+            foreach (TransferableOneWay item2 in enumerable2)
+            {
+                item2.AdjustTo(0);
+            }
+            foreach (TransferableOneWay tmpBed in tmpBeds)
+            {
+                tmpBed.AdjustTo(0);
+            }
+            if (pawnsFromTransferables.Any())
+            {
+                foreach (Pawn item3 in pawnsFromTransferables)
+                {
+                    TransferableOneWay transferableOneWay = BestBedFor(item3);
+                    if (transferableOneWay != null)
+                    {
+                        tmpBeds.Remove(transferableOneWay);
+                        if (transferableOneWay.CanAdjustBy(1).Accepted)
+                        {
+                            AddOneIfMassAllows(window, transferableOneWay);
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool AddOneIfMassAllows(Dialog_FormCaravan window, Transferable transferable)
+        {
+			if (transferable.CanAdjustBy(1).Accepted && window.MassUsage + transferable.ThingDef.BaseMass < window.MassCapacity)
+            {
+                transferable.AdjustBy(1);
+                Traverse.Create(window).Field("massUsageDirty").SetValue(true);
+                return true;
+            }
+            return false;
+        }
+
+        private TransferableOneWay BestBedFor(Pawn pawn)
+        {
+            for (int i = 0; i < tmpBeds.Count; i++)
+            {
+                Thing innerIfMinified = tmpBeds[i].AnyThing.GetInnerIfMinified();
+                if (RestUtility.CanUseBedEver(pawn, innerIfMinified.def))
+                {
+                    return tmpBeds[i];
+                }
+            }
+            return null;
+        }
 	}
 }

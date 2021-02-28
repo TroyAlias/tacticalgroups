@@ -200,5 +200,7 @@ namespace TacticalGroups
 		public static readonly string ResetGroupTitle = "TG.ResetGroupTitle".Translate();
 		public static readonly string ResetGroupTooltip = "TG.ResetGroupTooltip".Translate();
 
+		public static readonly string TravelSupplies = "TG.TravelSupplies".Translate();
+		public static readonly string Bedrolls = "TG.Bedrolls".Translate();
 	}
 }

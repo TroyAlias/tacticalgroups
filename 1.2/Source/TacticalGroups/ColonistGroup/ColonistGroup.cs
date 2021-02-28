@@ -1311,6 +1311,8 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
 
+			Scribe_Values.Look(ref travelSuppliesEnabled, "travelSuppliesEnabled", true);
+			Scribe_Values.Look(ref bedrollsEnabled, "bedrollsEnabled");
 
 
 			Scribe_Values.Look(ref groupAreaEnabled, "groupAreaEnabled");
@@ -1381,6 +1383,7 @@ namespace TacticalGroups
 			return this.curGroupName + " - " + this.pawns?.Count;
         }
 
+
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
@@ -1427,6 +1430,9 @@ namespace TacticalGroups
 		public bool groupFoodRestrictionEnabled;
 
 		protected WorkState activeWorkState;
+
+		public bool bedrollsEnabled;
+		public bool travelSuppliesEnabled = true;
 
 		private List<Pawn> pawnKeys;
 		private List<PawnIcon> pawnIconValues;
