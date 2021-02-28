@@ -174,7 +174,7 @@ namespace TacticalGroups
 							}
 						}
 					}
-					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_ArrestSFX.PlayOneShotOnCamera();
 				}
 			}
 
@@ -206,7 +206,7 @@ namespace TacticalGroups
 							}
 						}
 					}
-					TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+					TacticDefOf.TG_ExecuteSFX.PlayOneShotOnCamera();
 				}
 				GUI.color = Color.white;
 			}
