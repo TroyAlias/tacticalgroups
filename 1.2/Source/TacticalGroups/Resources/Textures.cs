@@ -179,7 +179,7 @@ namespace TacticalGroups
 		public static readonly Texture2D EntertainmentButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/EntertainmentButton");
 		public static readonly Texture2D ChowHallButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/ChowHallButton");
 
-		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(95, 63, 65, 255).ToColor);
+		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(196, 0, 30, 255).ToColor);
 		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
 		public static readonly Texture2D PurpleMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
 
@@ -286,5 +286,10 @@ namespace TacticalGroups
 		public static readonly Texture2D Ybox = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/Ybox");
 		public static readonly Texture2D Xbox = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/Xbox");
 		public static readonly Texture2D LoadoutMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/LoadoutMenu");
+
+		public static readonly Texture2D ColorMoodBarOverlayRedMinor = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/ColorMoodBarOverlayRedMinor");
+		public static readonly Texture2D ColorMoodBarOverlayRedMajor = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/ColorMoodBarOverlayRedMajor");
+		public static readonly Texture2D Arrest = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Arrest");
+		public static readonly Texture2D Execute = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Execute");
 	}
 }

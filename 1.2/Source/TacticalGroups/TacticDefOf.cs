@@ -40,5 +40,7 @@ namespace TacticalGroups
 		public static SoundDef TG_SlideMenuOptionSFX;
 		public static SoundDef TG_SubGroupSFX;
 
+		public static JobDef TG_ExecuteDownedRaiders;
+
 	}
 }

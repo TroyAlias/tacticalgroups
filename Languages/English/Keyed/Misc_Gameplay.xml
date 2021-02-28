@@ -220,4 +220,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.TravelSupplies>Travel supplies</TG.TravelSupplies>
 	<TG.Bedrolls>Bedrolls</TG.Bedrolls>
 	
+	<TG.CaptureTooltip>PLACEHOLDEr</TG.CaptureTooltip>
+	<TG.ExecuteTooltip>PLACEHOLDER</TG.ExecuteTooltip>
+	
 </LanguageData>

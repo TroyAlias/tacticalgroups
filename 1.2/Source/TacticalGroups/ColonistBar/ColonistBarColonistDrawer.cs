@@ -74,6 +74,9 @@ namespace TacticalGroups
 			}
 			Color color2 = GUI.color = new Color(1f, 1f, 1f, alpha);
 			GUI.DrawTexture(rect, TacticalColonistBar.BGTex);
+
+
+
 			if (colonist.needs != null && colonist.needs.mood != null)
 			{
 				Rect position = rect.ContractedBy(2f);
@@ -81,14 +84,25 @@ namespace TacticalGroups
 				position.yMin = position.yMax - num;
 				position.height = num;
 				if (TacticalGroupsSettings.DisplayColorBars)
-                {
+			    {
 					GUI.DrawTexture(position, GetMoodBarTexture(colonist));
-					GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
+					if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMajor)
+                    {
+						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMajor);
+					}
+					else if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMinor)
+			        {
+						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMinor);
+					}
+					else
+			        {
+						GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
+					}
 				}
 				else
-                {
+			    {
 					GUI.DrawTexture(position, MoodBGTex);
-                }
+			    }
 			}
 
 			if (highlight)
@@ -123,23 +137,23 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.PawnPrisoner);
 			}
-
+			
 			var pawnStates = PawnStateUtility.GetAllPawnStatesCache(colonist);
 			if (pawnStates.Contains(PawnState.IsShotOrBleeding))
             {
 				GUI.DrawTexture(rect, Textures.PawnBleeding);
 			}
-
+			
 			float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
 			GenMapUIOptimized.DrawPawnLabel(colonist, pos, alpha, rect.width + TacticUtils.TacticalColonistBar.SpaceBetweenColonistsHorizontal - 2f, pawnLabelsCache);
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
-
+			
 			DrawHealthBar(colonist, rect);
 			DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
 			ShowDrafteesWeapon(rect, colonist, TacticalGroupsSettings.WeaponPlacementOffset);
-
+			
 			if (ModCompatibility.PawnBadgesIsActive)
             {
 				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[] 

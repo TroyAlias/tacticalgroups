@@ -45,6 +45,7 @@
     <Compile Include="ColonistGroup\CaravanGroup.cs" />
     <Compile Include="ColonistGroup\ColonyGroup.cs" />
     <Compile Include="ColonistGroup\GroupPreset.cs" />
+    <Compile Include="Jobs\JobDriver_ExecuteDownedRaiders.cs" />
     <Compile Include="Menus\CaravanOptionsMenu.cs" />
     <Compile Include="Menus\Dialog_ResetGroup.cs" />
     <Compile Include="Menus\Dialog_PresetSave.cs" />

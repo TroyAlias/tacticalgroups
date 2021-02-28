@@ -202,5 +202,9 @@ namespace TacticalGroups
 
 		public static readonly string TravelSupplies = "TG.TravelSupplies".Translate();
 		public static readonly string Bedrolls = "TG.Bedrolls".Translate();
+
+		public static readonly string CaptureTooltip = "TG.CaptureTooltip".Translate();
+		public static readonly string ExecuteTooltip = "TG.ExecuteTooltip".Translate();
+
 	}
 }

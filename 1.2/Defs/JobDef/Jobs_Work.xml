@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <JobDef>
+    <defName>TG_ExecuteDownedRaiders</defName>
+    <driverClass>TacticalGroups.JobDriver_ExecuteDownedRaiders</driverClass>
+    <reportString>executing TargetA.</reportString>
+    <alwaysShowWeapon>true</alwaysShowWeapon>
+    <allowOpportunisticPrefix>true</allowOpportunisticPrefix>
+  </JobDef>
+  
+</Defs>
