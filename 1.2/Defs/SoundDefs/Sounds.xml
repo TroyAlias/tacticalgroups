@@ -318,8 +318,8 @@
 			</li>
 		</subSounds>
 	</SoundDef>
-	
-		<SoundDef>
+
+	<SoundDef>
 		<defName>TG_SlideMenuOptionSFX</defName>  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
@@ -334,8 +334,8 @@
 			</li>
 		</subSounds>
 	</SoundDef>
-	
-		<SoundDef>
+
+	<SoundDef>
 		<defName>TG_SubGroupSFX</defName>  
 		<maxSimultaneous>1</maxSimultaneous>  
 		<subSounds>
@@ -351,4 +351,35 @@
 		</subSounds>
 	</SoundDef>
 	
+	<SoundDef>
+		<defName>TG_ArrestSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Arrest</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+	<SoundDef>
+		<defName>TG_ExecuteSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Execute</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
 </Defs>
