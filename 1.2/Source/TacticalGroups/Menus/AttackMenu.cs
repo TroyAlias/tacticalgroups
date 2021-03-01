@@ -141,7 +141,7 @@ namespace TacticalGroups
 					var victims = this.colonistGroup.Map.mapPawns.AllPawns.Where(x => x.RaceProps.Humanlike).ToList(); ;
 					foreach (var pawn in this.colonistGroup.ActivePawns)
 					{
-						if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+						if (!pawn.Dead && !pawn.Downed && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 						{
 							for (int num = victims.Count - 1; num >= 0; num--)
 							{
@@ -189,7 +189,7 @@ namespace TacticalGroups
 					var victims = this.colonistGroup.Map.mapPawns.AllPawns.Where(x => x.RaceProps.Humanlike && x.Downed && x.HostileTo(Faction.OfPlayer)).ToList();
 					foreach (var pawn in this.colonistGroup.ActivePawns)
 					{
-						if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+						if (!pawn.Dead && !pawn.Downed && pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
 						{
 							for (int num = victims.Count - 1; num >= 0; num--)
 							{
