@@ -165,10 +165,10 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.UpgradeArmorTooltip>Tell group to upgrade armor if any is available</TG.UpgradeArmorTooltip>
 	<TG.TakeBuffTooltip>Tell group to take combat drugs in inventory</TG.TakeBuffTooltip>
 	
-	<TG.MoodIconTooltip>Group's overall mood</TG.MoodIconTooltip>
-	<TG.HealthIconTooltip>Group's overall health</TG.HealthIconTooltip>
-	<TG.RestIconTooltip>Group's overall rest</TG.RestIconTooltip>
-	<TG.HungerIconTooltip>Group's overall hunger</TG.HungerIconTooltip>
+	<TG.MoodIconTooltip>Overall Mood</TG.MoodIconTooltip>
+	<TG.HealthIconTooltip>Overall Health</TG.HealthIconTooltip>
+	<TG.RestIconTooltip>Overall Rest</TG.RestIconTooltip>
+	<TG.HungerIconTooltip>Overall Hunger</TG.HungerIconTooltip>
 	
 	<TG.GroupHideOptionsTooltip>Hide Colony Group until mouse over</TG.GroupHideOptionsTooltip>
 	<TG.HideGroupPawnDotsOptionsTooltip>Hide group pawn dots display</TG.HideGroupPawnDotsOptionsTooltip>
@@ -220,7 +220,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.TravelSupplies>Travel supplies</TG.TravelSupplies>
 	<TG.Bedrolls>Bedrolls</TG.Bedrolls>
 	
-	<TG.CaptureTooltip>PLACEHOLDEr</TG.CaptureTooltip>
-	<TG.ExecuteTooltip>PLACEHOLDER</TG.ExecuteTooltip>
+	<TG.CaptureTooltip>Capture all downed enemies</TG.CaptureTooltip>
+	<TG.ExecuteTooltip>Execute all downed enemies</TG.ExecuteTooltip>
 	
 </LanguageData>
