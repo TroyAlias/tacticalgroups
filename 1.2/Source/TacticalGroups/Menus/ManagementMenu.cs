@@ -210,7 +210,7 @@ namespace TacticalGroups
 
 			ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
 			ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
-			ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
+			//ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 		}
 
 		public static Rect GetPawnTextureRect(Vector2 pos)

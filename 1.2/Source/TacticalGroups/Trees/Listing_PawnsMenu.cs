@@ -46,8 +46,9 @@ namespace TacticalGroups
 			curY = newY;
 		}
 
-		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnIconMargin = 6f;
+		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnIconMargin = 15f;
 		[TweakValue("0TacticGroups", 0, 50f)] public static float yPawnIconMargin = 20f;
+		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnRectOffset = 20f;
 		public void DoCategory(TreeNode_Pawns node, int nestLevel, int openMask)
 		{
 			OpenCloseWidget(node, nestLevel, openMask);
@@ -60,12 +61,12 @@ namespace TacticalGroups
 				rect.xMin = XAtIndentLevel(nestLevel) + 18f;
 				if (node.pawns != null)
                 {
-					var pawnRows = GetPawnRows(node, 5);
+					var pawnRows = GetPawnRows(node, 4);
 					for (var i = 0; i < pawnRows.Count; i++)
 					{
 						for (var j = 0; j < pawnRows[i].Count; j++)
 						{
-							Rect pawnRect = new Rect(10 + (j * (TacticalColonistBar.DefaultBaseSize.x + xPawnIconMargin)),
+							Rect pawnRect = new Rect(xPawnRectOffset + (j * (TacticalColonistBar.DefaultBaseSize.x + xPawnIconMargin)),
 								rect.yMax + 10 + (i * (TacticalColonistBar.DefaultBaseSize.y + yPawnIconMargin)),
 								TacticalColonistBar.DefaultBaseSize.x, TacticalColonistBar.DefaultBaseSize.y);
 							ManagementMenu.DrawColonist(pawnRect, pawnRows[i][j], pawnRows[i][j].Map, false, false);

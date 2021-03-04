@@ -142,7 +142,14 @@ namespace TacticalGroups
 						tooltip += Strings.PresetActiveWorkStatesTooltip + "\n";
 						foreach (var activeWorkType in preset.activeWorkTypes)
 						{
-							tooltip += workTypesLabels[activeWorkType.Key] + ": " + ("TG." + activeWorkType.Value.ToString()).Translate() + "\n";
+							if (workTypesLabels.ContainsKey(activeWorkType.Key))
+                            {
+								tooltip += workTypesLabels[activeWorkType.Key] + ": " + ("TG." + activeWorkType.Value.ToString()).Translate() + "\n";
+                            }
+							else
+                            {
+								Log.Error("Colony Groups: error finding a key in the workTypesLabels dictionary. Please report about it to mod devs.");
+                            }
 						}
 						tooltip += "--------------\n";
 					}
