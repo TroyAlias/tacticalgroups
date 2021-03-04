@@ -38,21 +38,27 @@ namespace TacticalGroups
 		}
 
 		private OptionsSlideMenu optionsSlideMenu;
+		private PawnButtonsMenu pawnButtonsMenu;
 		public override void PostOpen()
         {
             base.PostOpen();
 			AddManagementWindow(options[3]);
+
 			optionsSlideMenu = new OptionsSlideMenu(this, this.colonistGroup, windowRect, Textures.OptionsSlideMenu);
+			pawnButtonsMenu = new PawnButtonsMenu(this, this.colonistGroup, windowRect, Textures.PawnsButtonMenu);
+
 			Find.WindowStack.Add(optionsSlideMenu);
+			Find.WindowStack.Add(pawnButtonsMenu);
 		}
 
-        public override void PostClose()
+		public override void PostClose()
         {
             base.PostClose();
 			optionsSlideMenu?.Close();
+			pawnButtonsMenu?.Close();
 		}
 
-        public void AddRenameButton()
+		public void AddRenameButton()
         {
 			var option = new TieredFloatMenuOption(Strings.Rename, null, Textures.MenuButton, Textures.MenuButtonHover, Textures.MenuButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
 			option.action = delegate
@@ -100,7 +106,7 @@ namespace TacticalGroups
 		public void AddSortWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
-			TieredFloatMenu floatMenu = new SkillSortMenu(this, colonistGroup, windowRect, Textures.SortMenu);
+			TieredFloatMenu floatMenu = new SortMenu(this, colonistGroup, windowRect, Textures.SortMenu);
 			OpenNewMenu(floatMenu);
 		}
 

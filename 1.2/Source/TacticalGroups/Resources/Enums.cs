@@ -17,7 +17,8 @@ namespace TacticalGroups
     public enum SortBy
     {
         None,
-        Skills
+        Skills,
+		Name
     }
 
 	public enum WorkType

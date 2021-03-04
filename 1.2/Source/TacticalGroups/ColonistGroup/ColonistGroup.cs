@@ -1056,8 +1056,12 @@ namespace TacticalGroups
 			if (activeSortBy == SortBy.Skills)
             {
 				this.pawns.SortByDescending(x => x.skills.GetSkill(skillDefSort).Level);
-				this.UpdateData();
             }
+			else if (activeSortBy == SortBy.Name)
+            {
+				this.pawns.SortBy(x => x.Name.ToStringFull);
+			}
+			this.UpdateData();
         }
 		public void SyncPoliciesFor(Pawn pawn)
 		{

@@ -222,5 +222,11 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	
 	<TG.CaptureTooltip>Capture all downed enemies</TG.CaptureTooltip>
 	<TG.ExecuteTooltip>Execute all downed enemies</TG.ExecuteTooltip>
+	<TG.Name>Name</TG.Name>
+	
+	<TG.PrisonerMenuTooltip>PLACEHOLDER</TG.PrisonerMenuTooltip>
+	<TG.AnimalMenuTooltip>PLACEHOLDER</TG.AnimalMenuTooltip>
+	<TG.Prisoners>Prisoners</TG.Prisoners>
+	<TG.Animals>Animals</TG.Animals>
 	
 </LanguageData>

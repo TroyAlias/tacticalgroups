@@ -150,24 +150,28 @@ namespace TacticalGroups
 								{
 									if (victim.InMentalState || victim.Faction != Faction.OfPlayer || (victim.Downed && (victim.guilt.IsGuilty || victim.IsPrisonerOfColony)))
 									{
-										Building_Bed building_Bed = RestUtility.FindBedFor(victim, pawn, sleeperWillBePrisoner: true, checkSocialProperness: false);
-										if (building_Bed == null)
-										{
-											building_Bed = RestUtility.FindBedFor(victim, pawn, sleeperWillBePrisoner: true, checkSocialProperness: false, ignoreOtherReservations: true);
-										}
-										if (building_Bed != null)
-										{
-											Job job = JobMaker.MakeJob(JobDefOf.Capture, victim, building_Bed);
-											job.count = 1;
-											pawn.jobs.TryTakeOrderedJob(job);
-											Log.Message(pawn + " is taking " + job);
-											PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Capturing, KnowledgeAmount.Total);
-											if (victim.Faction != null && victim.Faction != Faction.OfPlayer && !victim.Faction.Hidden && !victim.Faction.HostileTo(Faction.OfPlayer) && !victim.IsPrisonerOfColony)
+										var designation = victim.Map.designationManager.DesignationOn(victim);
+										if (designation is null || designation.def.defName != "FinishOffDesignation")
+                                        {
+											Building_Bed building_Bed = RestUtility.FindBedFor(victim, pawn, sleeperWillBePrisoner: true, checkSocialProperness: false);
+											if (building_Bed == null)
 											{
-												Messages.Message("MessageCapturingWillAngerFaction".Translate(victim.Named("PAWN")).AdjustedFor(victim), victim, MessageTypeDefOf.CautionInput, historical: false);
+												building_Bed = RestUtility.FindBedFor(victim, pawn, sleeperWillBePrisoner: true, checkSocialProperness: false, ignoreOtherReservations: true);
 											}
-											victims.RemoveAt(num);
-											break;
+											if (building_Bed != null)
+											{
+												Job job = JobMaker.MakeJob(JobDefOf.Capture, victim, building_Bed);
+												job.count = 1;
+												pawn.jobs.TryTakeOrderedJob(job);
+												Log.Message(pawn + " is taking " + job);
+												PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Capturing, KnowledgeAmount.Total);
+												if (victim.Faction != null && victim.Faction != Faction.OfPlayer && !victim.Faction.Hidden && !victim.Faction.HostileTo(Faction.OfPlayer) && !victim.IsPrisonerOfColony)
+												{
+													Messages.Message("MessageCapturingWillAngerFaction".Translate(victim.Named("PAWN")).AdjustedFor(victim), victim, MessageTypeDefOf.CautionInput, historical: false);
+												}
+												victims.RemoveAt(num);
+												break;
+											}
 										}
 									}
 								}

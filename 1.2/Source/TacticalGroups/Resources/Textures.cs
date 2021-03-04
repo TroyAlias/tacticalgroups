@@ -291,5 +291,11 @@ namespace TacticalGroups
 		public static readonly Texture2D ColorMoodBarOverlayRedMajor = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/ColorMoodBarOverlayRedMajor");
 		public static readonly Texture2D Arrest = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Arrest");
 		public static readonly Texture2D Execute = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/Icons/Execute");
+
+		public static readonly Texture2D PrisonerMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PrisonerMenu");
+		public static readonly Texture2D PrisonerButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PrisonerButton");
+		public static readonly Texture2D AnimalMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/AnimalMenu");
+		public static readonly Texture2D AnimalButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/AnimalButton");
+		public static readonly Texture2D PawnsButtonMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PawnsButtonMenu");
 	}
 }

@@ -148,7 +148,7 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 		}
 
-		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
+		public static void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
@@ -213,7 +213,7 @@ namespace TacticalGroups
 			ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 		}
 
-		public Rect GetPawnTextureRect(Vector2 pos)
+		public static Rect GetPawnTextureRect(Vector2 pos)
 		{
 			float x = pos.x;
 			float y = pos.y;

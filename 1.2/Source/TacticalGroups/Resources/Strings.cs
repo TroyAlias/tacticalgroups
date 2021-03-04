@@ -206,5 +206,10 @@ namespace TacticalGroups
 		public static readonly string CaptureTooltip = "TG.CaptureTooltip".Translate();
 		public static readonly string ExecuteTooltip = "TG.ExecuteTooltip".Translate();
 
+		public static readonly string PrisonerMenuTooltip = "TG.PrisonerMenuTooltip".Translate();
+		public static readonly string AnimalMenuTooltip = "TG.AnimalMenuTooltip".Translate();
+		public static readonly string Prisoners = "TG.Prisoners".Translate();
+		public static readonly string Animals = "TG.Animals".Translate();
+
 	}
 }

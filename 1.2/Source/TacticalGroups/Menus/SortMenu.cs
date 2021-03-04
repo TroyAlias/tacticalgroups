@@ -10,24 +10,34 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class SkillSortMenu : TieredFloatMenu
+	public class SortMenu : TieredFloatMenu
 	{
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 
-		public SkillSortMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
+		public SortMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
 
-			var option = new TieredFloatMenuOption("None".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
-			option.action = delegate
+			var noneOption = new TieredFloatMenuOption("None".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			noneOption.action = delegate
 			{
 				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.activeSortBy = SortBy.None;
 			};
-			option.bottomIndent = Textures.MenuButton.height + 4;
-			options.Add(option);
+			noneOption.bottomIndent = Textures.MenuButton.height + 4;
+			options.Add(noneOption);
+
+			var nameOption = new TieredFloatMenuOption("TG.Name".Translate(), null, Textures.AOMButton, Textures.AOMButtonHover, Textures.AOMButtonPress, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f);
+			nameOption.action = delegate
+			{
+				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
+				this.colonistGroup.activeSortBy = SortBy.Name;
+				this.colonistGroup.InitSort(this.colonistGroup.activeSortBy);
+			};
+			nameOption.bottomIndent = Textures.MenuButton.height + 4;
+			options.Add(nameOption);
 
 			foreach (var skillDef in DefDatabase<SkillDef>.AllDefs)
             {
