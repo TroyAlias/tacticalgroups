@@ -208,8 +208,10 @@ namespace TacticalGroups
 
 		public static readonly string PrisonerMenuTooltip = "TG.PrisonerMenuTooltip".Translate();
 		public static readonly string AnimalMenuTooltip = "TG.AnimalMenuTooltip".Translate();
+		public static readonly string GuestMenuTooltip = "TG.GuestMenuTooltip".Translate();
 		public static readonly string Prisoners = "TG.Prisoners".Translate();
 		public static readonly string Animals = "TG.Animals".Translate();
+		public static readonly string Guests = "TG.Guests".Translate();
 
 	}
 }

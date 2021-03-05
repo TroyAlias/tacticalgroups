@@ -155,14 +155,14 @@ namespace TacticalGroups
 			return false;
 		}
 
-		public static bool IsShotOrBleeding(this Pawn pawn)
+		public static bool IsBleeding(this Pawn pawn)
         {
 			float num = 0f;
 			List<Hediff> hediffs = pawn.health.hediffSet.hediffs;
 			for (int i = 0; i < hediffs.Count; i++)
 			{
 				Hediff_Injury hediff_Injury = hediffs[i] as Hediff_Injury;
-				if (hediff_Injury != null && (hediff_Injury.CanHealFromTending() || hediff_Injury.CanHealNaturally() || hediff_Injury.Bleeding))
+				if (hediff_Injury != null && hediff_Injury.Bleeding)
 				{
 					num += hediff_Injury.Severity;
 				}

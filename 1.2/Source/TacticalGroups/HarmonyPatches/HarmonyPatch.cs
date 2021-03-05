@@ -415,7 +415,7 @@ namespace TacticalGroups
             {
                 return false;
             }
-            if (pawn.IsDownedOrIncapable() || pawn.IsSick() || pawn.IsShotOrBleeding())
+            if (pawn.IsDownedOrIncapable() || pawn.IsSick() || pawn.IsBleeding())
             {
                 return false;
             }

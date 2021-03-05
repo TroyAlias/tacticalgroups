@@ -70,12 +70,18 @@ namespace TacticalGroups
 								rect.yMax + 10 + (i * (TacticalColonistBar.DefaultBaseSize.y + yPawnIconMargin)),
 								TacticalColonistBar.DefaultBaseSize.x, TacticalColonistBar.DefaultBaseSize.y);
 							ManagementMenu.DrawColonist(pawnRect, pawnRows[i][j], pawnRows[i][j].Map, false, false);
+							if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(pawnRect))
+							{
+								Event.current.Use();
+								CameraJumper.TryJump(pawnRows[i][j]);
+							}
 							if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(pawnRect))
                             {
 								Event.current.Use();
 								Find.Selector.ClearSelection();
 								Find.Selector.Select(pawnRows[i][j]);
                             }
+
 						}
 						curY += TacticalColonistBar.DefaultBaseSize.y + yPawnIconMargin;
 					}

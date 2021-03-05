@@ -226,7 +226,9 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	
 	<TG.PrisonerMenuTooltip>PLACEHOLDER</TG.PrisonerMenuTooltip>
 	<TG.AnimalMenuTooltip>PLACEHOLDER</TG.AnimalMenuTooltip>
+	<TG.GuestMenuTooltip>PLACEHOLDER</TG.GuestMenuTooltip>
 	<TG.Prisoners>Prisoners</TG.Prisoners>
 	<TG.Animals>Animals</TG.Animals>
+	<TG.Guests>Guests</TG.Guests>
 	
 </LanguageData>

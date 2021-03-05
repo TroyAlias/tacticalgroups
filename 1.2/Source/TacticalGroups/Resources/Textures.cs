@@ -297,5 +297,8 @@ namespace TacticalGroups
 		public static readonly Texture2D AnimalMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/AnimalMenu");
 		public static readonly Texture2D AnimalButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/AnimalButton");
 		public static readonly Texture2D PawnsButtonMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PawnsButtonMenu");
+
+		public static readonly Texture2D GuestMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestMenu");
+		public static readonly Texture2D GuestButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestButton");
 	}
 }

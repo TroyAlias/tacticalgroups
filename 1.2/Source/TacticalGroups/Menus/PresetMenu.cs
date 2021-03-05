@@ -38,6 +38,8 @@ namespace TacticalGroups
 			{WorkType.Handle, "TG.WorkTaskTooltipHandle".Translate()},
 			{WorkType.FireExtinguish, "TG.WorkTaskTooltipFireExtinguish".Translate()},
 			{WorkType.Research, "TG.WorkTaskTooltipResearch".Translate()},
+			{WorkType.RescueFallen, "TG.RescueFallen".Translate()},
+			{WorkType.TendWounded, "TG.TendWounded".Translate()},
 		};
 		public override void DoWindowContents(Rect rect)
 		{
@@ -148,8 +150,8 @@ namespace TacticalGroups
                             }
 							else
                             {
-								Log.Error("Colony Groups: error finding a key in the workTypesLabels dictionary. Please report about it to mod devs.");
-                            }
+								Log.Error($"Colony Groups: error finding a key {activeWorkType.Key} in the workTypesLabels dictionary. Please report about it to mod devs.");
+							}
 						}
 						tooltip += "--------------\n";
 					}

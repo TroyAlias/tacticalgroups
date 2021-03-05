@@ -87,6 +87,39 @@ namespace TacticalGroups
                     }
                 }
             }
+
+            var guestsButtonRect = new Rect(animalButtonRect.xMax + 5, rect.yMax - Textures.GuestButton.height, Textures.GuestButton.width, Textures.GuestButton.height);
+            GUI.DrawTexture(guestsButtonRect, Textures.GuestButton);
+            TooltipHandler.TipRegion(guestsButtonRect, Strings.GuestMenuTooltip);
+            if (Mouse.IsOver(guestsButtonRect))
+            {
+                GUI.DrawTexture(guestsButtonRect, Textures.RescueTendHover);
+                if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+                {
+                    TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
+                    if (this.childWindows?.Any() ?? false)
+                    {
+                        for (int num = this.childWindows.Count - 1; num >= 0; num--)
+                        {
+                            if (this.childWindows[num] is GuestMenu)
+                            {
+                                this.childWindows[num].Close();
+                            }
+                            else
+                            {
+                                this.childWindows[num].Close();
+                                TieredFloatMenu floatMenu = new GuestMenu(this, this.colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
+                                OpenNewMenu(floatMenu);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        TieredFloatMenu floatMenu = new GuestMenu(this, this.colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
+                        OpenNewMenu(floatMenu);
+                    }
+                }
+            }
         }
 	}
 }

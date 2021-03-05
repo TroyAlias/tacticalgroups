@@ -78,7 +78,7 @@ namespace TacticalGroups
     {
 		MentalState,
 		IsDownedOrIncapable,
-		IsShotOrBleeding,
+		IsBleeding,
 		Sick,
 		Inspired,
 		None

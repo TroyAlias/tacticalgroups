@@ -139,7 +139,7 @@ namespace TacticalGroups
 			}
 			
 			var pawnStates = PawnStateUtility.GetAllPawnStatesCache(colonist);
-			if (pawnStates.Contains(PawnState.IsShotOrBleeding))
+			if (pawnStates.Contains(PawnState.IsBleeding))
             {
 				GUI.DrawTexture(rect, Textures.PawnBleeding);
 			}

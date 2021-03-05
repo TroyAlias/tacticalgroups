@@ -548,9 +548,28 @@ namespace TacticalGroups
 			{
 				if (!this.isSubGroup)
                 {
-					pawnWindowIsActive = true;
-					DrawPawnRows(rect, pawnRows);
-					DrawPawnArrows(rect, pawnRows);
+					bool showThisPawnWindow = true;
+					foreach (var group in TacticUtils.AllGroups)
+					{
+						if (group != this && group.pawnWindowIsActive)
+                        {
+							showThisPawnWindow = false;
+							break;
+						}
+					}
+					if (showThisPawnWindow)
+                    {
+						pawnWindowIsActive = true;
+						DrawPawnRows(rect, pawnRows);
+						DrawPawnArrows(rect, pawnRows);
+					}
+					else
+                    {
+						if (!this.hidePawnDots && !this.hideGroupIcon)
+						{
+							DrawPawnDots(rect);
+						}
+					}
 				}
 				else if (showPawnIconsRightClickMenu)
                 {
@@ -627,7 +646,7 @@ namespace TacticalGroups
 							downedStateBlink = 0;
 						}
 						break;
-					case PawnState.IsShotOrBleeding: GUI.DrawTexture(dotRect, Textures.ColonistDotDowned); break;
+					case PawnState.IsBleeding: GUI.DrawTexture(dotRect, Textures.ColonistDotDowned); break;
 					case PawnState.Sick: GUI.DrawTexture(dotRect, Textures.ColonistDotToxic); break;
 					case PawnState.Inspired: GUI.DrawTexture(dotRect, Textures.ColonistDotInspired); break;
 					case PawnState.None: GUI.DrawTexture(dotRect, Textures.ColonistDot); break;
@@ -944,7 +963,7 @@ namespace TacticalGroups
 			}
 
 			var pawnStates = PawnStateUtility.GetAllPawnStatesCache(colonist);
-			if (pawnStates.Contains(PawnState.IsShotOrBleeding))
+			if (pawnStates.Contains(PawnState.IsBleeding))
 			{
 				GUI.DrawTexture(rect, Textures.PawnBleeding);
 			}

@@ -52,9 +52,9 @@ namespace TacticalGroups
 			{
 				return PawnState.IsDownedOrIncapable;
 			}
-			else if (pawn.IsShotOrBleeding())
+			else if (pawn.IsBleeding())
 			{
-				return PawnState.IsShotOrBleeding;
+				return PawnState.IsBleeding;
 			}
 			else if (pawn.IsSick())
 			{
@@ -73,9 +73,9 @@ namespace TacticalGroups
 		public static HashSet<PawnState> GetAllPawnStates(Pawn pawn)
 		{
 			var newStates = new HashSet<PawnState>();
-			if (pawn.IsShotOrBleeding())
+			if (pawn.IsBleeding())
 			{
-				newStates.Add(PawnState.IsShotOrBleeding);
+				newStates.Add(PawnState.IsBleeding);
 			}
 			return newStates;
 		}

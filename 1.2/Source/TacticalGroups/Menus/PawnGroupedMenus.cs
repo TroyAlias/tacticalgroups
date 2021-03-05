@@ -12,7 +12,7 @@ namespace TacticalGroups
 {
 	public class PawnGroupedMenu : TieredFloatMenu
 	{
-		protected override Vector2 InitialPositionShift => new Vector2(-(originRect.width - 25), 20);
+		protected override Vector2 InitialPositionShift => new Vector2(-(originRect.width - 25), 25);
 
 		private string menuTitle;
 		public PawnGroupedMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string menuTitle)
@@ -164,6 +164,56 @@ namespace TacticalGroups
 			}
 			listing_PrisonerMenu.End();
 			lastDrawnHeight = listing_PrisonerMenu.CurHeight;
+		}
+	}
+
+	public class GuestMenu : PawnGroupedMenu
+	{
+		private readonly Dictionary<FactionDef, TreeNode_Pawns> guestNodes;
+		public GuestMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string menuTitle)
+			: base(parentWindow, colonistGroup, originRect, backgroundTexture, menuTitle)
+		{
+			guestNodes = new Dictionary<FactionDef, TreeNode_Pawns>();
+		}
+
+		protected override void DoPawnsListing(Rect rect)
+		{
+			Listing_PawnsMenu listing_GuestMenu = new Listing_PawnsMenu();
+			listing_GuestMenu.Begin(rect);
+			listing_GuestMenu.nestIndentWidth = 7f;
+			listing_GuestMenu.lineHeight = 25;
+			listing_GuestMenu.verticalSpacing = 0f;
+
+			var guests = this.colonistGroup.Map.mapPawns.AllPawns.Where(x => x.RaceProps.Humanlike && x.FactionOrExtraMiniOrHomeFaction != null && 
+			x.FactionOrExtraMiniOrHomeFaction != Faction.OfPlayer 
+			&& !x.FactionOrExtraMiniOrHomeFaction.HostileTo(Faction.OfPlayer));
+
+			foreach (var data in guestNodes)
+			{
+				data.Value.pawns?.Clear();
+			}
+
+			foreach (var pawn in guests)
+			{
+				if (guestNodes.ContainsKey(pawn.Faction.def))
+				{
+					if (guestNodes[pawn.Faction.def].pawns is null)
+					{
+						guestNodes[pawn.Faction.def].pawns = new List<Pawn>();
+					}
+					guestNodes[pawn.Faction.def].pawns.Add(pawn);
+				}
+				else
+				{
+					guestNodes[pawn.Faction.def] = new TreeNode_Pawns(new List<Pawn> { pawn }, pawn.Faction.def.LabelCap);
+				}
+			}
+			foreach (var listing in guestNodes)
+			{
+				listing_GuestMenu.DoCategory(listing.Value, 0, 32);
+			}
+			listing_GuestMenu.End();
+			lastDrawnHeight = listing_GuestMenu.CurHeight;
 		}
 	}
 }
