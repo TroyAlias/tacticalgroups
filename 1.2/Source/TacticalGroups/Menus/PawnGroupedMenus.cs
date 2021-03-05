@@ -121,9 +121,11 @@ namespace TacticalGroups
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture, menuTitle)
 		{
 			prisonerNodes = new Dictionary<PrisonerInteractionModeDef, TreeNode_Pawns>();
+
 			foreach (PrisonerInteractionModeDef item in DefDatabase<PrisonerInteractionModeDef>.AllDefs.OrderBy((PrisonerInteractionModeDef pim) => pim.listOrder))
 			{
 				prisonerNodes[item] = new TreeNode_Pawns(null, item.LabelCap);
+				prisonerNodes[item].SetOpen(32, true);
 			}
 		}
 
@@ -184,9 +186,8 @@ namespace TacticalGroups
 			listing_GuestMenu.lineHeight = 25;
 			listing_GuestMenu.verticalSpacing = 0f;
 
-			var guests = this.colonistGroup.Map.mapPawns.AllPawns.Where(x => x.RaceProps.Humanlike && x.FactionOrExtraMiniOrHomeFaction != null && 
-			x.FactionOrExtraMiniOrHomeFaction != Faction.OfPlayer 
-			&& !x.FactionOrExtraMiniOrHomeFaction.HostileTo(Faction.OfPlayer));
+			var guests = this.colonistGroup.Map.mapPawns.AllPawnsSpawned.Where(x => x.RaceProps.Humanlike && !x.Fogged() && x.FactionOrExtraMiniOrHomeFaction != null && 
+			x.FactionOrExtraMiniOrHomeFaction != Faction.OfPlayer && !x.FactionOrExtraMiniOrHomeFaction.HostileTo(Faction.OfPlayer));
 
 			foreach (var data in guestNodes)
 			{

@@ -1417,6 +1417,8 @@ namespace TacticalGroups
 		public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
 		public List<Formation> formations = new List<Formation>(4);
 		public Formation activeFormation;
+
+
 		public int groupID;
 		public bool entireGroupIsVisible;
 		public bool hideGroupIcon;
@@ -1468,5 +1470,8 @@ namespace TacticalGroups
 
 		private List<WorkTypeDef> workTypesDefKeys;
 		private List<int> intValues;
+
+		private List<PrisonerInteractionModeDef> prisonerInteractionDefKeys;
+		private List<bool> boolValues;
 	}
 }
