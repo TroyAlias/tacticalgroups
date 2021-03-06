@@ -23,31 +23,31 @@ namespace TacticalGroups
 
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistBarOnGUI), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistBarOnGUI)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MarkColonistsDirty), null, null),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MarkColonistsDirty)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.GetColonistsInOrder), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.GetColonistsInOrder)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MapColonistsOrCorpsesInScreenRect), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MapColonistsOrCorpsesInScreenRect)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMembersCaravansInScreenRect), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMembersCaravansInScreenRect)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistOrCorpseAt), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistOrCorpseAt)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMemberCaravanAt), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMemberCaravanAt)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.Highlight), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Highlight)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(ReorderableWidget), nameof(ReorderableWidget.ReorderableWidgetOnGUI_AfterWindowStack), null, null),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ReorderableWidgetOnGUI_AfterWindowStack)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(CaravanExitMapUtility), nameof(CaravanExitMapUtility.ExitMapAndCreateCaravan), parameters: new Type[]
             {
                 typeof(IEnumerable<Pawn>),
@@ -57,7 +57,7 @@ namespace TacticalGroups
                 typeof(int),
                 typeof(bool)
             }), postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ExitMapAndCreateCaravan)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(CaravanEnterMapUtility), nameof(CaravanEnterMapUtility.Enter), parameters: new Type[]
             {
                 typeof(Caravan),
@@ -66,11 +66,11 @@ namespace TacticalGroups
                 typeof(CaravanDropInventoryMode),
                 typeof(bool)
             }), prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanEnter)));
-
-
+            
+            
             harmony.Patch(AccessTools.Method(typeof(SettleInExistingMapUtility), nameof(SettleInExistingMapUtility.Settle)),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Settle)));
-
+            
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnAdded", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnRemoved", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Caravan), "PostAdd", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
@@ -79,12 +79,12 @@ namespace TacticalGroups
             harmony.Patch(AccessTools.Method(typeof(Pawn), "SetFaction", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "SetFaction_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Window), "Notify_ResolutionChanged", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Game), "DeinitAndRemoveMap", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(Pawn), "SpawnSetup", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Pawn), "Destroy", null, null), prefix: new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Destroy_Prefix", null), null, null);
-
+            
             harmony.Patch(AccessTools.PropertySetter(typeof(Game), "CurrentMap"), null, postfix: new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), "Notify_Resurrected", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryJumpInternal", new Type[]
             {
@@ -94,18 +94,18 @@ namespace TacticalGroups
             {
                 typeof(Vector3)
             }, null), new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(MainTabsRoot), "ToggleTab", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(MainButtonWorker_ToggleWorld), "Activate", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryHideWorld", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(Pawn_JobTracker), "EndCurrentJob", null, null),
                 new HarmonyMethod(typeof(HarmonyPatches), "EndCurrentJobPrefix", null),
                 new HarmonyMethod(typeof(HarmonyPatches), "EndCurrentJobPostfix", null), null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(PawnTable), "PawnTableOnGUI", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(WorldObject), "Destroy", null, null), new HarmonyMethod(typeof(HarmonyPatches), "Caravan_Destroy_Prefix", null), null, null, null);
-
+            
             harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), "HandleLowPriorityShortcuts", null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
             
         }
@@ -319,9 +319,16 @@ namespace TacticalGroups
 
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
+
+        private static Dictionary<Pawn, int> pawnsLastTick = new Dictionary<Pawn, int>();
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
             __state = new Dictionary<WorkType, WorkState>();
+            if (pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame) 
+            {
+                return; // to prevent infinite recursion in some cases
+            }
+            pawnsLastTick[___pawn] = Find.TickManager.TicksGame;
             if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && !___pawn.Drafted)
             {
                 if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
@@ -358,8 +365,7 @@ namespace TacticalGroups
             }
         }
 
-        private static void EndCurrentJobPostfix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, Dictionary<WorkType, WorkState> __state,
-            bool canReturnToPool = true)
+        private static void EndCurrentJobPostfix(Pawn ___pawn, Dictionary<WorkType, WorkState> __state)
         {
             if (__state?.Count > 0)
             {
