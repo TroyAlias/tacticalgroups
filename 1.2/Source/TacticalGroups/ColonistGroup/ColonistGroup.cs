@@ -245,6 +245,8 @@ namespace TacticalGroups
 			}
 			initialRect.x -= Textures.ColonistDot.width - 3f;
 
+			initialRect.y -= 3f;
+
 			for (var i = 0; i < pawnRows.Count; i++)
 			{
 				for (var j = 0; j < pawnRows[i].Count; j++)
@@ -259,40 +261,19 @@ namespace TacticalGroups
 			}
 			return pawnDots;
 		}
-		public void HandleClicks(Rect rect)
+		public void HandleClicks(Rect rect, Rect totalRect)
 		{
 			if (Event.current.type == EventType.MouseDown)
 			{
 				foreach (var group in TacticUtils.AllGroups)
 				{
-					if (group != this)
+					
+					if (group != this && group.pawnWindowIsActive && Mouse.IsOver(rect) && group.curRect.y > rect.y)
 					{
-						if (group.groupButtonRightClicked && !this.groupButtonRightClicked)
-						{
-							group.groupButtonRightClicked = false;
-						}
-						else if (group.expandPawnIcons && !this.pawnWindowIsActive)
-						{
-							group.expandPawnIcons = false;
-						}
-						else if (group.pawnWindowIsActive && this.pawnWindowIsActive)
-                        {
-							group.pawnWindowIsActive = false;
-							group.expandPawnIcons = false;
-						}
-						else if (group.pawnWindowIsActive)
-						{
-							//Log.Message("3 group.expandPawnIcons: " + group.expandPawnIcons);
-							//Log.Message("3 this.expandPawnIcons: " + this.expandPawnIcons);
-							//Log.Message("3 group.groupButtonRightClicked: " + group.groupButtonRightClicked);
-							//Log.Message("3 this.groupButtonRightClicked: " + this.groupButtonRightClicked);
-							//Log.Message("3 group.pawnWindowIsActive: " + group.pawnWindowIsActive);
-							//Log.Message("3 this.pawnWindowIsActive: " + this.pawnWindowIsActive);
-							return;
-						}
+						return;
 					}
 				}
-				
+
 				foreach (var group in TacticUtils.AllGroups)
 				{
 					if (group != this)
@@ -543,7 +524,7 @@ namespace TacticalGroups
 				totalRect = totalRect.ScaledBy(1.2f);
 				totalRect.height += pawnRows.Count * 30;
 			}
-
+			totalRect.yMin = rect.yMax;
 			if (Mouse.IsOver(rect))
 			{
 				if (!this.isSubGroup)
@@ -582,7 +563,7 @@ namespace TacticalGroups
 				{
 					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(this.curGroupName)));
 				}
-				HandleClicks(rect);
+				HandleClicks(rect, totalRect);
 			}
 			else if (!this.isSubGroup && (Mouse.IsOver(totalRect) && pawnWindowIsActive || showPawnIconsRightClickMenu))
 			{

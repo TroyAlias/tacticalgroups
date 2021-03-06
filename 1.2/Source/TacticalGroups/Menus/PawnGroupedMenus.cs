@@ -186,7 +186,7 @@ namespace TacticalGroups
 			listing_GuestMenu.lineHeight = 25;
 			listing_GuestMenu.verticalSpacing = 0f;
 
-			var guests = this.colonistGroup.Map.mapPawns.AllPawnsSpawned.Where(x => x.RaceProps.Humanlike && !x.Fogged() && x.FactionOrExtraMiniOrHomeFaction != null && 
+			var guests = this.colonistGroup.Map.mapPawns.AllPawnsSpawned.Where(x => x.RaceProps.Humanlike && !x.IsPrisoner && !x.Fogged() && x.FactionOrExtraMiniOrHomeFaction != null && 
 			x.FactionOrExtraMiniOrHomeFaction != Faction.OfPlayer && !x.FactionOrExtraMiniOrHomeFaction.HostileTo(Faction.OfPlayer));
 
 			foreach (var data in guestNodes)

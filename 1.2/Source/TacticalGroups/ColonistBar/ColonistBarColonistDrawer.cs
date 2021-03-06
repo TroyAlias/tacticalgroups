@@ -242,9 +242,9 @@ namespace TacticalGroups
 				{
 					result = Textures.DarkYellowMoodBar;
 				}
-				else if (curLevel <= 0.56f) 
+				else if (curLevel <= 0.56f)
 				{
-					result = Textures.ToxicYellowMoodBar;
+					result = Textures.YellowMoodBar;
 				}
 				else if (curLevel <= 0.79f)
                 {
