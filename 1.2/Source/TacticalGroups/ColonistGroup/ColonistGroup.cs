@@ -484,12 +484,20 @@ namespace TacticalGroups
 			}
 
 
-			if (!this.isSubGroup && !this.bannerModeEnabled && !this.hideGroupIcon)
+			if (!this.isSubGroup)
 			{
-				var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, cachedGroupNameHeight);
-				Text.Anchor = TextAnchor.UpperCenter;
-				Widgets.Label(groupLabelRect, this.curGroupName);
-				Text.Anchor = TextAnchor.UpperLeft;
+				if (!this.bannerModeEnabled && !this.hideGroupIcon)
+                {
+					var groupLabelRect = new Rect(rect.x, rect.y + rect.height, rect.width, cachedGroupNameHeight);
+					Text.Anchor = TextAnchor.UpperCenter;
+					Widgets.Label(groupLabelRect, this.curGroupName);
+					Text.Anchor = TextAnchor.UpperLeft;
+				}
+
+				if (!this.hidePawnDots && !this.hideGroupIcon)
+				{
+					DrawPawnDots(rect);
+				}
 			}
 		}
 
@@ -544,13 +552,6 @@ namespace TacticalGroups
 						DrawPawnRows(rect, pawnRows);
 						DrawPawnArrows(rect, pawnRows);
 					}
-					else
-                    {
-						if (!this.hidePawnDots && !this.hideGroupIcon)
-						{
-							DrawPawnDots(rect);
-						}
-					}
 				}
 				else if (showPawnIconsRightClickMenu)
                 {
@@ -581,10 +582,6 @@ namespace TacticalGroups
 			{
 				pawnWindowIsActive = false;
 				expandPawnIcons = false;
-				if (!this.hidePawnDots && !this.hideGroupIcon)
-                {
-					DrawPawnDots(rect);
-                }
 			}
 			else if (this.isSubGroup && !this.hideLifeOverlay)
 			{
