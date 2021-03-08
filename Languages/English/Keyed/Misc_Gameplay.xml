@@ -48,6 +48,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.ColonistBarSpacing>Colonist Bar Spacing</TG.ColonistBarSpacing>
 	<TG.GroupRowCount>Group Row Count</TG.GroupRowCount>
 	<TG.PawnScale>Pawn Scale</TG.PawnScale>
+	<TG.ColonyGroupScale>Colony Group Scale</TG.ColonyGroupScale>
 	<TG.GroupScale>Group Scale</TG.GroupScale>
 	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
 	<TG.WeaponOverlayPlacement>Weapon Overlay Placement</TG.WeaponOverlayPlacement>

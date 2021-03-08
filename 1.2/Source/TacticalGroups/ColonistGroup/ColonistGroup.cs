@@ -229,6 +229,25 @@ namespace TacticalGroups
 			}
 		}
 
+		public float GroupIconScale
+        {
+			get
+            {
+				if (this.isColonyGroup)
+				{
+					return TacticalGroupsSettings.ColonyGroupScale;
+				}
+				else
+				{
+					if (this.isSubGroup)
+					{
+						return TacticalGroupsSettings.GroupScale / 2f;
+					}
+					return TacticalGroupsSettings.GroupScale;
+				}
+			}
+        }
+
 		public List<PawnDot> GetPawnDotsInt(Rect rect)
 		{
 			var pawnDots = new List<PawnDot>();
@@ -251,8 +270,8 @@ namespace TacticalGroups
 			{
 				for (var j = 0; j < pawnRows[i].Count; j++)
 				{
-					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * TacticalGroupsSettings.GroupScale)), initialRect.y + ((i + 1)
-						* (Textures.ColonistDot.height * TacticalGroupsSettings.GroupScale)),
+					Rect dotRect = new Rect(initialRect.x + ((j + 1) * (Textures.ColonistDot.width * GroupIconScale)), initialRect.y + ((i + 1)
+						* (Textures.ColonistDot.height * GroupIconScale)),
 						Textures.ColonistDot.width, Textures.ColonistDot.height);
 					var pawn = pawnRows[i][j];
 					var state = PawnStateUtility.GetPawnState(pawn);
@@ -1411,8 +1430,12 @@ namespace TacticalGroups
 		public string groupName;
 		public string defaultGroupName;
 		public string defaultBannerFolder;
+
 		public Texture2D groupBanner;
 		public Texture2D groupIcon;
+		public float GroupIconHeight => groupBanner.height * GroupIconScale;
+		public float GroupIconWidth => groupBanner.width * GroupIconScale;
+
 		public string groupBannerName;
 		public string groupBannerFolder;
 		public string groupIconFolder;

@@ -142,6 +142,7 @@ namespace TacticalGroups
 		public static readonly string ColonistBarSpacing = "TG.ColonistBarSpacing".Translate();
 		public static readonly string GroupRowCount = "TG.GroupRowCount".Translate();
 		public static readonly string PawnScale = "TG.PawnScale".Translate();
+		public static readonly string ColonyGroupScale = "TG.ColonyGroupScale".Translate();
 		public static readonly string GroupScale = "TG.GroupScale".Translate();
 		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
 		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
@@ -212,6 +213,9 @@ namespace TacticalGroups
 		public static readonly string Prisoners = "TG.Prisoners".Translate();
 		public static readonly string Animals = "TG.Animals".Translate();
 		public static readonly string Guests = "TG.Guests".Translate();
+
+		public static readonly string ColorBarModeDefaultTooltip = "TG.ColorBarModeDefaultTooltip".Translate();
+		public static readonly string ColorBarModeExtendedTooltip = "TG.ColorBarModeExtendedTooltip".Translate();
 
 	}
 }

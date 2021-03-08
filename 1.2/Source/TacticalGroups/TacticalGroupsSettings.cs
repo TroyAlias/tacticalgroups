@@ -24,6 +24,7 @@ namespace TacticalGroups
         public static float ColonistBarSpacing = 20f;
 
         public static float PawnScale = 1f;
+        public static float ColonyGroupScale = 1f;
         public static float GroupScale = 1f;
         public static int GroupRowCount = 4;
         public static float PawnNeedsWidth = 4f;
@@ -88,6 +89,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref ColonistBarPositionX, "ColonistBarPositionX", 24f);
             Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 20f);
             Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
+            Scribe_Values.Look(ref ColonyGroupScale, "ColonyGroupScale", 1f);
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);

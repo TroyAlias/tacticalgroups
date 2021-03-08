@@ -180,6 +180,8 @@ namespace TacticalGroups
 			}
 			return 3;
 		}
+
+		[TweakValue("0ColonyGroups", 0, 100)] private static float groupIconMargin = 10f;
 		private void CalculateDrawLocs(List<Rect> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -200,10 +202,10 @@ namespace TacticalGroups
 				var allColonyGroups = TacticUtils.AllColonyGroups;
 				if (allColonyGroups != null)
                 {
-					num4 += allColonyGroups.Sum(x => (x.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10f);
+					num4 += allColonyGroups.Sum(x => x.GroupIconWidth + groupIconMargin);
 					if (TacticUtils.AllCaravanGroups != null)
                     {
-						num4 += TacticUtils.AllCaravanGroups.Sum(x => (x.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10f);
+						num4 += TacticUtils.AllCaravanGroups.Sum(x => x.GroupIconWidth + groupIconMargin);
                     }
 
 					if (!WorldRendererUtility.WorldRenderedNow)
@@ -211,8 +213,8 @@ namespace TacticalGroups
 						var activeColony = allColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
 						if (activeColony != null)
 						{
-							num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Sum(x => (x.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10);
-							num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(3).Sum(x => ((x.groupIcon.width * TacticalGroupsSettings.GroupScale) / 2) + 10);
+							num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Sum(x => x.GroupIconWidth + groupIconMargin);
+							num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(3).Sum(x => x.GroupIconWidth + groupIconMargin);
 						}
 					}
 				}
@@ -239,8 +241,8 @@ namespace TacticalGroups
 						if (entries[j].caravanGroup != null)
 						{
 							caravanGroupDrawLoc.Add(new MappedValue(entries[j].caravanGroup, new Rect(num7 - (25f * scale), TacticalGroupsSettings.ColonistBarPositionY,
-								entries[j].caravanGroup.groupBanner.width * TacticalGroupsSettings.GroupScale, entries[j].caravanGroup.groupBanner.height * TacticalGroupsSettings.GroupScale)));
-							num7 += entries[j].caravanGroup.groupBanner.width * TacticalGroupsSettings.GroupScale;
+								entries[j].caravanGroup.GroupIconWidth, entries[j].caravanGroup.GroupIconHeight)));
+							num7 += entries[j].caravanGroup.GroupIconWidth;
 						}
 						else if (entries[j].colonyGroup != null)
 						{
@@ -260,20 +262,20 @@ namespace TacticalGroups
 											if (groupID > 0 && groupID % 3 == 0)
 											{
 												xPos = initPos;
-												yPos += ((list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale) / 2) + 7;
+												yPos += list[groupID].GroupIconHeight + 7;
 											}
-											pawnGroupDrawLoc.Add(new MappedValue(list[groupID], new Rect(xPos, yPos, list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale, 
-												list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale)));
-											xPos += ((list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale) / 2) + 5;
+											pawnGroupDrawLoc.Add(new MappedValue(list[groupID], new Rect(xPos, yPos, list[groupID].GroupIconWidth, list[groupID].GroupIconHeight)));
+											xPos += list[groupID].GroupIconWidth + 5;
 										}
 										list = list.Take(3).ToList();
-										num7 += list.Sum(x => ((x.groupBanner.width * TacticalGroupsSettings.GroupScale) / 2) + 5);
+										num7 += list.Sum(x => x.GroupIconWidth + 5);
 									}
 								}
 							}
-							colonyGroupDrawLoc.Add(new MappedValue(entries[j].colonyGroup, new Rect(num7, TacticalGroupsSettings.ColonistBarPositionY, entries[j].colonyGroup.groupBanner.width * TacticalGroupsSettings.GroupScale,
-												entries[j].colonyGroup.groupBanner.height * TacticalGroupsSettings.GroupScale)));
-							num7 += (entries[j].colonyGroup.groupIcon.width * TacticalGroupsSettings.GroupScale) + 10;
+							colonyGroupDrawLoc.Add(new MappedValue(entries[j].colonyGroup, new Rect(num7, TacticalGroupsSettings.ColonistBarPositionY, 
+								entries[j].colonyGroup.GroupIconWidth, entries[j].colonyGroup.GroupIconHeight)));
+
+							num7 += entries[j].colonyGroup.GroupIconWidth + groupIconMargin;
 							if (entries[j].colonyGroup.Map == Find.CurrentMap)
 							{
 								if (!WorldRendererUtility.WorldRenderedNow)
@@ -290,14 +292,13 @@ namespace TacticalGroups
 											if (groupID > 0 && groupID % TacticalGroupsSettings.GroupRowCount == 0)
 											{
 												xPos = initPos;
-												yPos += (list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale) + 25;
+												yPos += list[groupID].GroupIconHeight + 25;
 											}
-											pawnGroupDrawLoc.Add(new MappedValue(list[groupID], new Rect(xPos, yPos, list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale,
-												list[groupID].groupBanner.height * TacticalGroupsSettings.GroupScale)));
-											xPos += (list[groupID].groupBanner.width * TacticalGroupsSettings.GroupScale) + 10;
+											pawnGroupDrawLoc.Add(new MappedValue(list[groupID], new Rect(xPos, yPos, list[groupID].GroupIconWidth, list[groupID].GroupIconHeight)));
+											xPos += list[groupID].GroupIconWidth + groupIconMargin;
 										}
 										list = list.Take(TacticalGroupsSettings.GroupRowCount).ToList();
-										num7 += list.Sum(x => (x.groupBanner.width * TacticalGroupsSettings.GroupScale) + 10);
+										num7 += list.Sum(x => x.GroupIconWidth + groupIconMargin);
 									}
 								}
 							}
