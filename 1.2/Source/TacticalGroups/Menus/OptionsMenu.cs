@@ -97,12 +97,16 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.DisplayColorBars);
 
 			topRightHalf.y += 25f;
+			var colorBarDefaultRect = new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f);
+			var colorBarExtendedRect = new Rect(xRightHalfPos + 90f, topRightHalf.y, 100f, 30f);
+			TooltipHandler.TipRegion(colorBarDefaultRect, Strings.ColorBarModeDefaultTooltip);
+			TooltipHandler.TipRegion(colorBarExtendedRect, Strings.ColorBarModeExtendedTooltip);
 
-			if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.ColorBarModeDefault, TacticalGroupsSettings.ColorBarMode == ColorBarMode.Default))
+			if (Widgets.RadioButtonLabeled(colorBarDefaultRect, Strings.ColorBarModeDefault, TacticalGroupsSettings.ColorBarMode == ColorBarMode.Default))
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Default;
 			}
-			else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 100f, 30f), Strings.ColorBarModeExtended, TacticalGroupsSettings.ColorBarMode != ColorBarMode.Default))
+			else if (Widgets.RadioButtonLabeled(colorBarExtendedRect, Strings.ColorBarModeExtended, TacticalGroupsSettings.ColorBarMode != ColorBarMode.Default))
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Extended;
 			}
@@ -129,12 +133,18 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupRowCount + ": " + TacticalGroupsSettings.GroupRowCount.ToString());
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.GroupRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupRowCount, 1f, 12f);
+			topRightHalf.y += 15f;
+
+			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.ColonyGroupScale + ": " + TacticalGroupsSettings.ColonyGroupScale.ToStringDecimalIfSmall());
 			topRightHalf.y += 25f;
+			TacticalGroupsSettings.ColonyGroupScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.ColonyGroupScale, 0.5f, 2f);
+			
+			topRightHalf.y += 10f;
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, rect.width - 55f, 25f), Strings.GroupScale + ": " + TacticalGroupsSettings.GroupScale.ToStringDecimalIfSmall());
 			topRightHalf.y += 25f;
 			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 2f) - 40, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
 
-			topRightHalf.y += 25f;
+			topRightHalf.y += 15f;
 			Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisableLabelBackground);
 			Text.Font = GameFont.Tiny;
 			Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, (rect.width / 3f) + 10, 35f), Strings.DisableLabelBackground);
