@@ -220,6 +220,7 @@ namespace TacticalGroups
 		public static readonly string Pawn = "TG.Pawn".Translate();
 		public static readonly string Box = "TG.Box".Translate();
 		public static readonly string ResetToDefault = "TG.ResetToDefault".Translate();
+		public static readonly string ResetPawnView = "TG.ResetPawnView".Translate();
 
 	}
 }

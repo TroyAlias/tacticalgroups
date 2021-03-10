@@ -123,7 +123,7 @@ namespace TacticalGroups
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
 			var pawnIconRect = GetPawnTextureRect(rect.position);
-			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, PawnTextureSize * TacticalGroupsSettings.PawnScale, PawnTextureCameraOffset, PawnTextureCameraZoom * TacticalGroupsSettings.PawnScale));
+			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, PawnTextureSize * TacticalGroupsSettings.PawnScale * 2, PawnTextureCameraOffset, PawnTextureCameraZoom * TacticalGroupsSettings.PawnScale));
 			if (colonist.Drafted)
             {
 				GUI.DrawTexture(rect, Textures.PawnDrafted);

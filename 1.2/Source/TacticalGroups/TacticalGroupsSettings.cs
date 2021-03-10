@@ -140,16 +140,7 @@ namespace TacticalGroups
             ColonistBarPositionX = 24f;
             ColonistBarSpacing = 20f;
 
-            //OverallPawnIconScale = 1f;
-            //PawnScale = 1f;
-            //PawnBoxScale = 1f;
-
-            XPawnIconOffset = 0f;
-            YPawnIconOffset = 0f;
-            PawnBoxHeight = 48f;
-            PawnBoxWidth = 48f;
-            PawnCameraOffsetX = 0f;
-            PawnCameraOffsetZ = 0.3f;
+            DoPawnViewReset();
 
             ColonyGroupScale = 1f;
             GroupScale = 1f;
@@ -158,6 +149,17 @@ namespace TacticalGroups
             WeaponPlacementOffset = 10;
             ColorBarMode = ColorBarMode.Default;
             WeaponShowMode = WeaponShowMode.Drafted;
+        }
+
+        public static void DoPawnViewReset()
+        {
+            PawnScale = 1f;
+            XPawnIconOffset = 0f;
+            YPawnIconOffset = 0f;
+            PawnBoxHeight = 48f;
+            PawnBoxWidth = 48f;
+            PawnCameraOffsetX = 0f;
+            PawnCameraOffsetZ = 0.3f;
         }
         public void DoSettingsWindowContents(Rect inRect)
         {

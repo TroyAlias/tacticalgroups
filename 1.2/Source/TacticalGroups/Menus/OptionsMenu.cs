@@ -132,6 +132,8 @@ namespace TacticalGroups
 			middle.y += 50f;
 			var resetButtonRect = new Rect(xMiddlePos, middle.y, Textures.MenuButton.width, 25f);
 			GUI.DrawTexture(resetButtonRect, Textures.MenuButton);
+
+			Text.Anchor = TextAnchor.MiddleCenter;
 			Widgets.Label(resetButtonRect, Strings.ResetToDefault);
 			if (Mouse.IsOver(resetButtonRect))
 			{
@@ -142,22 +144,24 @@ namespace TacticalGroups
 				}
 			}
 
-			Vector2 rightHalf = new Vector2(middle.x + checkBoxesWidth, rect.y + 25f);
+			Vector2 rightHalf = new Vector2(middle.x + checkBoxesWidth + 70, rect.y + 25f);
 			float xRightPos = xMiddlePos + checkBoxesWidth + 50;
-			
-			//Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.OverallPawnDisplayScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
-			//rightHalf.y += 25f;
-			//TacticalGroupsSettings.OverallPawnIconScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.OverallPawnIconScale, 0.5f, 5f);
 
-			rightHalf.y += 40f;
-			Text.Anchor = TextAnchor.MiddleCenter;
-			//Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Pawn);
-			//rightHalf.y += 25f;
-			//TacticalGroupsSettings.XPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.XPawnIconOffset, -10f, 10f);
-			//rightHalf.y += 25f;
-			//TacticalGroupsSettings.YPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.YPawnIconOffset, -10f, 10f);
-			//rightHalf.y += 25f;
-			//TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
+			rightHalf.y += 10f;
+			var resetPawnViewRect = new Rect(xRightPos, rightHalf.y, Textures.MenuButton.width, 25f);
+			GUI.DrawTexture(resetPawnViewRect, Textures.MenuButton);
+			Widgets.Label(new Rect(xRightPos + 10, resetPawnViewRect.y, Textures.MenuButton.width - 10, 25f), Strings.ResetPawnView);
+			if (Mouse.IsOver(resetPawnViewRect))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					TacticalGroupsSettings.DoPawnViewReset();
+					Event.current.Use();
+				}
+			}
+
+			rightHalf.y += 50f;
+			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Pawn);
 
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnCameraOffsetX = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetX, -1f, 1f);
@@ -166,32 +170,30 @@ namespace TacticalGroups
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0f, 5f);
 
-			rightHalf.y += 25f;
+			rightHalf.y += 15f;
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Box);
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 0f, 300f);
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 0f, 300f);
-			//rightHalf.y += 25f;
-			//TacticalGroupsSettings.PawnBoxScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxScale, 0.5f, 5f);
 
+			Text.Anchor = TextAnchor.UpperLeft;
+			rightHalf.y += 50f;
+			Widgets.Checkbox(rightHalf, ref TacticalGroupsSettings.DisplayWeapons);
+			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.DisplayWeapons);
 
-			//topRightHalf.y += 25f;
-			//Widgets.Checkbox(topRightHalf, ref TacticalGroupsSettings.DisplayWeapons);
-			//Widgets.Label(new Rect(xRightHalfPos, topRightHalf.y, textFieldWidth, 25f), Strings.DisplayWeapons);
-			//
-			//topRightHalf.y += 25f;
-			//TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider(new Rect(xRightHalfPos, topRightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.WeaponPlacementOffset, 0, 100);
-			//topRightHalf.y += 15f;
-			//
-			//if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos, topRightHalf.y, 80f, 30f), Strings.WeaponModeShowDrafted, TacticalGroupsSettings.WeaponShowMode == WeaponShowMode.Drafted))
-			//{
-			//	TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Drafted;
-			//}
-			//else if (Widgets.RadioButtonLabeled(new Rect(xRightHalfPos + 90f, topRightHalf.y, 100f, 30f), Strings.WeaponModeShowAlways, TacticalGroupsSettings.WeaponShowMode != WeaponShowMode.Drafted))
-			//{
-			//	TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Always;
-			//}
+			rightHalf.y += 25f;
+			TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.WeaponPlacementOffset, 0, 100);
+			rightHalf.y += 15f;
+			
+			if (Widgets.RadioButtonLabeled(new Rect(xRightPos, rightHalf.y, 80f, 30f), Strings.WeaponModeShowDrafted, TacticalGroupsSettings.WeaponShowMode == WeaponShowMode.Drafted))
+			{
+				TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Drafted;
+			}
+			else if (Widgets.RadioButtonLabeled(new Rect(xRightPos + 90f, rightHalf.y, 100f, 30f), Strings.WeaponModeShowAlways, TacticalGroupsSettings.WeaponShowMode != WeaponShowMode.Drafted))
+			{
+				TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Always;
+			}
 
 			TacticUtils.TacticalColonistBar?.UpdateSizes();
 			GUI.color = Color.white;
