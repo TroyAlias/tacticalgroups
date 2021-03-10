@@ -25,17 +25,16 @@ namespace TacticalGroups
         public static float ColonistBarSpacing = 20f;
 
         //public static float OverallPawnIconScale = 1f;
-        //public static float PawnScale = 1f;
         //public static float PawnBoxScale = 1f;
 
 
+        public static float PawnScale = 1f;
         public static float XPawnIconOffset = 0f;
         public static float YPawnIconOffset = 0f;
         public static float PawnBoxHeight = 48f;
         public static float PawnBoxWidth = 48f;
         public static float PawnCameraOffsetX = 0f;
         public static float PawnCameraOffsetZ = 0.3f;
-        public static float PawnCameraZoom = 1.28205f;
 
         public static float ColonyGroupScale = 1f;
         public static float GroupScale = 1f;
@@ -117,7 +116,7 @@ namespace TacticalGroups
             Scribe_Values.Look(ref PawnBoxWidth, "PawnBoxWidth", 48f);
             Scribe_Values.Look(ref PawnCameraOffsetX, "PawnCameraOffsetX", 0f);
             Scribe_Values.Look(ref PawnCameraOffsetZ, "PawnCameraOffsetZ", 0.3f);
-            Scribe_Values.Look(ref PawnCameraZoom, "PawnCameraZoom", 1.28205f);
+            Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
 
             Scribe_Values.Look(ref ColorBarMode, "ColorBarMode", ColorBarMode.Default);
             Scribe_Values.Look(ref WeaponShowMode, "WeaponShowMode", WeaponShowMode.Drafted);
@@ -151,7 +150,6 @@ namespace TacticalGroups
             PawnBoxWidth = 48f;
             PawnCameraOffsetX = 0f;
             PawnCameraOffsetZ = 0.3f;
-            PawnCameraZoom = 1.28205f;
 
             ColonyGroupScale = 1f;
             GroupScale = 1f;
