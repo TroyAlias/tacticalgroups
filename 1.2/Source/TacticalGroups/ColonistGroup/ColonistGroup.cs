@@ -453,11 +453,6 @@ namespace TacticalGroups
         {
 			GUI.color = Color.white;
 			Text.Font = GameFont.Tiny;
-			if (this.isSubGroup)
-            {
-				rect.width /= 2;
-				rect.height /= 2;
-			}
 			this.curRect = rect;
 			if (this.updateIcon)
             {
@@ -524,11 +519,6 @@ namespace TacticalGroups
         {
 			var totalRect = Rect.zero;
 			var pawnRows = GetPawnRows(this.pawnRowCount);
-			if (this.isSubGroup)
-			{
-				rect.width /= 2;
-				rect.height /= 2;
-			}
 			if (ShowExpanded)
 			{
 				totalRect = rect;
@@ -1435,6 +1425,8 @@ namespace TacticalGroups
 		public Texture2D groupIcon;
 		public float GroupIconHeight => groupBanner.height * GroupIconScale;
 		public float GroupIconWidth => groupBanner.width * GroupIconScale;
+		public float GroupIconMargin => GroupIconWidth / 3f;
+
 
 		public string groupBannerName;
 		public string groupBannerFolder;

@@ -24,11 +24,13 @@ namespace TacticalGroups
         public static float ColonistBarPositionX = 24f;
         public static float ColonistBarSpacing = 20f;
 
-        public static float OverallPawnIconScale = 1f;
-        public static float PawnScale = 1f;
+        //public static float OverallPawnIconScale = 1f;
+        //public static float PawnScale = 1f;
+        //public static float PawnBoxScale = 1f;
+
+
         public static float XPawnIconOffset = 0f;
         public static float YPawnIconOffset = 0f;
-        public static float PawnBoxScale = 1f;
         public static float PawnBoxHeight = 48f;
         public static float PawnBoxWidth = 48f;
         public static float PawnCameraOffsetX = 0f;
@@ -100,14 +102,14 @@ namespace TacticalGroups
             Scribe_Values.Look(ref ColonistBarPositionY, "MarginTop", 21f);
             Scribe_Values.Look(ref ColonistBarPositionX, "ColonistBarPositionX", 24f);
             Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 20f);
-            Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
+
             Scribe_Values.Look(ref ColonyGroupScale, "ColonyGroupScale", 1f);
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
-            Scribe_Values.Look(ref OverallPawnIconScale, "OverallPawnIconScale", 1f);
-            Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
-            Scribe_Values.Look(ref PawnBoxScale, "PawnBoxScale", 1f);
+            //Scribe_Values.Look(ref OverallPawnIconScale, "OverallPawnIconScale", 1f);
+            //Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
+            //Scribe_Values.Look(ref PawnBoxScale, "PawnBoxScale", 1f);
 
             Scribe_Values.Look(ref XPawnIconOffset, "XPawnIconOffset", 0f);
             Scribe_Values.Look(ref YPawnIconOffset, "YPawnIconOffset", 0f);
@@ -139,11 +141,12 @@ namespace TacticalGroups
             ColonistBarPositionX = 24f;
             ColonistBarSpacing = 20f;
 
-            OverallPawnIconScale = 1f;
-            PawnScale = 1f;
+            //OverallPawnIconScale = 1f;
+            //PawnScale = 1f;
+            //PawnBoxScale = 1f;
+
             XPawnIconOffset = 0f;
             YPawnIconOffset = 0f;
-            PawnBoxScale = 1f;
             PawnBoxHeight = 48f;
             PawnBoxWidth = 48f;
             PawnCameraOffsetX = 0f;
@@ -176,7 +179,7 @@ namespace TacticalGroups
             listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.ColonistBarSpacing, ref ColonistBarSpacing, ColonistBarSpacing.ToStringDecimalIfSmall(), 0, 100);
-            listingStandard.SliderLabeled(Strings.OverallPawnDisplayScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
+            //listingStandard.SliderLabeled(Strings.OverallPawnDisplayScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);
             listingStandard.SliderLabeled(Strings.PawnNeedsSize, ref PawnNeedsWidth, PawnNeedsWidth.ToString(), 1, 20);

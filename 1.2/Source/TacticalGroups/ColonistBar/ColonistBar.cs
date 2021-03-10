@@ -98,11 +98,12 @@ namespace TacticalGroups
         {
             ColonistBarColonistDrawer.PawnTextureCameraOffset = new Vector3(TacticalGroupsSettings.PawnCameraOffsetX, 0, TacticalGroupsSettings.PawnCameraOffsetZ);
             ColonistBarColonistDrawer.PawnTextureCameraZoom = TacticalGroupsSettings.PawnCameraZoom;
+
             ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize;
             ColonistBarColonistDrawer.PawnTextureSize.x += TacticalGroupsSettings.XPawnIconOffset;
             ColonistBarColonistDrawer.PawnTextureSize.y += TacticalGroupsSettings.YPawnIconOffset;
-            ColonistBarColonistDrawer.PawnTextureSize *= TacticalGroupsSettings.PawnScale;
-            TacticalColonistBar.BaseSize = new Vector2(TacticalGroupsSettings.PawnBoxWidth, TacticalGroupsSettings.PawnBoxHeight) * TacticalGroupsSettings.PawnBoxScale;
+
+            TacticalColonistBar.BaseSize = new Vector2(TacticalGroupsSettings.PawnBoxWidth, TacticalGroupsSettings.PawnBoxHeight);
         }
         public List<Entry> Entries
         {

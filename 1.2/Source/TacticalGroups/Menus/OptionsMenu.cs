@@ -169,9 +169,9 @@ namespace TacticalGroups
 			rightHalf.y += 25f;
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Box);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 0f, 100f);
+			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 0f, 300f);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 0f, 100f);
+			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 0f, 300f);
 			//rightHalf.y += 25f;
 			//TacticalGroupsSettings.PawnBoxScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxScale, 0.5f, 5f);
 

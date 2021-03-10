@@ -123,6 +123,7 @@ namespace TacticalGroups
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
 			var pawnIconRect = GetPawnTextureRect(rect.position);
+
 			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, PawnTextureSize, PawnTextureCameraOffset, PawnTextureCameraZoom));
 			if (colonist.Drafted)
             {
@@ -376,8 +377,13 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
-			return new Rect(x + 1f, y - (vector.y - TacticUtils.TacticalColonistBar.Size.y) - 1f, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.x * 1.630434782608696f).ContractedBy(1f);
+
+			float pawnWidth = TacticalGroupsSettings.PawnBoxWidth;
+			float pawnHeight = TacticalGroupsSettings.PawnBoxWidth * 1.630434782608696f;
+
+			Vector2 vector = new Vector2(pawnWidth, pawnHeight) * TacticUtils.TacticalColonistBar.Scale;
+			Rect pawnTexture = new Rect(x + 1f, y - (vector.y - TacticUtils.TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			return pawnTexture;
 		}
 
 		public void DrawIcons(Rect rect, Pawn colonist)
@@ -532,8 +538,7 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + (weaponPlacementYOffset * TacticalGroupsSettings.PawnScale), 
-				rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
+			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + weaponPlacementYOffset, rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
 		}
 
 		private static bool ExcludeFromDrawing(Thing thingWeapon)
