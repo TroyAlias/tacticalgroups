@@ -145,19 +145,19 @@ namespace TacticalGroups
 			Vector2 rightHalf = new Vector2(middle.x + checkBoxesWidth, rect.y + 25f);
 			float xRightPos = xMiddlePos + checkBoxesWidth + 50;
 			
-			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.OverallPawnDisplayScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
-			rightHalf.y += 25f;
-			TacticalGroupsSettings.OverallPawnIconScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.OverallPawnIconScale, 0.5f, 5f);
+			//Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.OverallPawnDisplayScale + ": " + TacticalGroupsSettings.PawnScale.ToStringDecimalIfSmall());
+			//rightHalf.y += 25f;
+			//TacticalGroupsSettings.OverallPawnIconScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.OverallPawnIconScale, 0.5f, 5f);
 
 			rightHalf.y += 40f;
 			Text.Anchor = TextAnchor.MiddleCenter;
-			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Pawn);
-			rightHalf.y += 25f;
-			TacticalGroupsSettings.XPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.XPawnIconOffset, -10f, 10f);
-			rightHalf.y += 25f;
-			TacticalGroupsSettings.YPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.YPawnIconOffset, -10f, 10f);
-			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
+			//Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Pawn);
+			//rightHalf.y += 25f;
+			//TacticalGroupsSettings.XPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.XPawnIconOffset, -10f, 10f);
+			//rightHalf.y += 25f;
+			//TacticalGroupsSettings.YPawnIconOffset = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.YPawnIconOffset, -10f, 10f);
+			//rightHalf.y += 25f;
+			//TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.5f, 5f);
 
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnCameraOffsetX = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetX, -1f, 1f);
@@ -172,8 +172,8 @@ namespace TacticalGroups
 			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 0f, 100f);
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 0f, 100f);
-			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnBoxScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxScale, 0.5f, 5f);
+			//rightHalf.y += 25f;
+			//TacticalGroupsSettings.PawnBoxScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxScale, 0.5f, 5f);
 
 
 			//topRightHalf.y += 25f;
