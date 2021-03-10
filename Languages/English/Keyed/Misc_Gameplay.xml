@@ -39,6 +39,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.DisplayHealth>Display Health</TG.DisplayHealth>
 	<TG.DisplayWeapons>Display Weapons</TG.DisplayWeapons>
 	<TG.DisplayColorBars>Color Mood Bars</TG.DisplayColorBars>
+	<TG.DisplayBreakRiskOverlay>Break Risk Overlay</TG.DisplayBreakRiskOverlay>
 	<TG.HidePawnsWhenOffMap>Hide Pawns Off Map</TG.HidePawnsWhenOffMap>
 	<TG.HideGroups>Hide Groups</TG.HideGroups>
 	<TG.HideCreateGroup>Hide Create Group</TG.HideCreateGroup>
@@ -47,7 +48,7 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.ColonistBarPositionX>Colonist Bar Position (X)</TG.ColonistBarPositionX>
 	<TG.ColonistBarSpacing>Colonist Bar Spacing</TG.ColonistBarSpacing>
 	<TG.GroupRowCount>Group Row Count</TG.GroupRowCount>
-	<TG.PawnScale>Pawn Scale</TG.PawnScale>
+	<TG.OverallPawnDisplayScale>Overall Pawn Display Scale: </TG.OverallPawnDisplayScale>
 	<TG.ColonyGroupScale>Colony Group Scale</TG.ColonyGroupScale>
 	<TG.GroupScale>Group Scale</TG.GroupScale>
 	<TG.PawnNeedsSize>Pawn Needs Size</TG.PawnNeedsSize>
@@ -235,4 +236,7 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.ColorBarModeDefaultTooltip>3 Layer Color Mood Bar</TG.ColorBarModeDefaultTooltip>
 	<TG.ColorBarModeExtendedTooltip>5 Layer Color Mood Bar</TG.ColorBarModeExtendedTooltip>
 	
+	<TG.Pawn>Pawn</TG.Pawn>
+	<TG.Box>Box</TG.Box>
+		
 </LanguageData>

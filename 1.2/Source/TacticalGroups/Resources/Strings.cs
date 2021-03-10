@@ -49,6 +49,7 @@ namespace TacticalGroups
 		public static readonly string DisplayHealth = "TG.DisplayHealth".Translate();
 		public static readonly string DisplayWeapons = "TG.DisplayWeapons".Translate();
 		public static readonly string DisplayColorBars = "TG.DisplayColorBars".Translate();
+		public static readonly string DisplayBreakRiskOverlay = "TG.DisplayBreakRiskOverlay".Translate();
 		public static readonly string HidePawnsWhenOffMap = "TG.HidePawnsWhenOffMap".Translate();
 		public static readonly string HideGroups = "TG.HideGroups".Translate();
 		public static readonly string HideCreateGroup = "TG.HideCreateGroup".Translate();
@@ -141,7 +142,7 @@ namespace TacticalGroups
 		public static readonly string ColonistBarPositionX = "TG.ColonistBarPositionX".Translate();
 		public static readonly string ColonistBarSpacing = "TG.ColonistBarSpacing".Translate();
 		public static readonly string GroupRowCount = "TG.GroupRowCount".Translate();
-		public static readonly string PawnScale = "TG.PawnScale".Translate();
+		public static readonly string OverallPawnDisplayScale = "TG.OverallPawnDisplayScale".Translate();
 		public static readonly string ColonyGroupScale = "TG.ColonyGroupScale".Translate();
 		public static readonly string GroupScale = "TG.GroupScale".Translate();
 		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
@@ -216,6 +217,9 @@ namespace TacticalGroups
 
 		public static readonly string ColorBarModeDefaultTooltip = "TG.ColorBarModeDefaultTooltip".Translate();
 		public static readonly string ColorBarModeExtendedTooltip = "TG.ColorBarModeExtendedTooltip".Translate();
+		public static readonly string Pawn = "TG.Pawn".Translate();
+		public static readonly string Box = "TG.Box".Translate();
+		public static readonly string ResetToDefault = "TG.ResetToDefault".Translate();
 
 	}
 }

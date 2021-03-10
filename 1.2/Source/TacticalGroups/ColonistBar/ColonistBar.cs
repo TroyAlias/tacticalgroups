@@ -94,11 +94,15 @@ namespace TacticalGroups
         private static List<Thing> tmpMapColonistsOrCorpsesInScreenRect = new List<Thing>();
 
         private static List<Pawn> tmpCaravanPawns = new List<Pawn>();
-
         public void UpdateSizes()
         {
-            ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize * TacticalGroupsSettings.PawnScale;
-            TacticalColonistBar.BaseSize = TacticalColonistBar.DefaultBaseSize * TacticalGroupsSettings.PawnScale;
+            ColonistBarColonistDrawer.PawnTextureCameraOffset = new Vector3(TacticalGroupsSettings.PawnCameraOffsetX, 0, TacticalGroupsSettings.PawnCameraOffsetZ);
+            ColonistBarColonistDrawer.PawnTextureCameraZoom = TacticalGroupsSettings.PawnCameraZoom;
+            ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize;
+            ColonistBarColonistDrawer.PawnTextureSize.x += TacticalGroupsSettings.XPawnIconOffset;
+            ColonistBarColonistDrawer.PawnTextureSize.y += TacticalGroupsSettings.YPawnIconOffset;
+            ColonistBarColonistDrawer.PawnTextureSize *= TacticalGroupsSettings.PawnScale;
+            TacticalColonistBar.BaseSize = new Vector2(TacticalGroupsSettings.PawnBoxWidth, TacticalGroupsSettings.PawnBoxHeight) * TacticalGroupsSettings.PawnBoxScale;
         }
         public List<Entry> Entries
         {

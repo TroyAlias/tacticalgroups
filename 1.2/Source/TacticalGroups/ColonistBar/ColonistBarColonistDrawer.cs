@@ -38,19 +38,12 @@ namespace TacticalGroups
 		public  static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
 
 		public static Vector2 DefaultPawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+
 		public static Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
-		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+		public static Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
 
-		public const float PawnTextureCameraZoom = 1.28205f;
-
-		private const float PawnTextureHorizontalPadding = 1f;
-
-		private const float BaseIconSize = 20f;
-
-		private const float BaseGroupFrameMargin = 12f;
-
-		public const float DoubleClickTime = 0.5f;
+		public static float PawnTextureCameraZoom = 1.28205f;
 
 		private static Vector2[] bracketLocs = new Vector2[4];
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
@@ -86,16 +79,8 @@ namespace TacticalGroups
 				if (TacticalGroupsSettings.DisplayColorBars)
 			    {
 					GUI.DrawTexture(position, GetMoodBarTexture(colonist));
-					if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMajor)
-                    {
-						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMajor);
-					}
-					else if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMinor)
-			        {
-						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMinor);
-					}
-					else
-			        {
+					if (!TacticalGroupsSettings.DisplayBreakRiskOverlay)
+					{
 						GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
 					}
 				}
@@ -103,6 +88,22 @@ namespace TacticalGroups
 			    {
 					GUI.DrawTexture(position, MoodBGTex);
 			    }
+
+				if (TacticalGroupsSettings.DisplayBreakRiskOverlay)
+                {
+					if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMajor)
+					{
+						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMajor);
+					}
+					else if (colonist.needs.mood.CurLevel < colonist.mindState.mentalBreaker.BreakThresholdMinor)
+					{
+						GUI.DrawTexture(rect.ContractedBy(2f), Textures.ColorMoodBarOverlayRedMinor);
+					}
+					else if (TacticalGroupsSettings.DisplayColorBars)
+					{
+						GUI.DrawTexture(position, Textures.ColorMoodBarOverlay);
+					}
+				}
 			}
 
 			if (highlight)
@@ -121,7 +122,8 @@ namespace TacticalGroups
 			{
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, PawnTextureSize, PawnTextureCameraOffset, 1.28205f));
+			var pawnIconRect = GetPawnTextureRect(rect.position);
+			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, PawnTextureSize, PawnTextureCameraOffset, PawnTextureCameraZoom));
 			if (colonist.Drafted)
             {
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
@@ -375,7 +377,7 @@ namespace TacticalGroups
 			float x = pos.x;
 			float y = pos.y;
 			Vector2 vector = PawnTextureSize * TacticUtils.TacticalColonistBar.Scale;
-			return new Rect(x + 1f, y - (vector.y - TacticUtils.TacticalColonistBar.Size.y) - 1f, vector.x, vector.y).ContractedBy(1f);
+			return new Rect(x + 1f, y - (vector.y - TacticUtils.TacticalColonistBar.Size.y) - 1f, TacticalColonistBar.BaseSize.x, TacticalColonistBar.BaseSize.x * 1.630434782608696f).ContractedBy(1f);
 		}
 
 		public void DrawIcons(Rect rect, Pawn colonist)
