@@ -100,7 +100,7 @@ namespace TacticalGroups
 						if (activeColony != null)
 						{
 							count += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Count();
-							count += TacticUtils.GetAllSubGroupFor(activeColony).Take(3).Count();
+							count += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Count();
 						}
 					}
 					scaleMultiplier += (float)count / 10f;
@@ -213,7 +213,7 @@ namespace TacticalGroups
 						if (activeColony != null)
 						{
 							num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
-							num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(3).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
+							num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
 						}
 					}
 				}
@@ -258,7 +258,7 @@ namespace TacticalGroups
 										var yPos = TacticalGroupsSettings.ColonistBarPositionY;
 										for (var groupID = 0; groupID < list.Count(); groupID++)
 										{
-											if (groupID > 0 && groupID % 3 == 0)
+											if (groupID > 0 && groupID % TacticalGroupsSettings.SubGroupRowCount == 0)
 											{
 												xPos = initPos;
 												yPos += list[groupID].GroupIconHeight + 7;
@@ -266,7 +266,7 @@ namespace TacticalGroups
 											pawnGroupDrawLoc.Add(new MappedValue(list[groupID], new Rect(xPos, yPos, list[groupID].GroupIconWidth, list[groupID].GroupIconHeight)));
 											xPos += list[groupID].GroupIconWidth + 5;
 										}
-										list = list.Take(3).ToList();
+										list = list.Take(TacticalGroupsSettings.SubGroupRowCount).ToList();
 										num7 += list.Sum(x => x.GroupIconWidth + 5);
 									}
 								}

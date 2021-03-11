@@ -39,6 +39,7 @@ namespace TacticalGroups
         public static float ColonyGroupScale = 1f;
         public static float GroupScale = 1f;
         public static int GroupRowCount = 4;
+        public static int SubGroupRowCount = 4;
         public static float PawnNeedsWidth = 4f;
         public static int WeaponPlacementOffset = 10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;

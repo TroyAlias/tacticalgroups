@@ -12,7 +12,7 @@ namespace TacticalGroups
 {
 	public class OptionsMenu : TieredFloatMenu
 	{
-		protected override Vector2 InitialPositionShift => new Vector2(-45f, 35f);
+		//protected override Vector2 InitialPositionShift => new Vector2(-45f, 35f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
 		public OptionsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
@@ -20,7 +20,19 @@ namespace TacticalGroups
 
 		}
 
-		[TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 190f;
+		protected override void SetInitialSizeAndPosition()
+		{
+			windowRect = new Rect(((float)UI.screenWidth - InitialSize.x) / 2f, ((float)UI.screenHeight - InitialSize.y) / 2f, InitialSize.x, InitialSize.y);
+			windowRect = windowRect.Rounded();
+		}
+
+        protected override void UpdateBaseColor()
+        {
+
+		}
+
+
+        [TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 190f;
 		[TweakValue("0ColonyGroups", 0, 1000)] public static float checkBoxesWidth = 180f;
 		public override void DoWindowContents(Rect rect)
 		{

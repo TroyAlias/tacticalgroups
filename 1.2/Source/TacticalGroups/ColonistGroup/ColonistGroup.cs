@@ -1427,7 +1427,6 @@ namespace TacticalGroups
 		public float GroupIconWidth => groupBanner.width * GroupIconScale;
 		public float GroupIconMargin => GroupIconWidth / 3f;
 
-
 		public string groupBannerName;
 		public string groupBannerFolder;
 		public string groupIconFolder;
