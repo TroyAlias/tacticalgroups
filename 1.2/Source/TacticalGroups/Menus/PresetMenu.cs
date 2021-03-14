@@ -190,14 +190,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(applyPreset, Textures.RescueTendHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							if (this.colonistGroup.activeGroupPresets is null)
-							{
-								this.colonistGroup.activeGroupPresets = new List<GroupPreset>();
-							}
-							if (!this.colonistGroup.activeGroupPresets.Contains(preset))
-							{
-								this.colonistGroup.ActivatePreset(preset);
-							}
+							this.colonistGroup.ActivatePreset(preset);
 						}
 					}
 					pos.y += 35f;

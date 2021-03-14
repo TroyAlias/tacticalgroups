@@ -1188,7 +1188,6 @@ namespace TacticalGroups
 
 		public void ActivatePreset(GroupPreset preset)
 		{
-			this.activeGroupPresets.Add(preset);
 			if (preset.groupDrugPolicy != null)
 			{
 				this.groupDrugPolicy = preset.groupDrugPolicy;
@@ -1362,7 +1361,6 @@ namespace TacticalGroups
 			{
 				groupOutfitEnabled = false;
 			}
-			Scribe_Collections.Look(ref activeGroupPresets, "activeGroupPresets", LookMode.Deep);
 
 			//Scribe_Values.Look(ref subGroupsExpanded, "subGroupsExpanded");
 			Scribe_Defs.Look(ref skillDefSort, "skillDefSort");
@@ -1401,7 +1399,7 @@ namespace TacticalGroups
 
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
 		public Dictionary<WorkTypeDef, int> groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
-		public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
+		//public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
 		public List<Formation> formations = new List<Formation>(4);
 		public Formation activeFormation;
 
