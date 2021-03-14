@@ -321,10 +321,23 @@ namespace TacticalGroups
         }
 
         private static Dictionary<Pawn, int> pawnsLastTick = new Dictionary<Pawn, int>();
+
+        private static bool ModIncompatibilityCheck(Pawn ___pawn, JobCondition condition)
+        {
+            if (ModCompatibility.SmarterDeconstructionIsActive && condition == JobCondition.InterruptForced)
+            {
+                var curJobDef = ___pawn.CurJobDef;
+                if (curJobDef == JobDefOf.Deconstruct || curJobDef == JobDefOf.Mine)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
             __state = new Dictionary<WorkType, WorkState>();
-            if (pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame) 
+            if (pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame || ModIncompatibilityCheck(___pawn, condition)) 
             {
                 return; // to prevent infinite recursion in some cases
             }
