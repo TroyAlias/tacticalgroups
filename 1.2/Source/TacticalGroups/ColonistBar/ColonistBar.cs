@@ -630,7 +630,6 @@ namespace TacticalGroups
                         if (pawnRect.Value.Contains(pos))
                         {
                             pawn = pawnRect.Key;
-                            Log.Message($"TryGetGroupPawnAt: " + group + " - " + pawn);
                             return true;
                         }
                     }

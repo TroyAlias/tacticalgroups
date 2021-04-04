@@ -163,7 +163,6 @@ namespace TacticalGroups
 												Job job = JobMaker.MakeJob(JobDefOf.Capture, victim, building_Bed);
 												job.count = 1;
 												pawn.jobs.TryTakeOrderedJob(job);
-												Log.Message(pawn + " is taking " + job);
 												PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.Capturing, KnowledgeAmount.Total);
 												if (victim.Faction != null && victim.Faction != Faction.OfPlayer && !victim.Faction.Hidden && !victim.Faction.HostileTo(Faction.OfPlayer) && !victim.IsPrisonerOfColony)
 												{
@@ -203,7 +202,6 @@ namespace TacticalGroups
 									Job job = JobMaker.MakeJob(TacticDefOf.TG_ExecuteDownedRaiders, victim);
 									job.count = 1;
 									pawn.jobs.TryTakeOrderedJob(job);
-									Log.Message(pawn + " is taking " + job);
 									victims.RemoveAt(num);
 									break;
 								}

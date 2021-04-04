@@ -41,11 +41,11 @@ namespace TacticalGroups
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
             for (int num = colonyGroups.Values.Count - 1; num >= 0; num--)
             {
-                colonyGroups.Values.ElementAt(num).Disband(caravan.pawns.InnerListForReading);
-            }
-            for (int num = pawnGroups.Count - 1; num >= 0; num--)
-            {
-                pawnGroups[num].Disband(caravan.pawns.InnerListForReading);
+                var colonyGroup = colonyGroups.Values.ElementAt(num);
+                foreach (var pawn in caravan.pawns.InnerListForReading)
+                {
+                    colonyGroup.Disband(pawn);
+                }
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             return this.caravanGroups[caravan];
@@ -86,9 +86,9 @@ namespace TacticalGroups
             {
                 this.pawnGroups = new List<PawnGroup>();
             }
-            if (this.colonyGroups.ContainsKey(map) && this.colonyGroups[map] != null)
+            if (this.colonyGroups.TryGetValue(map, out ColonyGroup colonyGroup) && colonyGroup != null)
             {
-                this.colonyGroups[map].Add(pawns);
+                colonyGroup.Add(pawns);
             }
             else
             {

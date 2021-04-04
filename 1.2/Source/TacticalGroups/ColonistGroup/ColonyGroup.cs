@@ -25,6 +25,7 @@ namespace TacticalGroups
 
 		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned).ToList();
 		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == this.Map && x.Spawned || x.ParentHolder is Building_CryptosleepCasket).ToList();
+
 		public override void Init()
         {
             base.Init();
