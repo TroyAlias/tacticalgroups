@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/ThinkTreeDef[defName = "Humanlike"]/thinkRoot[@Class = "ThinkNode_Priority"]/subNodes/li[@Class="ThinkNode_QueuedJob"]</xpath>
+		<value> 
+			<li Class="TacticalGroups.ThinkNode_ConditionalAutonomyLords">
+				<subNodes>
+					<li Class="ThinkNode_Subtree">
+						<treeDef>LordDuty</treeDef>
+					</li>
+				</subNodes>
+			</li>
+		</value>
+	</Operation>
+</Patch>

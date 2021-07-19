@@ -11,3 +11,8 @@ D:\SteamLibrary\steamapps\common\RimWorld\Mods\[LTO]ColonyGroups\1.2\Source\Tact
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\[LTO]ColonyGroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CoreCompileInputs.cache
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\[LTO]ColonyGroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CopyComplete
 D:\SteamLibrary\steamapps\common\RimWorld\Mods\[LTO]ColonyGroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\tacticalgroups\1.2\Assemblies\TacticalGroups.dll
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.AssemblyReference.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CoreCompileInputs.cache
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.csproj.CopyComplete
+C:\Program Files (x86)\Steam\steamapps\common\RimWorld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Release\TacticalGroups.dll

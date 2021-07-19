@@ -337,7 +337,7 @@ namespace TacticalGroups
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
             __state = new Dictionary<WorkType, WorkState>();
-            if (pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame || ModIncompatibilityCheck(___pawn, condition)) 
+            if (___pawn.jobs.jobQueue.Any() || pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame || ModIncompatibilityCheck(___pawn, condition))
             {
                 return; // to prevent infinite recursion in some cases
             }
@@ -477,25 +477,6 @@ namespace TacticalGroups
                 }
                 TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
             }
-
         }
-
-        //private static bool SetPriority_Prefix(Pawn ___pawn, WorkTypeDef w, int priority)
-        //{
-        //    if (___pawn.TryGetGroups(out HashSet<ColonistGroup> colonistGroups))
-        //    {
-        //        foreach(var group in colonistGroups)
-        //        {
-        //            if (group.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(w, out int oldPriority))
-        //            {
-        //                if (priority != oldPriority)
-        //                {
-        //                    return false;
-        //                }
-        //            }
-        //        }
-        //    }
-        //    return true;
-        //}
     }
 }
