@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "OZQFHZwNPmeV0BkkDJLuf4YRNJf6NK2rLQ01D+EOTFjAO8Ml7w2kg+Vxaul8R7RVfjQupzyiNsOc40sk1Rfh8Q==",
+  "dgSpecHash": "tuH1YxYiN3DquzrnYBGy2Tp7glCV/+KMGw3fRmIRwb+US/w1IQJWRdUMbY/BC7S1zbanzMzRmmMpLyK0TwkZoQ==",
   "success": true,
   "projectFilePath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\RimWorld\\Mods\\tacticalgroups\\1.3\\Source\\TacticalGroups\\TacticalGroups.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Vova\\.nuget\\packages\\krafs.rimworld.ref\\1.3.3065-beta\\krafs.rimworld.ref.1.3.3065-beta.nupkg.sha512",
+    "C:\\Users\\Vova\\.nuget\\packages\\krafs.rimworld.ref\\1.3.3067-beta\\krafs.rimworld.ref.1.3.3067-beta.nupkg.sha512",
     "C:\\Users\\Vova\\.nuget\\packages\\lib.harmony\\2.1.0\\lib.harmony.2.1.0.nupkg.sha512"
   ],
   "logs": []
