@@ -35,7 +35,11 @@ namespace TacticalGroups
 		public static MethodInfo workManagerSaveCurrentStateMethod;
 		public static MethodInfo assignManagerSaveCurrentStateMethod;
 		public static MethodInfo restrictManagerSaveCurrentStateMethod;
+
 		public static bool SmarterDeconstructionIsActive;
+
+		public static bool GiddyUpCaravanIsActive;
+
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -74,6 +78,7 @@ namespace TacticalGroups
 				restrictManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.RestrictManager"), "SaveCurrentState");
 			}
 			SmarterDeconstructionIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower().Contains("legodude17.smartdecon")).Any();
+			GiddyUpCaravanIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "roolo.giddyupcaravan").Any();
 		}
 	}
 }
