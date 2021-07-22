@@ -302,5 +302,9 @@ namespace TacticalGroups
 
 		public static readonly Texture2D GuestMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestMenu");
 		public static readonly Texture2D GuestButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestButton");
+
+		public static readonly Texture2D WorkSelectEmpty = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectEmpty");
+		public static readonly Texture2D WorkSelectBlue = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectBlue");
+		public static readonly Texture2D WorkSelectRed = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectRed");
 	}
 }

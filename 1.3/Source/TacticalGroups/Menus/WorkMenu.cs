@@ -15,27 +15,20 @@ namespace TacticalGroups
 {
 	public class WorkMenu : TieredFloatMenu
 	{
+		[TweakValue("0ColonyGroups", 0, 500)] public static float test = 17.5f;
+		[TweakValue("0ColonyGroups", 0, 500)] public static float test2 = 72;
+		[TweakValue("0ColonyGroups", 0, 500)] public static float test3 = 8;
+		[TweakValue("0ColonyGroups", 0, 500)] public static float test4 = 38;
+		[TweakValue("0ColonyGroups", 0, 500)] public static float test5 = 178;
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
-		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(25f, 30f);
+		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(80, 430);
 
-		public Dictionary<Texture2D, WorkType> workIconStates = new Dictionary<Texture2D, WorkType>();
 		public Dictionary<Texture2D, BreakType> breakIconStates = new Dictionary<Texture2D, BreakType>();
 		public Dictionary<Texture2D, string> tooltips = new Dictionary<Texture2D, string>();
-
 		public WorkMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 			this.options = new List<TieredFloatMenuOption>();
-
-			var lookBusy = new TieredFloatMenuOption(Strings.LookBusy, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, 
-				MenuOptionPriority.High, 0f, Textures.LookBusyButton.width - 2f, Strings.LookBusyTooltip);
-			lookBusy.action = delegate
-			{
-				TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
-				WorkSearchUtility.SearchForWork(WorkType.None, this.colonistGroup.ActivePawns);
-			};
-			lookBusy.bottomIndent = 400f;
-			options.Add(lookBusy);
 
 			var takeFive = new TieredFloatMenuOption(Strings.TakeFive, null, Textures.LookBusyButton, Textures.LookBusyButtonHover, null, TextAnchor.MiddleCenter, MenuOptionPriority.High, 0f,
 				Textures.LookBusyButton.width - 2f, Strings.TakeFiveTooltip);
@@ -46,78 +39,17 @@ namespace TacticalGroups
 			};
 			options.Add(takeFive);
 
-			workIconStates[Textures.ConstructButton] = WorkType.Construction;
-			workIconStates[Textures.CraftButton] = WorkType.Crafting;
-			workIconStates[Textures.HaulButton] = WorkType.Hauling;
-			workIconStates[Textures.CleanButton] = WorkType.Cleaning;
-			workIconStates[Textures.HuntButton] = WorkType.Hunting;
-			workIconStates[Textures.CookButton] = WorkType.Cooking;
-			workIconStates[Textures.MineButton] = WorkType.Mining;
-			workIconStates[Textures.ChopWoodButton] = WorkType.WoodChopping;
-
-			workIconStates[Textures.TailorButton] = WorkType.Tailor;
-			workIconStates[Textures.SmithButton] = WorkType.Smith;
-			workIconStates[Textures.FireExtinguishButton] = WorkType.FireExtinguish;
-			workIconStates[Textures.ArtButton] = WorkType.Art;
-
-			workIconStates[Textures.FarmButton] = WorkType.Plants;
-			workIconStates[Textures.HandleButton] = WorkType.Handle;
-			workIconStates[Textures.WardenButton] = WorkType.Warden;
-			workIconStates[Textures.ClearSnowButton] = WorkType.ClearSnow;
-
 			breakIconStates[Textures.ChowHallButton] = BreakType.ChowHall;
 			breakIconStates[Textures.LightsOutButton] = BreakType.LightsOut;
 
-			tooltips[Textures.ConstructButton] = Strings.WorkTaskTooltipConstruction;
-			tooltips[Textures.CraftButton] = Strings.WorkTaskTooltipCraft;
-			tooltips[Textures.HaulButton] = Strings.WorkTaskTooltipHaul;
-			tooltips[Textures.CleanButton] = Strings.WorkTaskTooltipClean;
-			tooltips[Textures.HuntButton] = Strings.WorkTaskTooltipHunt;
-			tooltips[Textures.CookButton] = Strings.WorkTaskTooltipCook;
-			tooltips[Textures.MineButton] = Strings.WorkTaskTooltipMine;
-			tooltips[Textures.ChopWoodButton] = Strings.WorkTaskTooltipChopWood;
-			tooltips[Textures.FarmButton] = Strings.WorkTaskTooltipFarm;
-			tooltips[Textures.ClearSnowButton] = Strings.WorkTaskTooltipClearSnow;
-			tooltips[Textures.WardenButton] = Strings.WorkTaskTooltipWarden;
-
-			tooltips[Textures.TailorButton] = Strings.WorkTaskTooltipTailor;
-			tooltips[Textures.SmithButton] = Strings.WorkTaskTooltipSmith;
-			tooltips[Textures.HandleButton] = Strings.WorkTaskTooltipHandle;
-			tooltips[Textures.FireExtinguishButton] = Strings.WorkTaskTooltipFireExtinguish;
-			tooltips[Textures.ArtButton] = Strings.WorkTaskTooltipArt;
-
 			tooltips[Textures.ChowHallButton] = Strings.ChowHallToolTip;
 			tooltips[Textures.LightsOutButton] = Strings.SleepTooltip;
-			
 			
 			for (int i = 0; i < options.Count; i++)
 			{
 				options[i].SetSizeMode(SizeMode);
 			}
 		}
-		public List<List<Texture2D>> GetWorkIconRows(int columnCount)
-		{
-			int num = 0;
-			List<List<Texture2D>> iconRows = new List<List<Texture2D>>();
-			List<Texture2D> row = new List<Texture2D>();
-			foreach (var icon in workIconStates.Keys)
-			{
-				if (num == columnCount)
-				{
-					iconRows.Add(row.ListFullCopy());
-					row = new List<Texture2D>();
-					num = 0;
-				}
-				num++;
-				row.Add(icon);
-			}
-			if (row.Any())
-			{
-				iconRows.Add(row);
-			}
-			return iconRows;
-		}
-
 		public List<List<Texture2D>> GetBreakIconRows(int columnCount)
 		{
 			int num = 0;
@@ -182,80 +114,31 @@ namespace TacticalGroups
 				zero.y += floatMenuOption.bottomIndent;
 			}
 
-			var rect3 = new Rect(rect.x + zero.x, rect.y + 75f, rect.width, rect.height);
-			var iconRows = GetWorkIconRows(2);
+			var getBreakIconRect = new Rect(rect.x + zero.x, rect.y + 475f, rect.width, rect.height);
+			var iconRows = GetBreakIconRows(2);
 			for (var i = 0; i < iconRows.Count; i++)
 			{
 				for (var j = 0; j < iconRows[i].Count; j++)
 				{
-					Rect iconRect = new Rect(rect3.x + (j * iconRows[i][j].width) + j * 10, rect3.y + (i * iconRows[i][j].height) + i * 7,
+					Rect iconRect = new Rect(getBreakIconRect.x + (j * iconRows[i][j].width) + j * 10, getBreakIconRect.y + (i * iconRows[i][j].height) + i * 7, 
 						iconRows[i][j].width, iconRows[i][j].height);
 					GUI.DrawTexture(iconRect, iconRows[i][j]);
-					if (this.colonistGroup.activeWorkTypes.TryGetValue(workIconStates[iconRows[i][j]], out WorkState state2))
-                    {
-						if (state2 == WorkState.Active)
-                        {
-							GUI.DrawTexture(iconRect, Textures.Clock);
-                        }
-						else if (state2 == WorkState.ForcedLabor)
-                        {
-							GUI.DrawTexture(iconRect, Textures.ClockSlave);
-						}
-					}
-					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]] + "\n" + Strings.ForcedLaborTooltip);
-					if (Mouse.IsOver(iconRect))
-					{
-						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
-						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
-						{
-							this.colonistGroup.RemoveWorkState(workIconStates[iconRows[i][j]]);
-							TacticDefOf.TG_WorkSFX.PlayOneShotOnCamera();
-							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.ActivePawns);
-							Event.current.Use();
-						}
-						else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
-                        {
-							this.colonistGroup.ChangeWorkState(workIconStates[iconRows[i][j]]);
-							if (this.colonistGroup.activeWorkTypes[workIconStates[iconRows[i][j]]] == WorkState.ForcedLabor)
-                            {
-								TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
-							}
-							else
-                            {
-								TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-                            }
-							WorkSearchUtility.SearchForWork(workIconStates[iconRows[i][j]], this.colonistGroup.ActivePawns);
-							Event.current.Use();
-						}
-					}
-				}
-			}
-
-			var rect4 = new Rect(rect.x + zero.x, rect.y + 475f, rect.width, rect.height);
-			var iconRows2 = GetBreakIconRows(2);
-			for (var i = 0; i < iconRows2.Count; i++)
-			{
-				for (var j = 0; j < iconRows2[i].Count; j++)
-				{
-					Rect iconRect = new Rect(rect4.x + (j * iconRows2[i][j].width) + j * 10, rect4.y + (i * iconRows2[i][j].height) + i * 7,
-						iconRows2[i][j].width, iconRows2[i][j].height);
-					GUI.DrawTexture(iconRect, iconRows2[i][j]);
-					TooltipHandler.TipRegion(iconRect, tooltips[iconRows2[i][j]]);
+					TooltipHandler.TipRegion(iconRect, tooltips[iconRows[i][j]]);
 
 					if (Mouse.IsOver(iconRect))
 					{
 						GUI.DrawTexture(iconRect, Textures.WorkButtonHover);
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
-							if (breakIconStates[iconRows2[i][j]] == BreakType.LightsOut)
+							if (breakIconStates[iconRows[i][j]] == BreakType.LightsOut)
                             {
 								TacticDefOf.TG_LightsOutSFX.PlayOneShotOnCamera();
 							}
-							else if (breakIconStates[iconRows2[i][j]] == BreakType.ChowHall)
+							else if (breakIconStates[iconRows[i][j]] == BreakType.ChowHall)
                             {
 								TacticDefOf.TG_ChowTimeSFX.PlayOneShotOnCamera();
 							}
-							WorkSearchUtility.TakeABreak(breakIconStates[iconRows2[i][j]], this.colonistGroup.ActivePawns);
+							WorkSearchUtility.TakeABreak(breakIconStates[iconRows[i][j]], this.colonistGroup.ActivePawns);
 							Event.current.Use();
 						}
 					}
@@ -263,20 +146,45 @@ namespace TacticalGroups
 			}
 
 			var workRows = GetWorkTypeRows(2);
-			var initialRect = new Rect((rect.x + rect.width) - 245, rect.y + 75, 240, rect.height - 95);
+			var initialRect = new Rect(rect.x, rect.y + 75, 320, rect.height - 95);
 			var workMenuRect = new Rect(initialRect);
 			workMenuRect.height -= 103;
-
-			DoManualPrioritiesCheckbox(new Rect(workMenuRect.x, rect.y + 30, workMenuRect.width, 40));
+			var manualPrioritiesRect = new Rect(workMenuRect.x + test4, rect.y + 30, test5, 40);
+			DoManualPrioritiesCheckbox(manualPrioritiesRect);
 			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
-			Rect rect5 = new Rect(0f, 0f, workMenuRect.width - 16f, listHeight);
-			Widgets.BeginScrollView(workMenuRect, ref scrollPosition, rect5);
+			Rect workCellRect = new Rect(0f, 0f, workMenuRect.width - 16f, listHeight);
+			Widgets.BeginScrollView(workMenuRect, ref scrollPosition, workCellRect);
 
 			for (var i = 0; i < workRows.Count; i++)
 			{
 				for (var j = 0; j < workRows[i].Count; j++)
 				{
-					Rect workRect = new Rect(rect5.x + (j * 20) + j * 91.5f, rect5.y + (i * 17) + i * 17, 24, 24);
+					Rect workTypeRect = new Rect(workCellRect.x + (j * test2) + (j * test2) + test, (workCellRect.y + (i * 17) + (i * 17)) + test3, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
+					var workDictData = this.colonistGroup.activeWorkTypes.FirstOrDefault(x => x.Key.workTypeDef == workRows[i][j]);
+					if (workDictData.Key != null)
+                    {
+						switch (workDictData.Value)
+						{
+							case WorkState.Temporary:
+							case WorkState.Inactive: GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty); break;
+							case WorkState.Active: GUI.DrawTexture(workTypeRect, Textures.WorkSelectBlue); break;
+							case WorkState.ForcedLabor: GUI.DrawTexture(workTypeRect, Textures.WorkSelectRed); break;
+						}
+					}
+					else
+                    {
+						GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty);
+					}
+
+					if (Mouse.IsOver(workTypeRect))
+                    {
+						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+						{
+							this.colonistGroup.ChangeWorkState(workRows[i][j]);
+							Event.current.Use();
+						}
+					}
+					Rect workRect = new Rect(workTypeRect.xMax + 5, workTypeRect.y - test3, 24, 24);
 					this.DoWorkCell(workRect, workRows[i][j]);
 					this.DoWorkHeader(workRect, workRows[i][j]);
 				}
@@ -284,8 +192,7 @@ namespace TacticalGroups
 			Widgets.EndScrollView();
 			DrawExtraGui(rect);
 
-
-			var caravanButtonRect = new Rect(initialRect.x + 155, rect.y + 23, Textures.CaravanButton.width, Textures.CaravanButton.height);
+			var caravanButtonRect = new Rect(manualPrioritiesRect.xMax + 5, rect.y + 23, Textures.CaravanButton.width, Textures.CaravanButton.height);
 			GUI.DrawTexture(caravanButtonRect, Textures.CaravanButton);
 			if (Mouse.IsOver(caravanButtonRect))
 			{
@@ -301,45 +208,7 @@ namespace TacticalGroups
 			}
 
 
-			var researchWorkRect = new Rect(rect.x + 253, rect.y + 459, Textures.ResearchWorkButton.width, Textures.ResearchWorkButton.height);
-			GUI.DrawTexture(researchWorkRect, Textures.ResearchWorkButton);
-			if (this.colonistGroup.activeWorkTypes.TryGetValue(WorkType.Research, out WorkState state))
-			{
-				if (state == WorkState.Active)
-                {
-					GUI.DrawTexture(researchWorkRect, Textures.Clock, ScaleMode.ScaleToFit);
-                }
-				else if (state == WorkState.ForcedLabor)
-                {
-					GUI.DrawTexture(researchWorkRect, Textures.ClockSlave, ScaleMode.ScaleToFit);
-				}
-			}
-
-			Text.Anchor = TextAnchor.MiddleCenter;
-			var researchLabel = new Rect(researchWorkRect.x + 30, researchWorkRect.y - 25, 80, 24);
-			Widgets.Label(researchLabel, Strings.WorkTaskTooltipResearch);
-			Text.Anchor = TextAnchor.UpperLeft;
-
-			TooltipHandler.TipRegion(researchWorkRect, Strings.WorkTaskTooltipResearch + "\n" + Strings.ForcedLaborTooltip);
-			if (Mouse.IsOver(researchWorkRect))
-			{
-				GUI.DrawTexture(researchWorkRect, Textures.ResearchHover);
-				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
-				{
-					TacticDefOf.TG_ResearchSFX.PlayOneShotOnCamera();
-					this.colonistGroup.RemoveWorkState(WorkType.Research);
-					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
-					Event.current.Use();
-				}
-				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
-				{
-					TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
-					this.colonistGroup.ChangeWorkState(WorkType.Research);
-					WorkSearchUtility.SearchForWork(WorkType.Research, this.colonistGroup.ActivePawns);
-					Event.current.Use();
-				}
-			}
-			var researchMenuRect = new Rect(researchWorkRect.x + 89, researchWorkRect.y, Textures.ResearchMenuButton.width, Textures.ResearchMenuButton.height);
+			var researchMenuRect = new Rect(rect.x + 253, rect.y + 459, Textures.ResearchWorkButton.width, Textures.ResearchWorkButton.height);
 			GUI.DrawTexture(researchMenuRect, Textures.ResearchMenuButton);
 			if (Mouse.IsOver(researchMenuRect))
 			{

@@ -16,30 +16,35 @@ namespace TacticalGroups
 	{
 		public static void SearchForWork(WorkType workType, List<Pawn> pawns)
 		{
-			switch (workType)
+			if (workType.workTypeDef != null)
+            {
+				SearchForWork(workType.workTypeDef, pawns);
+
+			}
+			else
+            {
+				SearchForWork(workType.workTypeEnum, pawns);
+			}
+		}
+
+		public static void SearchForWork(WorkTypeDef workType, List<Pawn> pawns)
+		{
+			foreach (var pawn in pawns)
 			{
-				case WorkType.None: SearchForWorkGeneral(pawns); break;
-				case WorkType.Construction: SearchForWorkConstruction(pawns); break;
-				case WorkType.Cleaning: SearchForWorkCleaning(pawns); break;
-				case WorkType.Cooking: SearchForWorkCooking(pawns); break;
-				case WorkType.Crafting: SearchForWorkCrafting(pawns); break;
-				case WorkType.ClearSnow: SearchForWorkClearSnow(pawns); break;
-				case WorkType.Doctor: SearchForWorkDoctor(pawns); break;
-				case WorkType.Hauling: SearchForWorkHauling(pawns); break;
-				case WorkType.Hunting: SearchForWorkHunting(pawns); break;
-				case WorkType.Mining: SearchForWorkMining(pawns); break;
-				case WorkType.Plants: SearchForWorkPlants(pawns); break;
-				case WorkType.Warden: SearchForWorkWarden(pawns); break;
-				case WorkType.WoodChopping: SearchForWorkWoodChopping(pawns); break;
-				case WorkType.Art: SearchForWorkArt(pawns); break;
-				case WorkType.Handle: SearchForWorkHandle(pawns); break;
-				case WorkType.Smith: SearchForWorkSmith(pawns); break;
-				case WorkType.Tailor: SearchForWorkTailor(pawns); break;
-				case WorkType.Research: SearchForWorkResearch(pawns); break;
-				case WorkType.FireExtinguish: SearchForWorkFireExtinguish(pawns); break;
-				case WorkType.TendWounded: SearchForWorkTendWounded(pawns); break;
-				case WorkType.RescueFallen: SearchForWorkRescueFallen(pawns); break;
-				case WorkType.UnloadCaravan: SearchForWorkUnloadCaravan(pawns); break;
+				if (pawn.CurJob?.workGiverDef?.workType != workType)
+				{
+					GetJobFor(pawn, workType.workGiversByPriority);
+				}
+			}
+		}
+		public static void SearchForWork(WorkTypeEnum workTypeEnum, List<Pawn> pawns)
+		{
+			switch (workTypeEnum)
+			{
+				case WorkTypeEnum.None: SearchForWorkGeneral(pawns); break;
+				case WorkTypeEnum.TendWounded: SearchForWorkTendWounded(pawns); break;
+				case WorkTypeEnum.RescueFallen: SearchForWorkRescueFallen(pawns); break;
+				case WorkTypeEnum.UnloadCaravan: SearchForWorkUnloadCaravan(pawns); break;
 				default: return;
 			}
 		}
@@ -66,222 +71,6 @@ namespace TacticalGroups
 			}
 		}
 
-		public static void SearchForWorkConstruction(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = WorkTypeDefOf.Construction;
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public static void SearchForWorkCleaning(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Cleaning");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkCooking(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Cooking");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkCrafting(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Crafting");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkClearSnow(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkGiverDef>.GetNamed("CleanClearSnow");
-				if (pawn.CurJob?.workGiverDef != workType)
-				{
-					GetJobFor(pawn, new List<WorkGiverDef> { workType });
-				}
-			}
-		}
-
-		public static void SearchForWorkDoctor(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Doctor");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkHauling(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Hauling");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkHunting(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Hunting");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public static void SearchForWorkMining(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Mining");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public static void SearchForWorkPlants(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var growingWorkType = DefDatabase<WorkTypeDef>.GetNamed("Growing");
-				var plantCuttingWorkType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
-
-				if (pawn.CurJob?.workGiverDef?.workType != growingWorkType && pawn.CurJob?.workGiverDef?.workType != plantCuttingWorkType)
-				{
-					var workgivers = new List<WorkGiverDef>();
-					workgivers.AddRange(growingWorkType.workGiversByPriority);
-					workgivers.AddRange(plantCuttingWorkType.workGiversByPriority);
-					GetJobFor(pawn, workgivers);
-				}
-			}
-		}
-
-		public static void SearchForWorkWarden(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Warden");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkWoodChopping(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("PlantCutting");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public static void SearchForWorkArt(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Art");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkHandle(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Handling");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-		public static void SearchForWorkSmith(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Smithing");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkTailor(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Tailoring");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkResearch(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Research");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
-		public static void SearchForWorkFireExtinguish(List<Pawn> pawns)
-		{
-			foreach (var pawn in pawns)
-			{
-				var workType = DefDatabase<WorkTypeDef>.GetNamed("Firefighter");
-				if (pawn.CurJob?.workGiverDef?.workType != workType)
-				{
-					GetJobFor(pawn, workType.workGiversByPriority);
-				}
-			}
-		}
-
 		public static void SearchForWorkTendWounded(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)
@@ -295,6 +84,7 @@ namespace TacticalGroups
 			}
 		}
 
+		
 		public static void SearchForWorkRescueFallen(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)
@@ -307,7 +97,7 @@ namespace TacticalGroups
 				}
 			}
 		}
-
+		
 		public static void SearchForWorkUnloadCaravan(List<Pawn> pawns)
 		{
 			foreach (var pawn in pawns)

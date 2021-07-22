@@ -16,7 +16,7 @@ namespace TacticalGroups
 		public string groupAreaIndex;
 		public string groupDrugPolicyIndex;
 		public string groupFoodRestrictionIndex;
-		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
+		public Dictionary<string, WorkState> activeWorkTypes = new Dictionary<string, WorkState>();
 		public Dictionary<string, int> groupWorkPrioritiesDefnames = new Dictionary<string, int>();
 		public void ExposeData()
 		{
@@ -30,7 +30,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref groupOutfitIndex, "groupOutfit");
 		}
 
-		private List<WorkType> workTypesKeys;
+		private List<string> workTypesKeys;
 		private List<WorkState> workStateValues;
 
 		private List<string> workTypesDefKeys;
@@ -91,7 +91,19 @@ namespace TacticalGroups
 			}
 			if (this.activeWorkTypes != null && this.activeWorkTypes.Any())
             {
-				groupPreset.activeWorkTypes = this.activeWorkTypes;
+				if (groupPreset.activeWorkTypes is null)
+                {
+					groupPreset.activeWorkTypes = new Dictionary<WorkType, WorkState>();
+                }
+				foreach (var workTypeData in this.activeWorkTypes)
+                {
+					var def = DefDatabase<WorkTypeDef>.GetNamedSilentFail(workTypeData.Key);
+					if (def != null)
+                    {
+
+						groupPreset.activeWorkTypes[new WorkType(def)] = workTypeData.Value;
+					}
+                }
             }
 			return groupPreset;
 		}
@@ -211,7 +223,14 @@ namespace TacticalGroups
 			}
 			if (this.activeWorkTypes != null && this.activeWorkTypes.Any())
 			{
-				groupPresetSaveable.activeWorkTypes = this.activeWorkTypes;
+				groupPresetSaveable.activeWorkTypes = new Dictionary<string, WorkState>();
+				foreach (var data in this.activeWorkTypes)
+                {
+					if (data.Key.workTypeDef != null)
+                    {
+						groupPresetSaveable.activeWorkTypes[data.Key.workTypeDef.defName] = data.Value;
+                    }
+				}
 			}
 			return groupPresetSaveable;
 		}

@@ -21,29 +21,11 @@ namespace TacticalGroups
 		Name
     }
 
-	public enum WorkType
+	public enum WorkTypeEnum
 	{
 		None,
-		Construction,
-		Crafting,
-		Hauling,
-		Cleaning,
-		Hunting,
-		Cooking,
-		Mining,
-		WoodChopping,
-		Plants,
-		ClearSnow,
-		Doctor,
-		Warden,
-		Tailor,
-		Smith,
-		Handle,
-		FireExtinguish,
-		Art,
 		RescueFallen,
 		TendWounded,
-		Research,
 		UnloadCaravan
 	}
 	public enum BreakType

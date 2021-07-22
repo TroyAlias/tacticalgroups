@@ -18,29 +18,6 @@ namespace TacticalGroups
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
 		}
-
-		private static Dictionary<WorkType, string> workTypesLabels = new Dictionary<WorkType, string>
-		{
-			{WorkType.Construction, "TG.WorkTaskTooltipConstruction".Translate()},
-			{WorkType.Crafting, "TG.WorkTaskTooltipCraft".Translate()},
-			{WorkType.Hauling, "TG.WorkTaskTooltipHaul".Translate()},
-			{WorkType.Cleaning, "TG.WorkTaskTooltipClean".Translate()},
-			{WorkType.Hunting, "TG.WorkTaskTooltipHunt".Translate()},
-			{WorkType.Cooking, "TG.WorkTaskTooltipCook".Translate()},
-			{WorkType.Mining, "TG.WorkTaskTooltipMine".Translate()},
-			{WorkType.WoodChopping, "TG.WorkTaskTooltipChopWood".Translate()},
-			{WorkType.Plants, "TG.WorkTaskTooltipFarm".Translate()},
-			{WorkType.ClearSnow, "TG.WorkTaskTooltipClearSnow".Translate()},
-			{WorkType.Warden, "TG.WorkTaskTooltipWarden".Translate()},
-			{WorkType.Art, "TG.WorkTaskTooltipArt".Translate()},
-			{WorkType.Tailor, "TG.WorkTaskTooltipTailor".Translate()},
-			{WorkType.Smith, "TG.WorkTaskTooltipSmith".Translate()},
-			{WorkType.Handle, "TG.WorkTaskTooltipHandle".Translate()},
-			{WorkType.FireExtinguish, "TG.WorkTaskTooltipFireExtinguish".Translate()},
-			{WorkType.Research, "TG.WorkTaskTooltipResearch".Translate()},
-			{WorkType.RescueFallen, "TG.RescueFallen".Translate()},
-			{WorkType.TendWounded, "TG.TendWounded".Translate()},
-		};
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -144,14 +121,7 @@ namespace TacticalGroups
 						tooltip += Strings.PresetActiveWorkStatesTooltip + "\n";
 						foreach (var activeWorkType in preset.activeWorkTypes)
 						{
-							if (workTypesLabels.ContainsKey(activeWorkType.Key))
-                            {
-								tooltip += workTypesLabels[activeWorkType.Key] + ": " + ("TG." + activeWorkType.Value.ToString()).Translate() + "\n";
-                            }
-							else
-                            {
-								Log.Error($"Colony Groups: error finding a key {activeWorkType.Key} in the workTypesLabels dictionary. Please report about it to mod devs.");
-							}
+							tooltip += activeWorkType.Key.Label + ": " + ("TG." + activeWorkType.Value.ToString()).Translate() + "\n";
 						}
 						tooltip += "--------------\n";
 					}

@@ -1104,37 +1104,77 @@ namespace TacticalGroups
 		}
 
 		public Dictionary<WorkType, WorkState> ActiveWorkTypes => this.activeWorkTypes
-			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary && x.Key != WorkType.RescueFallen && x.Key != WorkType.TendWounded)
+			.Where(x => x.Value != WorkState.Inactive && x.Value != WorkState.Temporary)
 			.ToDictionary(y => y.Key, y => y.Value);
-		public void RemoveWorkState(WorkType workType)
-		{
-			if (this.activeWorkTypes.ContainsKey(workType))
-			{
-				this.activeWorkTypes[workType] = WorkState.Inactive;
-			}
 
+		public void RemoveWorkState(WorkTypeEnum workTypeEnum)
+		{
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum);
+			foreach (var data in workTypes)
+			{
+				this.activeWorkTypes[data.Key] = WorkState.Inactive;
+
+			}
 			SetCurrentActiveState();
 		}
 
-		public void ChangeWorkState(WorkType workType)
-        {
-			if (this.activeWorkTypes.ContainsKey(workType))
-            {
-				var state = this.activeWorkTypes[workType];
-				if (state == WorkState.ForcedLabor)
-                {
-					this.activeWorkTypes[workType] = WorkState.Inactive;
+		public void ChangeWorkState(WorkTypeEnum workTypeEnum)
+		{
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum);
+			if (workTypes.Any())
+			{
+				foreach (var data in workTypes)
+				{
+					var state = data.Value;
+					if (state == WorkState.ForcedLabor)
+					{
+						this.activeWorkTypes[data.Key] = WorkState.Inactive;
+					}
+					else
+					{
+						this.activeWorkTypes[data.Key] = (WorkState)((int)state + 1);
+					}
 				}
-				else
-                {
-					this.activeWorkTypes[workType] = (WorkState)((int)state + 1);
+			}
+			else
+			{
+				this.activeWorkTypes[new WorkType(workTypeEnum)] = WorkState.Active;
+			}
+			SetCurrentActiveState();
+		}
+		public void RemoveWorkState(WorkTypeDef workTypeDef)
+		{
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef);
+			foreach (var data in workTypes)
+            {
+				this.activeWorkTypes[data.Key] = WorkState.Inactive;
+
+			}
+			SetCurrentActiveState();
+		}
+
+		public void ChangeWorkState(WorkTypeDef workTypeDef)
+		{
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef);
+			if (workTypes.Any())
+            {
+				foreach (var data in workTypes.ToList())
+				{
+					var state = data.Value;
+					if (state == WorkState.ForcedLabor)
+					{
+						this.activeWorkTypes[data.Key] = WorkState.Inactive;
+					}
+					else
+					{
+						this.activeWorkTypes[data.Key] = (WorkState)((int)state + 1);
+					}
 				}
 			}
 			else
             {
-				this.activeWorkTypes[workType] = WorkState.Active;
+				this.activeWorkTypes[new WorkType(workTypeDef)] = WorkState.Active;
 			}
-
 			SetCurrentActiveState();
 		}
 
@@ -1161,14 +1201,20 @@ namespace TacticalGroups
 			}
 		}
 
-		public void AssignTemporaryWorkers(WorkType workType)
+		public void AssignTemporaryWorkers(WorkTypeDef workType)
         {
 			foreach (var pawn in pawns)
             {
-				this.temporaryWorkers[pawn] = workType;
+				this.temporaryWorkers[pawn] = new WorkType(workType);
 			}
 		}
-
+		public void AssignTemporaryWorkers(WorkTypeEnum workTypeEnum)
+		{
+			foreach (var pawn in pawns)
+			{
+				this.temporaryWorkers[pawn] = new WorkType(workTypeEnum);
+			}
+		}
 		public void SetGroupWorkPriorityFor(WorkTypeDef workType, int priority)
         {
 			if (groupWorkPriorities is null) 
@@ -1239,45 +1285,6 @@ namespace TacticalGroups
 				SyncPoliciesFor(pawn);
 			}
 		}
-		//public void RemovePreset(GroupPreset preset)
-        //{
-		//	this.activeGroupPresets.Remove(preset);
-		//	if (this.groupDrugPolicy == preset.groupDrugPolicy)
-        //    {
-		//		this.groupDrugPolicy = null;
-		//		this.groupDrugPolicyEnabled = false;
-        //    }
-		//	if (this.groupFoodRestriction == preset.groupFoodRestriction)
-		//	{
-		//		this.groupFoodRestriction = null;
-		//		this.groupFoodRestrictionEnabled = false;
-		//	}
-		//	if (this.groupOutfit == preset.groupOutfit)
-		//	{
-		//		this.groupOutfit = null;
-		//		this.groupOutfitEnabled = false;
-		//	}
-		//	if (this.groupArea == preset.groupArea)
-		//	{
-		//		this.groupArea = null;
-		//		this.groupAreaEnabled = false;
-		//	}
-		//	if (this.activeWorkTypes == preset.activeWorkTypes)
-        //    {
-		//		this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
-		//		this.activeWorkState = WorkState.Inactive;
-        //    }
-		//	if (this.groupWorkPriorities == preset.groupWorkPriorities)
-        //    {
-		//		this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
-		//	}
-		//
-		//	foreach (var pawn in this.pawns)
-		//	{
-		//		SyncPoliciesFor(pawn);
-		//	}
-		//}
-
 		public void ResetGroupPolicies()
         {
 			this.activeWorkTypes.Clear();
@@ -1295,8 +1302,9 @@ namespace TacticalGroups
         {
 			Scribe_Collections.Look(ref pawns, "pawns", LookMode.Reference);
 			Scribe_Collections.Look(ref pawnIcons, "pawnIcons", LookMode.Reference, LookMode.Deep, ref pawnKeys, ref pawnIconValues);
-			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Value, ref pawnKeys3, ref workTypeValues2);
-			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Value, LookMode.Value, ref workTypesKeys, ref workStateValues);
+			Scribe_Collections.Look(ref temporaryWorkers, "temporaryWorkers", LookMode.Reference, LookMode.Deep, ref pawnKeys3, ref workTypeValues2);
+			Scribe_Collections.Look(ref activeWorkTypes, "activeWorkTypes", LookMode.Deep, LookMode.Value, ref workTypesKeys, ref workStateValues);
+
 			Scribe_Collections.Look(ref groupWorkPriorities, "groupWorkPriorities", LookMode.Def, LookMode.Value, ref workTypesDefKeys, ref intValues);
 			Scribe_Collections.Look(ref formations, "formations", LookMode.Deep);
 
@@ -1395,11 +1403,12 @@ namespace TacticalGroups
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
 		public Dictionary<Pawn, PawnIcon> pawnIcons = new Dictionary<Pawn, PawnIcon>();
-		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
 
+		public Dictionary<Pawn, WorkType> temporaryWorkers = new Dictionary<Pawn, WorkType>();
 		public Dictionary<WorkType, WorkState> activeWorkTypes = new Dictionary<WorkType, WorkState>();
+
 		public Dictionary<WorkTypeDef, int> groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
-		//public List<GroupPreset> activeGroupPresets = new List<GroupPreset>();
+
 		public List<Formation> formations = new List<Formation>(4);
 		public Formation activeFormation;
 
@@ -1460,8 +1469,5 @@ namespace TacticalGroups
 
 		private List<WorkTypeDef> workTypesDefKeys;
 		private List<int> intValues;
-
-		private List<PrisonerInteractionModeDef> prisonerInteractionDefKeys;
-		private List<bool> boolValues;
 	}
 }
