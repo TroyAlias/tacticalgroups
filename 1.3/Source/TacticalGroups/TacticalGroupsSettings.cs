@@ -107,9 +107,6 @@ namespace TacticalGroups
             Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
-            //Scribe_Values.Look(ref OverallPawnIconScale, "OverallPawnIconScale", 1f);
-            //Scribe_Values.Look(ref PawnScale, "PawnScale", 1f);
-            //Scribe_Values.Look(ref PawnBoxScale, "PawnBoxScale", 1f);
 
             Scribe_Values.Look(ref XPawnIconOffset, "XPawnIconOffset", 0f);
             Scribe_Values.Look(ref YPawnIconOffset, "YPawnIconOffset", 0f);
@@ -180,7 +177,7 @@ namespace TacticalGroups
             listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 100);
             listingStandard.SliderLabeled(Strings.ColonistBarSpacing, ref ColonistBarSpacing, ColonistBarSpacing.ToStringDecimalIfSmall(), 0, 100);
-            //listingStandard.SliderLabeled(Strings.OverallPawnDisplayScale, ref PawnScale, PawnScale.ToStringDecimalIfSmall(), 0.5f, 5f);
+
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);
             listingStandard.SliderLabeled(Strings.PawnNeedsSize, ref PawnNeedsWidth, PawnNeedsWidth.ToString(), 1, 20);

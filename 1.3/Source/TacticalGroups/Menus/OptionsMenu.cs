@@ -180,7 +180,7 @@ namespace TacticalGroups
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnCameraOffsetZ = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetZ, -1f, 1f);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0f, 5f);
+			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.1f, 5f);
 
 			rightHalf.y += 15f;
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Box);

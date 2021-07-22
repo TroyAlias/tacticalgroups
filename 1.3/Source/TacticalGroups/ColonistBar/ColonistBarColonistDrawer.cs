@@ -122,8 +122,12 @@ namespace TacticalGroups
 			{
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
+
 			var pawnIconRect = GetPawnTextureRect(rect.position);
-			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, PawnTextureSize * TacticalGroupsSettings.PawnScale, Rot4.South, PawnTextureCameraOffset, PawnTextureCameraZoom * TacticalGroupsSettings.PawnScale));
+			var pawnTextureSize = PawnTextureSize * TacticalGroupsSettings.PawnScale;
+			pawnTextureSize *= pawnIconRect.size.magnitude / pawnTextureSize.magnitude;
+			GUI.DrawTexture(pawnIconRect, PortraitsCache.Get(colonist, pawnTextureSize, Rot4.South, PawnTextureCameraOffset, PawnTextureCameraZoom * TacticalGroupsSettings.PawnScale));
+
 			if (colonist.Drafted)
             {
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
@@ -385,7 +389,7 @@ namespace TacticalGroups
 			if (TacticalGroupsSettings.PawnCameraOffsetZ < 0 && pawnHeight < TacticUtils.TacticalColonistBar.Size.y)
 			{
 				PawnTextureCameraOffset.z = 0f;
-				pawnTexture.y -= pawnTexture.height * Mathf.Abs(TacticalGroupsSettings.PawnCameraOffsetZ) * TacticalGroupsSettings.PawnScale;
+				pawnTexture.y -= (pawnTexture.height * Mathf.Abs(TacticalGroupsSettings.PawnCameraOffsetZ)) * TacticalGroupsSettings.PawnScale;
 			}
 			return pawnTexture;
 		}
