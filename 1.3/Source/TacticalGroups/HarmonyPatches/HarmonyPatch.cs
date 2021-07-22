@@ -371,17 +371,19 @@ namespace TacticalGroups
                             {
                                 __state = new Dictionary<WorkType, WorkState> { { workType, WorkState.Temporary } };
                                 startNewJob = false;
+                                Log.Message(___pawn + " got a group with forced labors: " + group);
                                 return;
                             }
                         }
 
                         if (group.activeWorkTypes?.Count > 0)
                         {
-                            foreach (var data in group.activeWorkTypes)
+                            foreach (var data in group.activeWorkTypes.OrderByDescending(x => x.Value))
                             {
-                                if (data.Value != WorkState.Inactive || data.Value == WorkState.Active && CanWork(___pawn) && CanWorkActive(___pawn))
+                                if (data.Value != WorkState.Inactive || data.Value == WorkState.ForcedLabor && CanWork(___pawn) && CanWorkActive(___pawn))
                                 {
                                     __state[data.Key] = data.Value;
+                                    Log.Message(___pawn + " got a group with forced labors: " + group);
                                 }
                             }
                         }
@@ -403,12 +405,13 @@ namespace TacticalGroups
                 {
                     if (state.Value != WorkState.Inactive && CanWork(___pawn))
                     {
-                        if (state.Value == WorkState.Active && !CanWorkActive(___pawn))
+                        if (state.Value == WorkState.ForcedLabor && !CanWorkActive(___pawn))
                         {
                             continue;
                         }
                         var curJob = ___pawn.CurJob;
                         WorkSearchUtility.SearchForWork(state.Key, new List<Pawn> { ___pawn });
+                        Log.Message(state.Key.workTypeDef + " - " + ___pawn + " got forced job: " + ___pawn.CurJob + " - " + state.Key.Label);
                         if (curJob != ___pawn.CurJob)
                         {
                             break;

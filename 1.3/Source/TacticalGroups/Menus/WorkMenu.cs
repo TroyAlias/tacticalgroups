@@ -156,19 +156,31 @@ namespace TacticalGroups
 				{
 					Rect workTypeRect = new Rect(workCellRect.x + (j * 72) + (j * 72) + 17.5f, (workCellRect.y + (i * 17) + (i * 17)) + 8, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
 					var workDictData = this.colonistGroup.activeWorkTypes.FirstOrDefault(x => x.Key.workTypeDef == workRows[i][j]);
+					WorkState workState;
 					if (workDictData.Key != null)
                     {
-						switch (workDictData.Value)
-						{
-							case WorkState.Temporary:
-							case WorkState.Inactive: GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty); break;
-							case WorkState.Active: GUI.DrawTexture(workTypeRect, Textures.WorkSelectBlue); break;
-							case WorkState.ForcedLabor: GUI.DrawTexture(workTypeRect, Textures.WorkSelectRed); break;
-						}
+						workState = workDictData.Value;
 					}
 					else
                     {
-						GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty);
+						workState = WorkState.Inactive;
+					}
+
+					switch (workState)
+					{
+						case WorkState.Temporary:
+						case WorkState.Inactive: 
+							GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty);
+							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeLeftClickToApply);
+							break;
+						case WorkState.ForcedLabor: 
+							GUI.DrawTexture(workTypeRect, Textures.WorkSelectBlue);
+							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeForcedLabor);
+							break;
+						case WorkState.SlaveLabor: 
+							GUI.DrawTexture(workTypeRect, Textures.WorkSelectRed);
+							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeSlaveLabor);
+							break;
 					}
 
 					if (Mouse.IsOver(workTypeRect))

@@ -222,5 +222,9 @@ namespace TacticalGroups
 		public static readonly string ResetToDefault = "TG.ResetToDefault".Translate();
 		public static readonly string ResetPawnView = "TG.ResetPawnView".Translate();
 
+		public static readonly string WorkTypeLeftClickToApply = "TG.WorkTypeLeftClickToApply".Translate();
+		public static readonly string WorkTypeForcedLabor = "TG.WorkTypeForcedLabor".Translate();
+		public static readonly string WorkTypeSlaveLabor = "TG.WorkTypeSlaveLabor".Translate();
+
 	}
 }

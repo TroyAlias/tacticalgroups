@@ -17,7 +17,7 @@ namespace TacticalGroups
 		public OptionsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
 			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
-
+			this.closeOnClickedOutside = true;
 		}
 
 		protected override void SetInitialSizeAndPosition()

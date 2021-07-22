@@ -241,5 +241,9 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	
 	<TG.ResetToDefault>Reset to Default</TG.ResetToDefault>
 	<TG.ResetPawnView>Reset Pawn View</TG.ResetPawnView>
-		
+
+	<TG.WorkTypeLeftClickToApply>Left Click to Apply</TG.WorkTypeLeftClickToApply>
+	<TG.WorkTypeForcedLabor>Forced Labor</TG.WorkTypeForcedLabor>
+	<TG.WorkTypeSlaveLabor>Slave Labor</TG.WorkTypeSlaveLabor>
+
 </LanguageData>

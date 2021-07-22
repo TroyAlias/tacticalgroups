@@ -100,11 +100,11 @@ namespace TacticalGroups
 		public override void Draw(Rect rect)
         {
             base.Draw(rect);
-			if (this.activeWorkState == WorkState.ForcedLabor)
+			if (this.activeWorkState == WorkState.SlaveLabor)
             {
 				GUI.DrawTexture(rect, Textures.ColonySlave);
             }
-			else if (this.activeWorkState == WorkState.Active)
+			else if (this.activeWorkState == WorkState.ForcedLabor)
             {
 				GUI.DrawTexture(rect, Textures.DefaultColonyWork);
             }

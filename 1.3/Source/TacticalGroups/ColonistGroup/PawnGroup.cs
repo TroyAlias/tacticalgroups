@@ -87,6 +87,7 @@ namespace TacticalGroups
         public override void Disband()
         {
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+			TacticUtils.RemoveReferencesFor(this);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
 		public override void Disband(Pawn pawn)
@@ -95,6 +96,7 @@ namespace TacticalGroups
 			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
 			{
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+				TacticUtils.RemoveReferencesFor(this);
 			}
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
@@ -118,6 +120,7 @@ namespace TacticalGroups
 			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
 			{
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
+				TacticUtils.RemoveReferencesFor(this);
 			}
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
 		}
@@ -128,18 +131,18 @@ namespace TacticalGroups
 			if (this.isSubGroup)
             {
 				var workIconRect = new Rect(rect.x, rect.yMax + 5, Textures.ClockSlave.width, Textures.ClockSlave.height);
-				if (this.activeWorkState == WorkState.ForcedLabor)
+				if (this.activeWorkState == WorkState.SlaveLabor)
 				{
 					GUI.DrawTexture(workIconRect, Textures.ClockSlave);
 				}
-				else if (this.activeWorkState == WorkState.Active)
+				else if (this.activeWorkState == WorkState.ForcedLabor)
 				{
 					GUI.DrawTexture(workIconRect, Textures.Clock);
 				}
 			}
 			else
             {
-				if (this.activeWorkState == WorkState.ForcedLabor)
+				if (this.activeWorkState == WorkState.SlaveLabor)
 				{
 					if (this.bannerModeEnabled)
 					{
@@ -150,7 +153,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
 					}
 				}
-				else if (this.activeWorkState == WorkState.Active)
+				else if (this.activeWorkState == WorkState.ForcedLabor)
 				{
 					if (this.bannerModeEnabled)
 					{

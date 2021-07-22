@@ -86,6 +86,17 @@ namespace TacticalGroups
 		}
 
 		private static Dictionary<Pawn, HashSet<ColonistGroup>> pawnsWithGroups = new Dictionary<Pawn, HashSet<ColonistGroup>>();
+
+		public static void RemoveReferencesFor(ColonistGroup group)
+        {
+			foreach (var cachedData in pawnsWithGroups)
+            {
+				if (cachedData.Value.Contains(group))
+                {
+					cachedData.Value.Remove(group);
+				}
+            }
+        }
 		public static void RegisterGroupFor(Pawn pawn, ColonistGroup group)
         {
 			if (pawnsWithGroups.ContainsKey(pawn))
