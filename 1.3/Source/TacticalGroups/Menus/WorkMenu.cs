@@ -15,11 +15,6 @@ namespace TacticalGroups
 {
 	public class WorkMenu : TieredFloatMenu
 	{
-		[TweakValue("0ColonyGroups", 0, 500)] public static float test = 17.5f;
-		[TweakValue("0ColonyGroups", 0, 500)] public static float test2 = 72;
-		[TweakValue("0ColonyGroups", 0, 500)] public static float test3 = 8;
-		[TweakValue("0ColonyGroups", 0, 500)] public static float test4 = 38;
-		[TweakValue("0ColonyGroups", 0, 500)] public static float test5 = 178;
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(80, 430);
 
@@ -149,7 +144,7 @@ namespace TacticalGroups
 			var initialRect = new Rect(rect.x, rect.y + 75, 320, rect.height - 95);
 			var workMenuRect = new Rect(initialRect);
 			workMenuRect.height -= 103;
-			var manualPrioritiesRect = new Rect(workMenuRect.x + test4, rect.y + 30, test5, 40);
+			var manualPrioritiesRect = new Rect(workMenuRect.x + 38, rect.y + 30, 178, 40);
 			DoManualPrioritiesCheckbox(manualPrioritiesRect);
 			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
 			Rect workCellRect = new Rect(0f, 0f, workMenuRect.width - 16f, listHeight);
@@ -159,7 +154,7 @@ namespace TacticalGroups
 			{
 				for (var j = 0; j < workRows[i].Count; j++)
 				{
-					Rect workTypeRect = new Rect(workCellRect.x + (j * test2) + (j * test2) + test, (workCellRect.y + (i * 17) + (i * 17)) + test3, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
+					Rect workTypeRect = new Rect(workCellRect.x + (j * 72) + (j * 72) + 17.5f, (workCellRect.y + (i * 17) + (i * 17)) + 8, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
 					var workDictData = this.colonistGroup.activeWorkTypes.FirstOrDefault(x => x.Key.workTypeDef == workRows[i][j]);
 					if (workDictData.Key != null)
                     {
@@ -184,7 +179,7 @@ namespace TacticalGroups
 							Event.current.Use();
 						}
 					}
-					Rect workRect = new Rect(workTypeRect.xMax + 5, workTypeRect.y - test3, 24, 24);
+					Rect workRect = new Rect(workTypeRect.xMax + 5, workTypeRect.y - 8, 24, 24);
 					this.DoWorkCell(workRect, workRows[i][j]);
 					this.DoWorkHeader(workRect, workRows[i][j]);
 				}
