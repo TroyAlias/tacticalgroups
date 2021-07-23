@@ -1097,6 +1097,7 @@ namespace TacticalGroups
                 {
 					if (!pawn.WorkTypeIsDisabled(workPriority.Key))
 					{
+						Log.Message("SyncPoliciesFor: " + pawn + " - " + workPriority.Key + " - " + workPriority.Value);
 						pawn.workSettings.SetPriority(workPriority.Key, workPriority.Value);
 					}
 				}
@@ -1226,6 +1227,7 @@ namespace TacticalGroups
                 {
 					if (!pawn.WorkTypeIsDisabled(data.Key))
 					{
+						Log.Message("SetGroupWorkPriorityFor: " + pawn + " - " + data.Key + " - " + data.Value);
 						pawn.workSettings.SetPriority(data.Key, data.Value);
 					}
 				}

@@ -225,6 +225,6 @@ namespace TacticalGroups
 		public static readonly string WorkTypeLeftClickToApply = "TG.WorkTypeLeftClickToApply".Translate();
 		public static readonly string WorkTypeForcedLabor = "TG.WorkTypeForcedLabor".Translate();
 		public static readonly string WorkTypeSlaveLabor = "TG.WorkTypeSlaveLabor".Translate();
-
+		public static readonly string GroupWorkPrioritiesReset = "TG.GroupWorkPrioritiesReset".Translate();
 	}
 }

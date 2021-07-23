@@ -245,5 +245,8 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.WorkTypeLeftClickToApply>Left Click to Apply</TG.WorkTypeLeftClickToApply>
 	<TG.WorkTypeForcedLabor>Forced Labor</TG.WorkTypeForcedLabor>
 	<TG.WorkTypeSlaveLabor>Slave Labor</TG.WorkTypeSlaveLabor>
-
+	<TG.GroupWorkPrioritiesReset>Reset Work Priorities
+Green box = Group Override
+Middle Mouse on Green Box to Reset
+	</TG.GroupWorkPrioritiesReset>
 </LanguageData>

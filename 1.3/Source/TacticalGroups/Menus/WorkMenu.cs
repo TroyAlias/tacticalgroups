@@ -91,7 +91,6 @@ namespace TacticalGroups
 			return workTypeRows;
 		}
 
-
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -144,7 +143,19 @@ namespace TacticalGroups
 			var initialRect = new Rect(rect.x, rect.y + 75, 320, rect.height - 95);
 			var workMenuRect = new Rect(initialRect);
 			workMenuRect.height -= 103;
-			var manualPrioritiesRect = new Rect(workMenuRect.x + 38, rect.y + 30, 178, 40);
+			var resetWorkPriorities = new Rect(workMenuRect.x + 20, rect.y + 32, Textures.ResetIcon.width, Textures.ResetIcon.height);
+			GUI.DrawTexture(resetWorkPriorities, Textures.ResetIcon);
+			if (Mouse.IsOver(resetWorkPriorities))
+			{
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+				{
+					this.colonistGroup.groupWorkPriorities?.Clear();
+					Event.current.Use();
+				}
+				TooltipHandler.TipRegion(resetWorkPriorities, Strings.GroupWorkPrioritiesReset);
+			}
+
+			var manualPrioritiesRect = new Rect(resetWorkPriorities.xMax + 10, rect.y + 30, 162, 40);
 			DoManualPrioritiesCheckbox(manualPrioritiesRect);
 			float listHeight = workRows.Count * 33 + (workRows.Count * 2);
 			Rect workCellRect = new Rect(0f, 0f, workMenuRect.width - 16f, listHeight);

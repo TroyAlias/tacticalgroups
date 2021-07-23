@@ -67,24 +67,24 @@ namespace TacticalGroups
 			return false;
 		}
 
-		public static int GetAllCommonWorkPriority(ColonistGroup group, WorkTypeDef wType)
+		public static bool TryGetGroupWorkPriority(ColonistGroup group, WorkTypeDef wType, out int priority)
         {
-			if (group?.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(wType, out int priority))
+			if (group?.groupWorkPriorities != null && group.groupWorkPriorities.TryGetValue(wType, out priority))
             {
-				return priority;
+				return true;
             }
-			return 0;
+			priority = 4;
+			return false;
 		}
 
 		public static void DrawWorkBoxFor(float x, float y, WorkTypeDef wType, ColonistGroup group)
 		{
 			Rect rect = new Rect(x, y, 25f, 25f);
 			GUI.color = Color.white;
-			DrawWorkBoxBackground(rect, wType);
+			DrawWorkBoxBackground(rect, wType, group);
 			if (Find.PlaySettings.useWorkPriorities)
 			{
-				int priority = GetAllCommonWorkPriority(group, wType);
-				if (priority > 0)
+				if (TryGetGroupWorkPriority(group, wType, out int priority))
 				{
 					Text.Anchor = TextAnchor.MiddleCenter;
 					GUI.color = ColorOfPriority(priority);
@@ -98,14 +98,16 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 0)
 				{
-					int num2 = GetAllCommonWorkPriority(group, wType) - 1;
-					if (num2 < 0)
+					int num2;
+					if (TryGetGroupWorkPriority(group, wType, out num2) && num2 <= 0)
 					{
 						num2 = 4;
 					}
-
+					else
+                    {
+						num2--;
+                    }
 					group.SetGroupWorkPriorityFor(wType, num2);
-
 					if (ModCompatibility.BetterPawnControlIsActive)
                     {
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -114,14 +116,29 @@ namespace TacticalGroups
 				}
 				if (Event.current.button == 1)
 				{
-					int num3 = GetAllCommonWorkPriority(group, wType) + 1;
-					if (num3 > 4)
+					int num3;
+					if (TryGetGroupWorkPriority(group, wType, out num3) && num3 >= 4)
 					{
 						num3 = 0;
 					}
-
+					else
+                    {
+						num3++;
+                    }
 					group.SetGroupWorkPriorityFor(wType, num3);
 
+					if (ModCompatibility.BetterPawnControlIsActive)
+					{
+						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
+					}
+					SoundDefOf.DragSlider.PlayOneShotOnCamera();
+				}
+				if (Event.current.button == 2)
+                {
+					if (group.groupWorkPriorities != null && group.groupWorkPriorities.ContainsKey(wType))
+                    {
+						group.groupWorkPriorities.Remove(wType);
+					}
 					if (ModCompatibility.BetterPawnControlIsActive)
 					{
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -142,7 +159,20 @@ namespace TacticalGroups
 			{
 				return;
 			}
-			if (IsCommonEnabledWork(group, wType))
+
+			if (Event.current.button == 2)
+			{
+				if (group.groupWorkPriorities != null && group.groupWorkPriorities.ContainsKey(wType))
+				{
+					group.groupWorkPriorities.Remove(wType);
+				}
+				if (ModCompatibility.BetterPawnControlIsActive)
+				{
+					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
+				}
+				SoundDefOf.DragSlider.PlayOneShotOnCamera();
+			}
+			else if (IsCommonEnabledWork(group, wType))
 			{
 				group.SetGroupWorkPriorityFor(wType, 0);
 
@@ -155,7 +185,6 @@ namespace TacticalGroups
 			else
 			{
 				group.SetGroupWorkPriorityFor(wType, 3);
-
 				if (ModCompatibility.BetterPawnControlIsActive)
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
@@ -165,15 +194,11 @@ namespace TacticalGroups
 			PlayerKnowledgeDatabase.KnowledgeDemonstrated(ConceptDefOf.WorkTab, KnowledgeAmount.SpecificInteraction);
 		}
 
-		private static void DrawWorkBoxBackground(Rect rect, WorkTypeDef workDef)
+		private static void DrawWorkBoxBackground(Rect rect, WorkTypeDef workDef, ColonistGroup group)
 		{
-			Texture2D image;
-			Texture2D image2;
-			float a;
-			image = WorkBoxBGTex_Mid;
-			image2 = WorkBoxBGTex_Excellent;
-			a = (7 - 14f) / 6f;
-
+			Texture2D image = (group.groupWorkPriorities is null || !group.groupWorkPriorities.ContainsKey(workDef)) ? WorkBoxBGTex_Mid : Textures.GreenBox;
+			Texture2D image2 = WorkBoxBGTex_Excellent;
+			float a = (7 - 14f) / 6f;
 			GUI.DrawTexture(rect, image);
 			GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, a);
 			GUI.DrawTexture(rect, image2);
