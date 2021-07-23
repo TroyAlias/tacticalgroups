@@ -124,6 +124,10 @@ namespace TacticalGroups
 					else
                     {
 						num3++;
+						if (num3 >= 5)
+                        {
+							num3 = 4;
+						}
                     }
 					group.SetGroupWorkPriorityFor(wType, num3);
 
