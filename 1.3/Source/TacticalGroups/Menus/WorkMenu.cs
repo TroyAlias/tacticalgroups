@@ -173,11 +173,11 @@ namespace TacticalGroups
 							GUI.DrawTexture(workTypeRect, Textures.WorkSelectEmpty);
 							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeLeftClickToApply);
 							break;
-						case WorkState.ForcedLabor: 
+						case WorkState.Active: 
 							GUI.DrawTexture(workTypeRect, Textures.WorkSelectBlue);
 							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeForcedLabor);
 							break;
-						case WorkState.SlaveLabor: 
+						case WorkState.ForcedLabor: 
 							GUI.DrawTexture(workTypeRect, Textures.WorkSelectRed);
 							TooltipHandler.TipRegion(workTypeRect, Strings.WorkTypeSlaveLabor);
 							break;

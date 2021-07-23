@@ -40,8 +40,8 @@ namespace TacticalGroups
 	public enum WorkState
     {
 		Inactive,
+		Active,
 		ForcedLabor,
-		SlaveLabor,
 		Temporary
     }
 	public enum ColorBarMode
