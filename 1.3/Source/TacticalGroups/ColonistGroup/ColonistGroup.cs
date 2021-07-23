@@ -1126,7 +1126,7 @@ namespace TacticalGroups
 				foreach (var data in workTypes)
 				{
 					var state = data.Value;
-					if (state == WorkState.SlaveLabor)
+					if (state == WorkState.ForcedLabor)
 					{
 						this.activeWorkTypes[data.Key] = WorkState.Inactive;
 					}
@@ -1138,7 +1138,7 @@ namespace TacticalGroups
 			}
 			else
 			{
-				this.activeWorkTypes[new WorkType(workTypeEnum)] = WorkState.ForcedLabor;
+				this.activeWorkTypes[new WorkType(workTypeEnum)] = WorkState.Active;
 			}
 			SetCurrentActiveState();
 		}
@@ -1161,7 +1161,7 @@ namespace TacticalGroups
 				foreach (var data in workTypes.ToList())
 				{
 					var state = data.Value;
-					if (state == WorkState.SlaveLabor)
+					if (state == WorkState.ForcedLabor)
 					{
 						this.activeWorkTypes[data.Key] = WorkState.Inactive;
 					}
@@ -1173,7 +1173,7 @@ namespace TacticalGroups
 			}
 			else
             {
-				this.activeWorkTypes[new WorkType(workTypeDef)] = WorkState.ForcedLabor;
+				this.activeWorkTypes[new WorkType(workTypeDef)] = WorkState.Active;
 			}
 			SetCurrentActiveState();
 		}
@@ -1182,13 +1182,13 @@ namespace TacticalGroups
         {
 			if (this.ActiveWorkTypes.Any())
 			{
-				if (this.ActiveWorkTypes.Any(x => x.Value == WorkState.SlaveLabor))
-				{
-					activeWorkState = WorkState.SlaveLabor;
-				}
-				else if (this.ActiveWorkTypes.Any(x => x.Value == WorkState.ForcedLabor))
+				if (this.ActiveWorkTypes.Any(x => x.Value == WorkState.ForcedLabor))
 				{
 					activeWorkState = WorkState.ForcedLabor;
+				}
+				else if (this.ActiveWorkTypes.Any(x => x.Value == WorkState.Active))
+				{
+					activeWorkState = WorkState.Active;
 				}
 				else
 				{

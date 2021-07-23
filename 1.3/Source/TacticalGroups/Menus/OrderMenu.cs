@@ -194,11 +194,11 @@ namespace TacticalGroups
 			var states = this.colonistGroup.activeWorkTypes.Where(x => x.Key.workTypeEnum == WorkTypeEnum.TendWounded);
 			if (states != null && states.Any())
 			{
-				if (states.First().Value == WorkState.ForcedLabor)
+				if (states.First().Value == WorkState.Active)
 				{
 					GUI.DrawTexture(tendWounded, Textures.Clock);
 				}
-				else if (states.First().Value == WorkState.SlaveLabor)
+				else if (states.First().Value == WorkState.ForcedLabor)
 				{
 					GUI.DrawTexture(tendWounded, Textures.ClockSlave);
 				}
@@ -218,7 +218,7 @@ namespace TacticalGroups
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
 					this.colonistGroup.ChangeWorkState(WorkTypeEnum.TendWounded);
-					if (this.colonistGroup.activeWorkTypes.Any(x => x.Key.workTypeEnum == WorkTypeEnum.TendWounded && x.Value == WorkState.SlaveLabor))
+					if (this.colonistGroup.activeWorkTypes.Any(x => x.Key.workTypeEnum == WorkTypeEnum.TendWounded && x.Value == WorkState.ForcedLabor))
 					{
 						TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
 					}
@@ -238,11 +238,11 @@ namespace TacticalGroups
 			states = this.colonistGroup.activeWorkTypes.Where(x => x.Key.workTypeEnum == WorkTypeEnum.RescueFallen);
 			if (states != null && states.Any())
 			{
-				if (states.First().Value == WorkState.ForcedLabor)
+				if (states.First().Value == WorkState.Active)
 				{
 					GUI.DrawTexture(tendWounded, Textures.Clock);
 				}
-				else if (states.First().Value == WorkState.SlaveLabor)
+				else if (states.First().Value == WorkState.ForcedLabor)
 				{
 					GUI.DrawTexture(tendWounded, Textures.ClockSlave);
 				}
@@ -261,7 +261,7 @@ namespace TacticalGroups
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1)
 				{
 					this.colonistGroup.ChangeWorkState(WorkTypeEnum.RescueFallen);
-					if (this.colonistGroup.activeWorkTypes.Any(x => x.Key.workTypeEnum == WorkTypeEnum.RescueFallen && x.Value == WorkState.SlaveLabor))
+					if (this.colonistGroup.activeWorkTypes.Any(x => x.Key.workTypeEnum == WorkTypeEnum.RescueFallen && x.Value == WorkState.ForcedLabor))
 					{
 						TacticDefOf.TG_SlaveLaborSFX.PlayOneShotOnCamera();
 					}

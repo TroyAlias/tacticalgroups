@@ -131,18 +131,18 @@ namespace TacticalGroups
 			if (this.isSubGroup)
             {
 				var workIconRect = new Rect(rect.x, rect.yMax + 5, Textures.ClockSlave.width, Textures.ClockSlave.height);
-				if (this.activeWorkState == WorkState.SlaveLabor)
+				if (this.activeWorkState == WorkState.ForcedLabor)
 				{
 					GUI.DrawTexture(workIconRect, Textures.ClockSlave);
 				}
-				else if (this.activeWorkState == WorkState.ForcedLabor)
+				else if (this.activeWorkState == WorkState.Active)
 				{
 					GUI.DrawTexture(workIconRect, Textures.Clock);
 				}
 			}
 			else
             {
-				if (this.activeWorkState == WorkState.SlaveLabor)
+				if (this.activeWorkState == WorkState.ForcedLabor)
 				{
 					if (this.bannerModeEnabled)
 					{
@@ -153,7 +153,7 @@ namespace TacticalGroups
 						GUI.DrawTexture(rect, Textures.DefaultGroupSlave);
 					}
 				}
-				else if (this.activeWorkState == WorkState.ForcedLabor)
+				else if (this.activeWorkState == WorkState.Active)
 				{
 					if (this.bannerModeEnabled)
 					{
