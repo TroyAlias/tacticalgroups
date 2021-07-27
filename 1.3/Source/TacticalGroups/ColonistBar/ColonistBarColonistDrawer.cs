@@ -84,8 +84,6 @@ namespace TacticalGroups
 			Color color2 = GUI.color = new Color(1f, 1f, 1f, alpha);
 			GUI.DrawTexture(rect, TacticalColonistBar.BGTex);
 
-
-
 			if (colonist.needs != null && colonist.needs.mood != null)
 			{
 				Rect position = rect.ContractedBy(2f);

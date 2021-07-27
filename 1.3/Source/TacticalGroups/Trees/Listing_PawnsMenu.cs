@@ -49,7 +49,7 @@ namespace TacticalGroups
 		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnIconMargin = 15f;
 		[TweakValue("0TacticGroups", 0, 50f)] public static float yPawnIconMargin = 20f;
 		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnRectOffset = 20f;
-		public void DoCategory(TreeNode_Pawns node, int nestLevel, int openMask)
+		public void DoCategory(TreeNode_Pawns node, int nestLevel, int openMask, bool showSlaveSuppresion = false)
 		{
 			OpenCloseWidget(node, nestLevel, openMask);
 			Rect rect = new Rect(15f, curY, LabelWidth, lineHeight);
@@ -69,7 +69,8 @@ namespace TacticalGroups
 							Rect pawnRect = new Rect(xPawnRectOffset + (j * (TacticalColonistBar.DefaultBaseSize.x + xPawnIconMargin)),
 								rect.yMax + 10 + (i * (TacticalColonistBar.DefaultBaseSize.y + yPawnIconMargin)),
 								TacticalColonistBar.DefaultBaseSize.x, TacticalColonistBar.DefaultBaseSize.y);
-							ManagementMenu.DrawColonist(pawnRect, pawnRows[i][j], pawnRows[i][j].Map, false, false);
+							Widgets.DrawBox(pawnRect);
+							ManagementMenu.DrawColonist(pawnRect, pawnRows[i][j], pawnRows[i][j].Map, false, false, showSlaveSuppresion: showSlaveSuppresion);
 							if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 2 && Mouse.IsOver(pawnRect))
 							{
 								Event.current.Use();

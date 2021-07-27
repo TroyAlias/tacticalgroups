@@ -190,6 +190,7 @@ namespace TacticalGroups
 		//public static readonly Texture2D ToxicYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(111, 116, 57, 255).ToColor);
 		public static readonly Texture2D DarkYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(91, 92, 61, 255).ToColor);
 		public static readonly Texture2D DarkRedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
+		public static readonly Texture2D SlaveSuppressionBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(221, 228, 46, 255).ToColor);
 
 		public static readonly Texture2D PawnDrafted = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnDrafted");
 		public static readonly Texture2D GroupArrowRightHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRightHover");
@@ -302,6 +303,8 @@ namespace TacticalGroups
 
 		public static readonly Texture2D GuestMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestMenu");
 		public static readonly Texture2D GuestButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GuestButton");
+		public static readonly Texture2D SlaveMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SlavesMenu");
+		public static readonly Texture2D SlaveButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/SlaveButton");
 
 		public static readonly Texture2D WorkSelectEmpty = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectEmpty");
 		public static readonly Texture2D WorkSelectBlue = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectBlue");

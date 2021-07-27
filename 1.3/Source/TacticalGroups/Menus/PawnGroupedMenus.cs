@@ -217,4 +217,33 @@ namespace TacticalGroups
 			lastDrawnHeight = listing_GuestMenu.CurHeight;
 		}
 	}
+	public class SlaveMenu : PawnGroupedMenu
+	{
+		private readonly TreeNode_Pawns slaveNodes;
+		public SlaveMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture, string menuTitle)
+			: base(parentWindow, colonistGroup, originRect, backgroundTexture, menuTitle)
+		{
+			slaveNodes = new TreeNode_Pawns(new List<Pawn>(), Strings.Slaves);
+			slaveNodes.SetOpen(32, true);
+		}
+
+		protected override void DoPawnsListing(Rect rect)
+		{
+			Listing_PawnsMenu listing_SlaveMenu = new Listing_PawnsMenu();
+			listing_SlaveMenu.Begin(rect);
+			listing_SlaveMenu.nestIndentWidth = 7f;
+			listing_SlaveMenu.lineHeight = 25;
+			listing_SlaveMenu.verticalSpacing = 0f;
+			slaveNodes.pawns.Clear();
+			var slaves = this.colonistGroup.Map.mapPawns.AllPawnsSpawned.Where(x => x.RaceProps.Humanlike && x.IsSlaveOfColony && !x.Fogged());
+			foreach (var pawn in slaves)
+			{
+				slaveNodes.pawns.Add(pawn);
+			}
+			listing_SlaveMenu.DoCategory(slaveNodes, 0, 32, true);
+			listing_SlaveMenu.End();
+			lastDrawnHeight = listing_SlaveMenu.CurHeight;
+		}
+	}
+
 }

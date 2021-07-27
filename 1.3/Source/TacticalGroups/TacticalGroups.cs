@@ -22,6 +22,25 @@ namespace TacticalGroups
 
         public HashSet<Pawn> visiblePawns;
 
+        public override void WorldComponentUpdate()
+        {
+            base.WorldComponentUpdate();
+            if (Event.current.keyCode == TacticDefOf.TG_SlaveMenu.defaultKeyCodeB && Event.current.control)
+            {
+                if (Find.CurrentMap != null && colonyGroups.TryGetValue(Find.CurrentMap, out var colonyGroup))
+                {
+                    if (Find.WindowStack.WindowOfType<SlaveMenu>() is null)
+                    {
+                        Vector2 initialSize = new Vector2(Textures.SlaveMenu.width, Textures.SlaveMenu.height);
+                        var windowRect = new Rect(((float)UI.screenWidth - initialSize.x) / 2f, ((float)UI.screenHeight - initialSize.y) / 2f, initialSize.x, initialSize.y);
+                        windowRect = windowRect.Rounded();
+
+                        SlaveMenu floatMenu = new SlaveMenu(null, colonyGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
+                        Find.WindowStack.Add(floatMenu);
+                    }
+                }
+            }
+        }
         public void PreInit()
         {
             if (pawnGroups is null) pawnGroups = new List<PawnGroup>();

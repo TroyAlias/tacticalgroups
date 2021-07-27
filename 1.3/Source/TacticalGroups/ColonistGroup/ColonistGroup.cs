@@ -1064,7 +1064,7 @@ namespace TacticalGroups
             }
 			else if (activeSortBy == SortBy.Name)
             {
-				this.pawns.SortBy(x => x.Name.ToStringFull);
+				this.pawns.SortBy(x => x.Name.ToStringShort);
 			}
 			this.UpdateData();
         }

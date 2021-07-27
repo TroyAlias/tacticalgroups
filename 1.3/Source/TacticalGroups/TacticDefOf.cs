@@ -43,5 +43,7 @@ namespace TacticalGroups
 		public static JobDef TG_ExecuteDownedRaiders;
 		public static SoundDef TG_ArrestSFX;
 		public static SoundDef TG_ExecuteSFX;
+
+		public static KeyBindingDef TG_SlaveMenu;
 	}
 }

@@ -148,7 +148,7 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 		}
 
-		public static void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
+		public static void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering, bool showSlaveSuppresion = false)
 		{
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			TacticUtils.TacticalColonistBar.drawer.ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
@@ -173,7 +173,6 @@ namespace TacticalGroups
 					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
 				}
 			}
-
 			if (highlight)
 			{
 				int thickness = (rect.width <= 22f) ? 2 : 3;
@@ -208,9 +207,22 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 
-			ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
-			ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
-			//ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
+			if (showSlaveSuppresion)
+			{
+				Rect suppressionBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
+				float num = Mathf.Clamp(colonist.needs.TryGetNeed<Need_Suppression>().CurLevelPercentage, 0f, 1f);
+				Rect rect3 = GenUI.ContractedBy(suppressionBar, 1f);
+				float num5 = rect3.height * num;
+				rect3.yMin = rect3.yMax - num5;
+				rect3.height = num5;
+				GUI.DrawTexture(rect3, Textures.SlaveSuppressionBar, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(suppressionBar, Textures.RestFood, ScaleMode.StretchToFill);
+			}
+            else
+            {
+				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
+            }
 		}
 
 		public static Rect GetPawnTextureRect(Vector2 pos)

@@ -229,9 +229,12 @@ Squad leader is first pawn in group</TG.RegroupTooltip>
 	<TG.PrisonerMenuTooltip>Prisoner Menu</TG.PrisonerMenuTooltip>
 	<TG.AnimalMenuTooltip>Animal Menu</TG.AnimalMenuTooltip>
 	<TG.GuestMenuTooltip>Guest Menu</TG.GuestMenuTooltip>
+	<TG.SlaveMenuTooltip>Slave Menu
+	Ctrl-S to open in game</TG.SlaveMenuTooltip>
 	<TG.Prisoners>Prisoners</TG.Prisoners>
 	<TG.Animals>Animals</TG.Animals>
 	<TG.Guests>Guests</TG.Guests>
+	<TG.Slaves>Slaves</TG.Slaves>
 	
 	<TG.ColorBarModeDefaultTooltip>3 Layer Color Mood Bar</TG.ColorBarModeDefaultTooltip>
 	<TG.ColorBarModeExtendedTooltip>5 Layer Color Mood Bar</TG.ColorBarModeExtendedTooltip>

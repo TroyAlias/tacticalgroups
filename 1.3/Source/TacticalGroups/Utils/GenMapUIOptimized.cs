@@ -40,26 +40,29 @@ namespace TacticalGroups
 				cache.Value.updateWidthCount = 0;
 			}
 		}
-		public static void DrawPawnLabel(Pawn pawn, Vector2 pos, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, bool alwaysDrawBg = true, bool alignCenter = true)
+		public static void DrawPawnLabel(Pawn pawn, Vector2 pos, float alpha = 1f, float truncateToWidth = 9999f, Dictionary<string, string> truncatedLabelsCache = null, GameFont font = GameFont.Tiny, bool alwaysDrawBg = true, bool alignCenter = true)
 		{
 			float pawnLabelNameWidth = GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache);
 			Rect bgRect = new Rect(pos.x - pawnLabelNameWidth / 2f - 4f, pos.y, pawnLabelNameWidth + 8f, 12f);
+			if (!pawn.RaceProps.Humanlike)
+			{
+				bgRect.y -= 4f;
+			}
 			GUI.color = new Color(1f, 1f, 1f, alpha);
+			Text.Font = font;
 			string pawnLabel = GetPawnLabel(pawn, truncateToWidth, truncatedLabelsCache);
 			float summaryHealthPercent = pawn.health.summaryHealth.SummaryHealthPercent;
-			if (!TacticalGroupsSettings.DisableLabelBackground)
-            {
-				if (alwaysDrawBg || summaryHealthPercent < 0.999f)
-				{
-					GUI.DrawTexture(bgRect, TexUI.GrayTextBG);
-				}
+			if (alwaysDrawBg || summaryHealthPercent < 0.999f)
+			{
+				GUI.DrawTexture(bgRect, TexUI.GrayTextBG);
 			}
-
 			if (summaryHealthPercent < 0.999f)
 			{
 				Widgets.FillableBar(bgRect.ContractedBy(1f), summaryHealthPercent, OverlayHealthTex, BaseContent.ClearTex, doBorder: false);
 			}
-
+			Color color = PawnNameColorUtility.PawnNameColorOf(pawn);
+			color.a = alpha;
+			GUI.color = color;
 			Rect rect;
 			if (alignCenter)
 			{
@@ -71,16 +74,14 @@ namespace TacticalGroups
 				Text.Anchor = TextAnchor.UpperLeft;
 				rect = new Rect(bgRect.x + 2f, bgRect.center.y - Text.CalcSize(pawnLabel).y / 2f, pawnLabelNameWidth, 100f);
 			}
-
-			Text.Font = GameFont.Tiny;
 			Widgets.Label(rect, pawnLabel);
 			if (pawn.Drafted)
 			{
 				Widgets.DrawLineHorizontal(bgRect.center.x - pawnLabelNameWidth / 2f, bgRect.y + 11f, pawnLabelNameWidth);
 			}
+			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
-
 		private static float GetPawnLabelNameWidth(Pawn pawn, float truncateToWidth, Dictionary<string, string> truncatedLabelsCache)
 		{
 			if (pawnLabelCaches.TryGetValue(pawn, out PawnLabelCache pawnLabelCache))
