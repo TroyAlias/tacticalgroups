@@ -286,8 +286,7 @@ namespace TacticalGroups
 			{
 				foreach (var group in TacticUtils.AllGroups)
 				{
-					
-					if (group != this && group.pawnWindowIsActive && Mouse.IsOver(rect) && group.curRect.y > rect.y)
+					if (group != this && group.pawnWindowIsActive && Mouse.IsOver(rect))
 					{
 						return;
 					}

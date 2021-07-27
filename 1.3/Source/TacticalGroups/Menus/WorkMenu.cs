@@ -198,6 +198,7 @@ namespace TacticalGroups
                     {
 						if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 						{
+							WorkSearchUtility.SearchForWork(workRows[i][j], this.colonistGroup.pawns);
 							this.colonistGroup.ChangeWorkState(workRows[i][j]);
 							Event.current.Use();
 						}

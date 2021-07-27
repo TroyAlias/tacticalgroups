@@ -181,6 +181,15 @@ namespace TacticalGroups
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);
             listingStandard.SliderLabeled(Strings.PawnNeedsSize, ref PawnNeedsWidth, PawnNeedsWidth.ToString(), 1, 20);
+
+            if (listingStandard.ButtonText(Strings.ResetToDefault))
+            {
+                DoReset();
+            }
+            if (listingStandard.ButtonText(Strings.ResetPawnView))
+            {
+                DoPawnViewReset();
+            }
             listingStandard.End();
             if (TacticUtils.TacticalGroups != null && TacticUtils.TacticalColonistBar != null)
             {

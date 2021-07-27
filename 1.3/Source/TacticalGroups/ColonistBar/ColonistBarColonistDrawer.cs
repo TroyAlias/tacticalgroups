@@ -11,31 +11,47 @@ namespace TacticalGroups
 	[StaticConstructorOnStartup]
 	public class ColonistBarColonistDrawer
 	{
+		private struct IconDrawCall
+		{
+			public Texture2D texture;
+
+			public string tooltip;
+
+			public Color? color;
+
+			public IconDrawCall(Texture2D texture, string tooltip = null, Color? color = null)
+			{
+				this.texture = texture;
+				this.tooltip = tooltip;
+				this.color = color;
+			}
+		}
+
 		public Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
 
-		public  static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
+		public static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 
-		public  static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist");
+		public static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist");
 
-		public  static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan");
+		public static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan");
 
-		public  static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro");
+		public static readonly Texture2D Icon_MentalStateNonAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateNonAggro");
 
-		public  static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro");
+		public static readonly Texture2D Icon_MentalStateAggro = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MentalStateAggro");
 
-		public  static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest");
+		public static readonly Texture2D Icon_MedicalRest = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/MedicalRest");
 
-		public  static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping");
+		public static readonly Texture2D Icon_Sleeping = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Sleeping");
 
-		public  static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing");
+		public static readonly Texture2D Icon_Fleeing = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Fleeing");
 
-		public  static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking");
+		public static readonly Texture2D Icon_Attacking = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Attacking");
 
-		public  static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle");
+		public static readonly Texture2D Icon_Idle = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Idle");
 
-		public  static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning");
+		public static readonly Texture2D Icon_Burning = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Burning");
 
-		public  static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
+		public static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
 
 		public static Vector2 DefaultPawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
@@ -394,15 +410,16 @@ namespace TacticalGroups
 			return pawnTexture;
 		}
 
+		private static readonly float BaseIconAreaWidth = PawnTextureSize.x;
+		private static readonly float BaseIconMaxSize = 20f;
+
+		private static List<IconDrawCall> tmpIconsToDraw = new List<IconDrawCall>();
 		public void DrawIcons(Rect rect, Pawn colonist)
 		{
 			if (colonist.Dead)
 			{
 				return;
 			}
-			
-			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
-			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			bool flag = false;
 			if (colonist.CurJob != null)
 			{
@@ -420,49 +437,85 @@ namespace TacticalGroups
 					}
 				}
 			}
+
 			if (colonist.IsFormingCaravan())
 			{
-				DrawIcon(Icon_FormingCaravan, ref pos, Strings.ActivityIconFormingCaravan);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_FormingCaravan, Strings.ActivityIconFormingCaravan));
 			}
 			if (colonist.InAggroMentalState)
 			{
-				DrawIcon(Icon_MentalStateAggro, ref pos, colonist.MentalStateDef.LabelCap);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_MentalStateAggro, colonist.MentalStateDef.LabelCap));
 			}
 			else if (colonist.InMentalState)
 			{
-				DrawIcon(Icon_MentalStateNonAggro, ref pos, colonist.MentalStateDef.LabelCap);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_MentalStateNonAggro, colonist.MentalStateDef.LabelCap));
 			}
 			else if (colonist.InBed() && colonist.CurrentBed().Medical)
 			{
-				DrawIcon(Icon_MedicalRest, ref pos, Strings.ActivityIconMedicalRest);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_MedicalRest, Strings.ActivityIconMedicalRest));
 			}
 			else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
 			{
-				DrawIcon(Icon_Sleeping, ref pos, Strings.ActivityIconSleeping);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Sleeping, Strings.ActivityIconSleeping));
 			}
 			else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
 			{
-				DrawIcon(Icon_Fleeing, ref pos, Strings.ActivityIconFleeing);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Fleeing, Strings.ActivityIconFleeing));
 			}
 			else if (flag)
 			{
-				DrawIcon(Icon_Attacking, ref pos, Strings.ActivityIconAttacking);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Attacking, Strings.ActivityIconAttacking));
 			}
 			else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
 			{
-				DrawIcon(Icon_Idle, ref pos, Strings.ActivityIconIdle);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Idle, Strings.ActivityIconIdle));
 			}
-			
-			if (colonist.IsBurning() && pos.x + num <= rect.xMax)
+			if (colonist.IsBurning())
 			{
-				DrawIcon(Icon_Burning, ref pos, Strings.ActivityIconBurning);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Burning, Strings.ActivityIconBurning));
 			}
-			
-			if (colonist.Inspired && pos.x + num <= rect.xMax)
+
+			if (colonist.Inspired)
 			{
-				DrawIcon(Icon_Inspired, ref pos, colonist.InspirationDef.LabelCap);
+				tmpIconsToDraw.Add(new IconDrawCall(Icon_Inspired, colonist.InspirationDef.LabelCap));
 			}
-			
+
+			if (colonist.IsSlaveOfColony)
+			{
+				tmpIconsToDraw.Add(new IconDrawCall(colonist.guest.GetIcon()));
+			}
+			else
+
+			{
+				bool flag2 = false;
+				if (colonist.Ideo != null)
+				{
+					Ideo ideo = colonist.Ideo;
+					Precept_Role role = ideo.GetRole(colonist);
+					if (role != null)
+					{
+						tmpIconsToDraw.Add(new IconDrawCall(role.Icon, null, ideo.Color));
+						flag2 = true;
+					}
+				}
+				if (!flag2)
+				{
+					Faction faction = null;
+					if (colonist.HasExtraMiniFaction())
+					{
+						faction = colonist.GetExtraMiniFaction();
+					}
+					else if (colonist.HasExtraHomeFaction())
+					{
+						faction = colonist.GetExtraHomeFaction();
+					}
+					if (faction != null)
+					{
+						tmpIconsToDraw.Add(new IconDrawCall(faction.def.FactionIcon, null, faction.Color));
+					}
+				}
+			}
+
 			if (ModCompatibility.RimworldOfMagicIsActive)
 			{
 				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]
@@ -470,17 +523,27 @@ namespace TacticalGroups
 					null, rect, colonist
 				});
 			}
+
+			float num = Mathf.Min(BaseIconAreaWidth / (float)tmpIconsToDraw.Count, BaseIconMaxSize) * TacticUtils.TacticalColonistBar.Scale;
+			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
+			foreach (IconDrawCall item in tmpIconsToDraw)
+			{
+				GUI.color = item.color ?? Color.white;
+				DrawIcon(item.texture, ref pos, num, item.tooltip);
+				GUI.color = Color.white;
+			}
 		}
 
-		private void DrawIcon(Texture2D icon, ref Vector2 pos, string tooltip)
+		private void DrawIcon(Texture2D icon, ref Vector2 pos, float iconSize, string tooltip = null)
 		{
-			float num = 20f * TacticUtils.TacticalColonistBar.Scale;
-			Rect rect = new Rect(pos.x, pos.y, num, num);
+			Rect rect = new Rect(pos.x, pos.y, iconSize, iconSize);
 			GUI.DrawTexture(rect, icon);
-			TooltipHandler.TipRegion(rect, tooltip);
-			pos.x += num;
+			if (tooltip != null)
+			{
+				TooltipHandler.TipRegion(rect, tooltip);
+			}
+			pos.x += iconSize;
 		}
-
 		public void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
 		{
 			Thing obj = colonist;
