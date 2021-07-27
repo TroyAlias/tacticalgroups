@@ -32,9 +32,23 @@ namespace TacticalGroups
 			get
             {
 				var list = new List<ColonistGroup>();
-				list.AddRange(TacticalGroups.pawnGroups);
-				list.AddRange(TacticalGroups.caravanGroups.Values);
-				list.AddRange(TacticalGroups.colonyGroups.Values);
+				var tacticalGroups = TacticalGroups;
+				if (tacticalGroups != null)
+                {
+					if (tacticalGroups.pawnGroups != null)
+                    {
+						list.AddRange(tacticalGroups.pawnGroups);
+                    }
+					if (tacticalGroups.caravanGroups != null)
+                    {
+						list.AddRange(tacticalGroups.caravanGroups.Values);
+                    }
+					if (tacticalGroups.colonyGroups != null)
+                    {
+						list.AddRange(tacticalGroups.colonyGroups.Values);
+                    }
+				}
+
 				return list;
 			}
 		}
