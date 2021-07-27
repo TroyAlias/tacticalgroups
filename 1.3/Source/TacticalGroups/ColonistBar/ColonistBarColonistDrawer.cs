@@ -420,6 +420,7 @@ namespace TacticalGroups
 			{
 				return;
 			}
+			tmpIconsToDraw.Clear();
 			bool flag = false;
 			if (colonist.CurJob != null)
 			{

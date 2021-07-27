@@ -630,8 +630,7 @@ namespace TacticalGroups
             }
 
             // Pawn draw locs
-            List<Rect> drawLocs = null;
-            try { drawLocs = TacticUtils.TacticalColonistBar.DrawLocs; } catch { }
+            List<Rect> drawLocs = TacticUtils.TacticalColonistBar.DrawLocs;
             if (drawLocs != null)
             {
                 foreach (Rect rect in drawLocs)
@@ -641,8 +640,7 @@ namespace TacticalGroups
             }
 
             // Colonist groups
-            List<ColonistGroup> colonistGroups = null;
-            try { colonistGroups = TacticUtils.AllGroups; } catch { }
+            List<ColonistGroup> colonistGroups = TacticUtils.AllGroups;
             if (colonistGroups != null)
             {
                 foreach (ColonistGroup colonistGroup in colonistGroups)
