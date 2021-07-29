@@ -1,7 +1,0 @@
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Assemblies\TacticalGroups.dll
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Assemblies\TacticalGroups.pdb
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Debug\TacticalGroups.csprojAssemblyReference.cache
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Debug\TacticalGroups.csproj.CoreCompileInputs.cache
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Debug\TacticalGroups.csproj.CopyComplete
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Debug\TacticalGroups.dll
-c:\GAMES\Rimworld\Mods\tacticalgroups\1.2\Source\TacticalGroups\obj\Debug\TacticalGroups.pdb
