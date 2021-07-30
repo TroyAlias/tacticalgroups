@@ -37,9 +37,18 @@ namespace TacticalGroups
 		public static MethodInfo restrictManagerSaveCurrentStateMethod;
 
 		public static bool SmarterDeconstructionIsActive;
-
 		public static bool GiddyUpCaravanIsActive;
+		public static bool PawnMorpherIsActive;
 
+		private static readonly Func<Pawn, Intelligence> pawnMorpherInteligence;
+		public static Intelligence GetIntelligence(this Pawn pawn)
+		{
+			if (PawnMorpherIsActive)
+            {
+				return pawnMorpherInteligence(pawn);
+            }
+			return pawn.RaceProps.intelligence;
+		}
 		static ModCompatibility()
         {
 			PawnBadgesIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "saucypigeon.pawnbadge").Any();
@@ -53,7 +62,7 @@ namespace TacticalGroups
 				rimworldOfMagicDrawMethod = AccessTools.Method(AccessTools.TypeByName("TorannMagic.TorannMagicMod+ColonistBarColonistDrawer_Patch"), "Postfix");
 			}
 
-			AlteredCarbonIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "hlx.rimworldalteredcarbon").Any();
+			AlteredCarbonIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower() == "hlx.ultratechalteredcarbon");
 			if (AlteredCarbonIsActive)
 			{
 				alteredCarbonHandleClicks_PatchMethod = AccessTools.Method(AccessTools.TypeByName("AlteredCarbon.HandleClicks_Patch"), "Prefix");
@@ -77,8 +86,17 @@ namespace TacticalGroups
 				assignManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.AssignManager"), "SaveCurrentState");
 				restrictManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.RestrictManager"), "SaveCurrentState");
 			}
-			SmarterDeconstructionIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower().Contains("legodude17.smartdecon")).Any();
-			GiddyUpCaravanIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "roolo.giddyupcaravan").Any();
+			SmarterDeconstructionIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower().Contains("legodude17.smartdecon"));
+			GiddyUpCaravanIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower() == "roolo.giddyupcaravan");
+			PawnMorpherIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower() == "tachyonite.pawnmorpherpublic");
+			if (PawnMorpherIsActive)
+            {
+				pawnMorpherInteligence = (Func<Pawn, Intelligence>)Delegate.CreateDelegate(typeof(Func<Pawn, Intelligence>),
+											AccessTools.Method("Pawnmorph.FormerHumanUtilities:GetIntelligence"));
+
+			}
+
+			Log.Message(PawnMorpherIsActive + " - " + pawnMorpherInteligence);
 		}
 	}
 }

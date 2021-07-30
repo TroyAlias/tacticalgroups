@@ -125,6 +125,13 @@ namespace TacticalGroups
                 original: AccessTools.Method(typeof(Messages), "MessagesDoGUI"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), "MessagesDoGUI")
             );
+
+            if (ModsConfig.IdeologyActive)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(JobGiver_OptimizeApparel), "TryCreateRecolorJob"),
+                    prefix: new HarmonyMethod(typeof(HarmonyPatches), "TryCreateRecolorJobPrefix"));
+            }
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -461,7 +468,50 @@ namespace TacticalGroups
             return true;
         }
 
+        private static Dictionary<Apparel, CompColorable> cachedComps = new Dictionary<Apparel, CompColorable>();
+        public static void TryCreateRecolorJobPrefix(Pawn pawn)
+        {
+            if (pawn.apparel?.WornApparel != null && pawn.Ideo != null)
+            {
+                foreach (Apparel item in pawn.apparel.WornApparel)
+                {
+                    if (!cachedComps.TryGetValue(item, out var comp))
+                    {
+                        cachedComps[item] = item.TryGetComp<CompColorable>();
+                    }
+                    if (comp != null)
+                    {
+                        if (!comp.DesiredColor.HasValue)
+                        {
+                            var desiredColor = GetDesiredColor(pawn);
+                            if (desiredColor != null && comp.Color != desiredColor.Value)
+                            {
+                                comp.DesiredColor = desiredColor;
+                            }
+                        }
+                        else if (comp.Color == comp.DesiredColor.Value)
+                        {
+                            comp.DesiredColor = null;
+                        }
+                    }
+                }
+            }
+        }
 
+        private static Color? GetDesiredColor(Pawn pawn)
+        {
+            if (pawn.TryGetGroups(out var groups))
+            {
+                foreach (var group in groups)
+                {
+                    if (group.groupColor.HasValue)
+                    {
+                        return group.groupColor.Value;
+                    }
+                }
+            }
+            return null;
+        }
         public static void PawnTableOnGUI(Vector2 position, PawnTableDef ___def, List<float> ___cachedColumnWidths, Vector2 ___cachedSize, float ___cachedHeaderHeight, float ___cachedHeightNoScrollbar)
         {
             if (___def == PawnTableDefOf.Assign)

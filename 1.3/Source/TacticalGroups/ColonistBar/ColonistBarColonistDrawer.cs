@@ -64,6 +64,7 @@ namespace TacticalGroups
 		private static Vector2[] bracketLocs = new Vector2[4];
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
+
 			if (ModCompatibility.AlteredCarbonIsActive)
             {
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]

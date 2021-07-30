@@ -228,5 +228,10 @@ namespace TacticalGroups
 		public static readonly string WorkTypeForcedLabor = "TG.WorkTypeForcedLabor".Translate();
 		public static readonly string WorkTypeSlaveLabor = "TG.WorkTypeSlaveLabor".Translate();
 		public static readonly string GroupWorkPrioritiesReset = "TG.GroupWorkPrioritiesReset".Translate();
+
+		public static readonly string GroupColorTooltip = "TG.GroupColorTooltip".Translate();
+		public static readonly string SetGroupColor = "TG.SetGroupColor".Translate();
+		public static readonly string RemoveGroupColor = "TG.RemoveGroupColor".Translate();
+
 	}
 }

@@ -47,6 +47,7 @@
     <Compile Include="ColonistGroup\GroupPreset.cs" />
     <Compile Include="ColonistGroup\WorkType.cs" />
     <Compile Include="Jobs\JobDriver_ExecuteDownedRaiders.cs" />
+    <Compile Include="Menus\Dialog_ColorPicker.cs" />
     <Compile Include="Menus\PawnGroupedMenus.cs" />
     <Compile Include="Trees\Listing_PawnsMenu.cs" />
     <Compile Include="Trees\TreeNode_Pawn.cs" />
@@ -120,8 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.3.3074</Version>
-      <ExcludeAssets>runtime</ExcludeAssets>
+      <Version>1.3.3075-beta</Version>
     </PackageReference>
     <PackageReference Include="Lib.Harmony">
       <Version>2.1.1</Version>

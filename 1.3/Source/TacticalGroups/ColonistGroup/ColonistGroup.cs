@@ -118,7 +118,7 @@ namespace TacticalGroups
 		}
 		public virtual void Add(Pawn pawn)
         {
-			if (pawn.Faction != Faction.OfPlayer || !pawn.RaceProps.Humanlike)
+			if (pawn.Faction != Faction.OfPlayer || !pawn.RaceProps.Humanlike && pawn.GetIntelligence() < Intelligence.Humanlike)
             {
 				return;
             }
@@ -184,10 +184,11 @@ namespace TacticalGroups
 			bool refresh = false;
 			for (int ind = pawns.Count - 1; ind >= 0; ind--)
             {
-				if (pawns[ind].Destroyed || pawns[ind].Dead)
+				var pawn = pawns[ind];
+				if (pawn.Destroyed || pawn.Dead)
                 {
-					this.pawns.Remove(pawns[ind]);
-					this.pawnIcons.Remove(pawns[ind]);
+					this.pawns.Remove(pawn);
+					this.pawnIcons.Remove(pawn);
 					refresh = true;
 				}
             }
@@ -1328,10 +1329,9 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hidePawnDots, "hidePawnDots");
 			Scribe_Values.Look(ref hideLifeOverlay, "hideLifeOverlay");
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
-
 			Scribe_Values.Look(ref travelSuppliesEnabled, "travelSuppliesEnabled", true);
 			Scribe_Values.Look(ref bedrollsEnabled, "bedrollsEnabled");
-
+			Scribe_Values.Look(ref groupColor, "groupColor");
 
 			Scribe_Values.Look(ref groupAreaEnabled, "groupAreaEnabled");
 			Scribe_Values.Look(ref groupDrugPolicyEnabled, "groupDrugPolicyEnabled");
@@ -1413,6 +1413,7 @@ namespace TacticalGroups
 		public List<Formation> formations = new List<Formation>(4);
 		public Formation activeFormation;
 
+		public Color? groupColor;
 
 		public int groupID;
 		public bool entireGroupIsVisible;

@@ -120,6 +120,7 @@ namespace TacticalGroups
             }
 
             RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
+
             foreach (var pawnGroup in this.pawnGroups.Where(x => x.Map == map))
             {
                 foreach (var pawn in pawns)
@@ -148,10 +149,16 @@ namespace TacticalGroups
 
             foreach (var key in colonyKeysToRemove)
             {
-                if (colonyGroups.ContainsKey(key))
+                if (colonyGroups.TryGetValue(key, out var colonyGroup))
                 {
-                    colonyGroups[key].Disband(pawns);
-                    if (colonyGroups.ContainsKey(key) && colonyGroups[key].ActivePawns.Count == 0)
+                    foreach (var pawn in pawns)
+                    {
+                        if (colonyGroup.pawns?.Contains(pawn) ?? false)
+                        {
+                            colonyGroup.Disband(pawn);
+                        }
+                    }
+                    if (colonyGroup.pawns is null || colonyGroup.pawns.Count == 0)
                     {
                         colonyGroups.Remove(key);
                     }

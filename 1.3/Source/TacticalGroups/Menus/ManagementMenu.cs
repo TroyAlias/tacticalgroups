@@ -34,6 +34,29 @@ namespace TacticalGroups
 			var medicalCareRect = new Rect(rect.x + 50, rect.y + 25, 24, 24);
 			MedicalCareUtilityGroup.MedicalCareSelectButton(medicalCareRect, this.colonistGroup);
 
+			if (ModsConfig.IdeologyActive)
+            {
+				var groupColorRect = new Rect(hostilityResponseRect.x, hostilityResponseRect.yMax + 7, 24, 24);
+				if (this.colonistGroup.groupColor.HasValue)
+                {
+					Widgets.DrawBoxSolidWithOutline(groupColorRect, this.colonistGroup.groupColor.Value, Color.white);
+				}
+                else
+                {
+					Widgets.DrawBox(groupColorRect);
+				}
+				if (Mouse.IsOver(groupColorRect))
+				{
+					TooltipHandler.TipRegion(groupColorRect, Strings.GroupColorTooltip);
+					Widgets.DrawHighlight(groupColorRect);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+                    {
+						var colorPicker = new Dialog_ColorPicker(colonistGroup);
+						Find.WindowStack.Add(colorPicker);
+						SoundDefOf.Tick_High.PlayOneShotOnCamera();
+					}
+				}
+			}
 			var timeAssignmentSelectorGridRect = new Rect(rect.x + 80, rect.y + 20, 191f, 65f);
 			TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(timeAssignmentSelectorGridRect);
 			var timeTableHeaderRect = new Rect(rect.x + 10, rect.y + 85f, rect.width - 20f, 20f);
@@ -207,10 +230,10 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 
-			if (showSlaveSuppresion)
+			if (showSlaveSuppresion && colonist.needs.TryGetNeed<Need_Suppression>() is Need_Suppression need_Suppression)
 			{
 				Rect suppressionBar = new Rect(rect.x + rect.width, rect.y, Textures.RestFood.width, rect.height);
-				float num = Mathf.Clamp(colonist.needs.TryGetNeed<Need_Suppression>().CurLevelPercentage, 0f, 1f);
+				float num = Mathf.Clamp(need_Suppression.CurLevelPercentage, 0f, 1f);
 				Rect rect3 = GenUI.ContractedBy(suppressionBar, 1f);
 				float num5 = rect3.height * num;
 				rect3.yMin = rect3.yMax - num5;
