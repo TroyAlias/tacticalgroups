@@ -37,21 +37,14 @@ namespace TacticalGroups
 			if (ModsConfig.IdeologyActive)
             {
 				var groupColorRect = new Rect(hostilityResponseRect.x, hostilityResponseRect.yMax + 7, 24, 24);
-				if (this.colonistGroup.groupColor.HasValue)
-                {
-					Widgets.DrawBoxSolidWithOutline(groupColorRect, this.colonistGroup.groupColor.Value, Color.white);
-				}
-                else
-                {
-					Widgets.DrawBox(groupColorRect);
-				}
+				GUI.DrawTexture(groupColorRect.ExpandedBy(5), ContentFinder<Texture2D>.Get("Things/Item/Dye/Dye_a"));
 				if (Mouse.IsOver(groupColorRect))
 				{
 					TooltipHandler.TipRegion(groupColorRect, Strings.GroupColorTooltip);
 					Widgets.DrawHighlight(groupColorRect);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                     {
-						var colorPicker = new Dialog_ColorPicker(colonistGroup);
+						var colorPicker = new Dialog_ColorPicker(this, colonistGroup, this.windowRect, Textures.DyeMenu);
 						Find.WindowStack.Add(colorPicker);
 						SoundDefOf.Tick_High.PlayOneShotOnCamera();
 					}

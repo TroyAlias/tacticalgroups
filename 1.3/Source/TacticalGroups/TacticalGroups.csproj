@@ -68,10 +68,12 @@
     <Compile Include="Menus\CaravanMenu.cs" />
     <Compile Include="Menus\PawnInfoMenu.cs" />
     <Compile Include="Utils\SettingsHelper.cs" />
+    <Compile Include="Utils\ApparelUtils.cs" />
     <Compile Include="Utils\TacticSkillUI.cs" />
     <Compile Include="Utils\TacticNeedsCardUtility.cs" />
     <Compile Include="Utils\ModCompatibility.cs" />
     <Compile Include="Utils\GenMapUIOptimized.cs" />
+    <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\TexturesUtils.cs" />
     <Compile Include="Utils\TacticCharacterCardUtility.cs" />
     <Compile Include="Utils\WorkSearchUtility.cs" />

@@ -10,45 +10,47 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class Dialog_ColorPicker : Window
+	public class Dialog_ColorPicker : TieredFloatMenu
 	{
-		public Color color;
-		public override Vector2 InitialSize
-        {
-            get
-            {
-				var x = 400;
-				var colorCount = AllColors.Count;
-				var rowCount = colorCount / 13f;
-				var y = (rowCount * 30) + 40 + 40;
-				return new Vector2(x, y);
-            }
-        }
-		public ColonistGroup colonistGroup;
-		public Dialog_ColorPicker(ColonistGroup colonistGroup)
+		public Color curColor;
+
+		private Dictionary<BodyColor, Rect> colorRects;
+		private Dictionary<string, Rect> stringRects;
+		public Dialog_ColorPicker(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
 		{
-			this.colonistGroup = colonistGroup;
 			this.closeOnClickedOutside = true;
-		}
+			colorRects = new Dictionary<BodyColor, Rect>();
+			stringRects = new Dictionary<string, Rect>();
 
-		private List<Color> allColors;
-		private List<Color> AllColors
-		{
-			get
-			{
-				if (this.allColors == null)
-				{
-					this.allColors = (from x in DefDatabase<ColorDef>.AllDefsListForReading
-									  where !x.hairOnly
-									  select x into ic
-									  select ic.color).ToList<Color>();
-					this.allColors.Distinct().ToList().SortByColor((Color x) => x);
-				}
-				return this.allColors;
-			}
-		}
+			var torsoRect = new Rect(220, 30, 24, 24);
+			colorRects[BodyColor.Torso] = torsoRect;
+			stringRects[Strings.Torso] = new Rect(torsoRect.xMax + 10, torsoRect.y + 3, 40, 24);
 
-		private static readonly Vector2 InitialPositionShift = new Vector2(4f, 0f);
+			var armsRect = new Rect(torsoRect.x, torsoRect.yMax + 10, torsoRect.width, torsoRect.height);
+			colorRects[BodyColor.Arms] = armsRect;
+			stringRects[Strings.Arms] = new Rect(armsRect.xMax + 10, armsRect.y + 3, 40, 24);
+
+			var allRect = new Rect(torsoRect.xMax + 60, torsoRect.y + 5, torsoRect.width * 2, torsoRect.height * 2);
+			colorRects[BodyColor.All] = allRect;
+
+			var legsRect = new Rect(allRect.xMax + 15, torsoRect.y + 3, 40, 24);
+			stringRects[Strings.Legs] = legsRect;
+			colorRects[BodyColor.Legs] = new Rect(legsRect.xMax, torsoRect.y, 24, 24);
+
+			var feetRect = new Rect(legsRect.x, legsRect.yMax + 13, 40, 24);
+			stringRects[Strings.Feet] = feetRect;
+			colorRects[BodyColor.Feet] = new Rect(feetRect.xMax, feetRect.y - 3, 24, 24);
+
+			var headRect = new Rect(colorRects[BodyColor.Legs].xMax + 10, torsoRect.y + 3, 40, 24);
+			stringRects[Strings.Head] = headRect;
+			colorRects[BodyColor.Head] = new Rect(headRect.xMax, torsoRect.y, 24, 24);
+
+			var hairRect = new Rect(headRect.x, headRect.yMax + 13, 40, 24);
+			stringRects[Strings.Hair] = hairRect;
+			colorRects[BodyColor.Hair] = new Rect(hairRect.xMax, hairRect.y - 3, 24, 24);
+		}
+        protected override Vector2 InitialPositionShift => new Vector2(4f, 0f);
 		protected override void SetInitialSizeAndPosition()
 		{
 			Vector2 vector = UI.MousePositionOnUIInverted + InitialPositionShift;
@@ -62,18 +64,115 @@ namespace TacticalGroups
 			}
 			windowRect = new Rect(vector.x, vector.y, InitialSize.x, InitialSize.y);
 		}
+
+		private BodyColor activeMode;
 		public override void DoWindowContents(Rect inRect)
         {
-			Widgets.ColorSelector(inRect, ref color, AllColors);
-			var setGroupColorRect = new Rect(inRect.x, inRect.yMax - 24f, inRect.width / 2f - 10f, 24f);
-			if (Widgets.ButtonText(setGroupColorRect, Strings.SetGroupColor))
-			{
-				this.colonistGroup.groupColor = color;
+			base.DoWindowContents(inRect);
+
+			foreach (var data in colorRects)
+            {
+				var colorOption = GetColorOptionFor(data.Key);
+				if (colorOption != null)
+                {
+					if (colorOption.pawnFavoriteOnly)
+                    {
+						GUI.DrawTexture(data.Value, Textures.PawnFavoriteIcon);
+					}
+                    else
+                    {
+						Widgets.DrawBoxSolidWithOutline(data.Value, colorOption.color, Color.white);
+					}
+				}
+				else
+                {
+					Widgets.DrawBoxSolidWithOutline(data.Value, Color.clear, Color.white);
+				}
+
+				if (Widgets.ButtonInvisible(data.Value))
+				{
+					activeMode = data.Key;
+				}
 			}
-			var removeGroupColorRect = new Rect(setGroupColorRect.xMax + 10, setGroupColorRect.y, inRect.width / 2f - 10f, 24f);
-			if (Widgets.ButtonText(removeGroupColorRect, Strings.RemoveGroupColor))
+			if (colorRects.ContainsKey(activeMode))
+            {
+				GUI.DrawTexture(colorRects[activeMode], Textures.GreenSelectionBox);
+            }
+
+			foreach (var data in stringRects)
+            {
+				Widgets.Label(data.Value, data.Key);
+            }
+			var colorSelectorRect = new Rect(37, 142, 570, 195);
+			var oldColor = curColor;
+			Widgets.ColorSelector(colorSelectorRect, ref curColor, ColorUtils.AllColors);
+			if (oldColor != curColor && activeMode != BodyColor.None)
+            {
+				SetColorFor(activeMode);
+            }
+			var setIdeoColorRect = new Rect(40, inRect.yMax - 58, 174, 24f);
+			if (Widgets.ButtonText(setIdeoColorRect, Strings.SetIdeologyColor))
 			{
-				this.colonistGroup.groupColor = null;
+				curColor = Faction.OfPlayer.ideos.PrimaryIdeo.ApparelColor;
+				SetColorFor(activeMode);
+			}
+
+			var setPawnFavoritesColor = new Rect(setIdeoColorRect.xMax + 15, setIdeoColorRect.y, setIdeoColorRect.width, 24f);
+			if (Widgets.ButtonText(setPawnFavoritesColor, Strings.SetPawnFavoritesColor))
+			{
+				if (this.colonistGroup.groupColor is null)
+                {
+					this.colonistGroup.groupColor = new GroupColor();
+				}
+				if (this.colonistGroup.groupColor.bodyColors is null)
+				{
+					this.colonistGroup.groupColor.bodyColors = new Dictionary<BodyColor, ColorOption>();
+				}
+				this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(true);
+				curColor = Color.clear;
+			}
+
+			var clearGroupColor = new Rect(setPawnFavoritesColor.xMax + 15, setIdeoColorRect.y, setIdeoColorRect.width, 24f);
+			if (Widgets.ButtonText(clearGroupColor, Strings.ClearGroupColor))
+			{
+				if (this.colonistGroup.groupColor?.bodyColors != null && this.colonistGroup.groupColor.bodyColors.ContainsKey(activeMode))
+                {
+					this.colonistGroup.groupColor.bodyColors.Remove(activeMode);
+				}
+			}
+		}
+
+		private ColorOption GetColorOptionFor(BodyColor bodyColor)
+        {
+			if (colonistGroup.groupColor?.bodyColors != null)
+            {
+				if (colonistGroup.groupColor.bodyColors.TryGetValue(bodyColor, out var color))
+                {
+					return color;
+                }
+			}
+			return null;
+        }
+
+		private void SetColorFor(BodyColor bodyColor)
+		{
+			if (this.colonistGroup.groupColor is null)
+			{
+				this.colonistGroup.groupColor = new GroupColor();
+			}
+			if (this.colonistGroup.groupColor.bodyColors is null)
+			{
+				this.colonistGroup.groupColor.bodyColors = new Dictionary<BodyColor, ColorOption>();
+			}
+			switch (activeMode)
+			{
+				case BodyColor.All: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Head: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Torso: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Feet: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Arms: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Legs: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Hair: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 			}
 		}
 	}

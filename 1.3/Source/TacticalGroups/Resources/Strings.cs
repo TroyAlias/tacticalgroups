@@ -230,8 +230,16 @@ namespace TacticalGroups
 		public static readonly string GroupWorkPrioritiesReset = "TG.GroupWorkPrioritiesReset".Translate();
 
 		public static readonly string GroupColorTooltip = "TG.GroupColorTooltip".Translate();
-		public static readonly string SetGroupColor = "TG.SetGroupColor".Translate();
-		public static readonly string RemoveGroupColor = "TG.RemoveGroupColor".Translate();
+		public static readonly string SetIdeologyColor = "TG.SetIdeologyColor".Translate();
+		public static readonly string SetPawnFavoritesColor = "TG.SetPawnFavoritesColor".Translate();
+		public static readonly string ClearGroupColor = "TG.ClearGroupColor".Translate();
 
+		public static readonly string All = "TG.All".Translate();
+		public static readonly string Torso = "TG.Torso".Translate();
+		public static readonly string Legs = "TG.Legs".Translate();
+		public static readonly string Arms = "TG.Arms".Translate();
+		public static readonly string Head = "TG.Head".Translate();
+		public static readonly string Feet = "TG.Feet".Translate();
+		public static readonly string Hair = "TG.Hair".Translate();
 	}
 }

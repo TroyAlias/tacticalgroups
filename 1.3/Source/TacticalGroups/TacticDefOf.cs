@@ -45,5 +45,11 @@ namespace TacticalGroups
 		public static SoundDef TG_ExecuteSFX;
 
 		public static KeyBindingDef TG_SlaveMenu;
+
+		public static BodyPartGroupDef Feet;
+		public static BodyPartGroupDef Arms;
+		public static BodyPartGroupDef Hands;
+		public static BodyPartGroupDef LeftHand;
+		public static BodyPartGroupDef RightHand;
 	}
 }

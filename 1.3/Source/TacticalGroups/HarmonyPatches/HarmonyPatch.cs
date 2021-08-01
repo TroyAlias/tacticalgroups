@@ -131,6 +131,11 @@ namespace TacticalGroups
                 harmony.Patch(
                     original: AccessTools.Method(typeof(JobGiver_OptimizeApparel), "TryCreateRecolorJob"),
                     prefix: new HarmonyMethod(typeof(HarmonyPatches), "TryCreateRecolorJobPrefix"));
+
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(JobGiver_DyeHair), "TryGiveJob"),
+                    prefix: new HarmonyMethod(typeof(HarmonyPatches), "JobGiver_DyeHair_TryGiveJobPrefix"));
+
             }
         }
 
@@ -471,19 +476,19 @@ namespace TacticalGroups
         private static Dictionary<Apparel, CompColorable> cachedComps = new Dictionary<Apparel, CompColorable>();
         public static void TryCreateRecolorJobPrefix(Pawn pawn)
         {
-            if (pawn.apparel?.WornApparel != null && pawn.Ideo != null)
+            if (pawn.apparel?.WornApparel != null)
             {
-                foreach (Apparel item in pawn.apparel.WornApparel)
+                foreach (Apparel apparel in pawn.apparel.WornApparel)
                 {
-                    if (!cachedComps.TryGetValue(item, out var comp))
+                    if (!cachedComps.TryGetValue(apparel, out var comp))
                     {
-                        cachedComps[item] = item.TryGetComp<CompColorable>();
+                        cachedComps[apparel] = apparel.TryGetComp<CompColorable>();
                     }
                     if (comp != null)
                     {
                         if (!comp.DesiredColor.HasValue)
                         {
-                            var desiredColor = GetDesiredColor(pawn);
+                            var desiredColor = GetDesiredColor(pawn, apparel);
                             if (desiredColor != null && comp.Color != desiredColor.Value)
                             {
                                 comp.DesiredColor = desiredColor;
@@ -498,15 +503,79 @@ namespace TacticalGroups
             }
         }
 
+        private static Color? GetDesiredColor(Pawn pawn, Apparel apparel)
+        {
+            if (pawn.TryGetGroups(out var groups))
+            {
+                foreach (var group in groups)
+                {
+                    if (group.groupColor != null)
+                    {
+                        if (apparel.def.IsHeadgear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Head, out var headColor))
+                        {
+                            return GetColor(headColor, pawn);
+                        }
+                        else if (apparel.def.IsFeetGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Feet, out var feetColor))
+                        {
+                            return GetColor(feetColor, pawn);
+                        }
+                        else if (apparel.def.IsLegsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Legs, out var legsColor))
+                        {
+                            return GetColor(legsColor, pawn);
+                        }
+                        else if (apparel.def.IsTorsoGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Torso, out var torsoColor))
+                        {
+                            return GetColor(torsoColor, pawn);
+                        }
+                        else if (apparel.def.IsArmsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Arms, out var armsColor))
+                        {
+                            return GetColor(armsColor, pawn);
+                        }
+                        else if (group.groupColor.bodyColors.TryGetValue(BodyColor.All, out var allColor))
+                        {
+                            return GetColor(allColor, pawn);
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static Color? GetColor(ColorOption colorOption, Pawn pawn)
+        {
+            if (colorOption.pawnFavoriteOnly)
+            {
+                return pawn.story?.favoriteColor;
+            }
+            return colorOption.color;
+        }
+        public static void JobGiver_DyeHair_TryGiveJobPrefix(Pawn pawn)
+        {
+            var desiredColor = GetDesiredColor(pawn);
+            if (desiredColor.HasValue)
+            {
+                if (pawn.story.hairColor != desiredColor.Value)
+                {
+                    if (!pawn.style.nextHairColor.HasValue || pawn.style.nextHairColor != desiredColor.Value)
+                    {
+                        pawn.style.nextHairColor = desiredColor.Value;
+                    }
+                }
+                else if (pawn.style.nextHairColor.HasValue)
+                {
+                    pawn.style.nextHairColor = null;
+                }
+            }
+        }
         private static Color? GetDesiredColor(Pawn pawn)
         {
             if (pawn.TryGetGroups(out var groups))
             {
                 foreach (var group in groups)
                 {
-                    if (group.groupColor.HasValue)
+                    if (group.groupColor?.bodyColors != null && group.groupColor.bodyColors.TryGetValue(BodyColor.Hair, out var hairColor))
                     {
-                        return group.groupColor.Value;
+                        return GetColor(hairColor, pawn);
                     }
                 }
             }

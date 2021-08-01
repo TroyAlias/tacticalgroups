@@ -62,6 +62,41 @@ namespace TacticalGroups
 		private List<Pawn> pawnKeys2;
 		private List<IntVec3> intVecValues;
 	}
+
+	public class ColorOption : IExposable
+    {
+		public Color color;
+		public bool pawnFavoriteOnly;
+		public ColorOption()
+        {
+
+        }
+
+		public ColorOption(Color color)
+        {
+			this.color = color;
+        }
+		public ColorOption(bool pawnFavoriteOnly)
+		{
+			this.pawnFavoriteOnly = pawnFavoriteOnly;
+		}
+		public void ExposeData()
+        {
+			Scribe_Values.Look(ref color, "color");
+			Scribe_Values.Look(ref pawnFavoriteOnly, "pawnFavoriteOnly");
+		}
+	}
+	public class GroupColor : IExposable
+    {
+		public Dictionary<BodyColor, ColorOption> bodyColors = new Dictionary<BodyColor, ColorOption>();
+        public void ExposeData()
+        {
+			Scribe_Collections.Look(ref bodyColors, "bodyColors", LookMode.Value, LookMode.Deep, ref bodyColorKeys, ref colorValues);
+		}
+
+		private List<BodyColor> bodyColorKeys;
+		private List<ColorOption> colorValues;
+	}
 	public class ColonistGroup : IExposable
     {
 		public bool pawnWindowIsActive;
@@ -1331,7 +1366,7 @@ namespace TacticalGroups
 			Scribe_Values.Look(ref hideWeaponOverlay, "hideWeaponOverlay");
 			Scribe_Values.Look(ref travelSuppliesEnabled, "travelSuppliesEnabled", true);
 			Scribe_Values.Look(ref bedrollsEnabled, "bedrollsEnabled");
-			Scribe_Values.Look(ref groupColor, "groupColor");
+			Scribe_Deep.Look(ref groupColor, "groupColor");
 
 			Scribe_Values.Look(ref groupAreaEnabled, "groupAreaEnabled");
 			Scribe_Values.Look(ref groupDrugPolicyEnabled, "groupDrugPolicyEnabled");
@@ -1413,7 +1448,7 @@ namespace TacticalGroups
 		public List<Formation> formations = new List<Formation>(4);
 		public Formation activeFormation;
 
-		public Color? groupColor;
+		public GroupColor groupColor;
 
 		public int groupID;
 		public bool entireGroupIsVisible;

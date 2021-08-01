@@ -254,7 +254,16 @@ Middle Mouse on Green Box to Reset
 	</TG.GroupWorkPrioritiesReset>
 	
 	<TG.GroupColorTooltip>Assign group apparel color for pawns. They will go to styling stations and recolor their apparels accordingly.</TG.GroupColorTooltip>
-	<TG.SetGroupColor>Set group color</TG.SetGroupColor>
-	<TG.RemoveGroupColor>Remove group color</TG.RemoveGroupColor>
+	<TG.SetIdeologyColor>Set ideology color</TG.SetIdeologyColor>
+	<TG.SetPawnFavoritesColor>Set pawn favorites color</TG.SetPawnFavoritesColor>
+	<TG.ClearGroupColor>Clear group color</TG.ClearGroupColor>
+	
+	<TG.All>All</TG.All>
+	<TG.Torso>Torso</TG.Torso>
+	<TG.Legs>Legs</TG.Legs>
+	<TG.Arms>Arms</TG.Arms>
+	<TG.Head>Head</TG.Head>
+	<TG.Feet>Feet</TG.Feet>
+	<TG.Hair>Hair</TG.Hair>
 
 </LanguageData>

@@ -65,5 +65,16 @@ namespace TacticalGroups
 		Inspired,
 		None
 	}
+	public enum BodyColor
+	{
+		None,
+		All,
+		Torso,
+		Legs,
+		Arms,
+		Head,
+		Feet,
+		Hair
+	}
 }
 

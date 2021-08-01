@@ -310,5 +310,9 @@ namespace TacticalGroups
 		public static readonly Texture2D WorkSelectBlue = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectBlue");
 		public static readonly Texture2D WorkSelectRed = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/WorkSelectRed");
 		public static readonly Texture2D GreenBox = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GreenBox");
+
+		public static readonly Texture2D PawnFavoriteIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PawnFavoriteIcon");
+		public static readonly Texture2D GreenSelectionBox = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GreenSelectionBox");
+		public static readonly Texture2D DyeMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DyeMenu");
 	}
 }
