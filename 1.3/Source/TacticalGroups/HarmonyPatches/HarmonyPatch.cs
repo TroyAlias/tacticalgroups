@@ -527,7 +527,7 @@ namespace TacticalGroups
                         {
                             return GetColor(torsoColor, pawn);
                         }
-                        else if (apparel.def.IsArmsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Arms, out var armsColor))
+                        else if (apparel.def.IsArmsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Hands, out var armsColor))
                         {
                             return GetColor(armsColor, pawn);
                         }

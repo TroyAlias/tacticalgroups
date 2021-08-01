@@ -27,9 +27,9 @@ namespace TacticalGroups
 			colorRects[BodyColor.Torso] = torsoRect;
 			stringRects[Strings.Torso] = new Rect(torsoRect.xMax + 10, torsoRect.y + 3, 40, 24);
 
-			var armsRect = new Rect(torsoRect.x, torsoRect.yMax + 10, torsoRect.width, torsoRect.height);
-			colorRects[BodyColor.Arms] = armsRect;
-			stringRects[Strings.Arms] = new Rect(armsRect.xMax + 10, armsRect.y + 3, 40, 24);
+			var handsRect = new Rect(torsoRect.x, torsoRect.yMax + 10, torsoRect.width, torsoRect.height);
+			colorRects[BodyColor.Hands] = handsRect;
+			stringRects[Strings.Hands] = new Rect(handsRect.xMax + 10, handsRect.y + 3, 40, 24);
 
 			var allRect = new Rect(torsoRect.xMax + 60, torsoRect.y + 5, torsoRect.width * 2, torsoRect.height * 2);
 			colorRects[BodyColor.All] = allRect;
@@ -170,7 +170,7 @@ namespace TacticalGroups
 				case BodyColor.Head: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 				case BodyColor.Torso: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 				case BodyColor.Feet: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
-				case BodyColor.Arms: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
+				case BodyColor.Hands: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 				case BodyColor.Legs: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 				case BodyColor.Hair: this.colonistGroup.groupColor.bodyColors[activeMode] = new ColorOption(curColor); break;
 			}

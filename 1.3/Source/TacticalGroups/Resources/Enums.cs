@@ -71,7 +71,7 @@ namespace TacticalGroups
 		All,
 		Torso,
 		Legs,
-		Arms,
+		Hands,
 		Head,
 		Feet,
 		Hair
