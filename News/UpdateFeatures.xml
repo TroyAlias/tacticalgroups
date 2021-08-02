@@ -5,10 +5,10 @@
 		<modNameReadable>Colony Groups</modNameReadable>
 		<modIdentifier>ColonyGroups</modIdentifier>
 		<!-- <linkUrl>https://steamcommunity.com/sharedfiles/filedetails/?id=2345493945</linkUrl> -->
-		<defName>ColonyGroups_1_0_06</defName>
-		<assemblyVersion>1.0.06</assemblyVersion>
+		<defName>ColonyGroups_1_3_07</defName>
+		<assemblyVersion>1.3.07</assemblyVersion>
 		<content>
-		img:pics/update1
+		img:pics/update
 		</content>
 	</HugsLib.UpdateFeatureDef>
 
