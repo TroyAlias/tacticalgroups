@@ -89,9 +89,16 @@ namespace TacticalGroups
 					Widgets.DrawBoxSolidWithOutline(data.Value, Color.clear, Color.white);
 				}
 
-				if (Widgets.ButtonInvisible(data.Value))
+				if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1 && Mouse.IsOver(data.Value))
 				{
 					activeMode = data.Key;
+				}
+				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1 && Mouse.IsOver(data.Value))
+                {
+					if (this.colonistGroup.groupColor?.bodyColors != null && this.colonistGroup.groupColor.bodyColors.ContainsKey(activeMode))
+					{
+						this.colonistGroup.groupColor.bodyColors.Remove(activeMode);
+					}
 				}
 			}
 			if (colorRects.ContainsKey(activeMode))
@@ -106,7 +113,7 @@ namespace TacticalGroups
 			var colorSelectorRect = new Rect(37, 142, 570, 195);
 			var oldColor = curColor;
 			Widgets.ColorSelector(colorSelectorRect, ref curColor, ColorUtils.AllColors);
-			if (oldColor != curColor && activeMode != BodyColor.None)
+			if (oldColor != curColor)
             {
 				SetColorFor(activeMode);
             }

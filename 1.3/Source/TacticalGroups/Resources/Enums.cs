@@ -67,7 +67,6 @@ namespace TacticalGroups
 	}
 	public enum BodyColor
 	{
-		None,
 		All,
 		Torso,
 		Legs,

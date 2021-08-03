@@ -509,7 +509,7 @@ namespace TacticalGroups
             {
                 foreach (var group in groups)
                 {
-                    if (group.groupColor != null)
+                    if (group.groupColor?.bodyColors != null)
                     {
                         if (apparel.def.IsHeadgear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Head, out var headColor))
                         {

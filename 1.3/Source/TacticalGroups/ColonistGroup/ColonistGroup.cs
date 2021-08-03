@@ -384,7 +384,7 @@ namespace TacticalGroups
 						Find.Selector.ClearSelection();
 						foreach (var pawn in this.pawns)
 						{
-							if (!pawn.IsWorldPawn())
+							if (!pawn.IsWorldPawn() && !pawn.InContainerEnclosed)
 							{
 								Find.Selector.Select(pawn);
 							}

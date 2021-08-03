@@ -260,7 +260,7 @@ namespace TacticalGroups
 			{
 				Event.current.Use();
 				Find.Selector.ClearSelection();
-				if (!colonist.IsWorldPawn())
+				if (!colonist.IsWorldPawn() && !colonist.InContainerEnclosed)
                 {
 					Find.Selector.Select(colonist);
                 }
