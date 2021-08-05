@@ -14,12 +14,11 @@ namespace TacticalGroups
 {
 	public class ManagementMenu : TieredFloatMenu
 	{
-		public static Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+		public static readonly Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.DefaultBaseSize.x - 2f, 75f);
 
-		public static Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+		public static readonly Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
 
-		public static float PawnTextureCameraZoom = 1.28205f;
-
+		public static readonly float PawnTextureCameraZoom = 1.28205f;
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
 		public ManagementMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
