@@ -53,7 +53,7 @@ namespace TacticalGroups
 
 		public static readonly Texture2D Icon_Inspired = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/Inspired");
 
-		public static Vector2 DefaultPawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+		public static readonly Vector2 DefaultPawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
 		public static Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
 
@@ -171,7 +171,7 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 			
-			DrawHealthBar(colonist, rect);
+			DrawHealthBar(colonist, rect, TacticalGroupsSettings.HealthBarWidth);
 			DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
 			ShowDrafteesWeapon(rect, colonist, TacticalGroupsSettings.WeaponPlacementOffset);
 			
@@ -190,11 +190,11 @@ namespace TacticalGroups
 				});
 			}
 		}
-		public static void DrawHealthBar(Pawn p, Rect rect)
+		public static void DrawHealthBar(Pawn p, Rect rect, float healthBarWidth)
 		{
 			if (TacticalGroupsSettings.DisplayHealth)
 			{
-				Rect healthBar = new Rect(rect.x - Textures.HealthBar.width, rect.y, Textures.HealthBar.width, rect.height);
+				Rect healthBar = new Rect(rect.x - healthBarWidth, rect.y, healthBarWidth, rect.height);
 				float num = Mathf.Clamp(p.health.summaryHealth.SummaryHealthPercent, 0f, 1f);
 				Rect rect3 = GenUI.ContractedBy(healthBar, 1f);
 				float num5 = rect3.height * num;
@@ -591,8 +591,8 @@ namespace TacticalGroups
 			{
 				return;
 			}
-
-			if (colonist.equipment.GetDirectlyHeldThings() == null || colonist.equipment.GetDirectlyHeldThings().Count <= 0)
+			var container = colonist.equipment.GetDirectlyHeldThings();
+			if (container == null || !container.Any())
 			{
 				return;
 			}
@@ -609,7 +609,8 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.y + weaponPlacementYOffset, rect.width, rect.height), colonist.equipment.GetDirectlyHeldThings()[0], alpha);
+			var size = rect.width;
+			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.yMax + weaponPlacementYOffset, size, size), container[0], alpha);
 		}
 
 		private static bool ExcludeFromDrawing(Thing thingWeapon)

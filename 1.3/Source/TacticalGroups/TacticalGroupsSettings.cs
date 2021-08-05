@@ -22,7 +22,8 @@ namespace TacticalGroups
 
         public static float ColonistBarPositionY = 21f;
         public static float ColonistBarPositionX = 24f;
-        public static float ColonistBarSpacing = 20f;
+        public static float ColonistBarSpacingX = 20f;
+        public static float ColonistBarSpacingY = 32f;
 
         //public static float OverallPawnIconScale = 1f;
         //public static float PawnBoxScale = 1f;
@@ -36,12 +37,13 @@ namespace TacticalGroups
         public static float PawnCameraOffsetX = 0f;
         public static float PawnCameraOffsetZ = 0.3f;
 
-        public static float ColonyGroupScale = 1f;
-        public static float GroupScale = 1f;
+        public static float ColonyGroupScale = 0.8f;
+        public static float GroupScale = 0.7f;
         public static int GroupRowCount = 4;
         public static int SubGroupRowCount = 4;
         public static float PawnNeedsWidth = 4f;
-        public static int WeaponPlacementOffset = 10;
+        public static float HealthBarWidth = 6f;
+        public static int WeaponPlacementOffset = -10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
         public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
 
@@ -98,15 +100,17 @@ namespace TacticalGroups
             Scribe_Values.Look(ref HideGroups, "HideGroups");
             Scribe_Values.Look(ref HideCreateGroup, "HideCreateGroup");
             Scribe_Values.Look(ref DisableLabelBackground, "DisableLabelBackground");
-            Scribe_Values.Look(ref WeaponPlacementOffset, "WeaponPlacementOffset", 10);
+            Scribe_Values.Look(ref WeaponPlacementOffset, "WeaponPlacementOffset", -10);
             Scribe_Values.Look(ref ColonistBarPositionY, "MarginTop", 21f);
             Scribe_Values.Look(ref ColonistBarPositionX, "ColonistBarPositionX", 24f);
-            Scribe_Values.Look(ref ColonistBarSpacing, "ColonistBarSpacing", 20f);
+            Scribe_Values.Look(ref ColonistBarSpacingX, "ColonistBarSpacingX", 20f);
+            Scribe_Values.Look(ref ColonistBarSpacingY, "ColonistBarSpacingY", 32f);
 
-            Scribe_Values.Look(ref ColonyGroupScale, "ColonyGroupScale", 1f);
-            Scribe_Values.Look(ref GroupScale, "GroupScale", 1f);
+            Scribe_Values.Look(ref ColonyGroupScale, "ColonyGroupScale", 0.8f);
+            Scribe_Values.Look(ref GroupScale, "GroupScale", 0.70f);
             Scribe_Values.Look(ref GroupRowCount, "GroupRowCount", 4);
             Scribe_Values.Look(ref PawnNeedsWidth, "PawnNeedsWidth", 4f);
+            Scribe_Values.Look(ref HealthBarWidth, "HealthBarWidth", 6f);
 
             Scribe_Values.Look(ref XPawnIconOffset, "XPawnIconOffset", 0f);
             Scribe_Values.Look(ref YPawnIconOffset, "YPawnIconOffset", 0f);
@@ -136,14 +140,15 @@ namespace TacticalGroups
 
             ColonistBarPositionY = 21f;
             ColonistBarPositionX = 24f;
-            ColonistBarSpacing = 20f;
-
+            ColonistBarSpacingX = 20f;
+            ColonistBarSpacingY = 32f;
             DoPawnViewReset();
 
-            ColonyGroupScale = 1f;
-            GroupScale = 1f;
+            ColonyGroupScale = 0.8f;
+            GroupScale = 0.7f;
             GroupRowCount = 4;
             PawnNeedsWidth = 4f;
+            HealthBarWidth = 6f;
             WeaponPlacementOffset = 10;
             ColorBarMode = ColorBarMode.Default;
             WeaponShowMode = WeaponShowMode.Drafted;
@@ -168,15 +173,16 @@ namespace TacticalGroups
             listingStandard.CheckboxLabeled(Strings.DisplayRest, ref DisplayRest);
             listingStandard.CheckboxLabeled(Strings.DisplayHealth, ref DisplayHealth);
             listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
-            listingStandard.SliderLabeled(Strings.WeaponOverlayPlacement, ref WeaponPlacementOffset, WeaponPlacementOffset.ToString(), 0, 100);
+            listingStandard.SliderLabeled(Strings.WeaponOverlayPlacement, ref WeaponPlacementOffset, WeaponPlacementOffset.ToString(), -200, 200);
             listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
             listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
             listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
             listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
             listingStandard.CheckboxLabeled(Strings.DisableLabelBackground, ref DisableLabelBackground);
-            listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 100);
-            listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 100);
-            listingStandard.SliderLabeled(Strings.ColonistBarSpacing, ref ColonistBarSpacing, ColonistBarSpacing.ToStringDecimalIfSmall(), 0, 100);
+            listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 300);
+            listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 300);
+            listingStandard.SliderLabeled(Strings.ColonistBarSpacingX, ref ColonistBarSpacingX, ColonistBarSpacingX.ToStringDecimalIfSmall(), 0, 300);
+            listingStandard.SliderLabeled(Strings.ColonistBarSpacingY, ref ColonistBarSpacingY, ColonistBarSpacingY.ToStringDecimalIfSmall(), 0, 300);
 
             listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
             listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);

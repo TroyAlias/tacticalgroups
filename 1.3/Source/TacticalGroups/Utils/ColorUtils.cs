@@ -145,5 +145,59 @@ namespace TacticalGroups
 				return allColors;
             }
         }
+
+
+		public static Color? GetDesiredColor(Pawn pawn, Apparel apparel)
+		{
+			if (pawn.TryGetGroups(out var groups))
+			{
+				foreach (var group in groups)
+				{
+					if (group.groupColor?.bodyColors != null)
+					{
+						if (apparel.def.IsHeadgear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Head, out var headColor))
+						{
+							return headColor.GetColor(pawn);
+						}
+						else if (apparel.def.IsFeetGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Feet, out var feetColor))
+						{
+							return feetColor.GetColor(pawn);
+						}
+						else if (apparel.def.IsLegsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Legs, out var legsColor))
+						{
+							return legsColor.GetColor(pawn);
+						}
+						else if (apparel.def.IsTorsoGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Torso, out var torsoColor))
+						{
+							return torsoColor.GetColor(pawn);
+						}
+						else if (apparel.def.IsArmsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Hands, out var armsColor))
+						{
+							return armsColor.GetColor(pawn);
+						}
+						else if (group.groupColor.bodyColors.TryGetValue(BodyColor.All, out var allColor))
+						{
+							return allColor.GetColor(pawn);
+						}
+					}
+				}
+			}
+			return null;
+		}
+
+		public static Color? GetDesiredHairColor(Pawn pawn)
+		{
+			if (pawn.TryGetGroups(out var groups))
+			{
+				foreach (var group in groups)
+				{
+					if (group.groupColor?.bodyColors != null && group.groupColor.bodyColors.TryGetValue(BodyColor.Hair, out var hairColor))
+					{
+						return hairColor.GetColor(pawn);
+					}
+				}
+			}
+			return null;
+		}
 	}
 }

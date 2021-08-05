@@ -318,28 +318,12 @@ namespace TacticalGroups
 
 		public static Thing PickBestWeaponFor(Pawn pawn)
 		{
-			if (pawn.equipment == null)
-			{
-				return null;
-			}
-			if (pawn.Faction != Faction.OfPlayer)
-			{
-				return null;
-			}
-			if (pawn.IsQuestLodger())
-			{
-				return null;
-			}
-			if (!pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation)
-				|| pawn.WorkTagIsDisabled(WorkTags.Violent))
+			if (pawn.Map == null || pawn.equipment == null || pawn.Faction != Faction.OfPlayer || pawn.IsQuestLodger() 
+				|| !pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation) || pawn.WorkTagIsDisabled(WorkTags.Violent))
 			{
 				return null;
 			}
 
-			if (pawn.Map == null)
-			{
-				return null;
-			}
 			bool isBrawler = pawn.story?.traits?.HasTrait(TraitDefOf.Brawler) ?? false;
 			bool preferRanged = !isBrawler && (!pawn.equipment.Primary?.def.IsMeleeWeapon ?? false || pawn.equipment.Primary == null);
 				
@@ -377,12 +361,8 @@ namespace TacticalGroups
 			};
 
 			Thing thing = null;
-			float num2 = 0f;
+			float maxValue = 0f;
 			List<Thing> list = pawn.Map.listerThings.ThingsInGroup(ThingRequestGroup.Weapon).Where(x => validator(x)).ToList();
-			if (list.Count == 0)
-			{
-				return null;
-			}
 
 			List<Thing> weapons = pawn.inventory.innerContainer.InnerListForReading.Where(x => validator(x)).ToList();
 			list.AddRange(weapons);
@@ -395,12 +375,12 @@ namespace TacticalGroups
 				Thing weapon = list[j];
 				if (!weapon.IsBurning())
 				{
-					float num3 = WeaponScoreGain(weapon, StatDefOf.AccuracyMedium);
-					if (!(num3 < 0.05f) && !(num3 < num2) && (!CompBiocodable.IsBiocoded(weapon) || CompBiocodable.IsBiocodedFor(weapon, pawn))
+					float weaponScore = WeaponScoreGain(weapon, StatDefOf.AccuracyMedium);
+					if (!(weaponScore < 0.05f) && !(weaponScore < maxValue) && (!CompBiocodable.IsBiocoded(weapon) || CompBiocodable.IsBiocodedFor(weapon, pawn))
 						&& EquipmentUtility.CanEquip(weapon, pawn) && pawn.CanReserveAndReach(weapon, PathEndMode.OnCell, pawn.NormalMaxDanger()))
 					{
 						thing = weapon;
-						num2 = num3;
+						maxValue = weaponScore;
 					}
 				}
 			}
@@ -422,7 +402,6 @@ namespace TacticalGroups
 						var dps = (float)Math.Round(num / num4, 2);
 						return (float)Math.Round(dps, 1);
 					}
-
 				}
 				else if (weapon.def.IsMeleeWeapon)
 				{
@@ -431,7 +410,6 @@ namespace TacticalGroups
 			}
 			return 0f;
 		}
-
 		private static float WeaponScoreGain(Thing weapon, StatDef accuracyDef)
         {
 			if (weapon.def.IsRangedWeapon)

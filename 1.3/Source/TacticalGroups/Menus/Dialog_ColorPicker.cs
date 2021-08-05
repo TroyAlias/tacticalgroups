@@ -95,10 +95,7 @@ namespace TacticalGroups
 				}
 				else if (Event.current.type == EventType.MouseDown && Event.current.button == 1 && Event.current.clickCount == 1 && Mouse.IsOver(data.Value))
                 {
-					if (this.colonistGroup.groupColor?.bodyColors != null && this.colonistGroup.groupColor.bodyColors.ContainsKey(activeMode))
-					{
-						this.colonistGroup.groupColor.bodyColors.Remove(activeMode);
-					}
+					RemoveColor();
 				}
 			}
 			if (colorRects.ContainsKey(activeMode))
@@ -110,18 +107,19 @@ namespace TacticalGroups
             {
 				Widgets.Label(data.Value, data.Key);
             }
+
 			var colorSelectorRect = new Rect(37, 142, 570, 195);
 			var oldColor = curColor;
 			Widgets.ColorSelector(colorSelectorRect, ref curColor, ColorUtils.AllColors);
 			if (oldColor != curColor)
             {
-				SetColorFor(activeMode);
+				SetColor();
             }
 			var setIdeoColorRect = new Rect(40, inRect.yMax - 58, 174, 24f);
 			if (Widgets.ButtonText(setIdeoColorRect, Strings.SetIdeologyColor))
 			{
 				curColor = Faction.OfPlayer.ideos.PrimaryIdeo.ApparelColor;
-				SetColorFor(activeMode);
+				SetColor();
 			}
 
 			var setPawnFavoritesColor = new Rect(setIdeoColorRect.xMax + 15, setIdeoColorRect.y, setIdeoColorRect.width, 24f);
@@ -142,13 +140,74 @@ namespace TacticalGroups
 			var clearGroupColor = new Rect(setPawnFavoritesColor.xMax + 15, setIdeoColorRect.y, setIdeoColorRect.width, 24f);
 			if (Widgets.ButtonText(clearGroupColor, Strings.ClearGroupColor))
 			{
-				if (this.colonistGroup.groupColor?.bodyColors != null && this.colonistGroup.groupColor.bodyColors.ContainsKey(activeMode))
-                {
-					this.colonistGroup.groupColor.bodyColors.Remove(activeMode);
-				}
+				RemoveColor();
 			}
 		}
 
+		private void RemoveColor()
+        {
+			if (this.colonistGroup.groupColor?.bodyColors != null && this.colonistGroup.groupColor.bodyColors.TryGetValue(activeMode, out var colorOption))
+			{
+				foreach (var pawn in this.colonistGroup.pawns)
+                {
+					if (activeMode == BodyColor.Hair)
+					{
+						if (pawn.style != null && pawn.style.nextHairColor.HasValue && pawn.style.nextHairColor.Value == colorOption.GetColor(pawn))
+                        {
+							pawn.style.nextHairColor = null;
+							if (pawn.CurJobDef == JobDefOf.DyeHair)
+                            {
+								pawn.jobs.StopAll();
+                            }
+						}
+					}
+                    else if (pawn.apparel?.WornApparel != null)
+                    {
+						foreach (var apparel in pawn.apparel.WornApparel)
+                        {
+							if (apparel.def.IsHeadgear() && activeMode == BodyColor.Head)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+							else if (apparel.def.IsFeetGear() && activeMode == BodyColor.Feet)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+							else if (apparel.def.IsLegsGear() && activeMode == BodyColor.Legs)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+							else if (apparel.def.IsTorsoGear() && activeMode == BodyColor.Torso)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+							else if (apparel.def.IsArmsGear() && activeMode == BodyColor.Hands)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+							else if (activeMode == BodyColor.All)
+							{
+								TryClearDesiredColor(pawn, apparel, colorOption);
+							}
+						}
+                    }
+				}
+
+				this.colonistGroup.groupColor.bodyColors.Remove(activeMode);
+			}
+		}
+
+		private void TryClearDesiredColor(Pawn pawn, Apparel apparel, ColorOption colorOption)
+        {
+			if (apparel.DesiredColor.HasValue && apparel.DesiredColor.Value == colorOption.GetColor(pawn))
+            {
+				apparel.DesiredColor = null;
+				if (pawn.CurJobDef == JobDefOf.RecolorApparel)
+				{
+					pawn.jobs.StopAll();
+				}
+			}
+        }
 		private ColorOption GetColorOptionFor(BodyColor bodyColor)
         {
 			if (colonistGroup.groupColor?.bodyColors != null)
@@ -161,7 +220,7 @@ namespace TacticalGroups
 			return null;
         }
 
-		private void SetColorFor(BodyColor bodyColor)
+		private void SetColor()
 		{
 			if (this.colonistGroup.groupColor is null)
 			{

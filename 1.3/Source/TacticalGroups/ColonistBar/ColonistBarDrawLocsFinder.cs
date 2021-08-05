@@ -106,7 +106,7 @@ namespace TacticalGroups
 					scaleMultiplier += (float)count / 10f;
 				}
 
-				float num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * num);
+				float num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * num);
 				float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
 				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
@@ -194,7 +194,7 @@ namespace TacticalGroups
 				num = TacticUtils.TacticalColonistBar.Entries.Count;
 			}
 			int num2 = CalculateGroupsCount();
-			float num3 = (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * scale;
+			float num3 = (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * scale;
 			float num4 = ((float)num * num3 + (float)(num2 - 1) * 25f * scale);
 			if (!TacticalGroupsSettings.HideGroups)
             {
@@ -233,7 +233,7 @@ namespace TacticalGroups
 					if (num5 >= 0)
 					{
 						num7 += 25f * scale;
-						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing);
+						num7 += (float)horizontalSlotsPerGroup[num5] * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX);
 					}
 					if (!TacticalGroupsSettings.HideGroups)
                     {
@@ -330,15 +330,15 @@ namespace TacticalGroups
 		}
 
 
-
+		
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
-			float num = groupStartX + (float)(numInGroup % horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing);
-			float y = groupStartY + (float)(numInGroup / horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.y + 32f);
+			float num = groupStartX + (float)(numInGroup % horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX);
+			float y = groupStartY + (float)(numInGroup / horizontalSlotsPerGroup[group]) * scale * (TacticalColonistBar.BaseSize.y + TacticalGroupsSettings.ColonistBarSpacingY);
 			if (numInGroup >= entriesInGroup[group] - entriesInGroup[group] % horizontalSlotsPerGroup[group])
 			{
 				int num2 = horizontalSlotsPerGroup[group] - entriesInGroup[group] % horizontalSlotsPerGroup[group];
-				num += (float)num2 * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacing) * 0.5f;
+				num += (float)num2 * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * 0.5f;
 			}
 			return new Vector2(num, y);
 		}
