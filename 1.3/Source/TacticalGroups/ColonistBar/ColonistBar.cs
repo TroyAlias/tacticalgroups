@@ -276,6 +276,7 @@ namespace TacticalGroups
                     }
                 }
             }
+
             if (Event.current.type == EventType.Repaint)
             {
                 colonistsToHighlight.Clear();

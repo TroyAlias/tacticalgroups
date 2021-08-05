@@ -80,6 +80,15 @@ namespace TacticalGroups
 		{
 			this.pawnFavoriteOnly = pawnFavoriteOnly;
 		}
+
+		public Color? GetColor(Pawn pawn)
+        {
+			if (pawnFavoriteOnly)
+            {
+				return pawn.story.favoriteColor;
+            }
+			return color;
+        }
 		public void ExposeData()
         {
 			Scribe_Values.Look(ref color, "color");
@@ -953,7 +962,7 @@ namespace TacticalGroups
 				DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
 			var pawnTextureRect = GetPawnTextureRect(rect.position);
-			GUI.DrawTexture(pawnTextureRect, PortraitsCache.Get(colonist, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			GUI.DrawTexture(pawnTextureRect, PortraitsCache.Get(colonist, ManagementMenu.PawnTextureSize, Rot4.South, ManagementMenu.PawnTextureCameraOffset, ManagementMenu.PawnTextureCameraZoom));
 			if (colonist.Drafted)
 			{
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
@@ -1004,8 +1013,8 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 			if (ShowExpanded)
             {
-				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
+				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect, TacticalGroupsSettings.HealthBarWidth);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
 				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 			}
 

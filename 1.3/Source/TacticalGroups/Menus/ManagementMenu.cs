@@ -14,6 +14,12 @@ namespace TacticalGroups
 {
 	public class ManagementMenu : TieredFloatMenu
 	{
+		public static Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.BaseSize.x - 2f, 75f);
+
+		public static Vector3 PawnTextureCameraOffset = new Vector3(0f, 0f, 0.3f);
+
+		public static float PawnTextureCameraZoom = 1.28205f;
+
 		protected override Vector2 InitialPositionShift => new Vector2(0f, 0f);
 		protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 55f);
 		public ManagementMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
@@ -109,7 +115,7 @@ namespace TacticalGroups
 
 			if (ModCompatibility.BetterPawnControlIsActive)
             {
-				ModCompatibility.restrictManagerSaveCurrentStateMethod.Invoke(null, new object[] { this.colonistGroup.pawns });
+				ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[] { this.colonistGroup.pawns });
             }
 			Text.Anchor = TextAnchor.MiddleCenter;
 			var moodTexture = GetMoodTexture(out string moodLabel);
@@ -205,7 +211,7 @@ namespace TacticalGroups
 			{
 				TacticUtils.TacticalColonistBar.drawer.DrawCaravanSelectionOverlayOnGUI(colonist.GetCaravan(), rect2);
 			}
-			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, ColonistBarColonistDrawer.DefaultPawnTextureSize, Rot4.South, ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f));
+			GUI.DrawTexture(GetPawnTextureRect(rect.position), PortraitsCache.Get(colonist, PawnTextureSize, Rot4.South, PawnTextureCameraOffset, PawnTextureCameraZoom));
 			if (colonist.Drafted)
 			{
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
@@ -236,7 +242,7 @@ namespace TacticalGroups
 			}
             else
             {
-				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect);
+				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect, Textures.HealthBar.width);
 				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
             }
 		}
@@ -245,7 +251,7 @@ namespace TacticalGroups
 		{
 			float x = pos.x;
 			float y = pos.y;
-			Vector2 vector = ColonistBarColonistDrawer.DefaultPawnTextureSize;
+			Vector2 vector = PawnTextureSize;
 			return new Rect(x + 1f, y - (vector.y - TacticalColonistBar.DefaultBaseSize.y) - 1f, vector.x, vector.y).ContractedBy(1f);
 		}
 

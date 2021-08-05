@@ -46,7 +46,8 @@ Right click:	Group Menu</TG.GroupInfoTooltip>
 	<TG.HideCreateGroupDesc>Create Group &amp; Options menu can be found in Assign Menu / Mod Settings.</TG.HideCreateGroupDesc>
 	<TG.ColonistBarPositionY>Colonist Bar Position (Y)</TG.ColonistBarPositionY>
 	<TG.ColonistBarPositionX>Colonist Bar Position (X)</TG.ColonistBarPositionX>
-	<TG.ColonistBarSpacing>Colonist Bar Spacing</TG.ColonistBarSpacing>
+	<TG.ColonistBarSpacingX>Colonist Bar Spacing (X)</TG.ColonistBarSpacingX>
+	<TG.ColonistBarSpacingY>Colonist Bar Spacing (Y)</TG.ColonistBarSpacingY>
 	<TG.GroupRowCount>Group Row Count</TG.GroupRowCount>
 	<TG.OverallPawnDisplayScale>Overall Pawn Display Scale: </TG.OverallPawnDisplayScale>
 	<TG.ColonyGroupScale>Colony Group Scale</TG.ColonyGroupScale>
@@ -265,5 +266,5 @@ Middle Mouse on Green Box to Reset
 	<TG.Head>Head</TG.Head>
 	<TG.Feet>Feet</TG.Feet>
 	<TG.Hair>Hair</TG.Hair>
-
+	<TG.HealthBarWidth>Health bar size</TG.HealthBarWidth>
 </LanguageData>

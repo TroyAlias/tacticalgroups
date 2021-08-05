@@ -488,7 +488,7 @@ namespace TacticalGroups
                     {
                         if (!comp.DesiredColor.HasValue)
                         {
-                            var desiredColor = GetDesiredColor(pawn, apparel);
+                            var desiredColor = ColorUtils.GetDesiredColor(pawn, apparel);
                             if (desiredColor != null && comp.Color != desiredColor.Value)
                             {
                                 comp.DesiredColor = desiredColor;
@@ -503,55 +503,9 @@ namespace TacticalGroups
             }
         }
 
-        private static Color? GetDesiredColor(Pawn pawn, Apparel apparel)
-        {
-            if (pawn.TryGetGroups(out var groups))
-            {
-                foreach (var group in groups)
-                {
-                    if (group.groupColor?.bodyColors != null)
-                    {
-                        if (apparel.def.IsHeadgear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Head, out var headColor))
-                        {
-                            return GetColor(headColor, pawn);
-                        }
-                        else if (apparel.def.IsFeetGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Feet, out var feetColor))
-                        {
-                            return GetColor(feetColor, pawn);
-                        }
-                        else if (apparel.def.IsLegsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Legs, out var legsColor))
-                        {
-                            return GetColor(legsColor, pawn);
-                        }
-                        else if (apparel.def.IsTorsoGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Torso, out var torsoColor))
-                        {
-                            return GetColor(torsoColor, pawn);
-                        }
-                        else if (apparel.def.IsArmsGear() && group.groupColor.bodyColors.TryGetValue(BodyColor.Hands, out var armsColor))
-                        {
-                            return GetColor(armsColor, pawn);
-                        }
-                        else if (group.groupColor.bodyColors.TryGetValue(BodyColor.All, out var allColor))
-                        {
-                            return GetColor(allColor, pawn);
-                        }
-                    }
-                }
-            }
-            return null;
-        }
-
-        private static Color? GetColor(ColorOption colorOption, Pawn pawn)
-        {
-            if (colorOption.pawnFavoriteOnly)
-            {
-                return pawn.story?.favoriteColor;
-            }
-            return colorOption.color;
-        }
         public static void JobGiver_DyeHair_TryGiveJobPrefix(Pawn pawn)
         {
-            var desiredColor = GetDesiredColor(pawn);
+            var desiredColor = ColorUtils.GetDesiredHairColor(pawn);
             if (desiredColor.HasValue)
             {
                 if (pawn.story.hairColor != desiredColor.Value)
@@ -567,20 +521,7 @@ namespace TacticalGroups
                 }
             }
         }
-        private static Color? GetDesiredColor(Pawn pawn)
-        {
-            if (pawn.TryGetGroups(out var groups))
-            {
-                foreach (var group in groups)
-                {
-                    if (group.groupColor?.bodyColors != null && group.groupColor.bodyColors.TryGetValue(BodyColor.Hair, out var hairColor))
-                    {
-                        return GetColor(hairColor, pawn);
-                    }
-                }
-            }
-            return null;
-        }
+
         public static void PawnTableOnGUI(Vector2 position, PawnTableDef ___def, List<float> ___cachedColumnWidths, Vector2 ___cachedSize, float ___cachedHeaderHeight, float ___cachedHeightNoScrollbar)
         {
             if (___def == PawnTableDefOf.Assign)
