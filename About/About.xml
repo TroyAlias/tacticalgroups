@@ -8,4 +8,19 @@
   </supportedVersions>
   <packageId>DerekBickley.LTOColonyGroupsFinal</packageId>
   <description>Colony Groups allows you to create and customize groups for your colonists.  As well as giving you your own Colony Group that you can use to manage your entire colony (or multiple) colonies at once.  This mod also includes Pawn Portrait display features that can be toggled on/off.  Enjoy</description>
+  
+<modDependencies>
+    <li>
+      <packageId>brrainz.harmony</packageId>
+      <displayName>Harmony</displayName>
+      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+      <steamWorkshopUrl>https://steamcommunity.com/workshop/filedetails/?id=2009463077</steamWorkshopUrl>
+    </li>
+</modDependencies>
+  
+<loadAfter>
+    <li>Ludeon.RimWorld</li>
+    <li>brrainz.harmony</li>
+</loadAfter>
+  
 </ModMetaData>
