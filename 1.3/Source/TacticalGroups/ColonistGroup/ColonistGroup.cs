@@ -1306,10 +1306,10 @@ namespace TacticalGroups
                 {
 					this.activeWorkTypes = new Dictionary<WorkType, WorkState>();
 				}
-
-				foreach (var activeWorkType in preset.activeWorkTypes)
+				var activeWorkTypes = preset.activeWorkTypes.ToList();
+				for (int num = activeWorkTypes.Count - 1; num >= 0; num--)
 				{
-					this.activeWorkTypes[activeWorkType.Key] = activeWorkType.Value;
+					this.activeWorkTypes[activeWorkTypes[num].Key] = activeWorkTypes[num].Value;
 				}
 				SetCurrentActiveState();
 			}
@@ -1320,9 +1320,10 @@ namespace TacticalGroups
 				{
 					this.groupWorkPriorities = new Dictionary<WorkTypeDef, int>();
 				}
-				foreach (var groupWorkPriority in preset.groupWorkPriorities)
+				var groupPriorities = preset.groupWorkPriorities.ToList();
+				for (int num = groupPriorities.Count - 1; num >= 0; num--)
 				{
-					this.groupWorkPriorities[groupWorkPriority.Key] = groupWorkPriority.Value;
+					this.groupWorkPriorities[groupPriorities[num].Key] = groupPriorities[num].Value;
 				}
 			}
 

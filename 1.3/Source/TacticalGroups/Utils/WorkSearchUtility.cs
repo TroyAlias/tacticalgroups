@@ -289,10 +289,17 @@ namespace TacticalGroups
 			{
 				return false;
 			}
-			if (giver.ShouldSkip(pawn))
-			{
-				return false;
+			try
+            {
+				if (giver.ShouldSkip(pawn))
+				{
+					return false;
+				}
 			}
+            catch
+            {
+				return false;
+            }
 			if (giver.MissingRequiredCapacity(pawn) != null)
 			{
 				return false;
