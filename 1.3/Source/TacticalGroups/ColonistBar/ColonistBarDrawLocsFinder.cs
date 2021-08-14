@@ -106,9 +106,10 @@ namespace TacticalGroups
 			{
 				num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * num);
 				num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
-
-				maxPerGlobalRow = TacticalGroupsSettings.OverridePawnRowCount ? colonistCount / TacticalGroupsSettings.PawnRowCount : Mathf.FloorToInt(num4 / num3); 
+				var pawnRowCount = GetPawnRowCount(colonistCount);
+				maxPerGlobalRow = Mathf.Max(1, TacticalGroupsSettings.OverridePawnRowCount ? colonistCount / pawnRowCount : Mathf.FloorToInt(num4 / num3)); 
 				onlyOneRow = true;
+				Log.Message("maxPerGlobalRow: " + maxPerGlobalRow);
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
 				{
 					int allowedRowsCountForScale = GetAllowedRowsCountForScale(num);
@@ -119,18 +120,21 @@ namespace TacticalGroups
 						if (num5 != entries[i].group)
 						{
 							num5 = entries[i].group;
-							int num6 = Mathf.CeilToInt((float)entriesInGroup[entries[i].group] / (float)horizontalSlotsPerGroup[entries[i].group]);
+							int num6 = Mathf.CeilToInt((float)entriesInGroup[entries[i].group] / (float)GetHorizontalSlotsPerGroup(entries[i].group));
 							if (num6 > 1)
 							{
 								onlyOneRow = false;
 							}
-							if (TacticalGroupsSettings.OverridePawnRowCount && ((float)horizontalSlotsPerGroup[entries[i].group] * num) >= initialValue)
+							if (TacticalGroupsSettings.OverridePawnRowCount && ((float)GetHorizontalSlotsPerGroup(entries[i].group) * num) >= initialValue)
 							{
+								Log.Message("GetHorizontalSlotsPerGroup(entries[i].group) * num: " + GetHorizontalSlotsPerGroup(entries[i].group) * num);
+								Log.Message("initialValue: " + initialValue);
 								flag = false;
 								break;
 							}
 							else if (!TacticalGroupsSettings.OverridePawnRowCount && num6 > allowedRowsCountForScale)
 							{
+								Log.Message("TEST");
 								flag = false;
 								break;
 							}
@@ -141,8 +145,13 @@ namespace TacticalGroups
 						break;
 					}
 				}
+				else
+                {
+					Log.Message("FAIL");
+                }
 				num *= 0.95f;
 				Log.Message("Scale: " + num);
+				Log.ResetMessageCount();
 			}
 			Log.Message("Final Scale: " + num);
 			return num;
@@ -192,8 +201,8 @@ namespace TacticalGroups
 			if (TacticalGroupsSettings.OverridePawnRowCount)
 			{
 				List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-				var pawnCount = entries.Where(x => x.group == group).Count();
-				if ((float)pawnCount / (float)((horizontalSlotsPerGroup[group])) > TacticalGroupsSettings.PawnRowCount)
+				var pawnCount = entries.Where(x => x.group == group && x.pawn != null).Count();
+				if ((float)pawnCount / (float)((horizontalSlotsPerGroup[group])) > GetPawnRowCount(pawnCount))
 				{
 					return horizontalSlotsPerGroup[group] + 1;
 				}
@@ -201,7 +210,10 @@ namespace TacticalGroups
 			return horizontalSlotsPerGroup[group];
 		}
 
-		[TweakValue("0CG", 0, 100)] public static float xTest;
+		public int GetPawnRowCount(int pawnCount)
+        {
+			return Mathf.Max(1, Mathf.Min(TacticalGroupsSettings.PawnRowCount, pawnCount));
+		}
 		private void CalculateDrawLocs(List<Rect> outDrawLocs, float scale, bool onlyOneRow, int maxPerGlobalRow)
 		{
 			outDrawLocs.Clear();
@@ -255,8 +267,7 @@ namespace TacticalGroups
 					if (num5 >= 0)
 					{
 						num7 += 25f * scale;
-						num7 += ((float)horizontalSlotsPerGroup[num5] + 1) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX);
-						num7 += xTest;
+						num7 += ((float)GetHorizontalSlotsPerGroup(num5)) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX);
 					}
 					if (!TacticalGroupsSettings.HideGroups)
                     {
@@ -356,8 +367,8 @@ namespace TacticalGroups
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-			var pawnCount = entries.Where(x => x.group == group).Count();
-			if (TacticalGroupsSettings.OverridePawnRowCount && (float)pawnCount / (float)(horizontalSlotsPerGroup[group]) > TacticalGroupsSettings.PawnRowCount)
+			var pawnCount = entries.Where(x => x.group == group && x.pawn != null).Count();
+			if (TacticalGroupsSettings.OverridePawnRowCount && (float)pawnCount / (float)(horizontalSlotsPerGroup[group]) > GetPawnRowCount(pawnCount))
 			{
 				float num = groupStartX + (float)((numInGroup) % (horizontalSlotsPerGroup[group] + 1)) * scale * (TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX);
 				float y = groupStartY + (float)((numInGroup) / (horizontalSlotsPerGroup[group] + 1)) * scale * (TacticalColonistBar.BaseSize.y + TacticalGroupsSettings.ColonistBarSpacingY);

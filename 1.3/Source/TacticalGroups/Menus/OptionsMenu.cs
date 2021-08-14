@@ -39,6 +39,8 @@ namespace TacticalGroups
 		{
 			base.DoWindowContents(rect);
 			Text.Font = GameFont.Small;
+			var colorPickerPos = new Vector2(this.windowRect.x + 60, this.windowRect.y + 195);
+
 			Vector2 leftHalf = new Vector2(rect.x + checkBoxesWidth, rect.y + 25f);
 
 			var showAllColonistsRect = new Rect(rect.x + 10, leftHalf.y, Textures.MenuButton.width, 25f);
@@ -63,7 +65,18 @@ namespace TacticalGroups
 			leftHalf.y += 45f;
 			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayFood);
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayFood);
-			
+
+			var displayFoodColor = new Rect(leftHalf.x + 3, leftHalf.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(displayFoodColor, TacticalGroupsSettings.DefaultMoodBarLower, Color.white);
+			if (Mouse.IsOver(displayFoodColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.DefaultMoodBarLower, (Color x) =>
+				{
+					TacticalGroupsSettings.DefaultMoodBarLower = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
 			leftHalf.y += 25f;
 			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayRest);
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayRest);
@@ -141,8 +154,6 @@ namespace TacticalGroups
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Extended;
 			}
-
-			var colorPickerPos = new Vector2(this.windowRect.x + 60, this.windowRect.y + 195);
 
 			var defaultBottomColor = new Rect(colorBarDefaultRect.x + 3, colorBarDefaultRect.yMax - 3, 12, 12);
 			Widgets.DrawBoxSolidWithOutline(defaultBottomColor, TacticalGroupsSettings.DefaultMoodBarLower, Color.white);
