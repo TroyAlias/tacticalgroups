@@ -120,10 +120,6 @@ namespace TacticalGroups
 		public static readonly Texture2D RestFood = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/RestFood");
 		public static readonly Texture2D HealthBar = ContentFinder<Texture2D>.Get("UI/ColonistBar/ColonistNeedBars/HealthBar");
 
-		public static readonly Texture2D FoodNeedBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(45, 127, 59, 255).ToColor);
-		public static readonly Texture2D RestNeedBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(58, 96, 152, 255).ToColor);
-		public static readonly Texture2D HealthNeedBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(154, 55, 55, 255).ToColor);
-
 		public static readonly Texture2D SetClearButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/SetClearButton");
 		public static readonly Texture2D OrdersDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/OrdersDropMenu");
 		public static readonly Texture2D MedicalDropMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/MedicalDropMenu");

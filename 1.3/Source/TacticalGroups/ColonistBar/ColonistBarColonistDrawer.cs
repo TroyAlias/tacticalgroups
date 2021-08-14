@@ -64,7 +64,6 @@ namespace TacticalGroups
 		public static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-
 			if (ModCompatibility.AlteredCarbonIsActive)
             {
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
@@ -201,7 +200,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 
-				GUI.DrawTexture(rect3, Textures.HealthNeedBar, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(rect3, TacticalGroupsSettings.HealthNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(healthBar, Textures.HealthBar, ScaleMode.StretchToFill);
 			}
 		}
@@ -217,7 +216,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 
-				GUI.DrawTexture(rect3, Textures.FoodNeedBar, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(rect3, TacticalGroupsSettings.FoodNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 				needBar.x += needWidth;
 			}
@@ -229,7 +228,7 @@ namespace TacticalGroups
 				rect3.yMin = rect3.yMax - num5;
 				rect3.height = num5;
 
-				GUI.DrawTexture(rect3, Textures.RestNeedBar, ScaleMode.ScaleAndCrop);
+				GUI.DrawTexture(rect3, TacticalGroupsSettings.RestNeedBar, ScaleMode.ScaleAndCrop);
 				GUI.DrawTexture(needBar, Textures.RestFood, ScaleMode.StretchToFill);
 			}
 		}

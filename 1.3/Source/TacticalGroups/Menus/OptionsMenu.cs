@@ -66,24 +66,47 @@ namespace TacticalGroups
 			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayFood);
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayFood);
 
-			var displayFoodColor = new Rect(leftHalf.x + 3, leftHalf.y, 12, 12);
-			Widgets.DrawBoxSolidWithOutline(displayFoodColor, TacticalGroupsSettings.DefaultMoodBarLower, Color.white);
+			var displayFoodColor = new Rect(leftHalf.x - 24, leftHalf.y + 5, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(displayFoodColor, TacticalGroupsSettings.NeedFoodBarColor, Color.white);
 			if (Mouse.IsOver(displayFoodColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
 			{
-				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.DefaultMoodBarLower, (Color x) =>
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.NeedFoodBarColor, (Color x) =>
 				{
-					TacticalGroupsSettings.DefaultMoodBarLower = x;
+					TacticalGroupsSettings.NeedFoodBarColor = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+
+			leftHalf.y += 25f;
+			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayRest);
+			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayRest);
+
+			var displayRestColor = new Rect(displayFoodColor.x, leftHalf.y + 5, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(displayRestColor, TacticalGroupsSettings.NeedRestBarColor, Color.white);
+			if (Mouse.IsOver(displayRestColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.NeedRestBarColor, (Color x) =>
+				{
+					TacticalGroupsSettings.NeedRestBarColor = x;
 					TacticalGroupsSettings.InitColorBars();
 				}, colorPickerPos));
 			}
 
 			leftHalf.y += 25f;
-			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayRest);
-			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayRest);
-			
-			leftHalf.y += 25f;
 			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisplayHealth);
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.DisplayHealth);
+
+			var displayHealthColor = new Rect(displayFoodColor.x, leftHalf.y + 5, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(displayHealthColor, TacticalGroupsSettings.NeedHealthBarColor, Color.white);
+			if (Mouse.IsOver(displayHealthColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.NeedHealthBarColor, (Color x) =>
+				{
+					TacticalGroupsSettings.NeedHealthBarColor = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
 
 			leftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.PawnNeedsSize + ": " + TacticalGroupsSettings.PawnNeedsWidth.ToString());

@@ -66,6 +66,14 @@ namespace TacticalGroups
         public static Texture2D ExtendedMoodBarUpperBar;
         public static Texture2D ExtendedMoodBarUpperIIBar;
 
+        public static Color NeedFoodBarColor = new ColorInt(45, 127, 59, 255).ToColor;
+        public static Color NeedRestBarColor = new ColorInt(58, 96, 152, 255).ToColor;
+        public static Color NeedHealthBarColor = new ColorInt(154, 55, 55, 255).ToColor;
+
+        public static Texture2D FoodNeedBar;
+        public static Texture2D RestNeedBar;
+        public static Texture2D HealthNeedBar;
+
         public static bool OverridePawnRowCount;
         public static int PawnRowCount = 2;
 
@@ -156,6 +164,10 @@ namespace TacticalGroups
             Scribe_Values.Look(ref ExtendedMoodBarUpper, "ExtendedMoodBarUpper", new ColorInt(61, 119, 140, 255).ToColor);
             Scribe_Values.Look(ref ExtendedMoodBarUpperII, "ExtendedMoodBarUpperII", new ColorInt(9, 237, 90, 255).ToColor);
 
+            Scribe_Values.Look(ref NeedFoodBarColor, "NeedFoodBarColor", new ColorInt(45, 127, 59, 255).ToColor);
+            Scribe_Values.Look(ref NeedRestBarColor, "NeedRestBarColor", new ColorInt(58, 96, 152, 255).ToColor);
+            Scribe_Values.Look(ref NeedHealthBarColor, "NeedHealthBarColor", new ColorInt(154, 55, 55, 255).ToColor);
+
             Scribe_Values.Look(ref OverridePawnRowCount, "OverridePawnRowCount", false);
             Scribe_Values.Look(ref PawnRowCount, "PawnRowCount", 2);
 
@@ -208,14 +220,17 @@ namespace TacticalGroups
             DefaultMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
             DefaultMoodBarUpper = new ColorInt(9, 237, 90, 255).ToColor;
 
-
             ExtendedMoodBarLowerII = new ColorInt(100, 45, 50, 255).ToColor;
             ExtendedMoodBarLower = new ColorInt(91, 92, 61, 255).ToColor;
             ExtendedMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
             ExtendedMoodBarUpper = new ColorInt(61, 119, 140, 255).ToColor;
             ExtendedMoodBarUpperII = new ColorInt(9, 237, 90, 255).ToColor;
+
+            NeedFoodBarColor = new ColorInt(45, 127, 59, 255).ToColor;
+            NeedRestBarColor = new ColorInt(58, 96, 152, 255).ToColor;
+            NeedHealthBarColor = new ColorInt(154, 55, 55, 255).ToColor;
         }
-        public static void InitColorBars()
+    public static void InitColorBars()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
             {
@@ -228,6 +243,10 @@ namespace TacticalGroups
                 ExtendedMoodBarMiddleBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarMiddle);
                 ExtendedMoodBarUpperBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarUpper);
                 ExtendedMoodBarUpperIIBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarUpperII);
+
+                FoodNeedBar = SolidColorMaterials.NewSolidColorTexture(NeedFoodBarColor);
+                RestNeedBar = SolidColorMaterials.NewSolidColorTexture(NeedRestBarColor);
+                HealthNeedBar = SolidColorMaterials.NewSolidColorTexture(NeedHealthBarColor);
             });
         }
         public static void DoPawnViewReset()
