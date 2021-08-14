@@ -304,7 +304,7 @@ namespace TacticalGroups
 			var pawnRowCountCheckBox = new Vector2(xRightPos + 150, rightHalf.y);
 			Widgets.Checkbox(pawnRowCountCheckBox, ref TacticalGroupsSettings.OverridePawnRowCount);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnRowCount, 1, 40);
+			TacticalGroupsSettings.PawnRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnRowCount, 1, 10);
 
 			Text.Anchor = TextAnchor.UpperLeft;
 			rightHalf.y += 50f;
