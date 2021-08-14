@@ -60,6 +60,8 @@ namespace TacticalGroups
 		public static float PawnTextureCameraZoom = 1.28205f;
 
 		private static Vector2[] bracketLocs = new Vector2[4];
+
+		public static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
 
@@ -67,7 +69,7 @@ namespace TacticalGroups
             {
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
 				{
-					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, TacticalGroupsSettings.DefaultMoodBarUpperBar, bracketLocs
+					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
 				});
 				if (!prefixValue)
                 {
@@ -99,7 +101,7 @@ namespace TacticalGroups
 				}
 				else
 			    {
-					GUI.DrawTexture(position, TacticalGroupsSettings.DefaultMoodBarUpperBar);
+					GUI.DrawTexture(position, MoodBGTex);
 			    }
 
 				if (TacticalGroupsSettings.DisplayBreakRiskOverlay)

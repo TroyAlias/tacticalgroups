@@ -135,10 +135,6 @@ namespace TacticalGroups
 
 		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
         {
-			foreach (var pawnGroup in TacticalGroups.pawnGroups)
-            {
-				Log.Message(pawnGroup + " - prevColonyGroup: " + pawnGroup.prevColonyGroup + " - colonyGroup: " + colonyGroup);
-            }
 			return TacticalGroups.pawnGroups.Where(x => !x.isSubGroup && (x.pawns.Any(y => y.Map == colonyGroup.Map) || x.prevColonyGroup == colonyGroup)).ToList();
 		}
 		public static List<PawnGroup> GetAllSubGroupFor(ColonyGroup colonyGroup)

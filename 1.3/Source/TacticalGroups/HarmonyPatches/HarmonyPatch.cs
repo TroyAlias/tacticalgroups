@@ -383,7 +383,6 @@ namespace TacticalGroups
                             {
                                 __state = new Dictionary<WorkType, WorkState> { { workType, WorkState.Temporary } };
                                 startNewJob = false;
-                                Log.Message(___pawn + " got a group with forced labors: " + group);
                                 return;
                             }
                         }
@@ -395,7 +394,6 @@ namespace TacticalGroups
                                 if (data.Value != WorkState.Inactive || data.Value == WorkState.Active && CanWork(___pawn) && CanWorkActive(___pawn))
                                 {
                                     __state[data.Key] = data.Value;
-                                    Log.Message(___pawn + " got a group with forced labors: " + group);
                                 }
                             }
                         }
@@ -423,7 +421,6 @@ namespace TacticalGroups
                         }
                         var curJob = ___pawn.CurJob;
                         WorkSearchUtility.SearchForWork(state.Key, new List<Pawn> { ___pawn });
-                        Log.Message(state.Key.workTypeDef + " - " + ___pawn + " got forced job: " + ___pawn.CurJob + " - " + state.Key.Label);
                         if (curJob != ___pawn.CurJob)
                         {
                             break;

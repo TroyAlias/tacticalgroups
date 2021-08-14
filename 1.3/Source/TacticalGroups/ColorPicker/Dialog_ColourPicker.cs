@@ -390,15 +390,6 @@ namespace ColourPicker {
             SwapTexture(ref bg, SolidColorMaterials.NewSolidColorTexture(col));
         }
 
-        [Conditional("DEBUG")]
-        public static void Debug(string msg) {
-            if (Traverse.Create(typeof(Log)).Field("reachedMaxMessagesLimit").GetValue<bool>()) {
-                Log.ResetMessageCount();
-            }
-
-            Log.Message($"ColourPicker :: {msg}");
-        }
-
         public override void DoWindowContents(Rect inRect) {
             // set up rects
             Rect pickerRect     = new Rect(inRect.xMin, inRect.yMin, _pickerSize, _pickerSize);
@@ -644,7 +635,6 @@ namespace ColourPicker {
         }
 
         public void NotifyHexUpdated() {
-            Debug($"HEX updated ({Hex})");
 
             if (ColorUtility.TryParseHtmlString(_hex, out Color color)) {
                 // set rgb colour;
@@ -661,7 +651,6 @@ namespace ColourPicker {
         }
 
         public void NotifyHSVUpdated() {
-            Debug($"HSV updated: ({_h}, {_s}, {_v})");
 
             // update rgb colour
             Color color = Color.HSVToRGB(H, S, V);
@@ -685,7 +674,6 @@ namespace ColourPicker {
         }
 
         public void NotifyRGBUpdated() {
-            Debug($"RGB updated: ({R}, {G}, {B})");
 
             // Set HSV from RGB
             Color.RGBToHSV(tempColour, out _h, out _s, out _v);

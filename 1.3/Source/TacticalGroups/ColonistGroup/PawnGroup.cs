@@ -99,7 +99,6 @@ namespace TacticalGroups
         }
         public override void Disband()
         {
-			Log.Message("Disband 1");
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			TacticUtils.RemoveReferencesFor(this);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -109,7 +108,6 @@ namespace TacticalGroups
 			base.Disband(pawn);
 			if (this.pawns.Count == 0 && this.formerPawns.Count == 0 && this.autoDisbandWithoutPawns)
 			{
-				Log.Message("Disband 2");
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 				TacticUtils.RemoveReferencesFor(this);
 			}
@@ -134,7 +132,6 @@ namespace TacticalGroups
 			}
 			if (this.pawns.Count == 0 && this.formerPawns.Count == 0 && this.autoDisbandWithoutPawns)
 			{
-				Log.Message("Disband 3");
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 				TacticUtils.RemoveReferencesFor(this);
 			}

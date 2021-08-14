@@ -105,8 +105,6 @@ namespace TacticalGroups
 				assignManagerSaveCurrentStateMethod = AccessTools.Method(AccessTools.TypeByName("BetterPawnControl.AssignManager"), "SaveCurrentState");
 				if (workManagerSaveCurrentStateMethod is null || assignManagerSaveCurrentStateMethod is null)
                 {
-					Log.Message("workManagerSaveCurrentStateMethod: " + workManagerSaveCurrentStateMethod);
-					Log.Message("assignManagerSaveCurrentStateMethod: " + assignManagerSaveCurrentStateMethod);
 					Log.Error("Colony Groups failed to support Better Pawn Control. Report about it.");
 				}
 			}

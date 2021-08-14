@@ -47,14 +47,14 @@ namespace TacticalGroups
 
 
         public static Color DefaultMoodBarLower = new ColorInt(196, 0, 30, 255).ToColor;
-        public static Color DefaultMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
-        public static Color DefaultMoodBarUpper = new Color(0.4f, 0.47f, 0.53f, 0.44f);
+        public static Color DefaultMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
+        public static Color DefaultMoodBarUpper = new ColorInt(9, 237, 90, 255).ToColor;
 
         public static Color ExtendedMoodBarLowerII = new ColorInt(100, 45, 50, 255).ToColor;
         public static Color ExtendedMoodBarLower = new ColorInt(91, 92, 61, 255).ToColor;
-        public static Color ExtendedMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+        public static Color ExtendedMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
         public static Color ExtendedMoodBarUpper = new ColorInt(61, 119, 140, 255).ToColor;
-        public static Color ExtendedMoodBarUpperII = new ColorInt(7, 172, 27, 255).ToColor;
+        public static Color ExtendedMoodBarUpperII = new ColorInt(9, 237, 90, 255).ToColor;
 
         public static Texture2D DefaultMoodBarLowerBar;
         public static Texture2D DefaultMoodBarMiddleBar;
@@ -67,7 +67,7 @@ namespace TacticalGroups
         public static Texture2D ExtendedMoodBarUpperIIBar;
 
         public static bool OverridePawnRowCount;
-        public static int PawnRowCount = 32;
+        public static int PawnRowCount = 2;
 
         public static List<GroupPresetSaveable> AllGroupPresetsSaveable;
 
@@ -147,17 +147,17 @@ namespace TacticalGroups
             Scribe_Values.Look(ref WeaponShowScale, "WeaponShowScale", 1f);
 
             Scribe_Values.Look(ref DefaultMoodBarLower, "DefaultMoodBarLower", new ColorInt(196, 0, 30, 255).ToColor);
-            Scribe_Values.Look(ref DefaultMoodBarMiddle, "DefaultMoodBarMiddle", new ColorInt(111, 116, 57, 255).ToColor);
-            Scribe_Values.Look(ref DefaultMoodBarUpper, "DefaultMoodBarUpper", new Color(0.4f, 0.47f, 0.53f, 0.44f));
+            Scribe_Values.Look(ref DefaultMoodBarMiddle, "DefaultMoodBarMiddle", new ColorInt(245, 194, 15, 255).ToColor);
+            Scribe_Values.Look(ref DefaultMoodBarUpper, "DefaultMoodBarUpper", new ColorInt(9, 237, 90, 255).ToColor);
 
             Scribe_Values.Look(ref ExtendedMoodBarLowerII, "ExtendedMoodBarLowerII", new ColorInt(100, 45, 50, 255).ToColor);
             Scribe_Values.Look(ref ExtendedMoodBarLower, "ExtendedMoodBarLower", new ColorInt(91, 92, 61, 255).ToColor);
-            Scribe_Values.Look(ref ExtendedMoodBarMiddle, "ExtendedMoodBarMiddle", new ColorInt(111, 116, 57, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarMiddle, "ExtendedMoodBarMiddle", new ColorInt(245, 194, 15, 255).ToColor);
             Scribe_Values.Look(ref ExtendedMoodBarUpper, "ExtendedMoodBarUpper", new ColorInt(61, 119, 140, 255).ToColor);
-            Scribe_Values.Look(ref ExtendedMoodBarUpperII, "ExtendedMoodBarUpperII", new ColorInt(7, 172, 27, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarUpperII, "ExtendedMoodBarUpperII", new ColorInt(9, 237, 90, 255).ToColor);
 
             Scribe_Values.Look(ref OverridePawnRowCount, "OverridePawnRowCount", false);
-            Scribe_Values.Look(ref PawnRowCount, "PawnRowCount", 32);
+            Scribe_Values.Look(ref PawnRowCount, "PawnRowCount", 2);
 
             Scribe_Collections.Look(ref AllGroupPresetsSaveable, "AllGroupPresetsSaveable", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -199,20 +199,21 @@ namespace TacticalGroups
             InitColorBars();
 
             OverridePawnRowCount = false;
-            PawnRowCount = 32;
+            PawnRowCount = 2;
         }
 
         public static void ResetColorBars()
         {
             DefaultMoodBarLower = new ColorInt(196, 0, 30, 255).ToColor;
-            DefaultMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
-            DefaultMoodBarUpper = new Color(0.4f, 0.47f, 0.53f, 0.44f);
+            DefaultMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
+            DefaultMoodBarUpper = new ColorInt(9, 237, 90, 255).ToColor;
+
 
             ExtendedMoodBarLowerII = new ColorInt(100, 45, 50, 255).ToColor;
             ExtendedMoodBarLower = new ColorInt(91, 92, 61, 255).ToColor;
-            ExtendedMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+            ExtendedMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
             ExtendedMoodBarUpper = new ColorInt(61, 119, 140, 255).ToColor;
-            ExtendedMoodBarUpperII = new ColorInt(7, 172, 27, 255).ToColor;
+            ExtendedMoodBarUpperII = new ColorInt(9, 237, 90, 255).ToColor;
         }
         public static void InitColorBars()
         {
