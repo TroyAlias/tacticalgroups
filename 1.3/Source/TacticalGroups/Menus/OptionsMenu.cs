@@ -1,3 +1,4 @@
+using ColourPicker;
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -34,7 +35,6 @@ namespace TacticalGroups
 
         [TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 190f;
 		[TweakValue("0ColonyGroups", 0, 1000)] public static float checkBoxesWidth = 180f;
-		[TweakValue("0ColonyGroups", 0, 100)] public static float test = 10;
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);
@@ -118,7 +118,15 @@ namespace TacticalGroups
 			middle.y += 70f;
 			Widgets.Checkbox(middle, ref TacticalGroupsSettings.DisplayColorBars);
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.DisplayColorBars);
-			
+
+			var resetColorBars = new Rect(middle.x + 37, middle.y, 24, 24);
+			GUI.DrawTexture(resetColorBars, Textures.ResetIcon);
+			if (Mouse.IsOver(resetColorBars) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+            {
+				TacticalGroupsSettings.ResetColorBars();
+				TacticalGroupsSettings.InitColorBars();
+            }
+
 			middle.y += 25f;
 			var colorBarDefaultRect = new Rect(xMiddlePos, middle.y, 80f, 30f);
 			var colorBarExtendedRect = new Rect(xMiddlePos + 90f, middle.y, 100f, 30f);
@@ -132,6 +140,96 @@ namespace TacticalGroups
 			else if (Widgets.RadioButtonLabeled(colorBarExtendedRect, Strings.ColorBarModeExtended, TacticalGroupsSettings.ColorBarMode != ColorBarMode.Default))
 			{
 				TacticalGroupsSettings.ColorBarMode = ColorBarMode.Extended;
+			}
+
+			var colorPickerPos = new Vector2(this.windowRect.x + 60, this.windowRect.y + 195);
+
+			var defaultBottomColor = new Rect(colorBarDefaultRect.x + 3, colorBarDefaultRect.yMax - 3, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(defaultBottomColor, TacticalGroupsSettings.DefaultMoodBarLower, Color.white);
+			if (Mouse.IsOver(defaultBottomColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+            {
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.DefaultMoodBarLower, (Color x) =>
+				{
+					TacticalGroupsSettings.DefaultMoodBarLower = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+            }
+
+			var defaultMiddleColor = new Rect(defaultBottomColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(defaultMiddleColor, TacticalGroupsSettings.DefaultMoodBarMiddle, Color.white);
+			if (Mouse.IsOver(defaultMiddleColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.DefaultMoodBarMiddle, (Color x) =>
+				{
+					TacticalGroupsSettings.DefaultMoodBarMiddle = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var defaultUpperColor = new Rect(defaultMiddleColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(defaultUpperColor, TacticalGroupsSettings.DefaultMoodBarUpper, Color.white);
+			if (Mouse.IsOver(defaultUpperColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.DefaultMoodBarUpper, (Color x) =>
+				{
+					TacticalGroupsSettings.DefaultMoodBarUpper = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var extendedBottomIIColor = new Rect(defaultUpperColor.xMax + 51, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(extendedBottomIIColor, TacticalGroupsSettings.ExtendedMoodBarLowerII, Color.white);
+			if (Mouse.IsOver(extendedBottomIIColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.ExtendedMoodBarLowerII, (Color x) =>
+				{
+					TacticalGroupsSettings.ExtendedMoodBarLowerII = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var extendedBottomColor = new Rect(extendedBottomIIColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(extendedBottomColor, TacticalGroupsSettings.ExtendedMoodBarLower, Color.white);
+			if (Mouse.IsOver(extendedBottomColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.ExtendedMoodBarLower, (Color x) =>
+				{
+					TacticalGroupsSettings.ExtendedMoodBarLower = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var extendedMiddleColor = new Rect(extendedBottomColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(extendedMiddleColor, TacticalGroupsSettings.ExtendedMoodBarMiddle, Color.white);
+			if (Mouse.IsOver(extendedMiddleColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.ExtendedMoodBarMiddle, (Color x) =>
+				{
+					TacticalGroupsSettings.ExtendedMoodBarMiddle = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var extendedUpperColor = new Rect(extendedMiddleColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(extendedUpperColor, TacticalGroupsSettings.ExtendedMoodBarUpper, Color.white);
+			if (Mouse.IsOver(extendedUpperColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.ExtendedMoodBarUpper, (Color x) =>
+				{
+					TacticalGroupsSettings.ExtendedMoodBarUpper = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
+			}
+
+			var extendedUpperIIColor = new Rect(extendedUpperColor.xMax, defaultBottomColor.y, 12, 12);
+			Widgets.DrawBoxSolidWithOutline(extendedUpperIIColor, TacticalGroupsSettings.ExtendedMoodBarUpperII, Color.white);
+			if (Mouse.IsOver(extendedUpperIIColor) && Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+			{
+				Find.WindowStack.Add(new Dialog_ColourPicker(TacticalGroupsSettings.ExtendedMoodBarUpperII, (Color x) =>
+				{
+					TacticalGroupsSettings.ExtendedMoodBarUpperII = x;
+					TacticalGroupsSettings.InitColorBars();
+				}, colorPickerPos));
 			}
 
 			middle.y += 50f;
@@ -200,6 +298,14 @@ namespace TacticalGroups
 			rightHalf.y += 25f;
 			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 5f, 300f);
 
+			rightHalf.y += 25f;
+			Text.Anchor = TextAnchor.MiddleLeft;
+			Widgets.Label(new Rect(xRightPos, rightHalf.y, 150, 25f), Strings.PawnRowCount + (TacticalGroupsSettings.PawnRowCount - 1));
+			var pawnRowCountCheckBox = new Vector2(xRightPos + 150, rightHalf.y);
+			Widgets.Checkbox(pawnRowCountCheckBox, ref TacticalGroupsSettings.OverridePawnRowCount);
+			rightHalf.y += 25f;
+			TacticalGroupsSettings.PawnRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnRowCount, 2, 41);
+
 			Text.Anchor = TextAnchor.UpperLeft;
 			rightHalf.y += 50f;
 			Widgets.Checkbox(rightHalf, ref TacticalGroupsSettings.DisplayWeapons);
@@ -218,6 +324,11 @@ namespace TacticalGroups
 			{
 				TacticalGroupsSettings.WeaponShowMode = WeaponShowMode.Always;
 			}
+
+			rightHalf.y += 35f;
+			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.WeaponSizeScale);
+			rightHalf.y += 25f;
+			TacticalGroupsSettings.WeaponShowScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.WeaponShowScale, 0.1f, 5f);
 
 			TacticUtils.TacticalColonistBar?.UpdateSizes();
 			GUI.color = Color.white;

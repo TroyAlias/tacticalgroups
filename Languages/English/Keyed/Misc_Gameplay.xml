@@ -267,4 +267,12 @@ Middle Mouse on Green Box to Reset
 	<TG.Feet>Feet</TG.Feet>
 	<TG.Hair>Hair</TG.Hair>
 	<TG.HealthBarWidth>Health bar size</TG.HealthBarWidth>
+	<TG.AutoDisbandTooltip>Auto Disband
+If selected, a group will not 
+auto disband when there are
+no more pawns in the group.
+</TG.AutoDisbandTooltip>
+	<TG.WeaponSizeScale>Weapon size</TG.WeaponSizeScale>
+	<TG.ModSettingsText>Options for Colony Groups can be found in-game using the Gear icon located beneath the Create Group button</TG.ModSettingsText>
+	<TG.PawnRowCount>Pawn Row Count: </TG.PawnRowCount>
 </LanguageData>

@@ -62,9 +62,12 @@ namespace TacticalGroups
 		public void AddWorkWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
-			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
-			TieredFloatMenu floatMenu = new WorkMenu(this, colonistGroup, rect, Textures.ActionsMenuDrop);
-			OpenNewMenu(floatMenu);
+			if (this.colonistGroup.pawns.Any())
+            {
+				var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
+				TieredFloatMenu floatMenu = new WorkMenu(this, colonistGroup, rect, Textures.ActionsMenuDrop);
+				OpenNewMenu(floatMenu);
+			}
 		}
 
         public void AddOrderButton()
@@ -81,9 +84,12 @@ namespace TacticalGroups
 		public void AddOrderWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
-			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
-			TieredFloatMenu floatMenu = new OrderMenu(this, colonistGroup, rect, Textures.OrdersDropMenu);
-			OpenNewMenu(floatMenu);
+			if (this.colonistGroup.pawns.Any())
+            {
+				var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
+				TieredFloatMenu floatMenu = new OrderMenu(this, colonistGroup, rect, Textures.OrdersDropMenu);
+				OpenNewMenu(floatMenu);
+			}
 		}
 
 		public void AddManageButton()
@@ -98,9 +104,12 @@ namespace TacticalGroups
 		public void AddManageWindow(TieredFloatMenuOption option)
 		{
 			MarkOptionAsSelected(option);
-			var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
-			TieredFloatMenu floatMenu = new ManageMenu(this, colonistGroup, rect, (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce) ? Textures.ColonyManageDropMenu : Textures.ManageDropMenu);
-			OpenNewMenu(floatMenu);
+			if (this.colonistGroup.pawns.Any())
+            {
+				var rect = new Rect(windowRect.x, windowRect.y + 30, windowRect.width, windowRect.height);
+				TieredFloatMenu floatMenu = new ManageMenu(this, colonistGroup, rect, (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce) ? Textures.ColonyManageDropMenu : Textures.ManageDropMenu);
+				OpenNewMenu(floatMenu);
+			}
 		}
 		public override void DoWindowContents(Rect rect)
         {

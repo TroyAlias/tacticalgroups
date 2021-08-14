@@ -111,6 +111,7 @@ namespace TacticalGroups
 
 		public static readonly Texture2D Clock = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/Clock");
 		public static readonly Texture2D ClockSlave = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ClockSlave");
+		public static readonly Texture2D ClockSlaveSubGroup = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/GetToWork/ClockSlave2");
 		public static readonly Texture2D ActionsMenuDrop = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/ActionsMenuDrop");
 		public static readonly Texture2D OptionsMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsMenu");
 		public static readonly Texture2D OptionsGearHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/OptionsMenu/OptionsGearHover");
@@ -179,19 +180,7 @@ namespace TacticalGroups
 		public static readonly Texture2D EntertainmentButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/EntertainmentButton");
 		public static readonly Texture2D ChowHallButton = ContentFinder<Texture2D>.Get("UI/ColonistBar/Actions/TakeABreak/ChowHallButton");
 
-		public static readonly Texture2D RedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(196, 0, 30, 255).ToColor);
-		//public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
-		//public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(94, 94, 66, 255).ToColor);
-		public static readonly Texture2D PurpleMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
-
-		public static readonly Texture2D CyanMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(61, 119, 140, 255).ToColor);
-		public static readonly Texture2D GreenMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(7, 172, 27, 255).ToColor);
-		public static readonly Texture2D YellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(111, 116, 57, 255).ToColor);
-		//public static readonly Texture2D ToxicYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(111, 116, 57, 255).ToColor);
-		public static readonly Texture2D DarkYellowMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(91, 92, 61, 255).ToColor);
-		public static readonly Texture2D DarkRedMoodBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(100, 45, 50, 255).ToColor);
 		public static readonly Texture2D SlaveSuppressionBar = SolidColorMaterials.NewSolidColorTexture(new ColorInt(221, 228, 46, 255).ToColor);
-
 		public static readonly Texture2D PawnDrafted = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/PawnDrafted");
 		public static readonly Texture2D GroupArrowRightHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRightHover");
 		public static readonly Texture2D GroupArrowRight = ContentFinder<Texture2D>.Get("UI/ColonistBar/GroupOverlays/GroupArrowRight");

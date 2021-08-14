@@ -29,8 +29,6 @@ namespace TacticalGroups
 
 		public Dictionary<string, string> pawnLabelsCache = new Dictionary<string, string>();
 
-		public static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
-
 		public static readonly Texture2D DeadColonistTex = ContentFinder<Texture2D>.Get("UI/Misc/DeadColonist");
 
 		public static readonly Texture2D Icon_FormingCaravan = ContentFinder<Texture2D>.Get("UI/Icons/ColonistBar/FormingCaravan");
@@ -69,7 +67,7 @@ namespace TacticalGroups
             {
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
 				{
-					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
+					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, TacticalGroupsSettings.DefaultMoodBarUpperBar, bracketLocs
 				});
 				if (!prefixValue)
                 {
@@ -101,7 +99,7 @@ namespace TacticalGroups
 				}
 				else
 			    {
-					GUI.DrawTexture(position, MoodBGTex);
+					GUI.DrawTexture(position, TacticalGroupsSettings.DefaultMoodBarUpperBar);
 			    }
 
 				if (TacticalGroupsSettings.DisplayBreakRiskOverlay)
@@ -242,38 +240,38 @@ namespace TacticalGroups
             {
 				if (curLevel <= 0.35f)
 				{
-					result = Textures.RedMoodBar;
+					result = TacticalGroupsSettings.DefaultMoodBarLowerBar;
 				}
 				else if (curLevel <= 0.69f)
 				{
-					result = Textures.YellowMoodBar;
+					result = TacticalGroupsSettings.DefaultMoodBarMiddleBar;
 				}
 				else
 				{
-					result = MoodBGTex;
+					result = TacticalGroupsSettings.DefaultMoodBarUpperBar;
 				}
 			}
 			else
             {
 				if (curLevel <= 0.19f)
 				{
-					result = Textures.DarkRedMoodBar;
+					result = TacticalGroupsSettings.ExtendedMoodBarLowerIIBar;
 				}
 				else if (curLevel <= 0.27f)
 				{
-					result = Textures.DarkYellowMoodBar;
+					result = TacticalGroupsSettings.ExtendedMoodBarLowerBar;
 				}
 				else if (curLevel <= 0.56f)
 				{
-					result = Textures.YellowMoodBar;
+					result = TacticalGroupsSettings.ExtendedMoodBarMiddleBar;
 				}
 				else if (curLevel <= 0.79f)
                 {
-					result = Textures.CyanMoodBar;
+					result = TacticalGroupsSettings.ExtendedMoodBarUpperBar;
                 }
 				else
                 {
-					result = Textures.GreenMoodBar;
+					result = TacticalGroupsSettings.ExtendedMoodBarUpperIIBar;
                 }
 			}
 			return result;
@@ -609,22 +607,15 @@ namespace TacticalGroups
 			{
 				alpha = 0.4f;
 			}
-			var size = rect.width;
-			DrawColonistsBarWeaponIcon(new Rect(rect.x, rect.yMax + weaponPlacementYOffset, size, size), container[0], alpha);
-		}
 
-		private static bool ExcludeFromDrawing(Thing thingWeapon)
-		{
-			return thingWeapon == null || thingWeapon.def == null;//|| (thingWeapon.def.HasModExtension<WeaponBarDefModExt>() && thingWeapon.def.GetModExtension<WeaponBarDefModExt>().excludeFromDrawing);
+			var size = rect.width * TacticalGroupsSettings.WeaponShowScale;
+			var diff = size - rect.width;
+			var xPos = rect.x - (diff / 2f);
+			DrawColonistsBarWeaponIcon(new Rect(xPos, rect.yMax + weaponPlacementYOffset, size, size), container[0], alpha);
 		}
-
 		private static void DrawColonistsBarWeaponIcon(Rect rect, Thing thingWeapon, float alpha = 1f)
 		{
-			if (thingWeapon == null)
-			{
-				return;
-			}
-			if (thingWeapon.def == null)
+			if (thingWeapon?.def == null)
 			{
 				return;
 			}
@@ -633,10 +624,6 @@ namespace TacticalGroups
 				return;
 			}
 			if (thingWeapon.def.uiIcon == null)
-			{
-				return;
-			}
-			if (ExcludeFromDrawing(thingWeapon))
 			{
 				return;
 			}

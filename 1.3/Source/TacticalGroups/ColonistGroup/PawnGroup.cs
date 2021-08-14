@@ -12,6 +12,7 @@ namespace TacticalGroups
 	{
 		public List<Pawn> formerPawns;
 
+		public ColonyGroup prevColonyGroup;
 		public override Map Map => Find.CurrentMap;
 		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == Map && x.Spawned).ToList();
 		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == Map && x.Spawned
@@ -39,7 +40,6 @@ namespace TacticalGroups
 		{
 			this.Init();
 		}
-
 		public PawnGroup(List<Pawn> pawns)
         {
 			this.Init();
@@ -49,13 +49,26 @@ namespace TacticalGroups
 			}
 			this.groupID = CreateGroupID();
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
+
+			var map = this.pawns.FirstOrDefault(x => x.Spawned && x.Map != null)?.Map;
+			if (map != null)
+			{
+				prevColonyGroup = TacticUtils.AllColonyGroups.FirstOrDefault(x => x.Map == map);
+			}
 		}
+
 		public PawnGroup(Pawn pawn)
         {
 			this.Init();
 			this.Add(pawn);
 			this.groupID = CreateGroupID();
 			this.curGroupName = this.defaultGroupName + " " + this.groupID;
+
+			var map = pawn.Map;
+			if (map != null)
+			{
+				prevColonyGroup = TacticUtils.AllColonyGroups.FirstOrDefault(x => x.Map == map);
+			}
 		}
 
 		public int CreateGroupID()
@@ -86,6 +99,7 @@ namespace TacticalGroups
         }
         public override void Disband()
         {
+			Log.Message("Disband 1");
 			TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 			TacticUtils.RemoveReferencesFor(this);
 			TacticUtils.TacticalColonistBar.MarkColonistsDirty();
@@ -93,8 +107,9 @@ namespace TacticalGroups
 		public override void Disband(Pawn pawn)
 		{
 			base.Disband(pawn);
-			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
+			if (this.pawns.Count == 0 && this.formerPawns.Count == 0 && this.autoDisbandWithoutPawns)
 			{
+				Log.Message("Disband 2");
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 				TacticUtils.RemoveReferencesFor(this);
 			}
@@ -117,8 +132,9 @@ namespace TacticalGroups
 					this.formerPawns.Add(pawn);
                 }
 			}
-			if (this.pawns.Count == 0 && this.formerPawns.Count == 0)
+			if (this.pawns.Count == 0 && this.formerPawns.Count == 0 && this.autoDisbandWithoutPawns)
 			{
+				Log.Message("Disband 3");
 				TacticUtils.TacticalGroups.pawnGroups.Remove(this);
 				TacticUtils.RemoveReferencesFor(this);
 			}
@@ -130,10 +146,10 @@ namespace TacticalGroups
 			base.Draw(rect);
 			if (this.isSubGroup)
             {
-				var workIconRect = new Rect(rect.x, rect.yMax + 5, Textures.ClockSlave.width, Textures.ClockSlave.height);
+				var workIconRect = new Rect(rect.x, rect.y, Textures.ClockSlaveSubGroup.width, Textures.ClockSlaveSubGroup.height);
 				if (this.activeWorkState == WorkState.ForcedLabor)
 				{
-					GUI.DrawTexture(workIconRect, Textures.ClockSlave);
+					GUI.DrawTexture(workIconRect, Textures.ClockSlaveSubGroup);
 				}
 				else if (this.activeWorkState == WorkState.Active)
 				{
@@ -260,10 +276,27 @@ namespace TacticalGroups
 				curHoverPeriod = 0;
 			}
 		}
-		public override void ExposeData()
+
+        public override void UpdateData()
+        {
+            base.UpdateData();
+			if (this.prevColonyGroup is null)
+            {
+				var map = this.pawns.FirstOrDefault(x => x.Spawned && x.Map != null)?.Map;
+				if (map != null)
+				{
+					prevColonyGroup = TacticUtils.AllColonyGroups.FirstOrDefault(x => x.Map == map);
+				}
+			}
+        }
+        public override void ExposeData()
         {
             base.ExposeData();
 			Scribe_Collections.Look(ref formerPawns, "formerPawns", LookMode.Reference);
-        }
-    }
+			Scribe_Values.Look(ref autoDisbandWithoutPawns, "autoDisbandWithoutPawns");
+			Scribe_References.Look(ref prevColonyGroup, "prevColonyGroup");
+		}
+
+		public bool autoDisbandWithoutPawns;
+	}
 }

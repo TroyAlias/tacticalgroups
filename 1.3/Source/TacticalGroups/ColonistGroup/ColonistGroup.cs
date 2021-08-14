@@ -106,7 +106,7 @@ namespace TacticalGroups
 		private List<BodyColor> bodyColorKeys;
 		private List<ColorOption> colorValues;
 	}
-	public class ColonistGroup : IExposable
+	public class ColonistGroup : IExposable, ILoadReferenceable
     {
 		public bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -192,7 +192,7 @@ namespace TacticalGroups
 
 		public virtual void Disband()
 		{
-
+			
 		}
 		public virtual void Disband(Pawn pawn)
         {
@@ -643,7 +643,7 @@ namespace TacticalGroups
 		}
 
 		private int downedStateBlink;
-		public void UpdateData()
+		public virtual void UpdateData()
         {
 			cachedPawnRows[this.pawnRowCount] = GetPawnRowsInt(this.pawnRowCount);
 			var pawnDocCount = this.bannerModeEnabled ? 4 : this.pawnDocRowCount;
@@ -795,14 +795,16 @@ namespace TacticalGroups
 			else
             {
 				Rect backGroundRect = Rect.zero;
+				var backGroundWidth = pawnRows.Any() ? (pawnRows[0].Count * 25f) + 3f : rect.width;
 				if (this.bannerModeEnabled)
                 {
-					backGroundRect = new Rect(rect.x - (rect.width / 1.7f), rect.y + rect.height, 80f, pawnRows.Count * 30f);
+					backGroundRect = new Rect(rect.x - (rect.width / 1.7f), rect.y + rect.height, backGroundWidth, pawnRows.Count * 30f);
 				}
 				else
                 {
-					backGroundRect = new Rect(rect.x, rect.y + rect.height, rect.width, pawnRows.Count * 30f);
+					backGroundRect = new Rect(rect.x, rect.y + rect.height, backGroundWidth, pawnRows.Count * 30f);
 				}
+
 				GUI.DrawTexture(backGroundRect, Textures.BackgroundColonistLayer);
 				for (var i = 0; i < pawnRows.Count; i++)
 				{
@@ -948,7 +950,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+					GUI.DrawTexture(position, TacticalGroupsSettings.DefaultMoodBarUpperBar);
 				}
 			}
 
@@ -1445,6 +1447,10 @@ namespace TacticalGroups
 			return this.curGroupName + " - " + this.pawns?.Count;
         }
 
+        public string GetUniqueLoadID()
+        {
+			return this.GetType().ToString() + this.groupID;
+        }
 
         public List<Pawn> pawns;
 		public Dictionary<Pawn, Rect> pawnRects = new Dictionary<Pawn, Rect>();
@@ -1470,7 +1476,7 @@ namespace TacticalGroups
 		public bool isTaskForce;
 		public bool isPawnGroup;
 		public bool isSubGroup;
-		//public bool subGroupsExpanded;
+
 		public string groupName;
 		public string defaultGroupName;
 		public string defaultBannerFolder;

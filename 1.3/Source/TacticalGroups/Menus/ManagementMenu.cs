@@ -191,7 +191,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+					GUI.DrawTexture(position, TacticalGroupsSettings.DefaultMoodBarUpperBar);
 				}
 			}
 			if (highlight)

@@ -193,6 +193,7 @@ namespace TacticalGroups
             TacticUtils.ResetTacticGroups();
             PreInit();
             MedicalCareUtilityGroup.Reset();
+            TacticalGroupsSettings.InitColorBars();
         }
         public void RemoveAllNullPawns()
         {
@@ -213,12 +214,12 @@ namespace TacticalGroups
                                     group.pawns.RemoveAt(num2);
                                 }
                             }
-                            if (group.pawns.Count == 0)
+                            if (group.pawns.Count == 0 && group.autoDisbandWithoutPawns)
                             {
                                 pawnGroups.RemoveAt(num);
                             }
                         }
-                        else
+                        else if (group.autoDisbandWithoutPawns)
                         {
                             pawnGroups.RemoveAt(num);
                         }

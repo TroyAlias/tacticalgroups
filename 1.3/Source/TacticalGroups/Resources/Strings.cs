@@ -243,5 +243,11 @@ namespace TacticalGroups
 		public static readonly string Head = "TG.Head".Translate();
 		public static readonly string Feet = "TG.Feet".Translate();
 		public static readonly string Hair = "TG.Hair".Translate();
+
+		public static readonly string AutoDisbandTooltip = "TG.AutoDisbandTooltip".Translate();
+		public static readonly string WeaponSizeScale = "TG.WeaponSizeScale".Translate();
+		public static readonly string ModSettingsText = "TG.ModSettingsText".Translate();
+		public static readonly string PawnRowCount = "TG.PawnRowCount".Translate();
+
 	}
 }

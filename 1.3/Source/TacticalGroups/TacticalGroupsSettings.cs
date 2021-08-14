@@ -6,6 +6,7 @@ using Verse;
 
 namespace TacticalGroups
 {
+    [StaticConstructorOnStartup]
     class TacticalGroupsSettings : ModSettings
     {
         public static bool DisplayFood;
@@ -25,10 +26,6 @@ namespace TacticalGroups
         public static float ColonistBarSpacingX = 20f;
         public static float ColonistBarSpacingY = 32f;
 
-        //public static float OverallPawnIconScale = 1f;
-        //public static float PawnBoxScale = 1f;
-
-
         public static float PawnScale = 1f;
         public static float XPawnIconOffset = 0f;
         public static float YPawnIconOffset = 0f;
@@ -46,6 +43,31 @@ namespace TacticalGroups
         public static int WeaponPlacementOffset = -10;
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
         public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
+        public static float WeaponShowScale = 1f;
+
+
+        public static Color DefaultMoodBarLower = new ColorInt(196, 0, 30, 255).ToColor;
+        public static Color DefaultMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+        public static Color DefaultMoodBarUpper = new Color(0.4f, 0.47f, 0.53f, 0.44f);
+
+        public static Color ExtendedMoodBarLowerII = new ColorInt(100, 45, 50, 255).ToColor;
+        public static Color ExtendedMoodBarLower = new ColorInt(91, 92, 61, 255).ToColor;
+        public static Color ExtendedMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+        public static Color ExtendedMoodBarUpper = new ColorInt(61, 119, 140, 255).ToColor;
+        public static Color ExtendedMoodBarUpperII = new ColorInt(7, 172, 27, 255).ToColor;
+
+        public static Texture2D DefaultMoodBarLowerBar;
+        public static Texture2D DefaultMoodBarMiddleBar;
+        public static Texture2D DefaultMoodBarUpperBar;
+
+        public static Texture2D ExtendedMoodBarLowerIIBar;
+        public static Texture2D ExtendedMoodBarLowerBar;
+        public static Texture2D ExtendedMoodBarMiddleBar;
+        public static Texture2D ExtendedMoodBarUpperBar;
+        public static Texture2D ExtendedMoodBarUpperIIBar;
+
+        public static bool OverridePawnRowCount;
+        public static int PawnRowCount = 32;
 
         public static List<GroupPresetSaveable> AllGroupPresetsSaveable;
 
@@ -122,7 +144,26 @@ namespace TacticalGroups
 
             Scribe_Values.Look(ref ColorBarMode, "ColorBarMode", ColorBarMode.Default);
             Scribe_Values.Look(ref WeaponShowMode, "WeaponShowMode", WeaponShowMode.Drafted);
+            Scribe_Values.Look(ref WeaponShowScale, "WeaponShowScale", 1f);
+
+            Scribe_Values.Look(ref DefaultMoodBarLower, "DefaultMoodBarLower", new ColorInt(196, 0, 30, 255).ToColor);
+            Scribe_Values.Look(ref DefaultMoodBarMiddle, "DefaultMoodBarMiddle", new ColorInt(111, 116, 57, 255).ToColor);
+            Scribe_Values.Look(ref DefaultMoodBarUpper, "DefaultMoodBarUpper", new Color(0.4f, 0.47f, 0.53f, 0.44f));
+
+            Scribe_Values.Look(ref ExtendedMoodBarLowerII, "ExtendedMoodBarLowerII", new ColorInt(100, 45, 50, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarLower, "ExtendedMoodBarLower", new ColorInt(91, 92, 61, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarMiddle, "ExtendedMoodBarMiddle", new ColorInt(111, 116, 57, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarUpper, "ExtendedMoodBarUpper", new ColorInt(61, 119, 140, 255).ToColor);
+            Scribe_Values.Look(ref ExtendedMoodBarUpperII, "ExtendedMoodBarUpperII", new ColorInt(7, 172, 27, 255).ToColor);
+
+            Scribe_Values.Look(ref OverridePawnRowCount, "OverridePawnRowCount", false);
+            Scribe_Values.Look(ref PawnRowCount, "PawnRowCount", 32);
+
             Scribe_Collections.Look(ref AllGroupPresetsSaveable, "AllGroupPresetsSaveable", LookMode.Deep);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                InitColorBars();
+            }
         }
 
         public static void DoReset()
@@ -152,8 +193,42 @@ namespace TacticalGroups
             WeaponPlacementOffset = 10;
             ColorBarMode = ColorBarMode.Default;
             WeaponShowMode = WeaponShowMode.Drafted;
+            WeaponShowScale = 1f;
+
+            ResetColorBars();
+            InitColorBars();
+
+            OverridePawnRowCount = false;
+            PawnRowCount = 32;
         }
 
+        public static void ResetColorBars()
+        {
+            DefaultMoodBarLower = new ColorInt(196, 0, 30, 255).ToColor;
+            DefaultMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+            DefaultMoodBarUpper = new Color(0.4f, 0.47f, 0.53f, 0.44f);
+
+            ExtendedMoodBarLowerII = new ColorInt(100, 45, 50, 255).ToColor;
+            ExtendedMoodBarLower = new ColorInt(91, 92, 61, 255).ToColor;
+            ExtendedMoodBarMiddle = new ColorInt(111, 116, 57, 255).ToColor;
+            ExtendedMoodBarUpper = new ColorInt(61, 119, 140, 255).ToColor;
+            ExtendedMoodBarUpperII = new ColorInt(7, 172, 27, 255).ToColor;
+        }
+        public static void InitColorBars()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                DefaultMoodBarLowerBar = SolidColorMaterials.NewSolidColorTexture(DefaultMoodBarLower);
+                DefaultMoodBarMiddleBar = SolidColorMaterials.NewSolidColorTexture(DefaultMoodBarMiddle);
+                DefaultMoodBarUpperBar = SolidColorMaterials.NewSolidColorTexture(DefaultMoodBarUpper);
+
+                ExtendedMoodBarLowerIIBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarLowerII);
+                ExtendedMoodBarLowerBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarLower);
+                ExtendedMoodBarMiddleBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarMiddle);
+                ExtendedMoodBarUpperBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarUpper);
+                ExtendedMoodBarUpperIIBar = SolidColorMaterials.NewSolidColorTexture(ExtendedMoodBarUpperII);
+            });
+        }
         public static void DoPawnViewReset()
         {
             PawnScale = 1f;
@@ -164,30 +239,15 @@ namespace TacticalGroups
             PawnCameraOffsetX = 0f;
             PawnCameraOffsetZ = 0.3f;
         }
+
+        [TweakValue("0CG", 0, 2000)] public static float yTest = 10;
+        [TweakValue("0CG", 0, 2000)] public static float width = 10;
+        [TweakValue("0CG", 0, 2000)] public static float height = 10;
         public void DoSettingsWindowContents(Rect inRect)
         {
             Rect rect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height);
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(rect);
-            listingStandard.CheckboxLabeled(Strings.DisplayFood, ref DisplayFood);
-            listingStandard.CheckboxLabeled(Strings.DisplayRest, ref DisplayRest);
-            listingStandard.CheckboxLabeled(Strings.DisplayHealth, ref DisplayHealth);
-            listingStandard.CheckboxLabeled(Strings.DisplayWeapons, ref DisplayWeapons);
-            listingStandard.SliderLabeled(Strings.WeaponOverlayPlacement, ref WeaponPlacementOffset, WeaponPlacementOffset.ToString(), -200, 200);
-            listingStandard.CheckboxLabeled(Strings.DisplayColorBars, ref DisplayColorBars);
-            listingStandard.CheckboxLabeled(Strings.HidePawnsWhenOffMap, ref HidePawnsWhenOffMap);
-            listingStandard.CheckboxLabeled(Strings.HideGroups, ref HideGroups);
-            listingStandard.CheckboxLabeled(Strings.HideCreateGroup, ref HideCreateGroup);
-            listingStandard.CheckboxLabeled(Strings.DisableLabelBackground, ref DisableLabelBackground);
-            listingStandard.SliderLabeled(Strings.ColonistBarPositionY, ref ColonistBarPositionY, ColonistBarPositionY.ToStringDecimalIfSmall(), 0, 300);
-            listingStandard.SliderLabeled(Strings.ColonistBarPositionX, ref ColonistBarPositionX, ColonistBarPositionX.ToStringDecimalIfSmall(), 0, 300);
-            listingStandard.SliderLabeled(Strings.ColonistBarSpacingX, ref ColonistBarSpacingX, ColonistBarSpacingX.ToStringDecimalIfSmall(), 0, 300);
-            listingStandard.SliderLabeled(Strings.ColonistBarSpacingY, ref ColonistBarSpacingY, ColonistBarSpacingY.ToStringDecimalIfSmall(), 0, 300);
-
-            listingStandard.SliderLabeled(Strings.GroupScale, ref GroupScale, GroupScale.ToStringDecimalIfSmall(), 0.5f, 5f);
-            listingStandard.SliderLabeled(Strings.GroupRowCount, ref GroupRowCount, GroupRowCount.ToString(), 1, 12);
-            listingStandard.SliderLabeled(Strings.PawnNeedsSize, ref PawnNeedsWidth, PawnNeedsWidth.ToString(), 1, 20);
-
             if (listingStandard.ButtonText(Strings.ResetToDefault))
             {
                 DoReset();
@@ -196,6 +256,12 @@ namespace TacticalGroups
             {
                 DoPawnViewReset();
             }
+
+            var optionsText = new Rect(rect.x, 80, inRect.width, 24f);
+            Text.Anchor = TextAnchor.MiddleCenter;
+            Widgets.Label(optionsText, Strings.ModSettingsText);
+            Text.Anchor = TextAnchor.UpperLeft;
+
             listingStandard.End();
             if (TacticUtils.TacticalGroups != null && TacticUtils.TacticalColonistBar != null)
             {

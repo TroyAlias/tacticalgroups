@@ -46,6 +46,9 @@
     <Compile Include="ColonistGroup\ColonyGroup.cs" />
     <Compile Include="ColonistGroup\GroupPreset.cs" />
     <Compile Include="ColonistGroup\WorkType.cs" />
+    <Compile Include="ColorPicker\Dialog_ColourPicker.cs" />
+    <Compile Include="ColorPicker\RecentColours.cs" />
+    <Compile Include="ColorPicker\TextField.cs" />
     <Compile Include="Jobs\JobDriver_ExecuteDownedRaiders.cs" />
     <Compile Include="Menus\Dialog_ColorPicker.cs" />
     <Compile Include="Menus\PawnGroupedMenus.cs" />

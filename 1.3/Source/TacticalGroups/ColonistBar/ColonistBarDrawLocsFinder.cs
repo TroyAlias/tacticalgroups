@@ -23,14 +23,9 @@ namespace TacticalGroups
 		private List<int> horizontalSlotsPerGroup = new List<int>();
 		private static float MaxColonistBarWidth => (float)UI.screenWidth - 520f;
 
-
 		public static List<MappedValue> caravanGroupDrawLoc = new List<MappedValue>();
 		public static List<MappedValue> colonyGroupDrawLoc = new List<MappedValue>();
 		public static List<MappedValue> pawnGroupDrawLoc = new List<MappedValue>();
-
-		//public static Dictionary<CaravanGroup, Rect> caravanGroupDrawLoc = new Dictionary<CaravanGroup, Rect>();
-		//public static Dictionary<ColonyGroup, Rect> colonyGroupDrawLoc = new Dictionary<ColonyGroup, Rect>();
-		//public static Dictionary<PawnGroup, Rect> pawnGroupDrawLoc = new Dictionary<PawnGroup, Rect>();
 
 		public static Rect createGroupRect;
 		public void CalculateDrawLocs(List<Rect> outDrawLocs, out float scale)
@@ -108,7 +103,7 @@ namespace TacticalGroups
 
 				float num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * num);
 				float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
-				maxPerGlobalRow = Mathf.FloorToInt(num4 / num3);
+				maxPerGlobalRow = TacticalGroupsSettings.OverridePawnRowCount ? TacticalGroupsSettings.PawnRowCount : Mathf.FloorToInt(num4 / num3);
 				onlyOneRow = true;
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
 				{
@@ -328,8 +323,6 @@ namespace TacticalGroups
 				outDrawLocs.Add(new Rect(drawLoc.x, drawLoc.y, TacticUtils.TacticalColonistBar.Size.x, TacticUtils.TacticalColonistBar.Size.y));
 			}
 		}
-
-
 		
 		private Vector2 GetDrawLoc(float groupStartX, float groupStartY, int group, int numInGroup, float scale)
 		{

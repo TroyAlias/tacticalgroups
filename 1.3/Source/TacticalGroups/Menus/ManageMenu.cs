@@ -185,15 +185,32 @@ namespace TacticalGroups
 				Widgets.Label(treasureLabelRect, this.colonistGroup.Map.wealthWatcher.WealthTotal.ToStringDecimalIfSmall());
 				Text.Anchor = TextAnchor.UpperLeft;
 			}
-			else
+			else if (this.colonistGroup is PawnGroup pawnGroup)
 			{
 				Rect disbandRect = new Rect((rect.width - Textures.DisbandMenu.width) / 2f, rect.height * 0.66f, Textures.DisbandMenu.width, Textures.DisbandMenu.height);
 				GUI.DrawTexture(disbandRect, Textures.DisbandMenu);
 
 				Text.Anchor = TextAnchor.UpperCenter;
-
 				var disbandLabelRect = new Rect(disbandRect.x, disbandRect.y + 25f, disbandRect.width, disbandRect.height - 10f);
 				Widgets.Label(disbandLabelRect, Strings.Disband);
+
+				var toggleAbleAutoDisbandRect = new Rect(disbandRect.x + (disbandRect.width / 2f) - (Textures.WorkSelectEmpty.width / 2), disbandRect.yMax + 5, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
+				if (pawnGroup.autoDisbandWithoutPawns)
+				{
+					GUI.DrawTexture(toggleAbleAutoDisbandRect, Textures.WorkSelectEmpty);
+				}
+				else
+				{
+					GUI.DrawTexture(toggleAbleAutoDisbandRect, Textures.WorkSelectBlue);
+				}
+				if (Mouse.IsOver(toggleAbleAutoDisbandRect))
+                {
+					TooltipHandler.TipRegion(toggleAbleAutoDisbandRect, Strings.AutoDisbandTooltip);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+                    {
+						pawnGroup.autoDisbandWithoutPawns = !pawnGroup.autoDisbandWithoutPawns;
+					}
+				}
 
 				var disbandPawn = new Rect((disbandRect.x / 2f) + 5f, (disbandRect.y + disbandRect.height) - (Textures.DisbandPawn.height / 2f), Textures.DisbandPawn.width, Textures.DisbandPawn.height);
 				MouseoverSounds.DoRegion(disbandPawn);
@@ -208,6 +225,10 @@ namespace TacticalGroups
 							this.colonistGroup.Disband(pawn);
 						}
 						Event.current.Use();
+						if (!this.colonistGroup.pawns.Any())
+                        {
+							this.CloseAllWindows();
+                        }
 					}
 				}
 				else
@@ -238,10 +259,7 @@ namespace TacticalGroups
                                 }
                             }
                         }
-						else
-                        {
-							this.colonistGroup.Disband();
-                        }
+						this.colonistGroup.Disband();
 					}
 				}
 				else
