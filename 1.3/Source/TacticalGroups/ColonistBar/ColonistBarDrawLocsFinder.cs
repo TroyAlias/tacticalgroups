@@ -109,7 +109,6 @@ namespace TacticalGroups
 				var pawnRowCount = GetPawnRowCount(colonistCount);
 				maxPerGlobalRow = Mathf.Max(1, TacticalGroupsSettings.OverridePawnRowCount ? colonistCount / pawnRowCount : Mathf.FloorToInt(num4 / num3)); 
 				onlyOneRow = true;
-				Log.Message("maxPerGlobalRow: " + maxPerGlobalRow);
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
 				{
 					int allowedRowsCountForScale = GetAllowedRowsCountForScale(num);
@@ -127,14 +126,11 @@ namespace TacticalGroups
 							}
 							if (TacticalGroupsSettings.OverridePawnRowCount && ((float)GetHorizontalSlotsPerGroup(entries[i].group) * num) >= initialValue)
 							{
-								Log.Message("GetHorizontalSlotsPerGroup(entries[i].group) * num: " + GetHorizontalSlotsPerGroup(entries[i].group) * num);
-								Log.Message("initialValue: " + initialValue);
 								flag = false;
 								break;
 							}
 							else if (!TacticalGroupsSettings.OverridePawnRowCount && num6 > allowedRowsCountForScale)
 							{
-								Log.Message("TEST");
 								flag = false;
 								break;
 							}
@@ -145,15 +141,8 @@ namespace TacticalGroups
 						break;
 					}
 				}
-				else
-                {
-					Log.Message("FAIL");
-                }
 				num *= 0.95f;
-				Log.Message("Scale: " + num);
-				Log.ResetMessageCount();
 			}
-			Log.Message("Final Scale: " + num);
 			return num;
 		}
 
