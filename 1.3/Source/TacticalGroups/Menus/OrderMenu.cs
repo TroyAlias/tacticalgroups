@@ -192,18 +192,27 @@ namespace TacticalGroups
 			GUI.DrawTexture(tendWounded, Textures.TendWounded);
 
 			var states = this.colonistGroup.activeWorkTypes.Where(x => x.Key.workTypeEnum == WorkTypeEnum.TendWounded);
+			var tendWoundedState = new Rect(tendWounded.x, tendWounded.y, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
 			if (states != null && states.Any())
 			{
-				if (states.First().Value == WorkState.Active)
+				switch (states.First().Value)
 				{
-					GUI.DrawTexture(tendWounded, Textures.Clock);
-				}
-				else if (states.First().Value == WorkState.ForcedLabor)
-				{
-					GUI.DrawTexture(tendWounded, Textures.ClockSlave);
+					case WorkState.Temporary:
+					case WorkState.Inactive:
+						GUI.DrawTexture(tendWoundedState, Textures.WorkSelectEmpty);
+						break;
+					case WorkState.Active:
+						GUI.DrawTexture(tendWoundedState, Textures.WorkSelectBlue);
+						break;
+					case WorkState.ForcedLabor:
+						GUI.DrawTexture(tendWoundedState, Textures.WorkSelectRed);
+						break;
 				}
 			}
-
+			else
+            {
+				GUI.DrawTexture(tendWoundedState, Textures.WorkSelectEmpty);
+			}
 
 			if (Mouse.IsOver(tendWounded))
 			{
@@ -232,20 +241,31 @@ namespace TacticalGroups
 				TooltipHandler.TipRegion(tendWounded, Strings.ForcedLaborTooltip);
 			}
 			TooltipHandler.TipRegion(tendWounded, Strings.TendWoundedTooltip);
+			
 			var rescureFallen = new Rect(((zero.x + Textures.LookBusyButton.width) - (Textures.RescueFallen.width + 11f)) - 10f, tendWounded.y, Textures.RescueFallen.width, Textures.RescueFallen.height);
 			GUI.DrawTexture(rescureFallen, Textures.RescueFallen);
+			var rescureFallenState = new Rect(rescureFallen.x, rescureFallen.y, Textures.WorkSelectEmpty.width, Textures.WorkSelectEmpty.height);
 
 			states = this.colonistGroup.activeWorkTypes.Where(x => x.Key.workTypeEnum == WorkTypeEnum.RescueFallen);
 			if (states != null && states.Any())
 			{
-				if (states.First().Value == WorkState.Active)
+				switch (states.First().Value)
 				{
-					GUI.DrawTexture(tendWounded, Textures.Clock);
+					case WorkState.Temporary:
+					case WorkState.Inactive:
+						GUI.DrawTexture(rescureFallenState, Textures.WorkSelectEmpty);
+						break;
+					case WorkState.Active:
+						GUI.DrawTexture(rescureFallenState, Textures.WorkSelectBlue);
+						break;
+					case WorkState.ForcedLabor:
+						GUI.DrawTexture(rescureFallenState, Textures.WorkSelectRed);
+						break;
 				}
-				else if (states.First().Value == WorkState.ForcedLabor)
-				{
-					GUI.DrawTexture(tendWounded, Textures.ClockSlave);
-				}
+			}
+			else
+            {
+				GUI.DrawTexture(rescureFallenState, Textures.WorkSelectEmpty);
 			}
 
 			if (Mouse.IsOver(rescureFallen))

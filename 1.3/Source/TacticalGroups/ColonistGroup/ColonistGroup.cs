@@ -226,6 +226,15 @@ namespace TacticalGroups
 			List<List<Pawn>> pawnRows = new List<List<Pawn>>();
 			List<Pawn> row = new List<Pawn>();
 			bool refresh = false;
+			if (pawns is null)
+            {
+				pawns = new List<Pawn>();
+            }
+			if (pawnIcons is null)
+            {
+				pawnIcons = new Dictionary<Pawn, PawnIcon>();
+            }
+
 			for (int ind = pawns.Count - 1; ind >= 0; ind--)
             {
 				var pawn = pawns[ind];
@@ -1155,7 +1164,7 @@ namespace TacticalGroups
 
 		public void RemoveWorkState(WorkTypeEnum workTypeEnum)
 		{
-			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum);
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum).ToList();
 			foreach (var data in workTypes)
 			{
 				this.activeWorkTypes[data.Key] = WorkState.Inactive;
@@ -1166,7 +1175,7 @@ namespace TacticalGroups
 
 		public void ChangeWorkState(WorkTypeEnum workTypeEnum)
 		{
-			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum);
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeEnum == workTypeEnum).ToList();
 			if (workTypes.Any())
 			{
 				foreach (var data in workTypes)
@@ -1190,21 +1199,20 @@ namespace TacticalGroups
 		}
 		public void RemoveWorkState(WorkTypeDef workTypeDef)
 		{
-			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef);
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef).ToList();
 			foreach (var data in workTypes)
             {
 				this.activeWorkTypes[data.Key] = WorkState.Inactive;
-
 			}
 			SetCurrentActiveState();
 		}
 
 		public void ChangeWorkState(WorkTypeDef workTypeDef)
 		{
-			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef);
+			var workTypes = this.activeWorkTypes.Where(x => x.Key.workTypeDef == workTypeDef).ToList();
 			if (workTypes.Any())
             {
-				foreach (var data in workTypes.ToList())
+				foreach (var data in workTypes)
 				{
 					var state = data.Value;
 					if (state == WorkState.ForcedLabor)
