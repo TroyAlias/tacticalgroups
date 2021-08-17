@@ -247,18 +247,6 @@ namespace TacticalGroups
                     if (entry.pawn != null)
                     {
                         drawer.DrawColonist(cachedDrawLocs[i], entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
-                        Faction faction = entry.pawn.GetExtraMiniFaction();
-                        if (faction == null)
-                        {
-                            faction = entry.pawn.GetExtraHomeFaction();
-                        }
-                        if (faction != null)
-                        {
-                            GUI.color = faction.Color;
-                            float num2 = cachedDrawLocs[i].width * 0.5f;
-                            GUI.DrawTexture(new Rect(cachedDrawLocs[i].xMax - num2 - 2f, cachedDrawLocs[i].yMax - num2 - 2f, num2, num2), faction.def.FactionIcon);
-                            GUI.color = Color.white;
-                        }
                     }
                 }
                 num = -1;

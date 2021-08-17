@@ -44,18 +44,22 @@ namespace TacticalGroups
 		{
 			float pawnLabelNameWidth = GetPawnLabelNameWidth(pawn, truncateToWidth, truncatedLabelsCache);
 			Rect bgRect = new Rect(pos.x - pawnLabelNameWidth / 2f - 4f, pos.y, pawnLabelNameWidth + 8f, 12f);
-			if (!pawn.RaceProps.Humanlike)
-			{
-				bgRect.y -= 4f;
-			}
+			//if (!pawn.RaceProps.Humanlike)
+			//{
+			//	bgRect.y -= 4f;
+			//}
 			GUI.color = new Color(1f, 1f, 1f, alpha);
 			Text.Font = font;
 			string pawnLabel = GetPawnLabel(pawn, truncateToWidth, truncatedLabelsCache);
 			float summaryHealthPercent = pawn.health.summaryHealth.SummaryHealthPercent;
-			if (alwaysDrawBg || summaryHealthPercent < 0.999f)
-			{
-				GUI.DrawTexture(bgRect, TexUI.GrayTextBG);
+			if (!TacticalGroupsSettings.DisableLabelBackground)
+            {
+				if (alwaysDrawBg || summaryHealthPercent < 0.999f)
+				{
+					GUI.DrawTexture(bgRect, TexUI.GrayTextBG);
+				}
 			}
+
 			if (summaryHealthPercent < 0.999f)
 			{
 				Widgets.FillableBar(bgRect.ContractedBy(1f), summaryHealthPercent, OverlayHealthTex, BaseContent.ClearTex, doBorder: false);

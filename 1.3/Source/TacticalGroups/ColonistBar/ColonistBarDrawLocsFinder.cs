@@ -235,7 +235,6 @@ namespace TacticalGroups
 			int num5 = -1;
 			int num6 = -1;
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
-			Log.Message("num7: " + num7);
 			num7 += TacticalGroupsSettings.ColonistBarPositionX;
 			bool createGroupAssigned = false;
 

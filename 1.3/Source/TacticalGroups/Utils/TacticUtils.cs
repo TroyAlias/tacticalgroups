@@ -137,6 +137,12 @@ namespace TacticalGroups
 			return false;
         }
 
+		public static HashSet<ColonistGroup> SortPawnGroupFirst(this HashSet<ColonistGroup> groups)
+        {
+			var colonistGroups = groups.Where(x => x is PawnGroup).ToHashSet();
+			colonistGroups.AddRange(groups.Where(x => !(x is PawnGroup)).ToHashSet());
+			return colonistGroups;
+        }
 		public static List<PawnGroup> GetAllPawnGroupFor(ColonyGroup colonyGroup)
         {
 			return TacticalGroups.pawnGroups.Where(x => !x.isSubGroup && (x.pawns.Any(y => y.Map == colonyGroup.Map) || x.prevColonyGroup == colonyGroup)).ToList();

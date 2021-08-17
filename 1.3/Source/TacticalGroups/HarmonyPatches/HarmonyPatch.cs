@@ -486,12 +486,12 @@ namespace TacticalGroups
                         if (!comp.DesiredColor.HasValue)
                         {
                             var desiredColor = ColorUtils.GetDesiredColor(pawn, apparel);
-                            if (desiredColor != null && comp.Color != desiredColor.Value)
+                            if (desiredColor.HasValue && comp.Color != desiredColor.Value)
                             {
                                 comp.DesiredColor = desiredColor;
                             }
                         }
-                        else if (comp.Color == comp.DesiredColor.Value)
+                        else if (comp.DesiredColor.HasValue && comp.Color == comp.DesiredColor.Value)
                         {
                             comp.DesiredColor = null;
                         }

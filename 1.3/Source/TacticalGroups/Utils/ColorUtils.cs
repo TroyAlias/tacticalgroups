@@ -151,7 +151,7 @@ namespace TacticalGroups
 		{
 			if (pawn.TryGetGroups(out var groups))
 			{
-				foreach (var group in groups)
+				foreach (var group in groups.SortPawnGroupFirst())
 				{
 					if (group.groupColor?.bodyColors != null)
 					{
@@ -189,7 +189,7 @@ namespace TacticalGroups
 		{
 			if (pawn.TryGetGroups(out var groups))
 			{
-				foreach (var group in groups)
+				foreach (var group in groups.SortPawnGroupFirst())
 				{
 					if (group.groupColor?.bodyColors != null)
 					{
@@ -197,14 +197,11 @@ namespace TacticalGroups
                         {
 							return hairColor.GetColor(pawn);
                         }
-						else if (group.groupColor.bodyColors.TryGetValue(BodyColor.All, out var hairColor2))
-                        {
-							return hairColor2.GetColor(pawn);
-						}
 					}
 				}
 			}
 			return null;
 		}
+
 	}
 }

@@ -436,7 +436,7 @@ namespace TacticalGroups
 					}
 				}
 			}
-
+			
 			if (colonist.IsFormingCaravan())
 			{
 				tmpIconsToDraw.Add(new IconDrawCall(Icon_FormingCaravan, Strings.ActivityIconFormingCaravan));
@@ -473,18 +473,17 @@ namespace TacticalGroups
 			{
 				tmpIconsToDraw.Add(new IconDrawCall(Icon_Burning, Strings.ActivityIconBurning));
 			}
-
+			
 			if (colonist.Inspired)
 			{
 				tmpIconsToDraw.Add(new IconDrawCall(Icon_Inspired, colonist.InspirationDef.LabelCap));
 			}
-
+			
 			if (colonist.IsSlaveOfColony)
 			{
 				tmpIconsToDraw.Add(new IconDrawCall(colonist.guest.GetIcon()));
 			}
 			else
-
 			{
 				bool flag2 = false;
 				if (colonist.Ideo != null)
@@ -514,7 +513,7 @@ namespace TacticalGroups
 					}
 				}
 			}
-
+			
 			if (ModCompatibility.RimworldOfMagicIsActive)
 			{
 				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]
@@ -522,7 +521,7 @@ namespace TacticalGroups
 					null, rect, colonist
 				});
 			}
-
+			
 			float num = Mathf.Min(BaseIconAreaWidth / (float)tmpIconsToDraw.Count, BaseIconMaxSize) * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
 			foreach (IconDrawCall item in tmpIconsToDraw)
