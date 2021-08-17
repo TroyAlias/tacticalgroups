@@ -124,6 +124,10 @@ namespace TacticalGroups
 		}
 		public static void GetJobFor(Pawn pawn, List<WorkGiverDef> workGiverDefs)
 		{
+			if (pawn.Dead || !pawn.Spawned)
+            {
+				return;
+            }
 			List<WorkGiver> list = AllowedWorkGiversFor(pawn, workGiverDefs).Select(x => x.Worker).ToList();
 			int num = -999;
 			TargetInfo bestTargetOfLastPriority = TargetInfo.Invalid;
