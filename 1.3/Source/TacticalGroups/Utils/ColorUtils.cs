@@ -191,9 +191,16 @@ namespace TacticalGroups
 			{
 				foreach (var group in groups)
 				{
-					if (group.groupColor?.bodyColors != null && group.groupColor.bodyColors.TryGetValue(BodyColor.Hair, out var hairColor))
+					if (group.groupColor?.bodyColors != null)
 					{
-						return hairColor.GetColor(pawn);
+						if (group.groupColor.bodyColors.TryGetValue(BodyColor.Hair, out var hairColor))
+                        {
+							return hairColor.GetColor(pawn);
+                        }
+						else if (group.groupColor.bodyColors.TryGetValue(BodyColor.All, out var hairColor2))
+                        {
+							return hairColor2.GetColor(pawn);
+						}
 					}
 				}
 			}

@@ -120,7 +120,7 @@ namespace TacticalGroups
             }
 
             RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
-
+            RecheckCaravanGroups();
             foreach (var pawnGroup in this.pawnGroups.Where(x => x.Map == map))
             {
                 foreach (var pawn in pawns)
@@ -136,6 +136,22 @@ namespace TacticalGroups
             return this.colonyGroups[map];
         }
 
+        public void RecheckCaravanGroups()
+        {
+            var caravanKeysToRemove = new List<Caravan>();
+            foreach (var group in this.caravanGroups)
+            {
+                if (!group.Key.PawnsListForReading.Any(x => group.Value.pawns.Contains(x)))
+                {
+                    caravanKeysToRemove.Add(group.Key);
+                }
+            }
+
+            foreach (var key in caravanKeysToRemove)
+            {
+                caravanGroups.Remove(key);
+            }
+        }
         public void RemovePawnsFromOtherColonies(ColonyGroup mainGroup, List<Pawn> pawns)
         {
             var colonyKeysToRemove = new List<Map>();

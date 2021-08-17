@@ -220,32 +220,22 @@ namespace TacticalGroups
 			float num4 = ((float)num * num3 + (float)(num2 - 1) * 25f * scale);
 			if (!TacticalGroupsSettings.HideGroups)
             {
-				var allColonyGroups = TacticUtils.AllColonyGroups;
-				if (allColonyGroups != null)
-                {
-					num4 += allColonyGroups.Sum(x => x.GroupIconWidth + x.GroupIconMargin);
-					if (TacticUtils.AllCaravanGroups != null)
-                    {
-						num4 += TacticUtils.AllCaravanGroups.Sum(x => x.GroupIconWidth + x.GroupIconMargin);
-                    }
-
-					if (!WorldRendererUtility.WorldRenderedNow)
+				if (!WorldRendererUtility.WorldRenderedNow)
+				{
+					var activeColony = TacticUtils.AllColonyGroups.FirstOrDefault(x => x.Map == Find.CurrentMap);
+					if (activeColony != null)
 					{
-						var activeColony = allColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
-						if (activeColony != null)
-						{
-							num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
-							num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
-						}
+						num4 += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
+						num4 += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Sum(x => x.GroupIconWidth + x.GroupIconMargin);
 					}
 				}
-
 			}
 
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
 			int num5 = -1;
 			int num6 = -1;
 			float num7 = ((float)UI.screenWidth - num4) / 2f;
+			Log.Message("num7: " + num7);
 			num7 += TacticalGroupsSettings.ColonistBarPositionX;
 			bool createGroupAssigned = false;
 

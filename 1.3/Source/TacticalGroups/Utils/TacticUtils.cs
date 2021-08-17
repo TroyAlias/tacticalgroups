@@ -68,7 +68,11 @@ namespace TacticalGroups
 			get
 			{
 				var list = new List<CaravanGroup>();
-				list.AddRange(TacticalGroups.caravanGroups.Values);
+				TacticalGroups.caravanGroups.RemoveAll(x => !x.Key.pawns.Any || x.Key.Destroyed || !x.Key.PawnsListForReading.Any(y => x.Value.pawns.Contains(y)));
+				if (TacticalGroups.caravanGroups.Any())
+                {
+					list.AddRange(TacticalGroups.caravanGroups.Values);
+                }
 				return list;
 			}
 		}
