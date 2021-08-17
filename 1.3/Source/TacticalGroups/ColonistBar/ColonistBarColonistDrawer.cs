@@ -146,6 +146,7 @@ namespace TacticalGroups
             {
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
 			}
+
 			GUI.color = new Color(1f, 1f, 1f, alpha * 0.8f);
 			DrawIcons(rect, colonist);
 			GUI.color = color2;
@@ -170,10 +171,6 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 			
-			DrawHealthBar(colonist, rect, TacticalGroupsSettings.HealthBarWidth);
-			DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
-			ShowDrafteesWeapon(rect, colonist, TacticalGroupsSettings.WeaponPlacementOffset);
-			
 			if (ModCompatibility.PawnBadgesIsActive)
             {
 				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[] 
@@ -181,6 +178,7 @@ namespace TacticalGroups
 					rect, colonist, pawnMap, highlight, reordering
 				});
 			}
+
 			if (ModCompatibility.JobInBarIsActive)
 			{
 				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
@@ -189,7 +187,7 @@ namespace TacticalGroups
 				});
 			}
 		}
-		public static void DrawHealthBar(Pawn p, Rect rect, float healthBarWidth)
+		public static void DrawHealthBar(Rect rect, Pawn p, float healthBarWidth)
 		{
 			if (TacticalGroupsSettings.DisplayHealth)
 			{
@@ -205,7 +203,7 @@ namespace TacticalGroups
 			}
 		}
 
-		public static void DrawRestAndFoodBars(Pawn p, Rect rect, float needWidth)
+		public static void DrawRestAndFoodBars(Rect rect, Pawn p, float needWidth)
 		{
 			Rect needBar = new Rect(rect.x + rect.width, rect.y, needWidth, rect.height);
 			if (TacticalGroupsSettings.DisplayFood && p.needs?.food != null)

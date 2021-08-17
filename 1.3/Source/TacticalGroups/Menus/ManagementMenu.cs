@@ -241,8 +241,8 @@ namespace TacticalGroups
 			}
             else
             {
-				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect, Textures.HealthBar.width);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, Textures.RestFood.width);
+				ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, Textures.HealthBar.width);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, Textures.RestFood.width);
             }
 		}
 

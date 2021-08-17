@@ -1024,8 +1024,8 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 			if (ShowExpanded)
             {
-				ColonistBarColonistDrawer.DrawHealthBar(colonist, rect, TacticalGroupsSettings.HealthBarWidth);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(colonist, rect, TacticalGroupsSettings.PawnNeedsWidth);
+				ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, TacticalGroupsSettings.HealthBarWidth);
+				ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, TacticalGroupsSettings.PawnNeedsWidth);
 				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 			}
 

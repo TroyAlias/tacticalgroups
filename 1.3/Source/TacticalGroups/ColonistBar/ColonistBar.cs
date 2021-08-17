@@ -247,6 +247,9 @@ namespace TacticalGroups
                     if (entry.pawn != null)
                     {
                         drawer.DrawColonist(cachedDrawLocs[i], entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
+                        ColonistBarColonistDrawer.DrawHealthBar(cachedDrawLocs[i], entry.pawn, TacticalGroupsSettings.HealthBarWidth);
+                        ColonistBarColonistDrawer.DrawRestAndFoodBars(cachedDrawLocs[i], entry.pawn, TacticalGroupsSettings.PawnNeedsWidth);
+                        ColonistBarColonistDrawer.ShowDrafteesWeapon(cachedDrawLocs[i], entry.pawn, TacticalGroupsSettings.WeaponPlacementOffset);
                     }
                 }
                 num = -1;
