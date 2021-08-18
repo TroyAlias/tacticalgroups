@@ -183,7 +183,7 @@ namespace TacticalGroups
 			{
 				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
 				{
-					null, pawnLabelsCache, rect, colonist, pawnMap, highlight, reordering
+					rect, colonist, highlight
 				});
 			}
 		}

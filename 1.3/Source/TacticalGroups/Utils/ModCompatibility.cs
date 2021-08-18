@@ -92,7 +92,7 @@ namespace TacticalGroups
 			JobInBarIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.Name == "Job In Bar").Any();
 			if (JobInBarIsActive)
 			{
-				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.LabelPatch"), "Postfix");
+				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.ColonistBarColonistDrawer_DrawColonist_Patch"), "Postfix");
 				if (jobInBarDrawMethod is null)
                 {
 					Log.Error("Colony Groups failed to support Job in Bar. Report about it.");
