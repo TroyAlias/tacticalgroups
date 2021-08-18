@@ -1,5 +1,6 @@
 using RimWorld;
 using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -66,14 +67,21 @@ namespace TacticalGroups
 		{
 			if (ModCompatibility.AlteredCarbonIsActive)
             {
-				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
-				{
-					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
-				});
-				if (!prefixValue)
+				try
                 {
-					return;
-                }
+					bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
+					{
+						rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
+					});
+					if (!prefixValue)
+					{
+						return;
+					}
+				}
+				catch (Exception e)
+                {
+					Log.Error("Colony Groups failed to support Altered Carbon. Report this error: " + e.Message + "\n" + e.StackTrace);
+				}
             }
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
@@ -173,18 +181,31 @@ namespace TacticalGroups
 			
 			if (ModCompatibility.PawnBadgesIsActive)
             {
-				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[] 
-				{
-					rect, colonist, pawnMap, highlight, reordering
-				});
+				try
+                {
+					ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[]
+					{
+						rect, colonist, pawnMap, highlight, reordering
+					});
+				}
+				catch (Exception e)
+                {
+					Log.Error("Colony Groups failed to support Pawn Badges. Report this error: " + e.Message + "\n" + e.StackTrace);
+				}
 			}
-
 			if (ModCompatibility.JobInBarIsActive)
 			{
-				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
-				{
-					rect, colonist, highlight
-				});
+				try
+                {
+					ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
+					{
+						rect, colonist, pawnMap, highlight, reordering
+					});
+				}
+				catch (Exception e)
+                {
+					Log.Error("Colony Groups failed to support Job in Bar. Report this error: " + e.Message + "\n" + e.StackTrace);
+				}
 			}
 		}
 		public static void DrawHealthBar(Rect rect, Pawn p, float healthBarWidth)
