@@ -67,20 +67,13 @@ namespace TacticalGroups
 		{
 			if (ModCompatibility.AlteredCarbonIsActive)
             {
-				try
-                {
-					bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
-					{
-						rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
-					});
-					if (!prefixValue)
-					{
-						return;
-					}
-				}
-				catch (Exception e)
-                {
-					Log.Error("Colony Groups failed to support Altered Carbon. Report this error: " + e.Message + "\n" + e.StackTrace);
+				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
+				{
+					rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
+				});
+				if (!prefixValue)
+				{
+					return;
 				}
             }
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
@@ -181,31 +174,17 @@ namespace TacticalGroups
 			
 			if (ModCompatibility.PawnBadgesIsActive)
             {
-				try
-                {
-					ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[]
-					{
-						rect, colonist, pawnMap, highlight, reordering
-					});
-				}
-				catch (Exception e)
-                {
-					Log.Error("Colony Groups failed to support Pawn Badges. Report this error: " + e.Message + "\n" + e.StackTrace);
-				}
+				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[]
+				{
+					rect, colonist, pawnMap, highlight, reordering
+				});
 			}
 			if (ModCompatibility.JobInBarIsActive)
 			{
-				try
-                {
-					ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
-					{
-						rect, colonist, pawnMap, highlight, reordering
-					});
-				}
-				catch (Exception e)
-                {
-					Log.Error("Colony Groups failed to support Job in Bar. Report this error: " + e.Message + "\n" + e.StackTrace);
-				}
+				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
+				{
+					rect, colonist, pawnMap, highlight, reordering
+				});
 			}
 		}
 		public static void DrawHealthBar(Rect rect, Pawn p, float healthBarWidth)

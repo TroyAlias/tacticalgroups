@@ -1,14 +1,10 @@
 using HarmonyLib;
-using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Verse;
-using Verse.AI;
-using Verse.AI.Group;
-using Verse.Sound;
 
 namespace TacticalGroups
 {
@@ -57,7 +53,22 @@ namespace TacticalGroups
 				if (pawnBadgesDrawMethod is null)
                 {
 					Log.Error("Colony Groups failed to support Pawn Badges. Report about it.");
-                }
+					PawnBadgesIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) };
+					ParameterInfo[] parameterInfos = pawnBadgesDrawMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Pawn Badges. Report about it.");
+							PawnBadgesIsActive = false;
+							break;
+						}
+					}
+				}
 			}
 			RimworldOfMagicIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "torann.arimworldofmagic").Any();
 			if (RimworldOfMagicIsActive)
@@ -66,7 +77,22 @@ namespace TacticalGroups
 				if (rimworldOfMagicDrawMethod is null)
                 {
 					Log.Error("Colony Groups failed to support Rimworld Of Magic. Report about it.");
-                }
+					RimworldOfMagicIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(ColonistBarColonistDrawer), typeof(Rect), typeof(Pawn) };
+					ParameterInfo[] parameterInfos = rimworldOfMagicDrawMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Rimworld Of Magic. Report about it.");
+							RimworldOfMagicIsActive = false;
+							break;
+						}
+					}
+				}
 			}
 
 			AlteredCarbonIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower() == "hlx.ultratechalteredcarbon");
@@ -77,6 +103,33 @@ namespace TacticalGroups
 				if (alteredCarbonHandleClicks_PatchMethod is null || alteredCarbonDrawColonist_PatchMethod is null)
                 {
 					Log.Error("Colony Groups failed to support Altered Carbon. Report about it.");
+					AlteredCarbonIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(Rect), typeof(Pawn), typeof(int), typeof(bool) };
+					ParameterInfo[] parameterInfos = alteredCarbonHandleClicks_PatchMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Altered Carbon. Report about it.");
+							AlteredCarbonIsActive = false;
+							break;
+						}
+					}
+					// rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex, bracketLocs
+					correctTypes = new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool), typeof(Dictionary<string, string>), typeof(Vector2), typeof(Texture2D), typeof(Vector2[]) };
+					parameterInfos = alteredCarbonDrawColonist_PatchMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Altered Carbon. Report about it.");
+							AlteredCarbonIsActive = false;
+							break;
+						}
+					}
 				}
 			}
 			CombatExtendedIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "ceteam.combatextended").Any();
@@ -86,6 +139,21 @@ namespace TacticalGroups
 				if (combatExtendedHasAmmo_Method is null)
                 {
 					Log.Error("Colony Groups failed to support Combat Extended. Report about it.");
+					CombatExtendedIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(ThingWithComps) };
+					ParameterInfo[] parameterInfos = combatExtendedHasAmmo_Method.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Combat Extended. Report about it.");
+							CombatExtendedIsActive = false;
+							break;
+						}
+					}
 				}
 			}
 
@@ -94,8 +162,23 @@ namespace TacticalGroups
 			{
 				jobInBarDrawMethod = AccessTools.Method(AccessTools.TypeByName("JobInBar.ColonistBarColonistDrawer_DrawColonist_Patch"), "Postfix");
 				if (jobInBarDrawMethod is null)
-                {
+				{
 					Log.Error("Colony Groups failed to support Job in Bar. Report about it.");
+					JobInBarIsActive = false;
+				}
+				else
+                {
+					Type[] correctTypes = new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) };
+					ParameterInfo[] parameterInfos = jobInBarDrawMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Job in Bar. Report about it.");
+							JobInBarIsActive = false;
+							break;
+						}
+					}
 				}
 			}
 			BetterPawnControlIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower().Contains("voult.betterpawncontrol")).Any();
@@ -106,6 +189,32 @@ namespace TacticalGroups
 				if (workManagerSaveCurrentStateMethod is null || assignManagerSaveCurrentStateMethod is null)
                 {
 					Log.Error("Colony Groups failed to support Better Pawn Control. Report about it.");
+					BetterPawnControlIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(List<Pawn>) };
+					ParameterInfo[] parameterInfos = workManagerSaveCurrentStateMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Better Pawn Control. Report about it.");
+							BetterPawnControlIsActive = false;
+							break;
+						}
+					}
+					correctTypes = new Type[] { typeof(List<Pawn>) };
+					parameterInfos = assignManagerSaveCurrentStateMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support Better Pawn Control. Report about it.");
+							BetterPawnControlIsActive = false;
+							break;
+						}
+					}
 				}
 			}
 			SmarterDeconstructionIsActive = ModLister.AllInstalledMods.Any(x => x.Active && x.PackageId.ToLower().Contains("legodude17.smartdecon"));
@@ -114,10 +223,33 @@ namespace TacticalGroups
 			if (PawnMorpherIsActive)
             {
 				var getIntelligenceMethod = AccessTools.Method("Pawnmorph.FormerHumanUtilities:GetIntelligence");
-				pawnMorpherInteligence = (Func<Pawn, Intelligence>)Delegate.CreateDelegate(typeof(Func<Pawn, Intelligence>), getIntelligenceMethod);
-				if (pawnMorpherInteligence is null)
+				if (getIntelligenceMethod is null)
                 {
 					Log.Error("Colony Groups failed to support PawnMorpher. Report about it.");
+					PawnMorpherIsActive = false;
+				}
+				else
+				{
+					Type[] correctTypes = new Type[] { typeof(Pawn) };
+					ParameterInfo[] parameterInfos = getIntelligenceMethod.GetParameters();
+					for (int i = 0; i < parameterInfos.Length; i++)
+					{
+						if (parameterInfos[i].ParameterType != correctTypes[i])
+						{
+							Log.Error("Colony Groups failed to support PawnMorpher. Report about it.");
+							PawnMorpherIsActive = false;
+							break;
+						}
+					}
+					if (PawnMorpherIsActive)
+                    {
+						pawnMorpherInteligence = (Func<Pawn, Intelligence>)Delegate.CreateDelegate(typeof(Func<Pawn, Intelligence>), getIntelligenceMethod);
+						if (pawnMorpherInteligence is null)
+						{
+							Log.Error("Colony Groups failed to support PawnMorpher. Report about it.");
+							PawnMorpherIsActive = false;
+						}
+					}
 				}
 			}
 		}
