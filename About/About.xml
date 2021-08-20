@@ -21,6 +21,7 @@
 <loadAfter>
     <li>Ludeon.RimWorld</li>
     <li>brrainz.harmony</li>
+	<li>roolo.giddyupcaravan</li>
 </loadAfter>
   
 </ModMetaData>
