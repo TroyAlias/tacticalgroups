@@ -118,6 +118,7 @@ namespace TacticalGroups
 
             }
 
+            #region HarmonyPatches_CaravanSorting
             harmony.Patch(
                 original: AccessTools.Method(typeof(CaravanUIUtility), "AddPawnsSections"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), "AddPawnsSections")
@@ -130,12 +131,16 @@ namespace TacticalGroups
                     prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), "HandleAnimal")
                 );
             }
+            #endregion
 
+            #region HarmonyPatches_DynamicMessages
             harmony.Patch(
                 original: AccessTools.Method(typeof(Messages), "MessagesDoGUI"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches_DynamicMessages), "MessagesDoGUI")
             );
+            #endregion
 
+            #region HarmonyPatches_GroupBills
             harmony.Patch(
                 original: AccessTools.Method(typeof(Dialog_BillConfig), "DoWindowContents"),
                 transpiler: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "DoWindowContents_Transpiler")
@@ -165,6 +170,7 @@ namespace TacticalGroups
                 original: AccessTools.Method(typeof(Bill), "SetAnyPawnRestriction"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
             );
+            #endregion
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
