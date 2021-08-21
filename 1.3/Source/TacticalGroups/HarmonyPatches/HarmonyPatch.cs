@@ -150,6 +150,21 @@ namespace TacticalGroups
                 original: AccessTools.Method(typeof(Bill), "PawnAllowedToStartAnew"),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "PawnAllowedToStartAnew")
             );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetPawnRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetAnySlaveRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetAnyPawnRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)

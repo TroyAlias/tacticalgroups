@@ -5,20 +5,48 @@ using System.Linq;
 using System.Reflection.Emit;
 using Verse;
 using Verse.AI;
-using System;
-using System.Linq.Expressions;
 
 namespace TacticalGroups
 {
     public static class HarmonyPatches_GroupBills
     {
-        public static Dictionary<Bill_Production, PawnGroup> billsSelectedGroup = new Dictionary<Bill_Production, PawnGroup>();
+        private static Dictionary<Bill_Production, PawnGroup> billsSelectedGroup;
+
+        public static void ExposeData()
+        {
+            try
+            {
+                Scribe_Collections.Look(ref billsSelectedGroup, "billsSelectedGroup", LookMode.Reference, LookMode.Reference);
+            }
+            catch { }
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                try
+                {
+                    billsSelectedGroup.RemoveAll((s) => s.Key is null || s.Value is null);
+                }
+                catch { }
+            }
+        }
+
+        public static Dictionary<Bill_Production, PawnGroup> BillsSelectedGroup
+        {
+            get
+            {
+                if (billsSelectedGroup is null)
+                {
+                    billsSelectedGroup = new Dictionary<Bill_Production, PawnGroup>();
+                }
+                return billsSelectedGroup;
+            }
+        }
+
         public static string DoWindowContents_GetBillSelectedGroup(Bill_Production bill)
         {
-            PawnGroup billSelectedGroup = (bill is null) ? null : billsSelectedGroup.TryGetValue(bill);
+            PawnGroup billSelectedGroup = (bill is null) ? null : BillsSelectedGroup.TryGetValue(bill);
             if (!(billSelectedGroup is null))
             {
-                return billSelectedGroup.curGroupName;
+                return "AnyWorker".Translate() + " of " + billSelectedGroup.curGroupName;
             }
             else
             {
@@ -29,11 +57,10 @@ namespace TacticalGroups
         [HarmonyDebug]
         public static IEnumerable<CodeInstruction> DoWindowContents_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var codes = new List<CodeInstruction>(instructions);
             var methodToCall = AccessTools.Method(typeof(HarmonyPatches_GroupBills), nameof(DoWindowContents_GetBillSelectedGroup));
             var billField = AccessTools.Field(typeof(Dialog_BillConfig), "bill");
-            Log.Message("method: " + methodToCall + " - " + billField);
             bool found = false;
+            var codes = new List<CodeInstruction>(instructions);
             for (int i = 0; i < codes.Count; i++)
             {
                 CodeInstruction instruction = codes[i];
@@ -55,42 +82,38 @@ namespace TacticalGroups
         public static void GeneratePawnRestrictionOptions(Bill_Production ___bill, ref IEnumerable<Widgets.DropdownMenuElement<Pawn>> __result)
         {
             List<PawnGroup> pawnGroups = TacticUtils.AllPawnGroups;
-            pawnGroups.Reverse(); // Reverse the list because it iterates in the wrong direction
-
-            List<Widgets.DropdownMenuElement<Pawn>> dropdownMenuElements = new List<Widgets.DropdownMenuElement<Pawn>>();
-
+            List<Widgets.DropdownMenuElement<Pawn>> dropdownMenuElements = __result.ToList();
             foreach (PawnGroup pawnGroup in pawnGroups)
             {
-                Log.Message("checking group '" + pawnGroup.curGroupName + "'");
                 if (!(pawnGroup.pawns is null) && pawnGroup.pawns.Count > 0)
                 {
                     foreach (Pawn pawn in pawnGroup.pawns)
                     {
-                        Log.Message("    checking pawn '" + pawn.LabelShort + "' of group '" + pawnGroup.curGroupName + "'");
                         bool allowed = true;
                         if (!(___bill.recipe.workSkill is null))
                         {
                             int level = pawn.skills.GetSkill(___bill.recipe.workSkill).Level;
                             allowed = level >= ___bill.allowedSkillRange.min && level <= ___bill.allowedSkillRange.max;
                         }
-                        Log.Message("        allowed = " + allowed);
                         if (allowed)
                         {
                             Widgets.DropdownMenuElement<Pawn> dropdownMenuElement = new Widgets.DropdownMenuElement<Pawn>();
-                            dropdownMenuElement.option = new FloatMenuOption(pawnGroup.curGroupName ?? "Pawn group of " + pawn, delegate ()
+                            dropdownMenuElement.option = new FloatMenuOption("Any pawn of " + pawnGroup.curGroupName, delegate ()
                             {
                                 ___bill.SetAnyPawnRestriction();
-                                billsSelectedGroup.SetOrAdd(___bill, pawnGroup);
+                                BillsSelectedGroup.SetOrAdd(___bill, pawnGroup);
                             });
                             dropdownMenuElement.payload = null;
-                            dropdownMenuElements.Add(dropdownMenuElement);
+                            int atIndex = 1;
+                            if (ModsConfig.IdeologyActive)
+                                atIndex++;
+                            dropdownMenuElements.Insert(atIndex, dropdownMenuElement);
                             break;
                         }
                     }
                 }
             }
-
-            __result = __result.Concat(dropdownMenuElements);
+            __result = dropdownMenuElements.AsEnumerable();
         }
 
         public static bool PawnAllowedToStartAnew(Pawn p, Bill_Production __instance, ref bool __result)
@@ -102,7 +125,7 @@ namespace TacticalGroups
                 WorkGiverDef workGiver = __instance.billStack.billGiver.GetWorkgiver();
                 if (pawnInGroup && !p.WorkTypeIsDisabled(workGiver.workType))
                 {
-                    if (!(__instance.recipe.workSkill is SkillDef))
+                    if (__instance.recipe.workSkill is null)
                     {
                         __result = true;
                     }
@@ -132,6 +155,14 @@ namespace TacticalGroups
                 return false;
             }
             return true;
+        }
+
+        public static void SetPawnRestriction(Bill __instance)
+        {
+            if (BillsSelectedGroup.ContainsKey(__instance as Bill_Production))
+            {
+                BillsSelectedGroup.Remove(__instance as Bill_Production);
+            }
         }
     }
 }

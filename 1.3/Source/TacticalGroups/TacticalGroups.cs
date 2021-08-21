@@ -335,6 +335,7 @@ namespace TacticalGroups
                 Scribe_Collections.Look(ref visiblePawns, "visiblePawns", LookMode.Reference);
             }
             catch { }
+            HarmonyPatches_GroupBills.ExposeData();
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 try
