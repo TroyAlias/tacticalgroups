@@ -49,9 +49,12 @@
     <Compile Include="ColorPicker\Dialog_ColourPicker.cs" />
     <Compile Include="ColorPicker\RecentColours.cs" />
     <Compile Include="ColorPicker\TextField.cs" />
+    <Compile Include="HarmonyPatches\HarmonyPatches_CaravanSorting.cs" />
+    <Compile Include="HarmonyPatches\HarmonyPatches_GroupBills.cs" />
     <Compile Include="Jobs\JobDriver_ExecuteDownedRaiders.cs" />
     <Compile Include="Menus\Dialog_ColorPicker.cs" />
     <Compile Include="Menus\PawnGroupedMenus.cs" />
+    <Compile Include="HarmonyPatches\HarmonyPatches_DynamicMessages.cs" />
     <Compile Include="Trees\Listing_PawnsMenu.cs" />
     <Compile Include="Trees\TreeNode_Pawn.cs" />
     <Compile Include="Menus\PawnButtonsMenu.cs" />
