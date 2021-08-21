@@ -45,15 +45,22 @@ namespace TacticalGroups
 			return pawn.RaceProps.intelligence;
 		}
 
-		public static bool IsMethodCorrect(string modName, MethodInfo methodInfo, Type[] correctTypes)
+		public static bool IsMethodConsistent(string modName, MethodInfo methodInfo, Type[] correctMethodTypes)
         {
-			Type[] currentTypes = methodInfo.GetParameters().Select(pi => pi.ParameterType.IsByRef ? pi.ParameterType.GetElementType() : pi.ParameterType).ToArray();
-			for (int i = 0; i < currentTypes.Length; i++)
+			Type[] currentMethodTypes = methodInfo.GetParameters().Select(pi => pi.ParameterType.IsByRef ? pi.ParameterType.GetElementType() : pi.ParameterType).ToArray();
+			if (currentMethodTypes.Length != correctMethodTypes.Length)
 			{
-				if (currentTypes[i] != correctTypes[i])
+				Log.Error($"Colony Groups failed to support {modName}: " +
+					$"Inconsistent number of parameters for method '{methodInfo.ReflectedType.FullName + "." + methodInfo.Name}'");
+				return false;
+			}
+			for (int i = 0; i < currentMethodTypes.Length; i++)
+			{
+				if (currentMethodTypes[i] != correctMethodTypes[i])
 				{
-					Log.Error($"Colony Groups failed to support {modName}: Incorrect parameter {i + 1} for method '{methodInfo.ReflectedType.FullName + "." + methodInfo.Name}'. Report about it." +
-						"\n    " + currentTypes[i] + " != " + correctTypes[i]);
+					Log.Error($"Colony Groups failed to support {modName}: " +
+						$"Inconsistent parameter {i + 1} for method '{methodInfo.ReflectedType.FullName + "." + methodInfo.Name}'" +
+						"\n    " + currentMethodTypes[i] + " != " + correctMethodTypes[i]);
 					return false;
 				}
 			}
@@ -73,7 +80,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					PawnBadgesIsActive = IsMethodCorrect("Pawn Badges", pawnBadgesDrawMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) });
+					PawnBadgesIsActive = IsMethodConsistent("Pawn Badges", pawnBadgesDrawMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) });
 				}
 			}
 			RimworldOfMagicIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower() == "torann.arimworldofmagic").Any();
@@ -87,7 +94,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					RimworldOfMagicIsActive = IsMethodCorrect("Rimworld Of Magic", rimworldOfMagicDrawMethod, new Type[] { typeof(RimWorld.ColonistBarColonistDrawer), typeof(Rect), typeof(Pawn) });
+					RimworldOfMagicIsActive = IsMethodConsistent("Rimworld Of Magic", rimworldOfMagicDrawMethod, new Type[] { typeof(RimWorld.ColonistBarColonistDrawer), typeof(Rect), typeof(Pawn) });
 				}
 			}
 
@@ -103,10 +110,10 @@ namespace TacticalGroups
 				}
 				else
 				{
-					AlteredCarbonIsActive = IsMethodCorrect("Altered Carbon", alteredCarbonHandleClicks_PatchMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(int), typeof(bool) });
+					AlteredCarbonIsActive = IsMethodConsistent("Altered Carbon", alteredCarbonHandleClicks_PatchMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(int), typeof(bool) });
 					if (AlteredCarbonIsActive)
                     {
-						AlteredCarbonIsActive = IsMethodCorrect("Altered Carbon", alteredCarbonDrawColonist_PatchMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool), typeof(Dictionary<string, string>), typeof(Vector2), typeof(Texture2D), typeof(Vector2[]) });
+						AlteredCarbonIsActive = IsMethodConsistent("Altered Carbon", alteredCarbonDrawColonist_PatchMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool), typeof(Dictionary<string, string>), typeof(Vector2), typeof(Texture2D), typeof(Vector2[]) });
 					}
 				}
 			}
@@ -121,7 +128,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					CombatExtendedIsActive = IsMethodCorrect("Combat Extended", combatExtendedHasAmmo_Method, new Type[] { typeof(ThingWithComps) });
+					CombatExtendedIsActive = IsMethodConsistent("Combat Extended", combatExtendedHasAmmo_Method, new Type[] { typeof(ThingWithComps) });
 				}
 			}
 
@@ -136,7 +143,7 @@ namespace TacticalGroups
 				}
 				else
                 {
-					JobInBarIsActive = IsMethodCorrect("Job in Bar", jobInBarDrawMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) });
+					JobInBarIsActive = IsMethodConsistent("Job in Bar", jobInBarDrawMethod, new Type[] { typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool) });
 				}
 			}
 			BetterPawnControlIsActive = ModLister.AllInstalledMods.Where(x => x.Active && x.PackageId.ToLower().Contains("voult.betterpawncontrol")).Any();
@@ -151,10 +158,10 @@ namespace TacticalGroups
 				}
 				else
 				{
-					BetterPawnControlIsActive = IsMethodCorrect("Better Pawn Control", workManagerSaveCurrentStateMethod, new Type[] { typeof(List<Pawn>) });
+					BetterPawnControlIsActive = IsMethodConsistent("Better Pawn Control", workManagerSaveCurrentStateMethod, new Type[] { typeof(List<Pawn>) });
 					if (BetterPawnControlIsActive)
 					{
-						BetterPawnControlIsActive = IsMethodCorrect("Better Pawn Control", assignManagerSaveCurrentStateMethod, new Type[] { typeof(List<Pawn>) });
+						BetterPawnControlIsActive = IsMethodConsistent("Better Pawn Control", assignManagerSaveCurrentStateMethod, new Type[] { typeof(List<Pawn>) });
 					}
 				}
 			}
@@ -171,7 +178,7 @@ namespace TacticalGroups
 				}
 				else
 				{
-					PawnMorpherIsActive = IsMethodCorrect("PawnMorpher", getIntelligenceMethod, new Type[] { typeof(Pawn) });
+					PawnMorpherIsActive = IsMethodConsistent("PawnMorpher", getIntelligenceMethod, new Type[] { typeof(Pawn) });
 					if (PawnMorpherIsActive)
                     {
 						pawnMorpherInteligence = (Func<Pawn, Intelligence>)Delegate.CreateDelegate(typeof(Func<Pawn, Intelligence>), getIntelligenceMethod);
