@@ -13,9 +13,9 @@ namespace TacticalGroups
     public static class HarmonyPatches_GroupBills
     {
         public static Dictionary<Bill_Production, PawnGroup> billsSelectedGroup = new Dictionary<Bill_Production, PawnGroup>();
-        public static string DoWindowContents_GetBillSelectedGroup(Bill_Production ___bill)
+        public static string DoWindowContents_GetBillSelectedGroup(Bill_Production bill)
         {
-            PawnGroup billSelectedGroup = (___bill is null) ? null : billsSelectedGroup.TryGetValue(___bill);
+            PawnGroup billSelectedGroup = (bill is null) ? null : billsSelectedGroup.TryGetValue(bill);
             if (!(billSelectedGroup is null))
             {
                 return billSelectedGroup.curGroupName;
@@ -25,19 +25,25 @@ namespace TacticalGroups
                 return "AnyWorker".Translate();
             }
         }
+
+        [HarmonyDebug]
         public static IEnumerable<CodeInstruction> DoWindowContents_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
+            var methodToCall = AccessTools.Method(typeof(HarmonyPatches_GroupBills), nameof(DoWindowContents_GetBillSelectedGroup));
+            var billField = AccessTools.Field(typeof(Dialog_BillConfig), "bill");
+            Log.Message("method: " + methodToCall + " - " + billField);
+            bool found = false;
             for (int i = 0; i < codes.Count; i++)
             {
                 CodeInstruction instruction = codes[i];
-                if (instruction.opcode == OpCodes.Ldstr && (instruction.operand as string) == "AnyWorker")
+                if (!found && instruction.opcode == OpCodes.Ldstr && (instruction.operand as string) == "AnyWorker")
                 {
-                    yield return CodeInstruction.LoadField(typeof(Dialog_BillConfig), "bill");
-                    //yield return CodeInstruction.Call(typeof(HarmonyPatches_GroupBills), "DoWindowContents_GetBillSelectedGroup");
-                    yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(HarmonyPatches_GroupBills), nameof(DoWindowContents_GetBillSelectedGroup)));
-                    yield return new CodeInstruction(OpCodes.Nop);
-                    i += 2; // skip Translate
+                    yield return new CodeInstruction(OpCodes.Ldarg_0).MoveLabelsFrom(instruction);
+                    yield return new CodeInstruction(OpCodes.Ldfld, billField);
+                    yield return new CodeInstruction(OpCodes.Call, methodToCall);
+                    i += 2;
+                    found = true;
                 }
                 else
                 {
