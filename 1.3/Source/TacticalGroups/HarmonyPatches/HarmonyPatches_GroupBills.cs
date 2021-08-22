@@ -46,7 +46,7 @@ namespace TacticalGroups
             PawnGroup billSelectedGroup = (bill is null) ? null : BillsSelectedGroup.TryGetValue(bill);
             if (!(billSelectedGroup is null))
             {
-                return "Any pawn of " + billSelectedGroup.curGroupName;
+                return "TG.BillSelection".Translate(billSelectedGroup.curGroupName);
             }
             else
             {
@@ -97,7 +97,7 @@ namespace TacticalGroups
                         if (allowed)
                         {
                             Widgets.DropdownMenuElement<Pawn> dropdownMenuElement = new Widgets.DropdownMenuElement<Pawn>();
-                            dropdownMenuElement.option = new FloatMenuOption("Any pawn of " + pawnGroup.curGroupName, delegate ()
+                            dropdownMenuElement.option = new FloatMenuOption("TG.BillSelection".Translate(pawnGroup.curGroupName), delegate ()
                             {
                                 ___bill.SetAnyPawnRestriction();
                                 BillsSelectedGroup.SetOrAdd(___bill, pawnGroup);

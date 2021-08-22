@@ -56,7 +56,7 @@ namespace TacticalGroups
                     if (sectionTranferables.Count > 0)
                     {
                         // Add a new section containing all pawns within the group
-                        widget.AddSection(pawnGroup.curGroupName ?? "", from pawn in sectionTranferables select pawn);
+                        widget.AddSection(pawnGroup.curGroupName, from pawn in sectionTranferables select pawn);
                     }
                 }
             }
@@ -64,7 +64,7 @@ namespace TacticalGroups
             if (ungroupedPawns.Count > 0)
             {
                 // Create a section containing all the ungrouped pawns
-                widget.AddSection("Ungrouped " + "ColonistsSection".Translate().ToLower(), from pawn in ungroupedPawns
+                widget.AddSection("TG.UngroupedColonistsSection".Translate(), from pawn in ungroupedPawns
                                                                                            where pawn.IsFreeColonist
                                                                                            select pawnThing[pawn]);
                 foreach (Pawn pawn in ungroupedPawns)
