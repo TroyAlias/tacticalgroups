@@ -46,7 +46,7 @@ namespace TacticalGroups
             PawnGroup billSelectedGroup = (bill is null) ? null : BillsSelectedGroup.TryGetValue(bill);
             if (!(billSelectedGroup is null))
             {
-                return "AnyWorker".Translate() + " of " + billSelectedGroup.curGroupName;
+                return "Any pawn of " + billSelectedGroup.curGroupName;
             }
             else
             {
