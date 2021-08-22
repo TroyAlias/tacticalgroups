@@ -278,5 +278,5 @@ no more pawns in the group.
 	
 	<TG.UngroupedColonistsSection>Ungrouped colonists</TG.UngroupedColonistsSection>
 	
-	<TG.BillSelection>Any pawn of {0}</TG.BillSelection>
+	<TG.AnyPawnOfGroup>Any pawn of {0}</TG.AnyPawnOfGroup>
 </LanguageData>
