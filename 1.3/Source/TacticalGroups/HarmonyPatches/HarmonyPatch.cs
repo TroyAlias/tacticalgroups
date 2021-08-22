@@ -6,11 +6,9 @@ using Verse;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Verse.Sound;
 using Verse.AI;
 using System.Linq;
 using System.Reflection.Emit;
-using System.Diagnostics;
 
 namespace TacticalGroups 
 {
@@ -108,24 +106,6 @@ namespace TacticalGroups
             
             harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), "HandleLowPriorityShortcuts", null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
 
-            harmony.Patch(
-                original: AccessTools.Method(typeof(CaravanUIUtility), "AddPawnsSections"),
-                prefix: new HarmonyMethod(typeof(HarmonyPatches), "AddPawnsSections")
-            );
-
-            if (ModCompatibility.GiddyUpCaravanIsActive)
-            {
-                harmony.Patch(
-                    original: AccessTools.Method(AccessTools.TypeByName("GiddyUpCaravan.Harmony.TransferableOneWayWidget_DoRow"), "handleAnimal"),
-                    prefix: new HarmonyMethod(typeof(HarmonyPatches), "HandleAnimal")
-                );
-            }
-
-            harmony.Patch(
-                original: AccessTools.Method(typeof(Messages), "MessagesDoGUI"),
-                prefix: new HarmonyMethod(typeof(HarmonyPatches), "MessagesDoGUI")
-            );
-
             if (ModsConfig.IdeologyActive)
             {
                 harmony.Patch(
@@ -137,6 +117,60 @@ namespace TacticalGroups
                     prefix: new HarmonyMethod(typeof(HarmonyPatches), "JobGiver_DyeHair_TryGiveJobPrefix"));
 
             }
+
+            #region HarmonyPatches_CaravanSorting
+            harmony.Patch(
+                original: AccessTools.Method(typeof(CaravanUIUtility), "AddPawnsSections"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), "AddPawnsSections")
+            );
+
+            if (ModCompatibility.GiddyUpCaravanIsActive)
+            {
+                harmony.Patch(
+                    original: AccessTools.Method(AccessTools.TypeByName("GiddyUpCaravan.Harmony.TransferableOneWayWidget_DoRow"), "handleAnimal"),
+                    prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), "HandleAnimal")
+                );
+            }
+            #endregion
+
+            #region HarmonyPatches_DynamicMessages
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Messages), "MessagesDoGUI"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_DynamicMessages), "MessagesDoGUI")
+            );
+            #endregion
+
+            #region HarmonyPatches_GroupBills
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Dialog_BillConfig), "DoWindowContents"),
+                transpiler: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "DoWindowContents_Transpiler")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Dialog_BillConfig), "GeneratePawnRestrictionOptions"),
+                postfix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "GeneratePawnRestrictionOptions")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "PawnAllowedToStartAnew"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "PawnAllowedToStartAnew")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetPawnRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetAnySlaveRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
+
+            harmony.Patch(
+                original: AccessTools.Method(typeof(Bill), "SetAnyPawnRestriction"),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
+            );
+            #endregion
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
@@ -553,225 +587,6 @@ namespace TacticalGroups
                 }
                 TooltipHandler.TipRegion(optionsGearRect, Strings.OptionsGearTooltip);
             }
-        }
-
-        private static List<Pawn> PawnsInCurrentSections; // For Giddy-up! Caravan compatibility
-        public static bool AddPawnsSections(TransferableOneWayWidget widget, List<TransferableOneWay> transferables)
-        {
-            PawnsInCurrentSections = new List<Pawn>(); // For Giddy-up! Caravan compatibility
-
-            // Get all pawns from the list of transferables
-            List<Pawn> pawns = new List<Pawn>();
-            Dictionary<Pawn, TransferableOneWay> pawnThing = new Dictionary<Pawn, TransferableOneWay>();
-            foreach (TransferableOneWay thing in transferables)
-            {
-                if (thing.ThingDef.category == ThingCategory.Pawn)
-                {
-                    Pawn pawn = (Pawn)thing.AnyThing;
-                    pawns.Add(pawn);
-                    pawnThing[pawn] = thing;
-                }
-            }
-
-            List<PawnGroup> pawnGroups = TacticUtils.AllPawnGroups;
-            pawnGroups.Reverse(); // Reverse the list because it iterates in the wrong direction
-
-            // Create a HashSet to sort out all the ungrouped pawns
-            HashSet<Pawn> ungroupedPawns = new HashSet<Pawn>(pawns);
-
-            foreach (PawnGroup pawnGroup in pawnGroups)
-            {
-                if (pawnGroup.pawns != null && pawnGroup.pawns.Count > 0)
-                {
-                    // Remove grouped pawns from the ungroupedPawns HashSet
-                    ungroupedPawns.ExceptWith(from pawn in pawnGroup.pawns select pawn);
-
-                    // Get only the group's pawns that are in the current list of transferables
-                    List<TransferableOneWay> sectionTranferables = new List<TransferableOneWay>();
-                    foreach (Pawn pawn in pawnGroup.pawns)
-                    {
-                        if (pawns.Contains(pawn) && pawnThing.ContainsKey(pawn) && pawn.IsFreeColonist)
-                        {
-                            sectionTranferables.Add(pawnThing[pawn]);
-                            if (!PawnsInCurrentSections.Contains(pawn))
-                            {
-                                PawnsInCurrentSections.Add(pawn); // For Giddy-up! Caravan compatibility
-                            }
-                        }
-                    }
-
-                    if (sectionTranferables.Count > 0)
-                    {
-                        // Add a new section containing all pawns within the group
-                        widget.AddSection(pawnGroup.curGroupName ?? "", from pawn in sectionTranferables select pawn);
-                    }
-                }
-            }
-
-            if (ungroupedPawns.Count > 0)
-            {
-                // Create a section containing all the ungrouped pawns
-                widget.AddSection("Ungrouped " + "ColonistsSection".Translate().ToLower(), from pawn in ungroupedPawns
-                                                                                           where pawn.IsFreeColonist
-                                                                                           select pawnThing[pawn]);
-                foreach (Pawn pawn in ungroupedPawns)
-                {
-                    if (pawn.IsFreeColonist && !PawnsInCurrentSections.Contains(pawn))
-                    {
-                        PawnsInCurrentSections.Add(pawn); // For Giddy-up! Caravan compatibility
-                    }
-                }
-            }
-
-            // We then return to vanilla code (slightly tweaked), commenting out the Colonists section of course
-            /*
-            widget.AddSection("ColonistsSection".Translate(), from pawn in pawns
-                                                              where pawn.IsFreeColonist
-                                                              select pawnThing[pawn]);
-            */
-
-            widget.AddSection("PrisonersSection".Translate(), from pawn in pawns
-                                                              where pawn.IsPrisoner
-                                                              select pawnThing[pawn]);
-
-            widget.AddSection("CaptureSection".Translate(), from pawn in pawns
-                                                            where pawn.Downed && CaravanUtility.ShouldAutoCapture(pawn, Faction.OfPlayer)
-                                                            select pawnThing[pawn]);
-
-            widget.AddSection("AnimalsSection".Translate(), from pawn in pawns
-                                                            where pawn.RaceProps.Animal
-                                                            select pawnThing[pawn]);
-            return false;
-        }
-
-        public static bool HandleAnimal(float num, Rect buttonRect, Pawn animal, ref List<Pawn> pawns, TransferableOneWay trad)
-        {
-            if (PawnsInCurrentSections != null)
-            {
-                pawns = PawnsInCurrentSections; // Fixes Giddy-up! Caravan rider selection functionality
-            }
-            return true;
-        }
-
-        public static bool MessagesDoGUI(List<Message> ___liveMessages)
-        {
-            if (___liveMessages.Any())
-            {
-                int xOffset = (int)Messages.MessagesTopLeftStandard.x;
-                int yOffset = (int)Messages.MessagesTopLeftStandard.y;
-                Text.Font = GameFont.Small;
-
-                int xOffsetStandard = 12;
-                int yOffsetStandard = 12;
-
-                if (Current.Game != null && Find.ActiveLesson.ActiveLessonVisible)
-                {
-                    yOffset += (int)Find.ActiveLesson.Current.MessagesYOffset;
-                }
-
-                // Getting the largest X of all the messages, for determining whether to move messages downwards or not
-                float largestRectX = xOffsetStandard;
-                for (int i = ___liveMessages.Count - 1; i >= 0; i--)
-                {
-                    Rect messageRect = ___liveMessages[i].CalculateRect(xOffset, yOffset);
-                    largestRectX = Math.Max(largestRectX, xOffsetStandard + messageRect.x + messageRect.width);
-                }
-
-                // Function that checks whether a rect should be used, and if so, uses it
-                void checkRect(Rect rect)
-                {
-                    if (largestRectX > rect.x)
-                    {
-                        yOffset = (int)Math.Max(yOffset, yOffsetStandard + rect.y + rect.height);
-                    }
-                }
-
-                // Pawn draw locs
-                List<Rect> drawLocs = TacticUtils.TacticalColonistBar?.DrawLocs;
-                if (drawLocs != null)
-                {
-                    foreach (Rect rect in drawLocs)
-                    {
-                        checkRect(rect);
-                    }
-                }
-
-                // Colonist groups
-                List<ColonistGroup> colonistGroups = TacticUtils.AllGroups;
-                if (colonistGroups != null)
-                {
-                    foreach (ColonistGroup colonistGroup in colonistGroups)
-                    {
-                        // Colonist group
-                        Rect curRect = colonistGroup.curRect;
-                        if (colonistGroup.isSubGroup)
-                        {
-                            curRect.width /= 2f;
-                            curRect.height /= 2f;
-                        }
-                        checkRect(curRect);
-
-                        // Colonist group name
-                        if (!colonistGroup.isSubGroup && !colonistGroup.bannerModeEnabled && !colonistGroup.hideGroupIcon)
-                        {
-                            float groupNameHeight = Text.CalcHeight(colonistGroup.curGroupName, (float)colonistGroup.groupBanner.width);
-                            checkRect(new Rect(curRect.x, curRect.y + curRect.height, curRect.width, groupNameHeight));
-                        }
-
-                        // Colonist group pawn dots
-                        if (!colonistGroup.hidePawnDots)
-                        {
-                            List<PawnDot> pawnDots = colonistGroup.GetPawnDots(curRect);
-                            if (pawnDots.Count > 0)
-                            {
-                                foreach (PawnDot pawnDot in pawnDots)
-                                {
-                                    checkRect(pawnDot.rect);
-                                }
-                            }
-                        }
-
-                        // Colonist group pawn rows
-                        if (colonistGroup.pawnWindowIsActive || colonistGroup.showPawnIconsRightClickMenu || colonistGroup.ShowExpanded)
-                        {
-                            foreach (KeyValuePair<Pawn, Rect> pawnRect in colonistGroup.pawnRects)
-                            {
-                                checkRect(pawnRect.Value);
-                            }
-                        }
-                    }
-                }
-
-                void checkWindow(Window window)
-                {
-                    if (window != null)
-                    {
-                        checkRect(window.windowRect);
-                    }
-                }
-
-                checkWindow(Find.WindowStack.WindowOfType<MainFloatMenu>()); // Colonist group right click menu
-                checkWindow(Find.WindowStack.WindowOfType<WorkMenu>()); // Colonist group [right click > work] menu
-                checkWindow(Find.WindowStack.WindowOfType<OrderMenu>()); // Colonist group [right click > orders] menu
-                checkWindow(Find.WindowStack.WindowOfType<ManageMenu>()); // Colonist group [right click > manage] menu
-                checkWindow(Find.WindowStack.WindowOfType<OptionsSlideMenu>()); // Colonist group [right click > manage] options slide menu
-                checkWindow(Find.WindowStack.WindowOfType<IconMenu>()); // Colonist group [right click > manage > icon] menu
-                checkWindow(Find.WindowStack.WindowOfType<SortMenu>()); // Colonist group [right click > manage > sort] menu
-                checkWindow(Find.WindowStack.WindowOfType<ManagementMenu>()); // Colonist group [right click > manage > management] menu
-                checkWindow(Find.WindowStack.WindowOfType<PrisonerMenu>()); // Colonist group [right click > manage > prisoner menu] menu
-                checkWindow(Find.WindowStack.WindowOfType<AnimalMenu>()); // Colonist group [right click > manage > animal menu] menu
-                checkWindow(Find.WindowStack.WindowOfType<GuestMenu>()); // Colonist group [right click > manage > guest menu] menu
-                checkWindow(Find.WindowStack.WindowOfType<PresetMenu>()); // Colonist group [right click > manage > preset] menu
-                                                                          // Display the messages like normal
-                for (int i = ___liveMessages.Count - 1; i >= 0; i--)
-                {
-                    ___liveMessages[i].Draw(xOffset, yOffset);
-                    yOffset += 26;
-                }
-
-                return false;
-            }
-            return true;
         }
     }
 }
