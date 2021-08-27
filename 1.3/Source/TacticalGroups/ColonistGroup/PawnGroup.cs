@@ -178,7 +178,7 @@ namespace TacticalGroups
 					}
 				}
 
-				if (ModCompatibility.CombatExtendedIsActive)
+				if (!(ModCompatibility.combatExtendedHasAmmo_Method is null))
 				{
 					for (var i = 0; i < this.pawns.Count; i++)
 					{

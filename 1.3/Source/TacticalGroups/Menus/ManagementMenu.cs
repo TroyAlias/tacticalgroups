@@ -112,7 +112,7 @@ namespace TacticalGroups
 			var foodRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 315, policyButtonWidth, 30f);
 			DoFoodCell(foodRect);
 
-			if (ModCompatibility.BetterPawnControlIsActive)
+			if (!(ModCompatibility.assignManagerSaveCurrentStateMethod is null))
             {
 				ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[] { this.colonistGroup.pawns });
             }
@@ -600,7 +600,7 @@ namespace TacticalGroups
                         {
 							group.groupOutfit = outfit;
                         }
-						if (ModCompatibility.BetterPawnControlIsActive)
+						if (!(ModCompatibility.assignManagerSaveCurrentStateMethod is null))
 						{
 							ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[]
 							{

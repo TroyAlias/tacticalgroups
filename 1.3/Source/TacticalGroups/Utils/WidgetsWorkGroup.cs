@@ -108,7 +108,7 @@ namespace TacticalGroups
 						num2--;
                     }
 					group.SetGroupWorkPriorityFor(wType, num2);
-					if (ModCompatibility.BetterPawnControlIsActive)
+					if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
                     {
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
                     }
@@ -131,7 +131,7 @@ namespace TacticalGroups
                     }
 					group.SetGroupWorkPriorityFor(wType, num3);
 
-					if (ModCompatibility.BetterPawnControlIsActive)
+					if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
 					{
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 					}
@@ -143,7 +143,7 @@ namespace TacticalGroups
                     {
 						group.groupWorkPriorities.Remove(wType);
 					}
-					if (ModCompatibility.BetterPawnControlIsActive)
+					if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
 					{
 						ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 					}
@@ -170,7 +170,7 @@ namespace TacticalGroups
 				{
 					group.groupWorkPriorities.Remove(wType);
 				}
-				if (ModCompatibility.BetterPawnControlIsActive)
+				if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 				}
@@ -179,8 +179,7 @@ namespace TacticalGroups
 			else if (IsCommonEnabledWork(group, wType))
 			{
 				group.SetGroupWorkPriorityFor(wType, 0);
-
-				if (ModCompatibility.BetterPawnControlIsActive)
+				if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 				}
@@ -189,7 +188,7 @@ namespace TacticalGroups
 			else
 			{
 				group.SetGroupWorkPriorityFor(wType, 3);
-				if (ModCompatibility.BetterPawnControlIsActive)
+				if (!(ModCompatibility.workManagerSaveCurrentStateMethod is null))
 				{
 					ModCompatibility.workManagerSaveCurrentStateMethod.Invoke(null, new object[] { group.pawns });
 				}

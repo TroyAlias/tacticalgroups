@@ -65,7 +65,7 @@ namespace TacticalGroups
 		public static readonly Texture2D MoodBGTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.4f, 0.47f, 0.53f, 0.44f));
 		public void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-			if (ModCompatibility.AlteredCarbonIsActive)
+			if (!(ModCompatibility.alteredCarbonDrawColonist_PatchMethod is null))
             {
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
 				{
@@ -172,14 +172,14 @@ namespace TacticalGroups
 			Text.Font = GameFont.Small;
 			GUI.color = Color.white;
 			
-			if (ModCompatibility.PawnBadgesIsActive)
+			if (!(ModCompatibility.pawnBadgesDrawMethod is null))
             {
 				ModCompatibility.pawnBadgesDrawMethod.Invoke(this, new object[]
 				{
 					rect, colonist, pawnMap, highlight, reordering
 				});
 			}
-			if (ModCompatibility.JobInBarIsActive)
+			if (!(ModCompatibility.jobInBarDrawMethod is null))
 			{
 				ModCompatibility.jobInBarDrawMethod.Invoke(this, new object[]
 				{
@@ -319,7 +319,7 @@ namespace TacticalGroups
 
 		public void HandleClicks(Rect rect, Pawn colonist, int reorderableGroup, out bool reordering)
 		{
-			if (ModCompatibility.AlteredCarbonIsActive)
+			if (!(ModCompatibility.alteredCarbonHandleClicks_PatchMethod is null))
 			{
 				reordering = false;
 				bool prefixValue = (bool)ModCompatibility.alteredCarbonHandleClicks_PatchMethod.Invoke(this, new object[]
@@ -512,7 +512,7 @@ namespace TacticalGroups
 				}
 			}
 			
-			if (ModCompatibility.RimworldOfMagicIsActive)
+			if (!(ModCompatibility.rimworldOfMagicDrawMethod is null))
 			{
 				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]
 				{

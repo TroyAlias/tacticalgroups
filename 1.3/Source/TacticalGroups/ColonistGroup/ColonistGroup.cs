@@ -978,7 +978,7 @@ namespace TacticalGroups
 			{
 				GUI.DrawTexture(rect, Textures.PawnDrafted);
 			}
-			if (ModCompatibility.CombatExtendedIsActive)
+			if (!(ModCompatibility.combatExtendedHasAmmo_Method is null))
             {
 				var gun = colonist.equipment?.Primary ?? null;
 				if (gun != null && gun.def.IsRangedWeapon && (!(bool)ModCompatibility.combatExtendedHasAmmo_Method.Invoke(null, new object[]

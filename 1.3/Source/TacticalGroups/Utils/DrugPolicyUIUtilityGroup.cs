@@ -58,7 +58,7 @@ namespace TacticalGroups
                         {
 							group.groupDrugPolicy = assignedDrugs;
                         }
-						if (ModCompatibility.BetterPawnControlIsActive)
+						if (!(ModCompatibility.assignManagerSaveCurrentStateMethod is null))
                         {
 							ModCompatibility.assignManagerSaveCurrentStateMethod.Invoke(null, new object[]
 							{
