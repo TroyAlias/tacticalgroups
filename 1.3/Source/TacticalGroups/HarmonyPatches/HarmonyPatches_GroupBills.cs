@@ -43,7 +43,7 @@ namespace TacticalGroups
 
         public static string DoWindowContents_GetBillSelectedGroup(Bill_Production bill)
         {
-            PawnGroup billSelectedGroup = (bill is null) ? null : BillsSelectedGroup.TryGetValue(bill);
+            PawnGroup billSelectedGroup = BillsSelectedGroup.GetValueOrDefault(bill, null);
             if (!(billSelectedGroup is null))
             {
                 return "TG.AnyPawnOfGroup".Translate(billSelectedGroup.curGroupName);
@@ -117,7 +117,7 @@ namespace TacticalGroups
 
         public static bool PawnAllowedToStartAnew(Pawn p, Bill_Production __instance, ref bool __result)
         {
-            PawnGroup billSelectedGroup = billsSelectedGroup.TryGetValue(__instance);
+            PawnGroup billSelectedGroup = BillsSelectedGroup.GetValueOrDefault(__instance, null);
             if (!(billSelectedGroup is null) && __instance.PawnRestriction is null && !__instance.SlavesOnly)
             {
                 bool pawnInGroup = billSelectedGroup.pawns.Contains(p);
