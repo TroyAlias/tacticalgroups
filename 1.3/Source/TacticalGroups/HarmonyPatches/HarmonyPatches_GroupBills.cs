@@ -118,40 +118,47 @@ namespace TacticalGroups
         public static bool PawnAllowedToStartAnew(Pawn p, Bill_Production __instance, ref bool __result)
         {
             PawnGroup billSelectedGroup = BillsSelectedGroup.GetValueOrDefault(__instance, null);
-            if (!(billSelectedGroup is null) && __instance.PawnRestriction is null && !__instance.SlavesOnly)
+            if (!(billSelectedGroup is null))
             {
-                bool pawnInGroup = billSelectedGroup.pawns.Contains(p);
-                WorkGiverDef workGiver = __instance.billStack.billGiver.GetWorkgiver();
-                if (pawnInGroup && !p.WorkTypeIsDisabled(workGiver.workType))
+                if (__instance.PawnRestriction is null && !__instance.SlavesOnly)
                 {
-                    if (__instance.recipe.workSkill is null)
+                    bool pawnInGroup = billSelectedGroup.pawns.Contains(p);
+                    WorkGiverDef workGiver = __instance.billStack.billGiver.GetWorkgiver();
+                    if (pawnInGroup && !p.WorkTypeIsDisabled(workGiver.workType))
                     {
-                        __result = true;
-                    }
-                    else
-                    {
-                        int level = p.skills.GetSkill(__instance.recipe.workSkill).Level;
-                        if (level < __instance.allowedSkillRange.min)
-                        {
-                            JobFailReason.Is("UnderAllowedSkill".Translate(__instance.allowedSkillRange.min), __instance.Label);
-                            __result = false;
-                        }
-                        else if (level > __instance.allowedSkillRange.max)
-                        {
-                            JobFailReason.Is("AboveAllowedSkill".Translate(__instance.allowedSkillRange.max), __instance.Label);
-                            __result = false;
-                        }
-                        else
+                        if (__instance.recipe.workSkill is null)
                         {
                             __result = true;
                         }
+                        else
+                        {
+                            int level = p.skills.GetSkill(__instance.recipe.workSkill).Level;
+                            if (level < __instance.allowedSkillRange.min)
+                            {
+                                JobFailReason.Is("UnderAllowedSkill".Translate(__instance.allowedSkillRange.min), __instance.Label);
+                                __result = false;
+                            }
+                            else if (level > __instance.allowedSkillRange.max)
+                            {
+                                JobFailReason.Is("AboveAllowedSkill".Translate(__instance.allowedSkillRange.max), __instance.Label);
+                                __result = false;
+                            }
+                            else
+                            {
+                                __result = true;
+                            }
+                        }
                     }
+                    else
+                    {
+                        __result = false;
+                    }
+                    return false;
                 }
-                else
+                else // if there's a pawn restriction or it's slaves only, another restriction option is selected
                 {
-                    __result = false;
+                    BillsSelectedGroup.Remove(__instance);
                 }
-                return false;
             }
             return true;
         }
