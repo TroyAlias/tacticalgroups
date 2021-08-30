@@ -101,13 +101,13 @@ namespace TacticalGroups
             /*
             widget.AddSection("ColonistsSection".Translate(), from pawn in pawns
                                                               where pawn.IsFreeNonSlaveColonist
-                                                              select pawnThing[pawn]);
+                                                              select pawnTransferable[pawn]);
 
             if (ModsConfig.IdeologyActive)
             {
                 widget.AddSection("SlavesSection".Translate(), from pawn in pawns
                                                                where pawn.IsSlave
-                                                               select pawnThing[pawn]);
+                                                               select pawnTransferable[pawn]);
             }
             */
 
