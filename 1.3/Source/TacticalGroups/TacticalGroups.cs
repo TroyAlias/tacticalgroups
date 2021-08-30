@@ -27,12 +27,12 @@ namespace TacticalGroups
             base.WorldComponentUpdate();
             if (Event.current.keyCode == TacticDefOf.TG_SlaveMenu.defaultKeyCodeB && Event.current.control)
             {
-                if (Find.CurrentMap != null && colonyGroups.TryGetValue(Find.CurrentMap, out var colonyGroup))
+                if (Find.CurrentMap != null && colonyGroups.TryGetValue(Find.CurrentMap, out ColonyGroup colonyGroup))
                 {
                     if (Find.WindowStack.WindowOfType<SlaveMenu>() is null)
                     {
                         Vector2 initialSize = new Vector2(Textures.SlaveMenu.width, Textures.SlaveMenu.height);
-                        var windowRect = new Rect(((float)UI.screenWidth - initialSize.x) / 2f, ((float)UI.screenHeight - initialSize.y) / 2f, initialSize.x, initialSize.y);
+                        Rect windowRect = new Rect((UI.screenWidth - initialSize.x) / 2f, (UI.screenHeight - initialSize.y) / 2f, initialSize.x, initialSize.y);
                         windowRect = windowRect.Rounded();
 
                         SlaveMenu floatMenu = new SlaveMenu(null, colonyGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
@@ -43,45 +43,60 @@ namespace TacticalGroups
         }
         public void PreInit()
         {
-            if (pawnGroups is null) pawnGroups = new List<PawnGroup>();
-            if (colonyGroups is null) colonyGroups = new Dictionary<Map, ColonyGroup>();
-            if (caravanGroups is null) caravanGroups = new Dictionary<Caravan, CaravanGroup>();
-            if (visiblePawns is null) visiblePawns = new HashSet<Pawn>();
+            if (pawnGroups is null)
+            {
+                pawnGroups = new List<PawnGroup>();
+            }
+
+            if (colonyGroups is null)
+            {
+                colonyGroups = new Dictionary<Map, ColonyGroup>();
+            }
+
+            if (caravanGroups is null)
+            {
+                caravanGroups = new Dictionary<Caravan, CaravanGroup>();
+            }
+
+            if (visiblePawns is null)
+            {
+                visiblePawns = new HashSet<Pawn>();
+            }
         }
 
         public void AddGroup(List<Pawn> pawns)
         {
-            this.pawnGroups.Insert(0, new PawnGroup(pawns));
+            pawnGroups.Insert(0, new PawnGroup(pawns));
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
         }
 
         public CaravanGroup AddCaravanGroup(Caravan caravan)
         {
-            this.caravanGroups[caravan] = new CaravanGroup(caravan);
+            caravanGroups[caravan] = new CaravanGroup(caravan);
             for (int num = colonyGroups.Values.Count - 1; num >= 0; num--)
             {
-                var colonyGroup = colonyGroups.Values.ElementAt(num);
-                foreach (var pawn in caravan.pawns.InnerListForReading)
+                ColonyGroup colonyGroup = colonyGroups.Values.ElementAt(num);
+                foreach (Pawn pawn in caravan.pawns.InnerListForReading)
                 {
                     colonyGroup.Disband(pawn);
                 }
             }
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-            return this.caravanGroups[caravan];
+            return caravanGroups[caravan];
         }
 
         public void RemoveCaravanGroup(Caravan caravan)
         {
             if (caravanGroups.ContainsKey(caravan))
             {
-                foreach (var formerGroup in caravanGroups[caravan].formerGroups)
+                foreach (KeyValuePair<Pawn, FormerGroup> formerGroup in caravanGroups[caravan].formerGroups)
                 {
-                    foreach (var pawnGroup in formerGroup.Value.pawnGroups)
+                    foreach (PawnGroup pawnGroup in formerGroup.Value.pawnGroups)
                     {
-                        var group2 = this.pawnGroups.Where(x => x.groupID == pawnGroup.groupID && x.groupName == pawnGroup.groupName).FirstOrDefault();
+                        PawnGroup group2 = pawnGroups.Where(x => x.groupID == pawnGroup.groupID && x.groupName == pawnGroup.groupName).FirstOrDefault();
                         if (group2 == null)
                         {
-                            this.pawnGroups.Add(pawnGroup);
+                            pawnGroups.Add(pawnGroup);
                             pawnGroup.Add(formerGroup.Key);
                         }
                         else
@@ -90,40 +105,40 @@ namespace TacticalGroups
                         }
                     }
                 }
-                this.caravanGroups.Remove(caravan);
+                caravanGroups.Remove(caravan);
                 TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             }
         }
 
         public ColonyGroup CreateOrJoinColony(List<Pawn> pawns, Map map)
         {
-            if (this.colonyGroups is null)
+            if (colonyGroups is null)
             {
-                this.colonyGroups = new Dictionary<Map, ColonyGroup>();
+                colonyGroups = new Dictionary<Map, ColonyGroup>();
             }
-            if (this.pawnGroups is null)
+            if (pawnGroups is null)
             {
-                this.pawnGroups = new List<PawnGroup>();
+                pawnGroups = new List<PawnGroup>();
             }
-            if (this.colonyGroups.TryGetValue(map, out ColonyGroup colonyGroup) && colonyGroup != null)
+            if (colonyGroups.TryGetValue(map, out ColonyGroup colonyGroup) && colonyGroup != null)
             {
                 colonyGroup.Add(pawns);
             }
             else
             {
-                var newColony = new ColonyGroup(pawns);
-                this.colonyGroups[map] = newColony;
+                ColonyGroup newColony = new ColonyGroup(pawns);
+                colonyGroups[map] = newColony;
                 if (!map.IsPlayerHome || map.ParentFaction != Faction.OfPlayer)
                 {
                     newColony.ConvertToTaskForce();
                 }
             }
 
-            RemovePawnsFromOtherColonies(this.colonyGroups[map], pawns);
+            RemovePawnsFromOtherColonies(colonyGroups[map], pawns);
             RecheckCaravanGroups();
-            foreach (var pawnGroup in this.pawnGroups.Where(x => x.Map == map))
+            foreach (PawnGroup pawnGroup in pawnGroups.Where(x => x.Map == map))
             {
-                foreach (var pawn in pawns)
+                foreach (Pawn pawn in pawns)
                 {
                     if (pawnGroup.formerPawns != null && pawnGroup.formerPawns.Contains(pawn))
                     {
@@ -131,15 +146,15 @@ namespace TacticalGroups
                     }
                 }
             }
-            this.colonyGroups[map].UpdateData();
+            colonyGroups[map].UpdateData();
             TacticUtils.TacticalColonistBar.MarkColonistsDirty();
-            return this.colonyGroups[map];
+            return colonyGroups[map];
         }
 
         public void RecheckCaravanGroups()
         {
-            var caravanKeysToRemove = new List<Caravan>();
-            foreach (var group in this.caravanGroups)
+            List<Caravan> caravanKeysToRemove = new List<Caravan>();
+            foreach (KeyValuePair<Caravan, CaravanGroup> group in caravanGroups)
             {
                 if (!group.Key.PawnsListForReading.Any(x => group.Value.pawns.Contains(x)))
                 {
@@ -147,15 +162,15 @@ namespace TacticalGroups
                 }
             }
 
-            foreach (var key in caravanKeysToRemove)
+            foreach (Caravan key in caravanKeysToRemove)
             {
                 caravanGroups.Remove(key);
             }
         }
         public void RemovePawnsFromOtherColonies(ColonyGroup mainGroup, List<Pawn> pawns)
         {
-            var colonyKeysToRemove = new List<Map>();
-            foreach (var group in this.colonyGroups)
+            List<Map> colonyKeysToRemove = new List<Map>();
+            foreach (KeyValuePair<Map, ColonyGroup> group in colonyGroups)
             {
                 if (group.Value != mainGroup)
                 {
@@ -163,11 +178,11 @@ namespace TacticalGroups
                 }
             }
 
-            foreach (var key in colonyKeysToRemove)
+            foreach (Map key in colonyKeysToRemove)
             {
-                if (colonyGroups.TryGetValue(key, out var colonyGroup))
+                if (colonyGroups.TryGetValue(key, out ColonyGroup colonyGroup))
                 {
-                    foreach (var pawn in pawns)
+                    foreach (Pawn pawn in pawns)
                     {
                         if (colonyGroup.pawns?.Contains(pawn) ?? false)
                         {
@@ -187,15 +202,15 @@ namespace TacticalGroups
             base.WorldComponentTick();
             if (Find.TickManager.TicksGame % 60 == 0)
             {
-                foreach (var colonyGroup in this.colonyGroups.Values)
+                foreach (ColonyGroup colonyGroup in colonyGroups.Values)
                 {
                     colonyGroup.UpdateData();
                 }
-                foreach (var pawnGroup in this.pawnGroups)
+                foreach (PawnGroup pawnGroup in pawnGroups)
                 {
                     pawnGroup.UpdateData();
                 }
-                foreach (var caravanGroup in this.caravanGroups.Values)
+                foreach (CaravanGroup caravanGroup in caravanGroups.Values)
                 {
                     caravanGroup.UpdateData();
                 }
@@ -219,12 +234,12 @@ namespace TacticalGroups
                 {
                     for (int num = pawnGroups.Count - 1; num >= 0; num--)
                     {
-                        var group = pawnGroups[num];
+                        PawnGroup group = pawnGroups[num];
                         if (group.pawns != null)
                         {
                             for (int num2 = group.pawns.Count - 1; num2 >= 0; num2--)
                             {
-                                var pawn = group.pawns[num2];
+                                Pawn pawn = group.pawns[num2];
                                 if (pawn == null)
                                 {
                                     group.pawns.RemoveAt(num2);
@@ -246,14 +261,14 @@ namespace TacticalGroups
 
             try
             {
-                var caravanKeysToRemove = new List<Caravan>();
-                foreach (var group in caravanGroups)
+                List<Caravan> caravanKeysToRemove = new List<Caravan>();
+                foreach (KeyValuePair<Caravan, CaravanGroup> group in caravanGroups)
                 {
                     if (group.Value.pawns != null)
                     {
                         for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
                         {
-                            var pawn = group.Value.pawns[num];
+                            Pawn pawn = group.Value.pawns[num];
                             if (pawn == null)
                             {
                                 group.Value.pawns.RemoveAt(num);
@@ -270,7 +285,7 @@ namespace TacticalGroups
                     }
                 }
 
-                foreach (var key in caravanKeysToRemove)
+                foreach (Caravan key in caravanKeysToRemove)
                 {
                     caravanGroups.Remove(key);
                 }
@@ -278,14 +293,14 @@ namespace TacticalGroups
             catch { }
             try
             {
-                var colonyKeysToRemove = new List<Map>();
-                foreach (var group in colonyGroups)
+                List<Map> colonyKeysToRemove = new List<Map>();
+                foreach (KeyValuePair<Map, ColonyGroup> group in colonyGroups)
                 {
                     if (group.Value?.pawns != null)
                     {
                         for (int num = group.Value.pawns.Count - 1; num >= 0; num--)
                         {
-                            var pawn = group.Value.pawns[num];
+                            Pawn pawn = group.Value.pawns[num];
                             if (pawn == null)
                             {
                                 group.Value.pawns.RemoveAt(num);
@@ -302,7 +317,7 @@ namespace TacticalGroups
                     }
                 }
 
-                foreach (var key in colonyKeysToRemove)
+                foreach (Map key in colonyKeysToRemove)
                 {
                     colonyGroups.Remove(key);
                 }

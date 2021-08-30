@@ -69,7 +69,7 @@ namespace TacticalGroups
                         // Colonist group name
                         if (!colonistGroup.isSubGroup && !colonistGroup.bannerModeEnabled && !colonistGroup.hideGroupIcon)
                         {
-                            float groupNameHeight = Text.CalcHeight(colonistGroup.curGroupName, (float)colonistGroup.groupBanner.width);
+                            float groupNameHeight = Text.CalcHeight(colonistGroup.curGroupName, colonistGroup.groupBanner.width);
                             checkRect(new Rect(curRect.x, curRect.y + curRect.height, curRect.width, groupNameHeight));
                         }
 
