@@ -276,7 +276,9 @@ no more pawns in the group.
 	<TG.ModSettingsText>Options for Colony Groups can be found in-game using the Gear icon located beneath the Create Group button</TG.ModSettingsText>
 	<TG.PawnRowCount>Pawn Row Count: </TG.PawnRowCount>
 	
+	<TG.GroupSlavesSection>{0} (Slaves)</TG.GroupSlavesSection>
 	<TG.UngroupedColonistsSection>Ungrouped colonists</TG.UngroupedColonistsSection>
+	<TG.UngroupedSlavesSection>Ungrouped slaves</TG.UngroupedSlavesSection>
 	
 	<TG.AnyPawnOfGroup>Any pawn of {0}</TG.AnyPawnOfGroup>
 </LanguageData>
