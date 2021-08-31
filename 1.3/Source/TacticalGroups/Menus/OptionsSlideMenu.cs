@@ -1,11 +1,6 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using Verse.AI;
 using Verse.Sound;
 
 namespace TacticalGroups
@@ -13,7 +8,7 @@ namespace TacticalGroups
     public class OptionsSlideMenu : TieredFloatMenu
     {
         protected override Vector2 InitialPositionShift => new Vector2(-304f, 165f);
-        protected override Vector2 InitialFloatOptionPositionShift => new Vector2(this.backgroundTexture.width / 10, 25f);
+        protected override Vector2 InitialFloatOptionPositionShift => new Vector2(backgroundTexture.width / 10, 25f);
         public OptionsSlideMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
                 : base(parentWindow, colonistGroup, originRect, backgroundTexture)
         {
@@ -23,12 +18,12 @@ namespace TacticalGroups
         public override void DoWindowContents(Rect rect)
         {
             base.DoWindowContents(rect);
-            var colonyHideButtonRect = new Rect(rect.x + 13, rect.y + 13, Textures.ColonyHideButton.width, Textures.ColonyHideButton.height);
-            if (this.colonistGroup.isColonyGroup || this.colonistGroup.isTaskForce)
+            Rect colonyHideButtonRect = new Rect(rect.x + 13, rect.y + 13, Textures.ColonyHideButton.width, Textures.ColonyHideButton.height);
+            if (colonistGroup.isColonyGroup || colonistGroup.isTaskForce)
             {
                 GUI.DrawTexture(colonyHideButtonRect, Textures.ColonyHideButton);
                 TooltipHandler.TipRegion(colonyHideButtonRect, Strings.GroupHideOptionsTooltip);
-                if (this.colonistGroup.hideGroupIcon)
+                if (colonistGroup.hideGroupIcon)
                 {
                     GUI.DrawTexture(colonyHideButtonRect, Textures.ManageOptionsX);
                 }
@@ -37,11 +32,11 @@ namespace TacticalGroups
                     GUI.DrawTexture(colonyHideButtonRect, Textures.RescueTendHover);
                     if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                     {
-                        var value = !this.colonistGroup.hideGroupIcon;
-                        this.colonistGroup.hideGroupIcon = value;
-                        if (this.colonistGroup is ColonyGroup colonyGroup)
+                        bool value = !colonistGroup.hideGroupIcon;
+                        colonistGroup.hideGroupIcon = value;
+                        if (colonistGroup is ColonyGroup colonyGroup)
                         {
-                            foreach (var subGroup in TacticUtils.GetAllSubGroupFor(colonyGroup))
+                            foreach (PawnGroup subGroup in TacticUtils.GetAllSubGroupFor(colonyGroup))
                             {
                                 subGroup.hideGroupIcon = value;
                             }
@@ -50,11 +45,11 @@ namespace TacticalGroups
                     }
                 }
             }
-            else if (this.colonistGroup.isPawnGroup && this.colonistGroup is PawnGroup pawnGroup)
+            else if (colonistGroup.isPawnGroup && colonistGroup is PawnGroup pawnGroup)
             {
-                var subgroupButton = new Rect(colonyHideButtonRect);
+                Rect subgroupButton = new Rect(colonyHideButtonRect);
                 GUI.DrawTexture(subgroupButton, Textures.SubGroupButton);
-                if (this.colonistGroup.isSubGroup)
+                if (colonistGroup.isSubGroup)
                 {
                     GUI.DrawTexture(subgroupButton, Textures.ManageOptionsX);
                 }
@@ -73,17 +68,17 @@ namespace TacticalGroups
                             pawnGroup.ConvertToSubGroup();
                         }
                         pawnGroup.ResetDrawOptions();
-                        this.CloseAllWindows();
+                        CloseAllWindows();
                         TacticUtils.TacticalColonistBar.MarkColonistsDirty();
                         TacticDefOf.TG_SubGroupSFX.PlayOneShotOnCamera();
                     }
                 }
             }
 
-            var hidePawnDotsRect = new Rect(colonyHideButtonRect.xMax + 10, colonyHideButtonRect.y, Textures.PawnDotsButton.width, Textures.PawnDotsButton.height);
+            Rect hidePawnDotsRect = new Rect(colonyHideButtonRect.xMax + 10, colonyHideButtonRect.y, Textures.PawnDotsButton.width, Textures.PawnDotsButton.height);
             GUI.DrawTexture(hidePawnDotsRect, Textures.PawnDotsButton);
             TooltipHandler.TipRegion(hidePawnDotsRect, Strings.HideGroupPawnDotsOptionsTooltip);
-            if (this.colonistGroup.hidePawnDots)
+            if (colonistGroup.hidePawnDots)
             {
                 GUI.DrawTexture(hidePawnDotsRect, Textures.ManageOptionsX);
             }
@@ -93,13 +88,13 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    this.colonistGroup.hidePawnDots = !this.colonistGroup.hidePawnDots;
+                    colonistGroup.hidePawnDots = !colonistGroup.hidePawnDots;
                 }
             }
 
-            var hideLifeOverlayRect = new Rect(colonyHideButtonRect.x, colonyHideButtonRect.yMax + 14, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
+            Rect hideLifeOverlayRect = new Rect(colonyHideButtonRect.x, colonyHideButtonRect.yMax + 14, Textures.GroupOverlayButton.width, Textures.GroupOverlayButton.height);
             GUI.DrawTexture(hideLifeOverlayRect, Textures.GroupOverlayButton);
-            if (this.colonistGroup.hideLifeOverlay)
+            if (colonistGroup.hideLifeOverlay)
             {
                 GUI.DrawTexture(hideLifeOverlayRect, Textures.ManageOptionsX);
             }
@@ -110,13 +105,13 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    this.colonistGroup.hideLifeOverlay = !this.colonistGroup.hideLifeOverlay;
+                    colonistGroup.hideLifeOverlay = !colonistGroup.hideLifeOverlay;
                 }
             }
 
-            var hideWeaponOverlayRect = new Rect(colonyHideButtonRect.xMax + 10, hideLifeOverlayRect.y, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
+            Rect hideWeaponOverlayRect = new Rect(colonyHideButtonRect.xMax + 10, hideLifeOverlayRect.y, Textures.ShowWeaponButton.width, Textures.ShowWeaponButton.height);
             GUI.DrawTexture(hideWeaponOverlayRect, Textures.ShowWeaponButton);
-            if (this.colonistGroup.hideWeaponOverlay)
+            if (colonistGroup.hideWeaponOverlay)
             {
                 GUI.DrawTexture(hideWeaponOverlayRect, Textures.ManageOptionsX);
             }
@@ -127,11 +122,11 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    this.colonistGroup.hideWeaponOverlay = !this.colonistGroup.hideWeaponOverlay;
+                    colonistGroup.hideWeaponOverlay = !colonistGroup.hideWeaponOverlay;
                 }
             }
 
-            var presetButtonRect = new Rect(hideLifeOverlayRect.x + 5, hideLifeOverlayRect.yMax + 17, Textures.PresetButton.width, Textures.PresetButton.height);
+            Rect presetButtonRect = new Rect(hideLifeOverlayRect.x + 5, hideLifeOverlayRect.yMax + 17, Textures.PresetButton.width, Textures.PresetButton.height);
             GUI.DrawTexture(presetButtonRect, Textures.PresetButton);
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(presetButtonRect, Strings.PresetLabel);
@@ -144,11 +139,11 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    var presetMenu = this.childWindows?.FirstOrDefault(x => x is PresetMenu);
+                    TieredFloatMenu presetMenu = childWindows?.FirstOrDefault(x => x is PresetMenu);
                     if (presetMenu != null)
                     {
                         presetMenu.Close();
-                        this.childWindows.Remove(presetMenu);
+                        childWindows.Remove(presetMenu);
                     }
                     else
                     {

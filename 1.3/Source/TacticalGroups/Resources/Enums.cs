@@ -1,9 +1,3 @@
-using RimWorld;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Verse;
-
 namespace TacticalGroups
 {
     public enum CombatSearchMode
@@ -18,62 +12,62 @@ namespace TacticalGroups
     {
         None,
         Skills,
-		Name
+        Name
     }
 
-	public enum WorkTypeEnum
-	{
-		None,
-		RescueFallen,
-		TendWounded,
-		UnloadCaravan
-	}
-	public enum BreakType
-	{
-		None,
-		Socialize,
-		Entertainment,
-		ChowHall,
-		LightsOut,
-	}
-
-	public enum WorkState
+    public enum WorkTypeEnum
     {
-		Inactive,
-		Active,
-		ForcedLabor,
-		Temporary
+        None,
+        RescueFallen,
+        TendWounded,
+        UnloadCaravan
     }
-	public enum ColorBarMode
-	{
-		Default,
-		Extended
-	}
-
-	public enum WeaponShowMode
-	{
-		Drafted,
-		Always
-	}
-
-	public enum PawnState
+    public enum BreakType
     {
-		MentalState,
-		IsDownedOrIncapable,
-		IsBleeding,
-		Sick,
-		Inspired,
-		None
-	}
-	public enum BodyColor
-	{
-		All,
-		Torso,
-		Legs,
-		Hands,
-		Head,
-		Feet,
-		Hair
-	}
+        None,
+        Socialize,
+        Entertainment,
+        ChowHall,
+        LightsOut,
+    }
+
+    public enum WorkState
+    {
+        Inactive,
+        Active,
+        ForcedLabor,
+        Temporary
+    }
+    public enum ColorBarMode
+    {
+        Default,
+        Extended
+    }
+
+    public enum WeaponShowMode
+    {
+        Drafted,
+        Always
+    }
+
+    public enum PawnState
+    {
+        MentalState,
+        IsDownedOrIncapable,
+        IsBleeding,
+        Sick,
+        Inspired,
+        None
+    }
+    public enum BodyColor
+    {
+        All,
+        Torso,
+        Legs,
+        Hands,
+        Head,
+        Feet,
+        Hair
+    }
 }
 

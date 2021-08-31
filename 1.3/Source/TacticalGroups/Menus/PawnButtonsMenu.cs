@@ -1,28 +1,23 @@
-using RimWorld;
-using RimWorld.Planet;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using Verse.AI;
 using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class PawnButtonsMenu : TieredFloatMenu
-	{
-		protected override Vector2 InitialPositionShift => new Vector2(-(originRect.width - 2), -31);
-		public PawnButtonsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture) 
-			: base(parentWindow, colonistGroup, originRect, backgroundTexture)
-		{
+    public class PawnButtonsMenu : TieredFloatMenu
+    {
+        protected override Vector2 InitialPositionShift => new Vector2(-(originRect.width - 2), -31);
+        public PawnButtonsMenu(TieredFloatMenu parentWindow, ColonistGroup colonistGroup, Rect originRect, Texture2D backgroundTexture)
+            : base(parentWindow, colonistGroup, originRect, backgroundTexture)
+        {
 
-		}
+        }
 
-		public override void DoWindowContents(Rect rect)
-		{
-			base.DoWindowContents(rect);
-            var prisonerButtonRect = new Rect(rect.x, rect.yMax - Textures.PrisonerButton.height, Textures.PrisonerButton.width, Textures.PrisonerButton.height);
+        public override void DoWindowContents(Rect rect)
+        {
+            base.DoWindowContents(rect);
+            Rect prisonerButtonRect = new Rect(rect.x, rect.yMax - Textures.PrisonerButton.height, Textures.PrisonerButton.width, Textures.PrisonerButton.height);
             GUI.DrawTexture(prisonerButtonRect, Textures.PrisonerButton);
             TooltipHandler.TipRegion(prisonerButtonRect, Strings.PrisonerMenuTooltip);
             if (Mouse.IsOver(prisonerButtonRect))
@@ -31,31 +26,31 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    if (this.childWindows?.Any() ?? false)
+                    if (childWindows?.Any() ?? false)
                     {
-                        for (int num = this.childWindows.Count - 1; num >= 0; num--)
+                        for (int num = childWindows.Count - 1; num >= 0; num--)
                         {
-                            if (this.childWindows[num] is PrisonerMenu)
+                            if (childWindows[num] is PrisonerMenu)
                             {
-                                this.childWindows[num].Close();
+                                childWindows[num].Close();
                             }
                             else
                             {
-                                this.childWindows[num].Close();
-                                PrisonerMenu floatMenu = new PrisonerMenu(this, this.colonistGroup, windowRect, Textures.PrisonerMenu, Strings.Prisoners);
+                                childWindows[num].Close();
+                                PrisonerMenu floatMenu = new PrisonerMenu(this, colonistGroup, windowRect, Textures.PrisonerMenu, Strings.Prisoners);
                                 OpenNewMenu(floatMenu);
                             }
                         }
                     }
                     else
                     {
-                        PrisonerMenu floatMenu = new PrisonerMenu(this, this.colonistGroup, windowRect, Textures.PrisonerMenu, Strings.Prisoners);
+                        PrisonerMenu floatMenu = new PrisonerMenu(this, colonistGroup, windowRect, Textures.PrisonerMenu, Strings.Prisoners);
                         OpenNewMenu(floatMenu);
                     }
                 }
             }
 
-            var slaveButtonRect = new Rect(prisonerButtonRect.xMax + 5, rect.yMax - Textures.SlaveButton.height, Textures.SlaveButton.width, Textures.SlaveButton.height);
+            Rect slaveButtonRect = new Rect(prisonerButtonRect.xMax + 5, rect.yMax - Textures.SlaveButton.height, Textures.SlaveButton.width, Textures.SlaveButton.height);
             GUI.DrawTexture(slaveButtonRect, Textures.SlaveButton);
             TooltipHandler.TipRegion(slaveButtonRect, Strings.SlaveMenuTooltip);
             if (Mouse.IsOver(slaveButtonRect))
@@ -64,31 +59,31 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    if (this.childWindows?.Any() ?? false)
+                    if (childWindows?.Any() ?? false)
                     {
-                        for (int num = this.childWindows.Count - 1; num >= 0; num--)
+                        for (int num = childWindows.Count - 1; num >= 0; num--)
                         {
-                            if (this.childWindows[num] is SlaveMenu)
+                            if (childWindows[num] is SlaveMenu)
                             {
-                                this.childWindows[num].Close();
+                                childWindows[num].Close();
                             }
                             else
                             {
-                                this.childWindows[num].Close();
-                                SlaveMenu floatMenu = new SlaveMenu(this, this.colonistGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
+                                childWindows[num].Close();
+                                SlaveMenu floatMenu = new SlaveMenu(this, colonistGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
                                 OpenNewMenu(floatMenu);
                             }
                         }
                     }
                     else
                     {
-                        SlaveMenu floatMenu = new SlaveMenu(this, this.colonistGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
+                        SlaveMenu floatMenu = new SlaveMenu(this, colonistGroup, windowRect, Textures.SlaveMenu, Strings.Slaves);
                         OpenNewMenu(floatMenu);
                     }
                 }
             }
 
-            var animalButtonRect = new Rect(slaveButtonRect.xMax + 5, rect.yMax - Textures.AnimalButton.height, Textures.AnimalButton.width, Textures.AnimalButton.height);
+            Rect animalButtonRect = new Rect(slaveButtonRect.xMax + 5, rect.yMax - Textures.AnimalButton.height, Textures.AnimalButton.width, Textures.AnimalButton.height);
             GUI.DrawTexture(animalButtonRect, Textures.AnimalButton);
             TooltipHandler.TipRegion(animalButtonRect, Strings.AnimalMenuTooltip);
             if (Mouse.IsOver(animalButtonRect))
@@ -97,31 +92,31 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    if (this.childWindows?.Any() ?? false)
+                    if (childWindows?.Any() ?? false)
                     {
-                        for (int num = this.childWindows.Count - 1; num >= 0; num--)
+                        for (int num = childWindows.Count - 1; num >= 0; num--)
                         {
-                            if (this.childWindows[num] is AnimalMenu)
+                            if (childWindows[num] is AnimalMenu)
                             {
-                                this.childWindows[num].Close();
+                                childWindows[num].Close();
                             }
                             else
                             {
-                                this.childWindows[num].Close();
-                                AnimalMenu floatMenu = new AnimalMenu(this, this.colonistGroup, windowRect, Textures.AnimalMenu, Strings.Animals);
+                                childWindows[num].Close();
+                                AnimalMenu floatMenu = new AnimalMenu(this, colonistGroup, windowRect, Textures.AnimalMenu, Strings.Animals);
                                 OpenNewMenu(floatMenu);
                             }
                         }
                     }
                     else
                     {
-                        AnimalMenu floatMenu = new AnimalMenu(this, this.colonistGroup, windowRect, Textures.AnimalMenu, Strings.Animals);
+                        AnimalMenu floatMenu = new AnimalMenu(this, colonistGroup, windowRect, Textures.AnimalMenu, Strings.Animals);
                         OpenNewMenu(floatMenu);
                     }
                 }
             }
 
-            var guestsButtonRect = new Rect(animalButtonRect.xMax + 5, rect.yMax - Textures.GuestButton.height, Textures.GuestButton.width, Textures.GuestButton.height);
+            Rect guestsButtonRect = new Rect(animalButtonRect.xMax + 5, rect.yMax - Textures.GuestButton.height, Textures.GuestButton.width, Textures.GuestButton.height);
             GUI.DrawTexture(guestsButtonRect, Textures.GuestButton);
             TooltipHandler.TipRegion(guestsButtonRect, Strings.GuestMenuTooltip);
             if (Mouse.IsOver(guestsButtonRect))
@@ -130,29 +125,29 @@ namespace TacticalGroups
                 if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
                 {
                     TacticDefOf.TG_SlideMenuOptionSFX.PlayOneShotOnCamera();
-                    if (this.childWindows?.Any() ?? false)
+                    if (childWindows?.Any() ?? false)
                     {
-                        for (int num = this.childWindows.Count - 1; num >= 0; num--)
+                        for (int num = childWindows.Count - 1; num >= 0; num--)
                         {
-                            if (this.childWindows[num] is GuestMenu)
+                            if (childWindows[num] is GuestMenu)
                             {
-                                this.childWindows[num].Close();
+                                childWindows[num].Close();
                             }
                             else
                             {
-                                this.childWindows[num].Close();
-                                GuestMenu floatMenu = new GuestMenu(this, this.colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
+                                childWindows[num].Close();
+                                GuestMenu floatMenu = new GuestMenu(this, colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
                                 OpenNewMenu(floatMenu);
                             }
                         }
                     }
                     else
                     {
-                        GuestMenu floatMenu = new GuestMenu(this, this.colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
+                        GuestMenu floatMenu = new GuestMenu(this, colonistGroup, windowRect, Textures.GuestMenu, Strings.Guests);
                         OpenNewMenu(floatMenu);
                     }
                 }
             }
         }
-	}
+    }
 }

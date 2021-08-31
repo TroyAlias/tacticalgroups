@@ -1,4 +1,3 @@
-using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -89,7 +88,7 @@ namespace TacticalGroups
                     allGroupPresets = new List<GroupPreset>();
                     if (AllGroupPresetsSaveable != null)
                     {
-                        foreach (var group in AllGroupPresetsSaveable)
+                        foreach (GroupPresetSaveable group in AllGroupPresetsSaveable)
                         {
                             allGroupPresets.Add(group.LoadFromSaveable());
                         }
@@ -101,17 +100,21 @@ namespace TacticalGroups
 
         public static void AddGroupPreset(GroupPreset groupPreset)
         {
-            var allGroupPresets = AllGroupPresets;
-            if (AllGroupPresetsSaveable is null) AllGroupPresetsSaveable = new List<GroupPresetSaveable>();
+            List<GroupPreset> allGroupPresets = AllGroupPresets;
+            if (AllGroupPresetsSaveable is null)
+            {
+                AllGroupPresetsSaveable = new List<GroupPresetSaveable>();
+            }
+
             AllGroupPresetsSaveable.Add(groupPreset.SaveToSaveable());
             allGroupPresets.Add(groupPreset);
         }
 
         public static void RemoveGroupPreset(GroupPreset groupPreset)
         {
-            var allGroupPresets = AllGroupPresets;
+            List<GroupPreset> allGroupPresets = AllGroupPresets;
             allGroupPresets.Remove(groupPreset);
-            var groupSaveable = AllGroupPresetsSaveable.FirstOrDefault(x => x.GetUniqueLoadID() == groupPreset.GetUniqueLoadID());
+            GroupPresetSaveable groupSaveable = AllGroupPresetsSaveable.FirstOrDefault(x => x.GetUniqueLoadID() == groupPreset.GetUniqueLoadID());
             if (groupSaveable != null)
             {
                 AllGroupPresetsSaveable.Remove(groupSaveable);
@@ -230,7 +233,7 @@ namespace TacticalGroups
             NeedRestBarColor = new ColorInt(58, 96, 152, 255).ToColor;
             NeedHealthBarColor = new ColorInt(154, 55, 55, 255).ToColor;
         }
-    public static void InitColorBars()
+        public static void InitColorBars()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
             {
@@ -277,7 +280,7 @@ namespace TacticalGroups
                 DoPawnViewReset();
             }
 
-            var optionsText = new Rect(rect.x, 80, inRect.width, 24f);
+            Rect optionsText = new Rect(rect.x, 80, inRect.width, 24f);
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(optionsText, Strings.ModSettingsText);
             Text.Anchor = TextAnchor.UpperLeft;
