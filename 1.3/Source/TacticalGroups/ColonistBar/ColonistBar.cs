@@ -163,7 +163,7 @@ namespace TacticalGroups
                 GUI.color = Color.white;
                 Text.Font = GameFont.Tiny;
 
-                Rect createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
+                var createGroupRect = ColonistBarDrawLocsFinder.createGroupRect;
                 if (Mouse.IsOver(createGroupRect))
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
@@ -173,7 +173,7 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIcon);
                 }
-
+                
                 HandleGroupingClicks(createGroupRect);
                 Rect optionsGearRect = new Rect(createGroupRect.x + (createGroupRect.width / 3f), createGroupRect.y + createGroupRect.height + 5, Textures.OptionsGear.width, Textures.OptionsGear.height);
                 if (Mouse.IsOver(optionsGearRect))
@@ -190,30 +190,30 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
                 }
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
                 }
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
                 }
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.colonyGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.colonyGroupDrawLoc[i].rect);
                 }
 
-                for (int i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
+                for (var i = 0; i < ColonistBarDrawLocsFinder.caravanGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].colonistGroup.DrawOverlays(ColonistBarDrawLocsFinder.caravanGroupDrawLoc[i].rect);
                 }
@@ -275,7 +275,7 @@ namespace TacticalGroups
 
             if (Find.TickManager.TicksGame % 1000 == 0)
             {
-                foreach (ColonistGroup group in TacticUtils.AllGroups)
+                foreach (var group in TacticUtils.AllGroups)
                 {
                     group.Sort();
                 }
@@ -286,7 +286,7 @@ namespace TacticalGroups
         {
             if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Mouse.IsOver(rect))
             {
-                List<Pawn> selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
+                var selectedPawns = Find.Selector.SelectedPawns.Where(x => x.Faction == Faction.OfPlayer).ToList();
                 if (selectedPawns.Any())
                 {
                     TacticDefOf.TG_CreateGroupSFX.PlayOneShotOnCamera();
@@ -301,7 +301,7 @@ namespace TacticalGroups
         {
             if (!TacticalGroupsSettings.HideGroups)
             {
-                foreach (PawnGroup pawnGroup in TacticUtils.AllPawnGroups)
+                foreach (var pawnGroup in TacticUtils.AllPawnGroups)
                 {
                     for (int i = pawns.Count - 1; i >= 0; i--)
                     {
@@ -319,8 +319,8 @@ namespace TacticalGroups
                         }
                     }
                 }
-
-                foreach (ColonyGroup colonyGroup in TacticUtils.AllColonyGroups)
+            
+                foreach (var colonyGroup in TacticUtils.AllColonyGroups)
                 {
                     for (int i = pawns.Count - 1; i >= 0; i--)
                     {
@@ -338,8 +338,8 @@ namespace TacticalGroups
                         }
                     }
                 }
-
-                foreach (CaravanGroup caravanGroup in TacticUtils.AllCaravanGroups)
+            
+                foreach (var caravanGroup in TacticUtils.AllCaravanGroups)
                 {
                     for (int i = pawns.Count - 1; i >= 0; i--)
                     {
@@ -412,7 +412,7 @@ namespace TacticalGroups
                     {
                         try
                         {
-                            ColonyGroup colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
+                            var colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
                             cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
                         }
                         catch { };
@@ -443,7 +443,7 @@ namespace TacticalGroups
                             }
                             else
                             {
-                                CaravanGroup caravanGroup = TacticUtils.TacticalGroups.AddCaravanGroup(tmpCaravans[m]);
+                                var caravanGroup = TacticUtils.TacticalGroups.AddCaravanGroup(tmpCaravans[m]);
                                 cachedEntries.Add(new Entry(tmpPawns[n], null, num, caravanGroup, null));
                             }
                         }
@@ -451,9 +451,9 @@ namespace TacticalGroups
 
                     if (!tmpPawns.Any())
                     {
-                        KeyValuePair<Caravan, CaravanGroup> caravanGroup = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Key == tmpCaravans[m]).FirstOrDefault();
-                        if (caravanGroup.Value != null)
-                        {
+                        var caravanGroup = TacticUtils.TacticalGroups.caravanGroups.Where(x => x.Key == tmpCaravans[m]).FirstOrDefault();
+                        if (caravanGroup.Value != null) 
+                        { 
                             cachedEntries.Add(new Entry(null, null, num, caravanGroup.Value, null));
                         }
                     }
@@ -488,7 +488,7 @@ namespace TacticalGroups
 
         public void TryDropColonist(Pawn pawn)
         {
-            ColonistGroup colonistGroup = TacticUtils.AllGroups.Where(x => x.curRect.Contains(Event.current.mousePosition)).FirstOrDefault();
+            var colonistGroup = TacticUtils.AllGroups.Where(x => x.curRect.Contains(Event.current.mousePosition)).FirstOrDefault();
             if (colonistGroup != null)
             {
                 colonistGroup.Add(pawn);
@@ -613,11 +613,11 @@ namespace TacticalGroups
 
         public bool TryGetGroupPawnAt(Vector2 pos, out Pawn pawn)
         {
-            foreach (ColonistGroup group in TacticUtils.AllGroups)
+            foreach (var group in TacticUtils.AllGroups)
             {
                 if (group.pawnWindowIsActive || group.showPawnIconsRightClickMenu)
                 {
-                    foreach (KeyValuePair<Pawn, Rect> pawnRect in group.pawnRects)
+                    foreach (var pawnRect in group.pawnRects)
                     {
                         if (pawnRect.Value.Contains(pos))
                         {
@@ -657,7 +657,7 @@ namespace TacticalGroups
                     Pawn pawn = entries[i].pawn;
                     if (pawn != null)
                     {
-                        Thing first = (Thing)((!pawn.Dead || pawn.Corpse == null || !pawn.Corpse.SpawnedOrAnyParentSpawned) ? pawn : ((object)pawn.Corpse));
+                        Thing first = (Thing)((!pawn.Dead || pawn.Corpse == null || !pawn.Corpse.SpawnedOrAnyParentSpawned) ? ((object)pawn) : ((object)pawn.Corpse));
                         tmpColonistsWithMap.Add(new Pair<Thing, Map>(first, entries[i].map));
                     }
                 }
@@ -677,11 +677,11 @@ namespace TacticalGroups
             }
             tmpColonistsWithMap.Clear();
 
-            foreach (ColonistGroup group in TacticUtils.AllGroups)
+            foreach (var group in TacticUtils.AllGroups)
             {
                 if (group.pawnWindowIsActive || group.showPawnIconsRightClickMenu)
                 {
-                    foreach (KeyValuePair<Pawn, Rect> pawnRect in group.pawnRects)
+                    foreach (var pawnRect in group.pawnRects)
                     {
                         if (rect.Overlaps(pawnRect.Value))
                         {

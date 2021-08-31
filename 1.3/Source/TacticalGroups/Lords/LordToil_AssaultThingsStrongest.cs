@@ -1,30 +1,35 @@
+using RimWorld;
+using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.AI.Group;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
-    public class LordToil_AssaultThingsStrongest : LordToil
-    {
-        private List<Thing> things;
+	public class LordToil_AssaultThingsStrongest : LordToil
+	{
+		private List<Thing> things;
 
-        public const int UpdateIntervalTicks = 300;
+		public const int UpdateIntervalTicks = 300;
 
-        public override bool ForceHighStoryDanger => true;
+		public override bool ForceHighStoryDanger => true;
 
-        public override bool AllowSatisfyLongNeeds => false;
+		public override bool AllowSatisfyLongNeeds => false;
 
-        public LordToil_AssaultThingsStrongest(IEnumerable<Thing> things)
-        {
-            this.things = new List<Thing>(things);
-        }
+		public LordToil_AssaultThingsStrongest(IEnumerable<Thing> things)
+		{
+			this.things = new List<Thing>(things);
+		}
 
-        public override void Notify_ReachedDutyLocation(Pawn pawn)
-        {
-            UpdateAllDuties();
-        }
+		public override void Notify_ReachedDutyLocation(Pawn pawn)
+		{
+			UpdateAllDuties();
+		}
 
         public override void UpdateAllDuties()
         {
@@ -45,12 +50,12 @@ namespace TacticalGroups
             }
         }
 
-        public override void LordToilTick()
-        {
-            if (lord.ticksInToil % 300 == 0)
-            {
-                UpdateAllDuties();
-            }
-        }
-    }
+		public override void LordToilTick()
+		{
+			if (lord.ticksInToil % 300 == 0)
+			{
+				UpdateAllDuties();
+			}
+		}
+	}
 }

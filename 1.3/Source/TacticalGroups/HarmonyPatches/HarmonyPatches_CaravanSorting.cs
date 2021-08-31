@@ -67,8 +67,8 @@ namespace TacticalGroups
                     if (ModsConfig.IdeologyActive && sectionPawns.Any(pawn => pawn.IsSlave))
                     {
                         widget.AddSection("TG.GroupSlavesSection".Translate(pawnGroup.curGroupName), from pawn in sectionPawns
-                                                                                                     where pawn.IsSlave
-                                                                                                     select pawnTransferable[pawn]);
+                                                                                                where pawn.IsSlave
+                                                                                                select pawnTransferable[pawn]);
                     }
                 }
             }

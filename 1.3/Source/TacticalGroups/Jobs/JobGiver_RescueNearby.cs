@@ -1,21 +1,26 @@
 using RimWorld;
+using RimWorld.Planet;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Verse;
 using Verse.AI;
+using Verse.Sound;
 
 namespace TacticalGroups
 {
-    public class JobGiver_RescueNearby : ThinkNode_JobGiver
-    {
-        private float radius = 30f;
+	public class JobGiver_RescueNearby : ThinkNode_JobGiver
+	{
+		private float radius = 30f;
 
-        private const float MinDistFromEnemy = 25f;
-        public override ThinkNode DeepCopy(bool resolve = true)
-        {
-            JobGiver_RescueNearby obj = (JobGiver_RescueNearby)base.DeepCopy(resolve);
-            obj.radius = radius;
-            return obj;
-        }
+		private const float MinDistFromEnemy = 25f;
+		public override ThinkNode DeepCopy(bool resolve = true)
+		{
+			JobGiver_RescueNearby obj = (JobGiver_RescueNearby)base.DeepCopy(resolve);
+			obj.radius = radius;
+			return obj;
+		}
 
         protected override Job TryGiveJob(Pawn pawn)
         {
@@ -42,5 +47,5 @@ namespace TacticalGroups
             return job;
         }
 
-    }
+	}
 }

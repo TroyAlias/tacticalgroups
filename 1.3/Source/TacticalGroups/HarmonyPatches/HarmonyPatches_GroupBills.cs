@@ -56,10 +56,10 @@ namespace TacticalGroups
 
         public static IEnumerable<CodeInstruction> DoWindowContents_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            System.Reflection.MethodInfo methodToCall = AccessTools.Method(typeof(HarmonyPatches_GroupBills), nameof(DoWindowContents_GetBillSelectedGroup));
-            System.Reflection.FieldInfo billField = AccessTools.Field(typeof(Dialog_BillConfig), "bill");
+            var methodToCall = AccessTools.Method(typeof(HarmonyPatches_GroupBills), nameof(DoWindowContents_GetBillSelectedGroup));
+            var billField = AccessTools.Field(typeof(Dialog_BillConfig), "bill");
             bool found = false;
-            List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+            var codes = new List<CodeInstruction>(instructions);
             for (int i = 0; i < codes.Count; i++)
             {
                 CodeInstruction instruction = codes[i];
@@ -96,21 +96,16 @@ namespace TacticalGroups
                         }
                         if (allowed)
                         {
-                            Widgets.DropdownMenuElement<Pawn> dropdownMenuElement = new Widgets.DropdownMenuElement<Pawn>
+                            Widgets.DropdownMenuElement<Pawn> dropdownMenuElement = new Widgets.DropdownMenuElement<Pawn>();
+                            dropdownMenuElement.option = new FloatMenuOption("TG.AnyPawnOfGroup".Translate(pawnGroup.curGroupName), delegate ()
                             {
-                                option = new FloatMenuOption("TG.AnyPawnOfGroup".Translate(pawnGroup.curGroupName), delegate ()
-                                {
-                                    ___bill.SetAnyPawnRestriction();
-                                    BillsSelectedGroup.SetOrAdd(___bill, pawnGroup);
-                                }),
-                                payload = null
-                            };
+                                ___bill.SetAnyPawnRestriction();
+                                BillsSelectedGroup.SetOrAdd(___bill, pawnGroup);
+                            });
+                            dropdownMenuElement.payload = null;
                             int atIndex = 1;
                             if (ModsConfig.IdeologyActive)
-                            {
                                 atIndex++;
-                            }
-
                             dropdownMenuElements.Insert(atIndex, dropdownMenuElement);
                             break;
                         }
