@@ -80,24 +80,28 @@ namespace TacticalGroups
 		private float FindBestScale(out bool onlyOneRow, out int maxPerGlobalRow)
 		{
 			float num = 1f;
-			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-			var colonistCount = entries.Where(x => x.pawn != null).Count();
+			List <TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
+			var colonistCount = entries.Count(x => x.pawn != null);
 			int num2 = CalculateGroupsCount();
 			float scaleMultiplier = 1f;
+			var groupCount = 0;
+			var majorGroupsCount = 0;
 			if (!TacticalGroupsSettings.HideGroups)
 			{
-				var count = TacticUtils.AllColonyGroups.Count;
-				count += TacticUtils.AllCaravanGroups.Count;
-				if (!WorldRendererUtility.WorldRenderedNow && count > 0)
+				groupCount = TacticUtils.AllColonyGroups.Count;
+				groupCount += TacticUtils.AllCaravanGroups.Count;
+				majorGroupsCount = groupCount;
+				if (!WorldRendererUtility.WorldRenderedNow && groupCount > 0)
 				{
-					var activeColony = TacticUtils.AllColonyGroups.Where(x => x.Map == Find.CurrentMap).FirstOrDefault();
+					var activeColony = TacticUtils.AllColonyGroups.FirstOrDefault(x => x.Map == Find.CurrentMap);
 					if (activeColony != null)
 					{
-						count += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Count();
-						count += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Count();
+
+						groupCount += TacticUtils.GetAllPawnGroupFor(activeColony).Take(TacticalGroupsSettings.GroupRowCount).Count();
+						groupCount += TacticUtils.GetAllSubGroupFor(activeColony).Take(TacticalGroupsSettings.SubGroupRowCount).Count();
 					}
 				}
-				scaleMultiplier += (float)count / 10f;
+				scaleMultiplier += (float)groupCount / 10f;
 			}
 			float num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * num);
 			float num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
@@ -107,7 +111,7 @@ namespace TacticalGroups
 				num3 = ((TacticalColonistBar.BaseSize.x + TacticalGroupsSettings.ColonistBarSpacingX) * num);
 				num4 = (MaxColonistBarWidth - (float)(num2 - 1) * 25f * num) / scaleMultiplier;
 				var pawnRowCount = GetPawnRowCount(colonistCount);
-				maxPerGlobalRow = Mathf.Max(1, TacticalGroupsSettings.OverridePawnRowCount ? colonistCount / pawnRowCount : Mathf.FloorToInt(num4 / num3)); 
+				maxPerGlobalRow = Mathf.Max(1, TacticalGroupsSettings.OverridePawnRowCount ? colonistCount / pawnRowCount : Mathf.FloorToInt(num4 / num3));
 				onlyOneRow = true;
 				if (TryDistributeHorizontalSlotsBetweenGroups(maxPerGlobalRow))
 				{
@@ -124,7 +128,8 @@ namespace TacticalGroups
 							{
 								onlyOneRow = false;
 							}
-							if (TacticalGroupsSettings.OverridePawnRowCount && ((float)GetHorizontalSlotsPerGroup(entries[i].group) * num) >= initialValue)
+
+							if (TacticalGroupsSettings.OverridePawnRowCount && (float)(GetHorizontalSlotsPerGroup(entries[i].group) + (majorGroupsCount - 1) * 6) * num > initialValue)
 							{
 								flag = false;
 								break;
@@ -160,7 +165,7 @@ namespace TacticalGroups
 				if (horizontalSlotsPerGroup[k] == 0)
 				{
 					int num2 = horizontalSlotsPerGroup.Max();
-					if (num2 <= 1)
+					if (TacticalGroupsSettings.OverridePawnRowCount && num2 > maxPerGlobalRow || !TacticalGroupsSettings.OverridePawnRowCount && num2 <= 1)
 					{
 						return false;
 					}
@@ -190,7 +195,7 @@ namespace TacticalGroups
 			if (TacticalGroupsSettings.OverridePawnRowCount)
 			{
 				List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
-				var pawnCount = entries.Where(x => x.group == group && x.pawn != null).Count();
+				var pawnCount = entries.Count(x => x.group == group && x.pawn != null);
 				if ((float)pawnCount / (float)((horizontalSlotsPerGroup[group])) > GetPawnRowCount(pawnCount))
 				{
 					return horizontalSlotsPerGroup[group] + 1;
