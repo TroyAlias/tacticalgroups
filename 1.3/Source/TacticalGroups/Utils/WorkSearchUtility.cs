@@ -155,7 +155,7 @@ namespace TacticalGroups
 					Job job2 = workGiver.NonScanJob(pawn);
 					if (job2 != null)
 					{
-						GiveJob(pawn, job2, null);
+						GiveJob(pawn, job2, workGiver);
 						return;
 					}
 					scanner = (workGiver as WorkGiver_Scanner);
@@ -277,10 +277,10 @@ namespace TacticalGroups
 				num = workGiver.def.priorityInType;
 			}
 		}
-		public static void GiveJob(Pawn pawn, Job job, WorkGiver_Scanner localScanner)
+		public static void GiveJob(Pawn pawn, Job job, WorkGiver giver)
 		{
-			job.workGiverDef = localScanner?.def;
-			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, localScanner, pawn.Position);
+			job.workGiverDef = giver.def;
+			pawn.jobs.TryTakeOrderedJobPrioritizedWork(job, giver, pawn.Position);
 		}
 
 		private static bool PawnCanUseWorkGiver(Pawn pawn, WorkGiver giver)
