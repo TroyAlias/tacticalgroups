@@ -26,6 +26,14 @@ namespace TacticalGroups
 				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.activeSortBy = SortBy.None;
 			};
+			noneOption.extraPartOnGUI = delegate (Rect rect)
+			{
+				if (this.colonistGroup.activeSortBy == SortBy.None)
+				{
+					Widgets.DrawBox(rect);
+				}
+				return false;
+			};
 			noneOption.bottomIndent = Textures.MenuButton.height + 4;
 			options.Add(noneOption);
 
@@ -35,6 +43,14 @@ namespace TacticalGroups
 				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.activeSortBy = SortBy.Name;
 				this.colonistGroup.InitSort(this.colonistGroup.activeSortBy);
+			};
+			nameOption.extraPartOnGUI = delegate (Rect rect)
+			{
+				if (this.colonistGroup.activeSortBy == SortBy.Name)
+				{
+					Widgets.DrawBox(rect);
+				}
+				return false;
 			};
 			nameOption.bottomIndent = Textures.MenuButton.height + 4;
 			options.Add(nameOption);
@@ -58,6 +74,14 @@ namespace TacticalGroups
 				TacticDefOf.TG_SortOptionsSFX.PlayOneShotOnCamera();
 				this.colonistGroup.skillDefSort = skillDef;
 				this.colonistGroup.InitSort(SortBy.Skills);
+			};
+			option.extraPartOnGUI = delegate (Rect rect)
+			{
+				if (this.colonistGroup.skillDefSort == option.skillDef)
+                {
+					Widgets.DrawBox(rect);
+                }
+				return false;
 			};
 			option.bottomIndent = Textures.MenuButton.height + 4;
 			options.Add(option);

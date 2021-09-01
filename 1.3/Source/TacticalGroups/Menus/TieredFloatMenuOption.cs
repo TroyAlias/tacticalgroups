@@ -300,7 +300,7 @@ namespace TacticalGroups
 			GUI.color = color;
 			if (extraPartOnGUI != null)
 			{
-				bool num2 = extraPartOnGUI(rect5);
+				bool num2 = extraPartOnGUI(rect);
 				GUI.color = color;
 				if (num2)
 				{

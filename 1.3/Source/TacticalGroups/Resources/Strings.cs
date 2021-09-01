@@ -249,5 +249,7 @@ namespace TacticalGroups
 		public static readonly string ModSettingsText = "TG.ModSettingsText".Translate();
 		public static readonly string PawnRowCount = "TG.PawnRowCount".Translate();
 
+		public static readonly string DisbandSelectedPawns = "TG.DisbandSelectedPawns".Translate();
+
 	}
 }

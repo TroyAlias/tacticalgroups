@@ -299,5 +299,8 @@ namespace TacticalGroups
 		public static readonly Texture2D PawnFavoriteIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/PawnFavoriteIcon");
 		public static readonly Texture2D GreenSelectionBox = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/GreenSelectionBox");
 		public static readonly Texture2D DyeMenu = ContentFinder<Texture2D>.Get("UI/ColonistBar/Manage/DyeMenu");
+
+		public static readonly Texture2D DisbandPawnIcon = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DisbandPawnIcon");
+		public static readonly Texture2D DisbandPawnIconHover = ContentFinder<Texture2D>.Get("UI/ColonistBar/RightClickGroupIcons/DisbandPawnIconHover");
 	}
 }

@@ -180,10 +180,37 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOn);
 				}
 			}
-
 			TooltipHandler.TipRegion(iconRect, Strings.ShowHideTooltip);
 
-			var addPawnRect = new Rect(rect.x + (rect.width - Textures.AddPawnIcon.width) - 7f, rect.y + (rect.height - Textures.AddPawnIcon.height) - 7f, Textures.AddPawnIcon.width, Textures.AddPawnIcon.height);
+			var disbandPawnRect = new Rect(rect.x + (rect.width - Textures.AddPawnIcon.width) - 40f, rect.y + (rect.height - Textures.AddPawnIcon.height) - 7f, Textures.DisbandPawnIcon.width, Textures.DisbandPawnIcon.height);
+			if (!this.colonistGroup.isColonyGroup)
+			{
+				TooltipHandler.TipRegion(disbandPawnRect, Strings.DisbandSelectedPawns);
+				if (Mouse.IsOver(disbandPawnRect))
+				{
+					GUI.DrawTexture(disbandPawnRect, Textures.DisbandPawnIconHover);
+					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
+					{
+						TacticDefOf.TG_ClickSFX.PlayOneShotOnCamera();
+						var pawns = Find.Selector.SelectedPawns;
+						foreach (var pawn in pawns)
+						{
+							if (this.colonistGroup.pawns.Contains(pawn))
+							{
+								this.colonistGroup.Disband(pawn);
+							}
+						}
+						TacticUtils.TacticalColonistBar.MarkColonistsDirty();
+						Event.current.Use();
+					}
+				}
+				else
+				{
+					GUI.DrawTexture(disbandPawnRect, Textures.DisbandPawnIcon);
+				}
+			}
+
+			var addPawnRect = new Rect(disbandPawnRect.xMax + 15, disbandPawnRect.y, Textures.AddPawnIcon.width, Textures.AddPawnIcon.height);
 			if (Mouse.IsOver(addPawnRect))
 			{
 				GUI.DrawTexture(addPawnRect, Textures.AddPawnIconHover);
