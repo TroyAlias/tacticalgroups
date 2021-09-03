@@ -278,14 +278,14 @@ namespace TacticalGroups
 			Rect labelRect = GetLabelRect(rect);
 			MouseoverSounds.DoRegion(labelRect);
 			Text.Anchor = TextAnchor.MiddleLeft;
-			Widgets.Label(labelRect, workType.labelShort);
+			Widgets.Label(labelRect, workType.labelShort.CapitalizeFirst());
 			GUI.color = Color.white;
 			Text.Anchor = TextAnchor.UpperLeft;
 		}
 
 		private Rect GetLabelRect(Rect headerRect)
 		{
-			Rect result = new Rect(headerRect.x + 33f, headerRect.y + 3, 80, 25);
+			Rect result = new Rect(headerRect.x + 35f, headerRect.y + 3, 80, 25);
 			return result;
 		}
 
