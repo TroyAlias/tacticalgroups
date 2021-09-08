@@ -408,7 +408,6 @@ namespace TacticalGroups
             pawnsLastTick[___pawn] = Find.TickManager.TicksGame;
             if (___pawn.RaceProps.Humanlike && ___pawn.Faction == Faction.OfPlayer && !___pawn.Drafted && ___pawn.GetLord() is null && ___pawn.mindState.duty is null)
             {
-                Log.Message(___pawn + " is working");
                 if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
                 {
                     foreach (var group in groups)
