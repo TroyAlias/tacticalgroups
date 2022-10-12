@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<KeyBindingCategoryDef>
+		<defName>TG_ColonyGroups</defName>
+		<label>Colony Groups</label>
+		<description>Keybinds for Colony Groups.</description>
+		<isGameUniversal>true</isGameUniversal>
+	</KeyBindingCategoryDef>
+
+	<KeyBindingDef>
+		<category>TG_ColonyGroups</category>
+		<defName>TG_SlaveMenu</defName>
+		<label>Slave menu</label>
+		<defaultKeyCodeA>LeftControl</defaultKeyCodeA>
+		<defaultKeyCodeB>S</defaultKeyCodeB>
+	</KeyBindingDef>
+
+
+</Defs>

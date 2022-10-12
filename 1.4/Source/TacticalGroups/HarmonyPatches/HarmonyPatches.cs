@@ -1,52 +1,53 @@
-﻿using System.Reflection;
+﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
-using HarmonyLib;
-using Verse;
-using UnityEngine;
-using System.Collections.Generic;
 using System;
-using Verse.AI;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
+using Verse;
+using Verse.AI;
 using Verse.AI.Group;
+using static Verse.CameraJumper;
 
-namespace TacticalGroups 
+namespace TacticalGroups
 {
     [StaticConstructorOnStartup]
     public static class HarmonyPatches
     {
         static HarmonyPatches()
         {
-            var harmony = new Harmony("Troy_Alias.TacticalGroups");
+            Harmony harmony = new Harmony("Troy_Alias.TacticalGroups");
 
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistBarOnGUI), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistBarOnGUI)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MarkColonistsDirty), null, null),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MarkColonistsDirty)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.GetColonistsInOrder), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.GetColonistsInOrder)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.MapColonistsOrCorpsesInScreenRect), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.MapColonistsOrCorpsesInScreenRect)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMembersCaravansInScreenRect), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMembersCaravansInScreenRect)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.ColonistOrCorpseAt), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ColonistOrCorpseAt)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.CaravanMemberCaravanAt), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanMemberCaravanAt)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ColonistBar), nameof(ColonistBar.Highlight), null, null),
                 prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Highlight)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(ReorderableWidget), nameof(ReorderableWidget.ReorderableWidgetOnGUI_AfterWindowStack), null, null),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ReorderableWidgetOnGUI_AfterWindowStack)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(CaravanExitMapUtility), nameof(CaravanExitMapUtility.ExitMapAndCreateCaravan), parameters: new Type[]
             {
                 typeof(IEnumerable<Pawn>),
@@ -56,7 +57,7 @@ namespace TacticalGroups
                 typeof(int),
                 typeof(bool)
             }), postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.ExitMapAndCreateCaravan)));
-            
+
             harmony.Patch(AccessTools.Method(typeof(CaravanEnterMapUtility), nameof(CaravanEnterMapUtility.Enter), parameters: new Type[]
             {
                 typeof(Caravan),
@@ -65,65 +66,64 @@ namespace TacticalGroups
                 typeof(CaravanDropInventoryMode),
                 typeof(bool)
             }), prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.CaravanEnter)));
-            
-            
+
+
             harmony.Patch(AccessTools.Method(typeof(SettleInExistingMapUtility), nameof(SettleInExistingMapUtility.Settle)),
                 postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.Settle)));
-            
-            harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnAdded", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Caravan), "Notify_PawnRemoved", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Caravan), "PostAdd", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Caravan), "PostRemove", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Game), "AddMap", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Pawn), "SetFaction", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "SetFaction_Postfix", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Window), "Notify_ResolutionChanged", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Game), "DeinitAndRemoveMap", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-            
-            harmony.Patch(AccessTools.Method(typeof(Pawn), "SpawnSetup", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Pawn), "Destroy", null, null), prefix: new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Destroy_Prefix", null), null, null);
-            
-            harmony.Patch(AccessTools.PropertySetter(typeof(Game), "CurrentMap"), null, postfix: new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null);
-            
-            harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), "Notify_Resurrected", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryJumpInternal", new Type[]
+
+            harmony.Patch(AccessTools.Method(typeof(Caravan), nameof(Caravan.Notify_PawnAdded), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Caravan), nameof(Caravan.Notify_PawnRemoved), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Caravan), nameof(Caravan.PostAdd), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Caravan), nameof(Caravan.PostRemove), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Game), nameof(Game.AddMap), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.SetFaction), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "SetFaction_Postfix", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Window), nameof(Window.Notify_ResolutionChanged), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Game), nameof(Game.DeinitAndRemoveMap), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
+
+            harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.SpawnSetup), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.Destroy), null, null), prefix: new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Destroy_Prefix", null), null, null);
+
+            harmony.Patch(AccessTools.PropertySetter(typeof(Game), nameof(Game.CurrentMap)), null, postfix: new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null);
+
+            harmony.Patch(AccessTools.Method(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.Notify_Resurrected), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(CameraJumper), nameof(CameraJumper.TryJumpInternal), new Type[]
             {
-                typeof(Thing)
-            }, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(WorldCameraDriver), "JumpTo", new Type[]
+                typeof(Thing), typeof(MovementMode)
+            }, null), null, new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.EntriesDirty), null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(WorldCameraDriver), nameof(WorldCameraDriver.JumpTo), new Type[]
             {
                 typeof(Vector3)
-            }, null), new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null, null);
-            
-            harmony.Patch(AccessTools.Method(typeof(MainTabsRoot), "ToggleTab", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(MainButtonWorker_ToggleWorld), "Activate", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(CameraJumper), "TryHideWorld", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
-            
-            harmony.Patch(AccessTools.Method(typeof(Pawn_JobTracker), "EndCurrentJob", null, null),
-                new HarmonyMethod(typeof(HarmonyPatches), "EndCurrentJobPrefix", null),
-                new HarmonyMethod(typeof(HarmonyPatches), "EndCurrentJobPostfix", null), null, null);
-            
-            harmony.Patch(AccessTools.Method(typeof(PawnTable), "PawnTableOnGUI", null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(WorldObject), "Destroy", null, null), new HarmonyMethod(typeof(HarmonyPatches), "Caravan_Destroy_Prefix", null), null, null, null);
-            
-            harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), "HandleLowPriorityShortcuts", null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
+            }, null), new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.EntriesDirty), null), null, null, null);
+
+            harmony.Patch(AccessTools.Method(typeof(MainTabsRoot), nameof(MainTabsRoot.ToggleTab), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(MainButtonWorker_ToggleWorld), nameof(MainButtonWorker_ToggleWorld.Activate), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(CameraJumper), nameof(CameraJumper.TryHideWorld), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
+
+            harmony.Patch(AccessTools.Method(typeof(Pawn_JobTracker), nameof(Pawn_JobTracker.EndCurrentJob), null, null),
+                new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.EndCurrentJobPrefix), null),
+                new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.EndCurrentJobPostfix), null), null, null);
+
+            harmony.Patch(AccessTools.Method(typeof(PawnTable), nameof(PawnTable.PawnTableOnGUI), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "PawnTableOnGUI", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(WorldObject), nameof(WorldObject.Destroy), null, null), new HarmonyMethod(typeof(HarmonyPatches), "Caravan_Destroy_Prefix", null), null, null, null);
+
+            harmony.Patch(AccessTools.Method(typeof(MainButtonsRoot), nameof(MainButtonsRoot.HandleLowPriorityShortcuts), null, null), null, null, new HarmonyMethod(typeof(HarmonyPatches), "HandleLowPriorityShortcuts_Transpiler"));
 
             if (ModsConfig.IdeologyActive)
             {
                 harmony.Patch(
-                    original: AccessTools.Method(typeof(JobGiver_OptimizeApparel), "TryCreateRecolorJob"),
-                    prefix: new HarmonyMethod(typeof(HarmonyPatches), "TryCreateRecolorJobPrefix"));
+                    original: AccessTools.Method(typeof(JobGiver_OptimizeApparel), nameof(JobGiver_OptimizeApparel.TryCreateRecolorJob)),
+                    prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.TryCreateRecolorJobPrefix)));
 
                 harmony.Patch(
-                    original: AccessTools.Method(typeof(JobGiver_DyeHair), "TryGiveJob"),
-                    prefix: new HarmonyMethod(typeof(HarmonyPatches), "JobGiver_DyeHair_TryGiveJobPrefix"));
+                    original: AccessTools.Method(typeof(JobGiver_DyeHair), nameof(JobGiver_DyeHair.TryGiveJob)),
+                    prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(HarmonyPatches.JobGiver_DyeHair_TryGiveJobPrefix)));
 
             }
 
             #region HarmonyPatches_CaravanSorting
             harmony.Patch(
-                original: AccessTools.Method(typeof(CaravanUIUtility), "AddPawnsSections"),
-                prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), "AddPawnsSections")
-            );
+                original: AccessTools.Method(typeof(CaravanUIUtility), nameof(CaravanUIUtility.AddPawnsSections)),
+                prefix: new HarmonyMethod(typeof(HarmonyPatches_CaravanSorting), nameof(HarmonyPatches_CaravanSorting.AddPawnsSectionsPrefix)));
 
             if (ModCompatibility.GiddyUpCaravanIsActive)
             {
@@ -177,7 +177,7 @@ namespace TacticalGroups
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             FieldInfo wantedModeInfo = AccessTools.Field(typeof(WorldRenderer), "wantedMode");
-            foreach (var ins in instructions)
+            foreach (CodeInstruction ins in instructions)
             {
                 if (ins.OperandIs(wantedModeInfo))
                 {
@@ -232,10 +232,10 @@ namespace TacticalGroups
             __result = TacticUtils.TacticalColonistBar.ColonistOrCorpseAt(pos);
             if (__result is null)
             {
-                var mainFloatMenu = Find.WindowStack.WindowOfType<MainFloatMenu>();
+                MainFloatMenu mainFloatMenu = Find.WindowStack.WindowOfType<MainFloatMenu>();
                 if (mainFloatMenu != null)
                 {
-                    var window = Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted);
+                    Window window = Find.WindowStack.GetWindowAt(UI.MousePositionOnUIInverted);
                     if (!(window is TieredFloatMenu))
                     {
                         mainFloatMenu.CloseAllWindows();
@@ -273,7 +273,7 @@ namespace TacticalGroups
                 }
                 else if (__instance.TryGetGroups(out HashSet<ColonistGroup> groups))
                 {
-                    var groupsList = groups.ToList();
+                    List<ColonistGroup> groupsList = groups.ToList();
                     for (int num = groupsList.Count - 1; num >= 0; num--)
                     {
                         if (groupsList[num].pawns.Contains(__instance))
@@ -347,15 +347,15 @@ namespace TacticalGroups
             {
                 for (int num = TacticUtils.TacticalGroups.pawnGroups.Count - 1; num >= 0; num--)
                 {
-                    var group = TacticUtils.TacticalGroups.pawnGroups[num];
+                    PawnGroup group = TacticUtils.TacticalGroups.pawnGroups[num];
                     group.Disband(__instance);
                 }
             }
 
             if (TacticUtils.TacticalGroups?.caravanGroups != null)
             {
-                var caravanKeysToRemove = new List<Caravan>();
-                foreach (var group in TacticUtils.TacticalGroups.caravanGroups)
+                List<Caravan> caravanKeysToRemove = new List<Caravan>();
+                foreach (KeyValuePair<Caravan, CaravanGroup> group in TacticUtils.TacticalGroups.caravanGroups)
                 {
                     group.Value.pawnIcons.Remove(__instance);
                     group.Value.pawns.Remove(__instance);
@@ -365,7 +365,7 @@ namespace TacticalGroups
                     }
                 }
 
-                foreach (var key in caravanKeysToRemove)
+                foreach (Caravan key in caravanKeysToRemove)
                 {
                     TacticUtils.TacticalGroups.caravanGroups.Remove(key);
                 }
@@ -373,8 +373,8 @@ namespace TacticalGroups
 
             if (TacticUtils.TacticalGroups?.colonyGroups != null)
             {
-                var colonyKeysToRemove = new List<Map>();
-                foreach (var group in TacticUtils.TacticalGroups.colonyGroups)
+                List<Map> colonyKeysToRemove = new List<Map>();
+                foreach (KeyValuePair<Map, ColonyGroup> group in TacticUtils.TacticalGroups.colonyGroups)
                 {
                     group.Value.pawnIcons.Remove(__instance);
                     group.Value.pawns.Remove(__instance);
@@ -384,7 +384,7 @@ namespace TacticalGroups
                     }
                 }
 
-                foreach (var key in colonyKeysToRemove)
+                foreach (Map key in colonyKeysToRemove)
                 {
                     TacticUtils.TacticalGroups.colonyGroups.Remove(key);
                 }
@@ -396,13 +396,13 @@ namespace TacticalGroups
             }
         }
 
-        private static Dictionary<Pawn, int> pawnsLastTick = new Dictionary<Pawn, int>();
+        private static readonly Dictionary<Pawn, int> pawnsLastTick = new Dictionary<Pawn, int>();
 
         private static bool ModIncompatibilityCheck(Pawn ___pawn, JobCondition condition)
         {
             if (ModCompatibility.SmarterDeconstructionIsActive && condition == JobCondition.InterruptForced)
             {
-                var curJobDef = ___pawn.CurJobDef;
+                JobDef curJobDef = ___pawn.CurJobDef;
                 if (curJobDef == JobDefOf.Deconstruct || curJobDef == JobDefOf.Mine)
                 {
                     return true;
@@ -413,7 +413,7 @@ namespace TacticalGroups
         private static void EndCurrentJobPrefix(Pawn_JobTracker __instance, Pawn ___pawn, JobCondition condition, ref bool startNewJob, out Dictionary<WorkType, WorkState> __state, bool canReturnToPool = true)
         {
             __state = new Dictionary<WorkType, WorkState>();
-            if (___pawn.jobs.jobQueue.Any() || pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame || ModIncompatibilityCheck(___pawn, condition))
+            if (___pawn.jobs.jobQueue.Any() || (pawnsLastTick.TryGetValue(___pawn, out int lastTick) && lastTick == Find.TickManager.TicksGame) || ModIncompatibilityCheck(___pawn, condition))
             {
                 return; // to prevent infinite recursion in some cases
             }
@@ -422,7 +422,7 @@ namespace TacticalGroups
             {
                 if (___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
                 {
-                    foreach (var group in groups)
+                    foreach (ColonistGroup group in groups)
                     {
                         if (group.temporaryWorkers.TryGetValue(___pawn, out WorkType workType))
                         {
@@ -436,9 +436,9 @@ namespace TacticalGroups
 
                         if (group.activeWorkTypes?.Count > 0)
                         {
-                            foreach (var data in group.activeWorkTypes.OrderByDescending(x => x.Value))
+                            foreach (KeyValuePair<WorkType, WorkState> data in group.activeWorkTypes.OrderByDescending(x => x.Value))
                             {
-                                if (data.Value != WorkState.Inactive || data.Value == WorkState.Active && CanWork(___pawn) && CanWorkActive(___pawn))
+                                if (data.Value != WorkState.Inactive || (data.Value == WorkState.Active && CanWork(___pawn) && CanWorkActive(___pawn)))
                                 {
                                     __state[data.Key] = data.Value;
                                 }
@@ -458,7 +458,7 @@ namespace TacticalGroups
         {
             if (__state?.Count > 0)
             {
-                foreach (var state in __state.InRandomOrder())
+                foreach (KeyValuePair<WorkType, WorkState> state in __state.InRandomOrder())
                 {
                     if (state.Value != WorkState.Inactive && CanWork(___pawn))
                     {
@@ -466,7 +466,7 @@ namespace TacticalGroups
                         {
                             continue;
                         }
-                        var curJob = ___pawn.CurJob;
+                        Job curJob = ___pawn.CurJob;
                         WorkSearchUtility.SearchForWork(state.Key, new List<Pawn> { ___pawn });
                         if (curJob != ___pawn.CurJob)
                         {
@@ -474,7 +474,7 @@ namespace TacticalGroups
                         }
                         else if (state.Value == WorkState.Temporary && ___pawn.TryGetGroups(out HashSet<ColonistGroup> groups))
                         {
-                            foreach (var group in groups)
+                            foreach (ColonistGroup group in groups)
                             {
                                 group.temporaryWorkers.Remove(___pawn);
                             }
@@ -486,45 +486,25 @@ namespace TacticalGroups
 
         private static bool CanWorkActive(Pawn pawn)
         {
-            if (pawn.needs.mood.CurLevel > pawn.mindState.mentalBreaker.BreakThresholdMinor)
-            {
-                return true;
-            }
-            return false;
+            return pawn.needs.mood.CurLevel > pawn.mindState.mentalBreaker.BreakThresholdMinor;
         }
         private static bool CanWork(Pawn pawn)
         {
-            if (pawn.needs.food?.CurLevel < 0.10f)
-            {
-                return false;
-            }
-            if (pawn.needs.rest?.CurLevel < 0.10f)
-            {
-                return false;
-            }
-            if (pawn.MentalState != null)
-            {
-                return false;
-            }
-            if (pawn.mindState.lastJobTag == JobTag.SatisfyingNeeds)
-            {
-                return false;
-            }
-            if (pawn.IsDownedOrIncapable() || pawn.IsSick() || pawn.IsBleeding())
-            {
-                return false;
-            }
-            return true;
+            return (pawn.needs.food?.CurLevel) >= 0.10f
+&& (pawn.needs.rest?.CurLevel) >= 0.10f
+&& pawn.MentalState == null
+&& pawn.mindState.lastJobTag != JobTag.SatisfyingNeeds
+&& !pawn.IsDownedOrIncapable() && !pawn.IsSick() && !pawn.IsBleeding();
         }
 
-        private static Dictionary<Apparel, CompColorable> cachedComps = new Dictionary<Apparel, CompColorable>();
+        private static readonly Dictionary<Apparel, CompColorable> cachedComps = new Dictionary<Apparel, CompColorable>();
         public static void TryCreateRecolorJobPrefix(Pawn pawn)
         {
             if (pawn.apparel?.WornApparel != null)
             {
                 foreach (Apparel apparel in pawn.apparel.WornApparel)
                 {
-                    if (!cachedComps.TryGetValue(apparel, out var comp))
+                    if (!cachedComps.TryGetValue(apparel, out CompColorable comp))
                     {
                         cachedComps[apparel] = apparel.TryGetComp<CompColorable>();
                     }
@@ -532,7 +512,7 @@ namespace TacticalGroups
                     {
                         if (!comp.DesiredColor.HasValue)
                         {
-                            var desiredColor = ColorUtils.GetDesiredColor(pawn, apparel);
+                            Color? desiredColor = ColorUtils.GetDesiredColor(pawn, apparel);
                             if (desiredColor.HasValue && comp.Color != desiredColor.Value)
                             {
                                 comp.DesiredColor = desiredColor;
@@ -549,7 +529,7 @@ namespace TacticalGroups
 
         public static void JobGiver_DyeHair_TryGiveJobPrefix(Pawn pawn)
         {
-            var desiredColor = ColorUtils.GetDesiredHairColor(pawn);
+            Color? desiredColor = ColorUtils.GetDesiredHairColor(pawn);
             if (desiredColor.HasValue)
             {
                 if (pawn.story.hairColor != desiredColor.Value)
@@ -572,7 +552,7 @@ namespace TacticalGroups
                 Rect outRect = new Rect((int)position.x, (int)position.y + (int)___cachedHeaderHeight, (int)___cachedSize.x, (int)___cachedSize.y - (int)___cachedHeaderHeight);
                 Rect viewRect = new Rect(0f, 0f, outRect.width - 16f, (int)___cachedHeightNoScrollbar - (int)___cachedHeaderHeight);
 
-                var createGroupRect = new Rect(viewRect.x + 10, (outRect.y - 50), Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
+                Rect createGroupRect = new Rect(viewRect.x + 10, outRect.y - 50, Textures.CreateGroupIcon.width, Textures.CreateGroupIcon.height);
                 if (Mouse.IsOver(createGroupRect))
                 {
                     GUI.DrawTexture(createGroupRect, Textures.CreateGroupIconHover);
