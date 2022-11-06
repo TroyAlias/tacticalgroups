@@ -136,6 +136,7 @@ namespace TacticalGroups
         {
             entriesDirty = true;
         }
+        private List<int> cachedReorderableGroups = new List<int>();
 
         public void ColonistBarOnGUI()
         {
@@ -212,15 +213,18 @@ namespace TacticalGroups
                     Entry entry = entries[i];
                     bool flag = num != entry.group;
                     num = entry.group;
-                    if (flag)
+                    if (Event.current.type == EventType.Repaint)
                     {
-                        reorderableGroup = ReorderableWidget.NewGroup(entry.reorderAction, ReorderableDirection.Horizontal,
-                            new Rect(0f, 0f, UI.screenWidth, UI.screenHeight), SpaceBetweenColonistsHorizontal, entry.extraDraggedItemOnGUI);
+                        if (flag)
+                        {
+                            reorderableGroup = ReorderableWidget.NewGroup(entry.reorderAction, ReorderableDirection.Horizontal, new Rect(0f, 0f, UI.screenWidth, UI.screenHeight), SpaceBetweenColonistsHorizontal, entry.extraDraggedItemOnGUI);
+                        }
+                        cachedReorderableGroups[i] = reorderableGroup;
                     }
                     bool reordering;
                     if (entry.pawn != null)
                     {
-                        drawer.HandleClicks(DrawLocs[i], entry.pawn, reorderableGroup, out reordering);
+                        drawer.HandleClicks(DrawLocs[i], entry.pawn, cachedReorderableGroups[i], out reordering);
                     }
                     else
                     {
@@ -450,6 +454,12 @@ namespace TacticalGroups
                 }
             }
 
+            cachedReorderableGroups.Clear();
+            foreach (Entry cachedEntry in cachedEntries)
+            {
+                _ = cachedEntry;
+                cachedReorderableGroups.Add(-1);
+            }
             drawer.Notify_RecachedEntries();
             tmpPawns.Clear();
             tmpMaps.Clear();
