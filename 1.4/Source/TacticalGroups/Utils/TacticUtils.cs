@@ -164,6 +164,10 @@ namespace TacticalGroups
 
 		public static bool IsDownedOrIncapable(this Pawn pawn)
 		{
+			if (LifeStageUtility.AlwaysDowned(pawn))
+			{
+				return false;
+			}
 			if (pawn.Downed)
 			{
 				return true;
