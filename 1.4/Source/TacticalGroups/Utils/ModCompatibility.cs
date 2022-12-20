@@ -6,6 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using Verse;
 using CompatUtils;
+using RimWorld;
 
 namespace TacticalGroups
 {
@@ -55,9 +56,11 @@ namespace TacticalGroups
 			alteredCarbonHandleClicks_PatchMethod = Compatibility.GetConsistentMethod("hlx.ultratechalteredcarbon", "AlteredCarbon.HandleClicks_Patch", "Prefix", new Type[] {
 				typeof(Rect), typeof(Pawn), typeof(int), typeof(bool)
 			}, logError: true);
-			alteredCarbonDrawColonist_PatchMethod = Compatibility.GetConsistentMethod("hlx.ultratechalteredcarbon", "AlteredCarbon.DrawColonist_Patch", "Prefix", new Type[] {
-				typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool), typeof(Dictionary<string, string>), typeof(Vector2), typeof(Texture2D), typeof(Vector2[])
-			}, logError: true);
+
+            alteredCarbonDrawColonist_PatchMethod = Compatibility.GetConsistentMethod("hlx.ultratechalteredcarbon", "AlteredCarbon.DrawColonist_Patch", "Prefix", new Type[] {
+                typeof(ColonistBarColonistDrawer), typeof(Rect), typeof(Pawn), typeof(Map), typeof(bool), typeof(bool),
+                typeof(Dictionary<string, string>), typeof(Vector2), typeof(Texture2D)
+            }, logError: true);
 
 			combatExtendedHasAmmo_Method = Compatibility.GetConsistentMethod("ceteam.combatextended", "CombatExtended.CE_Utility", "HasAmmo", new Type[] {
 				typeof(ThingWithComps)

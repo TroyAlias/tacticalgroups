@@ -164,8 +164,6 @@ namespace TacticalGroups
 		public TextAnchor textAnchor;
 		public float leftTextIndent;
 		public bool selectedActive;
-        private Texture2D icon;
-        private Texture2D selectedIcon;
 		protected float maxFloatMenuWidth;
 		protected string toolTip;
 		public TieredFloatMenuOption(string label, Action<TieredFloatMenu> action, Texture2D icon, Texture2D hoverIcon, Texture2D selectedIcon, TextAnchor textAnchor = TextAnchor.MiddleCenter,

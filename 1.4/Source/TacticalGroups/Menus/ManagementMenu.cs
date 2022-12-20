@@ -183,11 +183,11 @@ namespace TacticalGroups
 				position.height = num;
 				if (TacticalGroupsSettings.DisplayColorBars)
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.GetMoodBarTexture(colonist));
+					GUI.DrawTexture(position, TacticalGroups_ColonistBarColonistDrawer.GetMoodBarTexture(colonist));
 				}
 				else
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+					GUI.DrawTexture(position, TacticalGroups_ColonistBarColonistDrawer.MoodBGTex);
 				}
 			}
 			if (highlight)
@@ -216,7 +216,7 @@ namespace TacticalGroups
 			GUI.color = color2;
 			if (colonist.Dead)
 			{
-				GUI.DrawTexture(rect, ColonistBarColonistDrawer.DeadColonistTex);
+				GUI.DrawTexture(rect, TacticalGroups_ColonistBarColonistDrawer.DeadColonistTex);
 			}
 			float num2 = 4f * TacticUtils.TacticalColonistBar.Scale;
 			Vector2 pos = new Vector2(rect.center.x, rect.yMax - num2);
@@ -237,8 +237,8 @@ namespace TacticalGroups
 			}
 			else
 			{
-				ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, Textures.HealthBar.width);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, Textures.RestFood.width);
+				TacticalGroups_ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, Textures.HealthBar.width);
+				TacticalGroups_ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, Textures.RestFood.width);
 			}
 		}
 

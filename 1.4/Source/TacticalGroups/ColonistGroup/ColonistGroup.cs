@@ -900,11 +900,11 @@ namespace TacticalGroups
 				position.height = num;
 				if (TacticalGroupsSettings.DisplayColorBars && ShowExpanded)
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.GetMoodBarTexture(colonist));
+					GUI.DrawTexture(position, TacticalGroups_ColonistBarColonistDrawer.GetMoodBarTexture(colonist));
 				}
 				else
 				{
-					GUI.DrawTexture(position, ColonistBarColonistDrawer.MoodBGTex);
+					GUI.DrawTexture(position, TacticalGroups_ColonistBarColonistDrawer.MoodBGTex);
 				}
 			}
 
@@ -943,7 +943,7 @@ namespace TacticalGroups
 			GUI.color = color2;
 			if (colonist.Dead)
 			{
-				GUI.DrawTexture(rect, ColonistBarColonistDrawer.DeadColonistTex);
+				GUI.DrawTexture(rect, TacticalGroups_ColonistBarColonistDrawer.DeadColonistTex);
 			}
 			else if (colonist.IsPrisoner)
 			{
@@ -970,9 +970,9 @@ namespace TacticalGroups
 			GUI.color = Color.white;
 			if (ShowExpanded)
 			{
-				ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, TacticalGroupsSettings.HealthBarWidth);
-				ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, TacticalGroupsSettings.PawnNeedsWidth);
-				ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
+				TacticalGroups_ColonistBarColonistDrawer.DrawHealthBar(rect, colonist, TacticalGroupsSettings.HealthBarWidth);
+				TacticalGroups_ColonistBarColonistDrawer.DrawRestAndFoodBars(rect, colonist, TacticalGroupsSettings.PawnNeedsWidth);
+				TacticalGroups_ColonistBarColonistDrawer.ShowDrafteesWeapon(rect, colonist, 10);
 			}
 
 			if (rect.Contains(Event.current.mousePosition))

@@ -45,7 +45,7 @@ namespace TacticalGroups
             }
         }
 
-        public ColonistBarColonistDrawer drawer = new ColonistBarColonistDrawer();
+        public TacticalGroups_ColonistBarColonistDrawer drawer = new TacticalGroups_ColonistBarColonistDrawer();
 
         private readonly ColonistBarDrawLocsFinder drawLocsFinder = new ColonistBarDrawLocsFinder();
 
@@ -95,10 +95,10 @@ namespace TacticalGroups
         private static readonly List<Pawn> tmpCaravanPawns = new List<Pawn>();
         public void UpdateSizes()
         {
-            ColonistBarColonistDrawer.PawnTextureCameraOffset = new Vector3(TacticalGroupsSettings.PawnCameraOffsetX, 0, TacticalGroupsSettings.PawnCameraOffsetZ);
-            ColonistBarColonistDrawer.PawnTextureSize = ColonistBarColonistDrawer.DefaultPawnTextureSize;
-            ColonistBarColonistDrawer.PawnTextureSize.x += TacticalGroupsSettings.XPawnIconOffset;
-            ColonistBarColonistDrawer.PawnTextureSize.y += TacticalGroupsSettings.YPawnIconOffset;
+            TacticalGroups_ColonistBarColonistDrawer.PawnTextureCameraOffset = new Vector3(TacticalGroupsSettings.PawnCameraOffsetX, 0, TacticalGroupsSettings.PawnCameraOffsetZ);
+            TacticalGroups_ColonistBarColonistDrawer.PawnTextureSize = TacticalGroups_ColonistBarColonistDrawer.DefaultPawnTextureSize;
+            TacticalGroups_ColonistBarColonistDrawer.PawnTextureSize.x += TacticalGroupsSettings.XPawnIconOffset;
+            TacticalGroups_ColonistBarColonistDrawer.PawnTextureSize.y += TacticalGroupsSettings.YPawnIconOffset;
             TacticalColonistBar.BaseSize = new Vector2(TacticalGroupsSettings.PawnBoxWidth, TacticalGroupsSettings.PawnBoxHeight);
         }
         public List<Entry> Entries
@@ -241,9 +241,9 @@ namespace TacticalGroups
                     if (entry.pawn != null)
                     {
                         drawer.DrawColonist(DrawLocs[i], entry.pawn, entry.map, colonistsToHighlight.Contains(entry.pawn), reordering);
-                        ColonistBarColonistDrawer.DrawHealthBar(DrawLocs[i], entry.pawn, TacticalGroupsSettings.HealthBarWidth);
-                        ColonistBarColonistDrawer.DrawRestAndFoodBars(DrawLocs[i], entry.pawn, TacticalGroupsSettings.PawnNeedsWidth);
-                        ColonistBarColonistDrawer.ShowDrafteesWeapon(DrawLocs[i], entry.pawn, TacticalGroupsSettings.WeaponPlacementOffset);
+                        TacticalGroups_ColonistBarColonistDrawer.DrawHealthBar(DrawLocs[i], entry.pawn, TacticalGroupsSettings.HealthBarWidth);
+                        TacticalGroups_ColonistBarColonistDrawer.DrawRestAndFoodBars(DrawLocs[i], entry.pawn, TacticalGroupsSettings.PawnNeedsWidth);
+                        TacticalGroups_ColonistBarColonistDrawer.ShowDrafteesWeapon(DrawLocs[i], entry.pawn, TacticalGroupsSettings.WeaponPlacementOffset);
                     }
                 }
                 num = -1;
@@ -573,8 +573,8 @@ namespace TacticalGroups
             }
             if (pawn != null)
             {
-                RenderTexture iconTex = PortraitsCache.Get(pawn, ColonistBarColonistDrawer.PawnTextureSize, Rot4.South,
-                    ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
+                RenderTexture iconTex = PortraitsCache.Get(pawn, TacticalGroups_ColonistBarColonistDrawer.PawnTextureSize, Rot4.South,
+                    TacticalGroups_ColonistBarColonistDrawer.PawnTextureCameraOffset, 1.28205f);
                 Rect rect = new Rect(vector.x, vector.y, Size.x, Size.y);
                 Rect pawnTextureRect = drawer.GetPawnTextureRect(rect.position);
                 pawnTextureRect.position += Event.current.mousePosition - dragStartPos;

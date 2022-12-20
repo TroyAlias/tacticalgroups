@@ -104,28 +104,28 @@ namespace TacticalGroups
 			leftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.PawnNeedsSize + ": " + TacticalGroupsSettings.PawnNeedsWidth.ToString());
 			leftHalf.y += 25f;
-			TacticalGroupsSettings.PawnNeedsWidth = (int)Widgets.HorizontalSlider(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnNeedsWidth, 1f, 25f);
+			TacticalGroupsSettings.PawnNeedsWidth = (int)Widgets.HorizontalSlider_NewTemp(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnNeedsWidth, 1f, 25f);
 
 			leftHalf.y += 35f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.ColonistBarPositionY + ": " + (int)TacticalGroupsSettings.ColonistBarPositionY);
 			leftHalf.y += 25f;
-			TacticalGroupsSettings.ColonistBarPositionY = Widgets.HorizontalSlider(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarPositionY, 0f, 500f);
+			TacticalGroupsSettings.ColonistBarPositionY = Widgets.HorizontalSlider_NewTemp(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarPositionY, 0f, 500f);
 
 			leftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.ColonistBarPositionX + ": " + (int)TacticalGroupsSettings.ColonistBarPositionX);
 			leftHalf.y += 25f;
-			TacticalGroupsSettings.ColonistBarPositionX = Widgets.HorizontalSlider(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f),
+			TacticalGroupsSettings.ColonistBarPositionX = Widgets.HorizontalSlider_NewTemp(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f),
 				TacticalGroupsSettings.ColonistBarPositionX, -400f, 400f);
 
 			leftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.ColonistBarSpacingX + ": " + (int)TacticalGroupsSettings.ColonistBarSpacingX);
 			leftHalf.y += 25f;
-			TacticalGroupsSettings.ColonistBarSpacingX = Widgets.HorizontalSlider(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarSpacingX, 1f, 500f);
+			TacticalGroupsSettings.ColonistBarSpacingX = Widgets.HorizontalSlider_NewTemp(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarSpacingX, 1f, 500f);
 
 			leftHalf.y += 25f;
 			Widgets.Label(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), Strings.ColonistBarSpacingY + ": " + (int)TacticalGroupsSettings.ColonistBarSpacingY);
 			leftHalf.y += 25f;
-			TacticalGroupsSettings.ColonistBarSpacingY = Widgets.HorizontalSlider(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarSpacingY, 1f, 500f);
+			TacticalGroupsSettings.ColonistBarSpacingY = Widgets.HorizontalSlider_NewTemp(new Rect(rect.x + 20, leftHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarSpacingY, 1f, 500f);
 
 
 			leftHalf.y += 45f;
@@ -262,20 +262,20 @@ namespace TacticalGroups
 			middle.y += 50f;
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.HealthBarSize + ": " + TacticalGroupsSettings.HealthBarWidth.ToString());
 			middle.y += 25f;
-			TacticalGroupsSettings.HealthBarWidth = (int)Widgets.HorizontalSlider(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.HealthBarWidth, 1f, 25f);
+			TacticalGroupsSettings.HealthBarWidth = (int)Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.HealthBarWidth, 1f, 25f);
 
 			middle.y += 35f;
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.GroupRowCount + ": " + TacticalGroupsSettings.GroupRowCount.ToString());
 			middle.y += 25f;
-			TacticalGroupsSettings.GroupRowCount = (int)Widgets.HorizontalSlider(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.GroupRowCount, 1f, 12f);
+			TacticalGroupsSettings.GroupRowCount = (int)Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.GroupRowCount, 1f, 12f);
 			middle.y += 25f;
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.ColonyGroupScale + ": " + TacticalGroupsSettings.ColonyGroupScale.ToStringDecimalIfSmall());
 			middle.y += 25f;
-			TacticalGroupsSettings.ColonyGroupScale = Widgets.HorizontalSlider(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonyGroupScale, 0.5f, 2f);
+			TacticalGroupsSettings.ColonyGroupScale = Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonyGroupScale, 0.5f, 2f);
 			middle.y += 25f;
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.GroupScale + ": " + TacticalGroupsSettings.GroupScale.ToStringDecimalIfSmall());
 			middle.y += 25f;
-			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
+			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
 
 			middle.y += 100f;
 			Rect resetButtonRect = new Rect(xMiddlePos, middle.y, Textures.MenuButton.width, 25f);
@@ -312,18 +312,18 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Pawn);
 
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnCameraOffsetX = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetX, -1f, 1f);
+			TacticalGroupsSettings.PawnCameraOffsetX = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetX, -1f, 1f);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnCameraOffsetZ = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetZ, -1f, 3f);
+			TacticalGroupsSettings.PawnCameraOffsetZ = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnCameraOffsetZ, -1f, 3f);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.1f, 5f);
+			TacticalGroupsSettings.PawnScale = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnScale, 0.1f, 5f);
 
 			rightHalf.y += 15f;
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.Box);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 1f, 300f);
+			TacticalGroupsSettings.PawnBoxHeight = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxHeight, 1f, 300f);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 5f, 300f);
+			TacticalGroupsSettings.PawnBoxWidth = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnBoxWidth, 5f, 300f);
 
 			rightHalf.y += 25f;
 			Text.Anchor = TextAnchor.MiddleLeft;
@@ -331,7 +331,7 @@ namespace TacticalGroups
 			Vector2 pawnRowCountCheckBox = new Vector2(xRightPos + 150, rightHalf.y);
 			Widgets.Checkbox(pawnRowCountCheckBox, ref TacticalGroupsSettings.OverridePawnRowCount);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.PawnRowCount = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnRowCount, 1, 10);
+			TacticalGroupsSettings.PawnRowCount = (int)Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.PawnRowCount, 1, 10);
 
 			Text.Anchor = TextAnchor.UpperLeft;
 			rightHalf.y += 50f;
@@ -339,7 +339,7 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.DisplayWeapons);
 
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f),
+			TacticalGroupsSettings.WeaponPlacementOffset = (int)Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f),
 				TacticalGroupsSettings.WeaponPlacementOffset, -200, 200);
 			rightHalf.y += 15f;
 
@@ -355,7 +355,7 @@ namespace TacticalGroups
 			rightHalf.y += 35f;
 			Widgets.Label(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), Strings.WeaponSizeScale);
 			rightHalf.y += 25f;
-			TacticalGroupsSettings.WeaponShowScale = Widgets.HorizontalSlider(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.WeaponShowScale, 0.1f, 5f);
+			TacticalGroupsSettings.WeaponShowScale = Widgets.HorizontalSlider_NewTemp(new Rect(xRightPos, rightHalf.y, textFieldWidth, 25f), TacticalGroupsSettings.WeaponShowScale, 0.1f, 5f);
 
 			TacticUtils.TacticalColonistBar?.UpdateSizes();
 			GUI.color = Color.white;

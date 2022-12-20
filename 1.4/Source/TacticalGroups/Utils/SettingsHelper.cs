@@ -27,7 +27,7 @@ namespace TacticalGroups
 			TextAnchor anchor = Text.Anchor;
 			Text.Anchor = TextAnchor.MiddleLeft;
 			Widgets.Label(rect2, label);
-			float num = Widgets.HorizontalSlider(rect3, val, min, max, true, null, null, null, -1f);
+			float num = Widgets.HorizontalSlider_NewTemp(rect3, val, min, max, true, null, null, null, -1f);
 			val = num;
 			Text.Anchor = TextAnchor.MiddleRight;
 			Widgets.Label(rect4, string.Format(format, val));
