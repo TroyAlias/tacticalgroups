@@ -276,8 +276,13 @@ namespace TacticalGroups
 			Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.GroupScale + ": " + TacticalGroupsSettings.GroupScale.ToStringDecimalIfSmall());
 			middle.y += 25f;
 			TacticalGroupsSettings.GroupScale = Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.GroupScale, 0.5f, 2f);
+            middle.y += 25f;
+            Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.ColonistBarWidthOffset + ": " + TacticalGroupsSettings.ColonistBarWidthOffset.ToStringDecimalIfSmall());
+            middle.y += 25f;
+            TacticalGroupsSettings.ColonistBarWidthOffset = Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarWidthOffset, 
+				-500, 500);
 
-			middle.y += 100f;
+            middle.y += 75f;
 			Rect resetButtonRect = new Rect(xMiddlePos, middle.y, Textures.MenuButton.width, 25f);
 			GUI.DrawTexture(resetButtonRect, Textures.MenuButton);
 

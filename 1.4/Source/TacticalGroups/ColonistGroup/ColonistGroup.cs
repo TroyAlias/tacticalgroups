@@ -9,100 +9,8 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	public class PawnDownedStateCache
-	{
-		public PawnDownedStateCache()
-		{
-
-		}
-		public bool downed;
-		public int updateCount;
-	}
-
-	public class PawnDot
-	{
-		public Pawn pawn;
-		public Rect rect;
-		public PawnState state;
-		public PawnDot(Pawn pawn, Rect rect, PawnState state)
-		{
-			this.pawn = pawn;
-			this.rect = rect;
-			this.state = state;
-		}
-	}
-
-	public class Formation : IExposable
-	{
-		public Dictionary<Pawn, IntVec3> formations = new Dictionary<Pawn, IntVec3>();
-		public string colorPrefix;
-		public bool isSelected;
-		public Formation()
-		{
-
-		}
-
-		public Formation(string color)
-		{
-			colorPrefix = color;
-		}
-		public void ExposeData()
-		{
-			Scribe_Collections.Look(ref formations, "formations", LookMode.Reference, LookMode.Value, ref pawnKeys2, ref intVecValues);
-			Scribe_Values.Look(ref colorPrefix, "colorPrefix");
-		}
-
-
-		public Texture2D Icon => formations != null && formations.Any() ?
-			isSelected ? ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/" + colorPrefix + "select")
-			: ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/" + colorPrefix + "dark")
-			: isSelected ? ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greyselect")
-			: ContentFinder<Texture2D>.Get("UI/ColonistBar/Orders/battlestations/greydark");
-
-		private List<Pawn> pawnKeys2;
-		private List<IntVec3> intVecValues;
-	}
-
-	public class ColorOption : IExposable
-	{
-		public Color color;
-		public bool pawnFavoriteOnly;
-		public ColorOption()
-		{
-
-		}
-
-		public ColorOption(Color color)
-		{
-			this.color = color;
-		}
-		public ColorOption(bool pawnFavoriteOnly)
-		{
-			this.pawnFavoriteOnly = pawnFavoriteOnly;
-		}
-
-		public Color? GetColor(Pawn pawn)
-		{
-			return pawnFavoriteOnly ? pawn.story.favoriteColor : color;
-		}
-		public void ExposeData()
-		{
-			Scribe_Values.Look(ref color, "color");
-			Scribe_Values.Look(ref pawnFavoriteOnly, "pawnFavoriteOnly");
-		}
-	}
-	public class GroupColor : IExposable
-	{
-		public Dictionary<BodyColor, ColorOption> bodyColors = new Dictionary<BodyColor, ColorOption>();
-		public void ExposeData()
-		{
-			Scribe_Collections.Look(ref bodyColors, "bodyColors", LookMode.Value, LookMode.Deep, ref bodyColorKeys, ref colorValues);
-		}
-
-		private List<BodyColor> bodyColorKeys;
-		private List<ColorOption> colorValues;
-	}
-	public class ColonistGroup : IExposable, ILoadReferenceable
+	[HotSwappable]
+    public class ColonistGroup : IExposable, ILoadReferenceable
 	{
 		public bool pawnWindowIsActive;
 		public bool groupButtonRightClicked;
@@ -521,6 +429,7 @@ namespace TacticalGroups
 			}
 		}
 
+		public Vector2 scrollPosition;
 		public virtual void DrawOverlays(Rect rect)
 		{
 			_ = Rect.zero;
@@ -558,19 +467,29 @@ namespace TacticalGroups
 						}
 					}
 					if (showThisPawnWindow)
-					{
-						pawnWindowIsActive = true;
-						DrawPawnRows(rect, pawnRows);
-						DrawPawnArrows(rect, pawnRows);
-					}
-				}
+                    {
+                        StartScrolling(out bool beginScrolling);
+                        pawnWindowIsActive = true;
+                        DrawPawnRows(rect, pawnRows);
+                        DrawPawnArrows(rect, pawnRows);
+                        if (beginScrolling)
+                        {
+                            Widgets.EndScrollView();
+                        }
+                    }
+                }
 				else if (showPawnIconsRightClickMenu)
-				{
-					Rect subGroupRect = new Rect(rect);
+                {
+                    Rect subGroupRect = new Rect(rect);
 					subGroupRect.x -= rect.width;
+                    StartScrolling(out bool beginScrolling);
 					DrawPawnRows(subGroupRect, pawnRows);
 					DrawPawnArrows(subGroupRect, pawnRows);
-				}
+                    if (beginScrolling)
+                    {
+                        Widgets.EndScrollView();
+                    }
+                }
 				if (!ShowExpanded)
 				{
 					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(curGroupName)));
@@ -578,17 +497,27 @@ namespace TacticalGroups
 				HandleClicks(rect, totalRect);
 			}
 			else if (!isSubGroup && ((Mouse.IsOver(totalRect) && pawnWindowIsActive) || showPawnIconsRightClickMenu))
-			{
-				DrawPawnRows(rect, pawnRows);
+            {
+                StartScrolling(out bool beginScrolling);
+                DrawPawnRows(rect, pawnRows);
 				DrawPawnArrows(rect, pawnRows);
-			}
+                if (beginScrolling)
+                {
+                    Widgets.EndScrollView();
+                }
+            }
 			else if (isSubGroup && showPawnIconsRightClickMenu)
-			{
-				Rect subGroupRect = new Rect(rect);
+            {
+                Rect subGroupRect = new Rect(rect);
 				subGroupRect.x -= rect.width;
+                StartScrolling(out bool beginScrolling);
 				DrawPawnRows(subGroupRect, pawnRows);
 				DrawPawnArrows(subGroupRect, pawnRows);
-			}
+                if (beginScrolling)
+                {
+                    Widgets.EndScrollView();
+                }
+            }
 			else if (!isSubGroup)
 			{
 				pawnWindowIsActive = false;
@@ -600,7 +529,26 @@ namespace TacticalGroups
 			}
 		}
 
-		private int downedStateBlink;
+        private void StartScrolling(out bool beginScrolling)
+        {
+            if (pawnRects.Any())
+            {
+                var initY = pawnRects.First().Value.y;
+                var initX = pawnRects.First().Value.x;
+                var totalWidth = (pawnRects.Select(x => x.Value.x).Max() - initX) + pawnRects.First().Value.width;
+                var totalHeight = pawnRects.Select(x => x.Value.y).Max() - initY + pawnRects.First().Value.height + 10;
+                var viewRect = new Rect(initX, initY, totalWidth, totalHeight);
+                var outRect = new Rect(viewRect.x, viewRect.y, viewRect.width + 16, 500);
+                Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+                beginScrolling = true;
+            }
+			else
+			{
+				beginScrolling = false;
+            }
+        }
+
+        private int downedStateBlink;
 		public virtual void UpdateData()
 		{
 			cachedPawnRows[pawnRowCount] = GetPawnRowsInt(pawnRowCount);

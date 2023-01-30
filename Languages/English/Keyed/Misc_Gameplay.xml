@@ -282,4 +282,5 @@ no more pawns in the group.
 	
 	<TG.AnyPawnOfGroup>Any pawn of {0}</TG.AnyPawnOfGroup>
 	<TG.DisbandSelectedPawns>Click to disband selected pawns from this group</TG.DisbandSelectedPawns>
+	<TG.ColonistBarWidthOffset>Colonist bar width offset</TG.ColonistBarWidthOffset>
 </LanguageData>

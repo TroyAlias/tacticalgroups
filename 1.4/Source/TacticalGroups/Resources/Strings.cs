@@ -145,8 +145,9 @@ namespace TacticalGroups
 		public static readonly string GroupRowCount = "TG.GroupRowCount".Translate();
 		public static readonly string OverallPawnDisplayScale = "TG.OverallPawnDisplayScale".Translate();
 		public static readonly string ColonyGroupScale = "TG.ColonyGroupScale".Translate();
-		public static readonly string GroupScale = "TG.GroupScale".Translate();
-		public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
+        public static readonly string GroupScale = "TG.GroupScale".Translate();
+        public static readonly string ColonistBarWidthOffset = "TG.ColonistBarWidthOffset".Translate();
+        public static readonly string PawnNeedsSize = "TG.PawnNeedsSize".Translate();
 		public static readonly string HealthBarSize = "TG.HealthBarWidth".Translate();
 		public static readonly string WeaponOverlayInside = "TG.WeaponOverlayInside".Translate();
 		public static readonly string WeaponOverlayUnder = "TG.WeaponOverlayUnder".Translate();

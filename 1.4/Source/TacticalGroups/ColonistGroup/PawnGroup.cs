@@ -16,7 +16,7 @@ namespace TacticalGroups
 		public override Map Map => Find.CurrentMap;
 		public override List<Pawn> ActivePawns => this.pawns.Where(x => x.Map == Map && x.Spawned).ToList();
 		public override List<Pawn> VisiblePawns => this.pawns.Where(x => x.Map == Map && x.Spawned
-			|| x.ParentHolder is Building_CryptosleepCasket casket && casket.Map == Map).ToList();
+			|| x.ParentHolder is Building container && container.Map == Map).ToList();
 
 		public override void Init()
         {

@@ -9,6 +9,7 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
+    [HotSwappable]
     [StaticConstructorOnStartup]
     public class TacticalColonistBar
     {
@@ -293,6 +294,8 @@ namespace TacticalGroups
 
         private List<Pawn> GetNonHiddenPawns(List<Pawn> pawns)
         {
+            var visiblePawns = new HashSet<Pawn>();
+            var nonVisiblePawns = new HashSet<Pawn>();
             if (!TacticalGroupsSettings.HideGroups)
             {
                 foreach (PawnGroup pawnGroup in TacticUtils.AllPawnGroups)
@@ -301,14 +304,14 @@ namespace TacticalGroups
                     {
                         if (pawnGroup.pawns.Contains(pawns[i]) && (pawnGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
                         {
-                            if ((!pawnGroup.entireGroupIsVisible && !pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null)
-                                || (TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap))
+                            if (pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null
+                                && (!TacticalGroupsSettings.HidePawnsWhenOffMap || pawns[i].Map == Find.CurrentMap))
                             {
-                                if (TacticUtils.TacticalGroups.visiblePawns.Contains(pawns[i]))
-                                {
-                                    continue;
-                                }
-                                pawns.RemoveAt(i);
+                                visiblePawns.Add(pawns[i]);
+                            }
+                            else
+                            {
+                                nonVisiblePawns.Add(pawns[i]);
                             }
                         }
                     }
@@ -320,14 +323,14 @@ namespace TacticalGroups
                     {
                         if (colonyGroup.pawns.Contains(pawns[i]) && (colonyGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
                         {
-                            if ((!colonyGroup.entireGroupIsVisible && !colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar)
-                                || (TacticalGroupsSettings.HidePawnsWhenOffMap && pawns[i].Map != Find.CurrentMap))
+                            if (colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
+                                && (!TacticalGroupsSettings.HidePawnsWhenOffMap || pawns[i].Map == Find.CurrentMap))
                             {
-                                if (TacticUtils.TacticalGroups.visiblePawns.Contains(pawns[i]))
-                                {
-                                    continue;
-                                }
-                                pawns.RemoveAt(i);
+                                visiblePawns.Add(pawns[i]);
+                            }
+                            else
+                            {
+                                nonVisiblePawns.Add(pawns[i]);
                             }
                         }
                     }
@@ -339,16 +342,19 @@ namespace TacticalGroups
                     {
                         if (caravanGroup.pawns.Contains(pawns[i]) && (caravanGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
                         {
-                            if ((!caravanGroup.entireGroupIsVisible && !caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar)
-                                || TacticalGroupsSettings.HidePawnsWhenOffMap)
+                            if (caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && !TacticalGroupsSettings.HidePawnsWhenOffMap)
                             {
-                                pawns.RemoveAt(i);
+                                visiblePawns.Add(pawns[i]);
+                            }
+                            else
+                            {
+                                nonVisiblePawns.Add(pawns[i]);
                             }
                         }
                     }
                 }
             }
-            return pawns;
+            return pawns.Where(x => visiblePawns.Contains(x) || !nonVisiblePawns.Contains(x)).ToList();
         }
         private void CheckRecacheEntries()
         {
@@ -615,7 +621,9 @@ namespace TacticalGroups
                 {
                     foreach (KeyValuePair<Pawn, Rect> pawnRect in group.pawnRects)
                     {
-                        if (pawnRect.Value.Contains(pos))
+                        var adjustedRect = new Rect(pawnRect.Value.x - group.scrollPosition.x, pawnRect.Value.y - group.scrollPosition.y, 
+                            pawnRect.Value.width, pawnRect.Value.height);
+                        if (adjustedRect.Contains(pos))
                         {
                             pawn = pawnRect.Key;
                             return true;

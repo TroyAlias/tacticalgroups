@@ -44,7 +44,7 @@ namespace TacticalGroups
         public static ColorBarMode ColorBarMode = ColorBarMode.Default;
         public static WeaponShowMode WeaponShowMode = WeaponShowMode.Drafted;
         public static float WeaponShowScale = 1f;
-
+        public static float ColonistBarWidthOffset = 0;
 
         public static Color DefaultMoodBarLower = new ColorInt(196, 0, 30, 255).ToColor;
         public static Color DefaultMoodBarMiddle = new ColorInt(245, 194, 15, 255).ToColor;
@@ -170,6 +170,7 @@ namespace TacticalGroups
 
             Scribe_Values.Look(ref OverridePawnRowCount, "OverridePawnRowCount", false);
             Scribe_Values.Look(ref PawnRowCount, "PawnRowCount", 2);
+            Scribe_Values.Look(ref ColonistBarWidthOffset, "ColonistBarWidthOffset", 0);
 
             Scribe_Collections.Look(ref AllGroupPresetsSaveable, "AllGroupPresetsSaveable", LookMode.Deep);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)

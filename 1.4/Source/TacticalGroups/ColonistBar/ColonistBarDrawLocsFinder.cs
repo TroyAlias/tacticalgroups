@@ -29,7 +29,7 @@ namespace TacticalGroups
 		private List<int> entriesInGroup = new List<int>();
 
 		private List<int> horizontalSlotsPerGroup = new List<int>();
-		private static float MaxColonistBarWidth => (float)UI.screenWidth - 520f;
+		private static float MaxColonistBarWidth => ((float)UI.screenWidth - 520f) + TacticalGroupsSettings.ColonistBarWidthOffset;
 
 		public static List<MappedValue> caravanGroupDrawLoc = new List<MappedValue>();
 		public static List<MappedValue> colonyGroupDrawLoc = new List<MappedValue>();
