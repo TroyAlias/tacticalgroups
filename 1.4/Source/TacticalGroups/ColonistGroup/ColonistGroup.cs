@@ -536,11 +536,19 @@ namespace TacticalGroups
                 var initY = pawnRects.First().Value.y;
                 var initX = pawnRects.First().Value.x;
                 var totalWidth = (pawnRects.Select(x => x.Value.x).Max() - initX) + pawnRects.First().Value.width;
-                var totalHeight = pawnRects.Select(x => x.Value.y).Max() - initY + pawnRects.First().Value.height + 10;
-                var viewRect = new Rect(initX, initY, totalWidth, totalHeight);
-                var outRect = new Rect(viewRect.x, viewRect.y, viewRect.width + 16, 500);
-                Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-                beginScrolling = true;
+                var totalHeight = (pawnRects.Select(x => x.Value.y).Max() - initY) + pawnRects.First().Value.height + 10;
+				Log.Message("totalHeight: " + totalHeight);
+                if (totalHeight > 500)
+                {
+                    var viewRect = new Rect(initX, initY, totalWidth, totalHeight);
+                    var outRect = new Rect(viewRect.x, viewRect.y, viewRect.width + 16, 500);
+                    Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+                    beginScrolling = true;
+                }
+				else
+				{
+                    beginScrolling = false;
+                }
             }
 			else
 			{

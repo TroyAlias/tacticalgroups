@@ -9,6 +9,7 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
+	[HotSwappable]
 	[StaticConstructorOnStartup]
 	public class TacticalGroups_ColonistBarColonistDrawer : ColonistBarColonistDrawer
     {
@@ -478,8 +479,13 @@ namespace TacticalGroups
 			{
 				obj = colonist.Corpse;
 			}
-			float num = 0.4f * TacticUtils.TacticalColonistBar.Scale;
-			SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, (float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
+			var ratio = Mathf.Min(1f, ((TacticalColonistBar.BaseSize.x + TacticalColonistBar.BaseSize.y) /
+				(float)(TacticalColonistBar.DefaultBaseSize.x + TacticalColonistBar.DefaultBaseSize.y)));
+			Log.Message("Ratio: " + ratio);
+			float num = 0.4f * ratio;
+            SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: 
+				new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 
+				(float)SelectionDrawerUtility.SelectedTexGUI.height * num), bracketLocs: bracketLocs, obj: (object)obj, rect: rect, selectTimes: SelectionDrawer.SelectTimes, jumpDistanceFactor: 20f * TacticUtils.TacticalColonistBar.Scale);
 			DrawSelectionOverlayOnGUI(bracketLocs, num);
 		}
 

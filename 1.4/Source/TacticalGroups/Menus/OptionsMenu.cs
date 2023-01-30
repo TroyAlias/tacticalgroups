@@ -4,6 +4,7 @@ using Verse;
 
 namespace TacticalGroups
 {
+	[HotSwappable]
 	public class OptionsMenu : TieredFloatMenu
 	{
 		//protected override Vector2 InitialPositionShift => new Vector2(-45f, 35f);
@@ -26,7 +27,7 @@ namespace TacticalGroups
 		}
 
 
-		[TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 190f;
+		[TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 196f;
 		[TweakValue("0ColonyGroups", 0, 1000)] public static float checkBoxesWidth = 180f;
 		public override void DoWindowContents(Rect rect)
 		{
@@ -129,7 +130,7 @@ namespace TacticalGroups
 
 
 			leftHalf.y += 45f;
-			Widgets.Checkbox(leftHalf, ref TacticalGroupsSettings.DisableLabelBackground);
+			Widgets.Checkbox(new Vector2(leftHalf.x + 15, leftHalf.y), ref TacticalGroupsSettings.DisableLabelBackground);
 			Rect disableLabelBackgroundRect = new Rect(rect.x + 20, leftHalf.y, textFieldWidth - 30, 45f);
 			Text.Font = GameFont.Tiny;
 			Widgets.Label(disableLabelBackgroundRect, Strings.DisableLabelBackground);
@@ -280,10 +281,10 @@ namespace TacticalGroups
             Widgets.Label(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), Strings.ColonistBarWidthOffset + ": " + TacticalGroupsSettings.ColonistBarWidthOffset.ToStringDecimalIfSmall());
             middle.y += 25f;
             TacticalGroupsSettings.ColonistBarWidthOffset = Widgets.HorizontalSlider_NewTemp(new Rect(xMiddlePos, middle.y, textFieldWidth, 25f), TacticalGroupsSettings.ColonistBarWidthOffset, 
-				-500, 500);
+				-800, 800);
 
-            middle.y += 75f;
-			Rect resetButtonRect = new Rect(xMiddlePos, middle.y, Textures.MenuButton.width, 25f);
+            middle.y += 45f;
+			Rect resetButtonRect = new Rect(xMiddlePos + 25, middle.y, Textures.MenuButton.width, 25f);
 			GUI.DrawTexture(resetButtonRect, Textures.MenuButton);
 
 			Text.Anchor = TextAnchor.MiddleCenter;

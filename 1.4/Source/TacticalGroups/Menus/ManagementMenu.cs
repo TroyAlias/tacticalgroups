@@ -8,6 +8,7 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
+	[HotSwappable]
 	public class ManagementMenu : TieredFloatMenu
 	{
 		public static readonly Vector2 PawnTextureSize = new Vector2(TacticalColonistBar.DefaultBaseSize.x - 2f, 75f);
@@ -79,7 +80,7 @@ namespace TacticalGroups
 			Widgets.Checkbox(check, ref colonistGroup.groupOutfitEnabled);
 			drawBoxRect = new Rect(check, new Vector2(24f, 24f));
 			Widgets.DrawBox(drawBoxRect);
-			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupFoodTooltip);
+			TooltipHandler.TipRegion(drawBoxRect, Strings.GroupOutfitTooltip);
 
 			Rect outfitRect = new Rect(rect.x + policyButtonWidth + 30, rect.y + 205, policyButtonWidth, 30f);
 			DoOutfitCell(outfitRect);
