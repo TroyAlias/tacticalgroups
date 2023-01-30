@@ -51,6 +51,7 @@ namespace TacticalGroups
 			entriesInGroup.Clear();
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
 			int num = CalculateGroupsCount();
+			//Log.Message("CalculatedGroupsCount: " + num + " - entries: " + entries.Count + " - " + string.Join(", ", entries.Select(x => x.group)));
 			for (int i = 0; i < num; i++)
 			{
 				entriesInGroup.Add(0);
@@ -59,9 +60,9 @@ namespace TacticalGroups
 			{
 				entriesInGroup[entries[j].group]++;
 			}
-		}
+        }
 
-		private int CalculateGroupsCount()
+        private int CalculateGroupsCount()
 		{
 			List<TacticalColonistBar.Entry> entries = TacticUtils.TacticalColonistBar.Entries;
 			int num = -1;

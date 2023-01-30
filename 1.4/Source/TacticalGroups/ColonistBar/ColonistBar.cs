@@ -366,6 +366,7 @@ namespace TacticalGroups
                 int num = 0;
                 for (int i = 0; i < tmpMaps.Count; i++)
                 {
+                    var oldCount = cachedEntries.Count;
                     tmpPawns.Clear();
                     tmpPawns.AddRange(tmpMaps[i].mapPawns.FreeColonistsAndPrisoners.Where(x => x.Faction == Faction.OfPlayer));
                     List<Thing> list = tmpMaps[i].listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
@@ -403,14 +404,13 @@ namespace TacticalGroups
                     }
                     if (!tmpPawns.Any())
                     {
-                        try
-                        {
-                            ColonyGroup colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
-                            cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
-                        }
-                        catch { };
+                        ColonyGroup colonyGroup = TacticUtils.AllColonyGroups.Where(x => x.Map == tmpMaps[i]).FirstOrDefault();
+                        cachedEntries.Add(new Entry(null, tmpMaps[i], num, null, colonyGroup));
                     }
-                    num++;
+                    if (oldCount != cachedEntries.Count)
+                    {
+                        num++;
+                    }
                 }
 
                 tmpCaravans.Clear();
@@ -418,6 +418,7 @@ namespace TacticalGroups
                 tmpCaravans.SortBy((Caravan x) => x.ID);
                 for (int m = 0; m < tmpCaravans.Count; m++)
                 {
+                    var oldCount = cachedEntries.Count;
                     if (!tmpCaravans[m].IsPlayerControlled)
                     {
                         continue;
@@ -450,7 +451,10 @@ namespace TacticalGroups
                             cachedEntries.Add(new Entry(null, null, num, caravanGroup.Value, null));
                         }
                     }
-                    num++;
+                    if (oldCount != cachedEntries.Count)
+                    {
+                        num++;
+                    }
                 }
             }
 
