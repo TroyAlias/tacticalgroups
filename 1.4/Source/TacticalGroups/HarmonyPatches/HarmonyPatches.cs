@@ -78,7 +78,7 @@ namespace TacticalGroups
             harmony.Patch(AccessTools.Method(typeof(Game), nameof(Game.AddMap), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "EntriesDirty", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.SetFaction), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "SetFaction_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Window), nameof(Window.Notify_ResolutionChanged), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
-            harmony.Patch(AccessTools.Method(typeof(Game), nameof(Game.DeinitAndRemoveMap), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
+            harmony.Patch(AccessTools.Method(typeof(Game), nameof(Game.DeinitAndRemoveMap_NewTemp), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "IsPlayingDirty_Postfix", null), null, null);
 
             harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.SpawnSetup), null, null), null, new HarmonyMethod(typeof(HarmonyPatches), "Pawn_SpawnSetup_Postfix", null), null, null);
             harmony.Patch(AccessTools.Method(typeof(Pawn), nameof(Pawn.Destroy), null, null), prefix: new HarmonyMethod(typeof(HarmonyPatches), "Pawn_Destroy_Prefix", null), null, null);

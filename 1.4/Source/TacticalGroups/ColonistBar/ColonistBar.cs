@@ -326,7 +326,7 @@ namespace TacticalGroups
                             if (colonyGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar
                                 && (!TacticalGroupsSettings.HidePawnsWhenOffMap || pawns[i].Map == Find.CurrentMap))
                             {
-                                visiblePawns.Add(pawns[i]);
+                                //visiblePawns.Add(pawns[i]);
                             }
                             else
                             {
@@ -335,6 +335,7 @@ namespace TacticalGroups
                         }
                     }
                 }
+
 
                 foreach (CaravanGroup caravanGroup in TacticUtils.AllCaravanGroups)
                 {
@@ -621,7 +622,7 @@ namespace TacticalGroups
                 {
                     foreach (KeyValuePair<Pawn, Rect> pawnRect in group.pawnRects)
                     {
-                        var adjustedRect = new Rect(pawnRect.Value.x - group.scrollPosition.x, pawnRect.Value.y - group.scrollPosition.y, 
+                        var adjustedRect = new Rect(pawnRect.Value.x, pawnRect.Value.y - group.scrollPosition.y, 
                             pawnRect.Value.width, pawnRect.Value.height);
                         if (adjustedRect.Contains(pos))
                         {

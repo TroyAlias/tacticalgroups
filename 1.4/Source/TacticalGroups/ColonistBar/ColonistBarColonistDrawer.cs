@@ -481,7 +481,6 @@ namespace TacticalGroups
 			}
 			var ratio = Mathf.Min(1f, ((TacticalColonistBar.BaseSize.x + TacticalColonistBar.BaseSize.y) /
 				(float)(TacticalColonistBar.DefaultBaseSize.x + TacticalColonistBar.DefaultBaseSize.y)));
-			Log.Message("Ratio: " + ratio);
 			float num = 0.4f * ratio;
             SelectionDrawerUtility.CalculateSelectionBracketPositionsUI<object>(textureSize: 
 				new Vector2((float)SelectionDrawerUtility.SelectedTexGUI.width * num, 

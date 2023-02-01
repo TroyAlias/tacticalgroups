@@ -422,7 +422,7 @@ namespace TacticalGroups
 					Text.Anchor = TextAnchor.UpperLeft;
 				}
 
-				if (!hidePawnDots && !hideGroupIcon)
+				if (!hidePawnDots && !hideGroupIcon && !pawnWindowIsActive)
 				{
 					DrawPawnDots(rect);
 				}
@@ -496,7 +496,7 @@ namespace TacticalGroups
 				}
 				HandleClicks(rect, totalRect);
 			}
-			else if (!isSubGroup && ((Mouse.IsOver(totalRect) && pawnWindowIsActive) || showPawnIconsRightClickMenu))
+			else if (!isSubGroup && ((Mouse.IsOver(totalRect.ExpandedBy(50)) && pawnWindowIsActive) || showPawnIconsRightClickMenu))
             {
                 StartScrolling(out bool beginScrolling);
                 DrawPawnRows(rect, pawnRows);
@@ -537,7 +537,6 @@ namespace TacticalGroups
                 var initX = pawnRects.First().Value.x;
                 var totalWidth = (pawnRects.Select(x => x.Value.x).Max() - initX) + pawnRects.First().Value.width;
                 var totalHeight = (pawnRects.Select(x => x.Value.y).Max() - initY) + pawnRects.First().Value.height + 10;
-				Log.Message("totalHeight: " + totalHeight);
                 if (totalHeight > 500)
                 {
                     var viewRect = new Rect(initX, initY, totalWidth, totalHeight);
@@ -692,7 +691,8 @@ namespace TacticalGroups
 
 		public void DrawPawnRows(Rect rect, List<List<Pawn>> pawnRows)
 		{
-			if (ShowExpanded)
+			pawnRects.Clear();
+            if (ShowExpanded)
 			{
 				Rect initialRect = new Rect(rect.x, rect.y + rect.height + (rect.height / 5f), rect.width, rect.height)
 				{

@@ -213,6 +213,8 @@ namespace TacticalGroups
 
             OverridePawnRowCount = false;
             PawnRowCount = 2;
+            ColonistBarWidthOffset = 0f;
+
         }
 
         public static void ResetColorBars()
