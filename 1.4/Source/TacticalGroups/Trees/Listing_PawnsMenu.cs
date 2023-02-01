@@ -41,9 +41,9 @@ namespace TacticalGroups
 			curY = newY;
 		}
 
-		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnIconMargin = 15f;
-		[TweakValue("0TacticGroups", 0, 50f)] public static float yPawnIconMargin = 20f;
-		[TweakValue("0TacticGroups", 0, 50f)] public static float xPawnRectOffset = 20f;
+		public static float xPawnIconMargin = 15f;
+		public static float yPawnIconMargin = 20f;
+		public static float xPawnRectOffset = 20f;
 		public void DoCategory(TreeNode_Pawns node, int nestLevel, int openMask, bool showSlaveSuppresion = false)
 		{
 			OpenCloseWidget(node, nestLevel, openMask);

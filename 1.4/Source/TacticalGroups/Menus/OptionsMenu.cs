@@ -27,9 +27,9 @@ namespace TacticalGroups
 		}
 
 
-        [TweakValue("0ColonyGroups", 0, 1000)] public static float textFieldWidth = 200f;
-        [TweakValue("0ColonyGroups", 0, 1000)] public static float sliderWidth = 190;
-        [TweakValue("0ColonyGroups", 0, 1000)] public static float checkBoxesWidth = 180f;
+        public static float textFieldWidth = 200f;
+        public static float sliderWidth = 190;
+        public static float checkBoxesWidth = 180f;
 		public override void DoWindowContents(Rect rect)
 		{
 			base.DoWindowContents(rect);

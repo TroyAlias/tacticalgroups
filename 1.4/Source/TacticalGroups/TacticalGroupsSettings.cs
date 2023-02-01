@@ -263,9 +263,9 @@ namespace TacticalGroups
             PawnCameraOffsetZ = 0.3f;
         }
 
-        [TweakValue("0CG", 0, 2000)] public static float yTest = 10;
-        [TweakValue("0CG", 0, 2000)] public static float width = 10;
-        [TweakValue("0CG", 0, 2000)] public static float height = 10;
+        public static float yTest = 10;
+        public static float width = 10;
+        public static float height = 10;
         public void DoSettingsWindowContents(Rect inRect)
         {
             Rect rect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height);
