@@ -216,15 +216,34 @@ namespace TacticalGroups
 			}
 			return pawnDots;
 		}
-		public void HandleClicks(Rect rect, Rect totalRect)
+
+		private Rect GetGroupRect()
 		{
-			if (Event.current.type == EventType.MouseDown)
+			if (this.isPawnGroup)
 			{
+				return ColonistBarDrawLocsFinder.pawnGroupDrawLoc.FirstOrDefault(x => x.colonistGroup == this).rect;
+            }
+			else if (this.isColonyGroup)
+			{
+                return ColonistBarDrawLocsFinder.colonyGroupDrawLoc.FirstOrDefault(x => x.colonistGroup == this).rect;
+            }
+            return ColonistBarDrawLocsFinder.caravanGroupDrawLoc.FirstOrDefault(x => x.colonistGroup == this).rect;
+        }
+        public void HandleClicks(Rect rect, Rect totalRect)
+        {
+			totalRect.yMin = rect.height;
+            totalRect = totalRect.ContractedBy(15);
+            if (Event.current.type == EventType.MouseDown)
+            {
 				foreach (ColonistGroup group in TacticUtils.AllGroups)
 				{
-					if (group != this && group.pawnWindowIsActive && Mouse.IsOver(rect))
-					{
-						return;
+					if (group != this && group.pawnWindowIsActive)
+                    {
+						var groupRect = group.GetGroupRect();
+                        if (totalRect.Overlaps(groupRect))
+						{
+                            return;
+                        }
 					}
 				}
 
@@ -431,42 +450,24 @@ namespace TacticalGroups
 
 		public Vector2 scrollPosition;
 		public virtual void DrawOverlays(Rect rect)
-		{
-			_ = Rect.zero;
-			List<List<Pawn>> pawnRows = GetPawnRows(pawnRowCount);
-			Rect totalRect;
-			if (ShowExpanded)
-			{
-				totalRect = rect;
-				totalRect.height += pawnRows.Count * 75f;
-				totalRect.x = rect.x + (rect.width / 2f);
-				totalRect.x -= pawnRowCount * 75f / 2f;
-				totalRect.width = 75f * pawnRowCount;
-			}
-			else
-			{
-				totalRect = bannerModeEnabled
-					? new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, rect.height)
-					: new Rect(rect.x, rect.y, rect.width, rect.height);
-
-				totalRect = totalRect.ScaledBy(1.2f);
-				totalRect.height += pawnRows.Count * 30;
-			}
-			totalRect.yMin = rect.yMax;
-			if (Mouse.IsOver(rect))
-			{
-				if (!isSubGroup)
-				{
-					bool showThisPawnWindow = true;
-					foreach (ColonistGroup group in TacticUtils.AllGroups)
-					{
-						if (group != this && group.pawnWindowIsActive)
-						{
-							showThisPawnWindow = false;
-							break;
-						}
-					}
-					if (showThisPawnWindow)
+        {
+            _ = Rect.zero;
+            List<List<Pawn>> pawnRows = GetPawnRows(pawnRowCount);
+            Rect totalRect = GetPawnIconsArea(rect, pawnRows);
+            if (Mouse.IsOver(rect))
+            {
+                if (!isSubGroup)
+                {
+                    bool showThisPawnWindow = true;
+                    foreach (ColonistGroup group in TacticUtils.AllGroups)
+                    {
+                        if (group != this && group.pawnWindowIsActive)
+                        {
+                            showThisPawnWindow = false;
+                            break;
+                        }
+                    }
+                    if (showThisPawnWindow)
                     {
                         StartScrolling(out bool beginScrolling);
                         pawnWindowIsActive = true;
@@ -478,56 +479,83 @@ namespace TacticalGroups
                         }
                     }
                 }
-				else if (showPawnIconsRightClickMenu)
+                else if (showPawnIconsRightClickMenu)
                 {
                     Rect subGroupRect = new Rect(rect);
-					subGroupRect.x -= rect.width;
+                    subGroupRect.x -= rect.width;
                     StartScrolling(out bool beginScrolling);
-					DrawPawnRows(subGroupRect, pawnRows);
-					DrawPawnArrows(subGroupRect, pawnRows);
+                    DrawPawnRows(subGroupRect, pawnRows);
+                    DrawPawnArrows(subGroupRect, pawnRows);
                     if (beginScrolling)
                     {
                         Widgets.EndScrollView();
                     }
                 }
-				if (!ShowExpanded)
-				{
-					TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(curGroupName)));
-				}
-				HandleClicks(rect, totalRect);
-			}
-			else if (!isSubGroup && ((Mouse.IsOver(totalRect.ExpandedBy(50)) && pawnWindowIsActive) || showPawnIconsRightClickMenu))
+                if (!ShowExpanded)
+                {
+                    TooltipHandler.TipRegion(rect, new TipSignal("TG.GroupInfoTooltip".Translate(curGroupName)));
+                }
+                HandleClicks(rect, totalRect);
+            }
+            else if (!isSubGroup && ((Mouse.IsOver(totalRect) && pawnWindowIsActive) || showPawnIconsRightClickMenu))
             {
                 StartScrolling(out bool beginScrolling);
                 DrawPawnRows(rect, pawnRows);
-				DrawPawnArrows(rect, pawnRows);
+                DrawPawnArrows(rect, pawnRows);
                 if (beginScrolling)
                 {
                     Widgets.EndScrollView();
                 }
             }
-			else if (isSubGroup && showPawnIconsRightClickMenu)
+            else if (isSubGroup && showPawnIconsRightClickMenu)
             {
                 Rect subGroupRect = new Rect(rect);
-				subGroupRect.x -= rect.width;
+                subGroupRect.x -= rect.width;
                 StartScrolling(out bool beginScrolling);
-				DrawPawnRows(subGroupRect, pawnRows);
-				DrawPawnArrows(subGroupRect, pawnRows);
+                DrawPawnRows(subGroupRect, pawnRows);
+                DrawPawnArrows(subGroupRect, pawnRows);
                 if (beginScrolling)
                 {
                     Widgets.EndScrollView();
                 }
             }
-			else if (!isSubGroup)
-			{
-				pawnWindowIsActive = false;
-				expandPawnIcons = false;
-			}
-			else if (isSubGroup && !hideLifeOverlay)
-			{
-				DrawLifeOverlayWithDisabledDots(rect);
-			}
-		}
+            else if (!isSubGroup)
+            {
+                pawnWindowIsActive = false;
+                expandPawnIcons = false;
+            }
+            else if (isSubGroup && !hideLifeOverlay)
+            {
+                DrawLifeOverlayWithDisabledDots(rect);
+            }
+        }
+
+        private Rect GetPawnIconsArea(Rect rect, List<List<Pawn>> pawnRows)
+        {
+            Rect totalRect;
+            if (ShowExpanded)
+            {
+                totalRect = rect;
+                totalRect.height += pawnRows.Count * 75f;
+                totalRect.x = rect.x + (rect.width / 2f);
+                totalRect.x -= pawnRowCount * 75f / 2f;
+                totalRect.width = 75f * (pawnRowCount);
+            }
+            else
+            {
+                totalRect = bannerModeEnabled
+                    ? new Rect(rect.x - (rect.width / 1.7f), rect.y, 80f, rect.height)
+                    : new Rect(rect.x, rect.y, rect.width, rect.height);
+
+                totalRect = totalRect.ScaledBy(1.2f);
+                totalRect.height += pawnRows.Count * 30;
+                totalRect.width = 33 * (pawnRowCount);
+            }
+            //totalRect.yMin = rect.yMax;
+            totalRect.height = Mathf.Min(525, totalRect.height);
+			totalRect.height += rect.height;
+            return totalRect;
+        }
 
         private void StartScrolling(out bool beginScrolling)
         {

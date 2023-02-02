@@ -181,6 +181,7 @@ namespace TacticalGroups
                 {
                     GUI.DrawTexture(optionsGearRect, Textures.OptionsGear);
                 }
+
                 for (int i = 0; i < ColonistBarDrawLocsFinder.pawnGroupDrawLoc.Count; i++)
                 {
                     ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].colonistGroup.Draw(ColonistBarDrawLocsFinder.pawnGroupDrawLoc[i].rect);
@@ -298,24 +299,34 @@ namespace TacticalGroups
             var nonVisiblePawns = new HashSet<Pawn>();
             if (!TacticalGroupsSettings.HideGroups)
             {
-                foreach (PawnGroup pawnGroup in TacticUtils.AllPawnGroups)
+                for (int i = pawns.Count - 1; i >= 0; i--)
                 {
-                    for (int i = pawns.Count - 1; i >= 0; i--)
+                    var pawnGroups = TacticUtils.AllPawnGroups.Where(x => x.pawns.Contains(pawns[i]));
+                    foreach (var pawnGroup in pawnGroups)
+                    {
+                        if (pawnGroup.entireGroupIsVisible is false)
+                        {
+                            pawns.RemoveAt(i);
+                            //if (Find.Selector.IsSelected(pawns[i]))
+                            //    Log.Message("1 nonVisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
+                        }
+                    }
+
+                    foreach (PawnGroup pawnGroup in TacticUtils.AllPawnGroups)
                     {
                         if (pawnGroup.pawns.Contains(pawns[i]) && (pawnGroup.pawnIcons?.ContainsKey(pawns[i]) ?? false))
                         {
                             if (pawnGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && pawns[i].Map != null
                                 && (!TacticalGroupsSettings.HidePawnsWhenOffMap || pawns[i].Map == Find.CurrentMap))
                             {
+                                //if (Find.Selector.IsSelected(pawns[i]))
+                                //    Log.Message("1 VisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
                                 visiblePawns.Add(pawns[i]);
-                            }
-                            else
-                            {
-                                nonVisiblePawns.Add(pawns[i]);
                             }
                         }
                     }
                 }
+
 
                 foreach (ColonyGroup colonyGroup in TacticUtils.AllColonyGroups)
                 {
@@ -330,6 +341,8 @@ namespace TacticalGroups
                             }
                             else
                             {
+                                //if (Find.Selector.IsSelected(pawns[i]))
+                                //    Log.Message("2 nonVisibleColonyPawns: " + pawns[i]);
                                 nonVisiblePawns.Add(pawns[i]);
                             }
                         }
@@ -355,7 +368,9 @@ namespace TacticalGroups
                     }
                 }
             }
-            return pawns.Where(x => visiblePawns.Contains(x) || !nonVisiblePawns.Contains(x)).ToList();
+            nonVisiblePawns.RemoveWhere(x => visiblePawns.Contains(x));
+            return pawns.Where(x => visiblePawns.Contains(x) && !nonVisiblePawns.Contains(x) 
+            || !visiblePawns.Contains(x) && !nonVisiblePawns.Contains(x)).ToList();
         }
         private void CheckRecacheEntries()
         {

@@ -137,7 +137,8 @@ namespace TacticalGroups
 			Rect iconRect = new Rect(rect.x + 7f, rect.y + (rect.height - Textures.EyeIconOn.height) - 7f, Textures.EyeIconOn.width, Textures.EyeIconOn.height);
 			if (colonistGroup.entireGroupIsVisible || !colonistGroup.pawnIcons.Where(x => !x.Value.isVisibleOnColonistBar).Any())
 			{
-				if (Mouse.IsOver(iconRect))
+                TooltipHandler.TipRegion(iconRect, Strings.HideTooltip);
+                if (Mouse.IsOver(iconRect))
 				{
 					GUI.DrawTexture(iconRect, Textures.EyeIconOffHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -160,7 +161,8 @@ namespace TacticalGroups
 			}
 			else
 			{
-				if (Mouse.IsOver(iconRect))
+                TooltipHandler.TipRegion(iconRect, Strings.ShowTooltip);
+                if (Mouse.IsOver(iconRect))
 				{
 					GUI.DrawTexture(iconRect, Textures.EyeIconOnHover);
 					if (Event.current.type == EventType.MouseDown && Event.current.button == 0 && Event.current.clickCount == 1)
@@ -181,7 +183,6 @@ namespace TacticalGroups
 					GUI.DrawTexture(iconRect, Textures.EyeIconOn);
 				}
 			}
-			TooltipHandler.TipRegion(iconRect, Strings.ShowHideTooltip);
 
 			Rect disbandPawnRect = new Rect(rect.x + (rect.width - Textures.AddPawnIcon.width) - 40f, rect.y + (rect.height - Textures.AddPawnIcon.height) - 7f, Textures.DisbandPawnIcon.width, Textures.DisbandPawnIcon.height);
 			if (!colonistGroup.isColonyGroup)

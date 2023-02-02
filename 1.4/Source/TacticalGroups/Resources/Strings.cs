@@ -112,8 +112,9 @@ namespace TacticalGroups
 		public static readonly string RallyToolTip = "TG.RallyToolTip".Translate();
 		public static readonly string ShootersToolTip = "TG.ShootersToolTip".Translate();
 		public static readonly string MeleeToolTip = "TG.MeleeToolTip".Translate();
-		public static readonly string ShowHideTooltip = "TG.ShowHideTooltip".Translate();
-		public static readonly string AddColonistTooltip = "TG.AddColonistTooltip".Translate();
+        public static readonly string ShowTooltip = "TG.ShowTooltip".Translate();
+        public static readonly string HideTooltip = "TG.HideTooltip".Translate();
+        public static readonly string AddColonistTooltip = "TG.AddColonistTooltip".Translate();
 		public static readonly string MiddlePawnCountToolTip = "TG.MiddlePawnCountToolTip".Translate();
 		public static readonly string RegroupTooltip = "TG.RegroupTooltip".Translate();
 		public static readonly string BattleStationsTooltip = "TG.BattleStationsTooltip".Translate();

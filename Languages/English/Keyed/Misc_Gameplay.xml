@@ -142,7 +142,9 @@ Select and Draft entire group</TG.RallyToolTip>
 	-Click to select</TG.ShootersToolTip>
 	<TG.MeleeToolTip>Number of Melee in group
 	-Click to select</TG.MeleeToolTip>
-	<TG.ShowHideTooltip>Show/Hide group pawns from top bar</TG.ShowHideTooltip>
+	<TG.ShowTooltip>Show pawns in group from the top bar</TG.ShowTooltip>
+	<TG.HideTooltip>Hide pawns in group from the top bar</TG.HideTooltip>
+	
 	<TG.AddColonistTooltip>Add selected colonists to group</TG.AddColonistTooltip>
 	<TG.RegroupTooltip>Regroup on Leader's potition.
 Squad leader is first pawn in group</TG.RegroupTooltip>
