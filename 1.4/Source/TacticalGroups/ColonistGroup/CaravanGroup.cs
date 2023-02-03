@@ -62,18 +62,30 @@ namespace TacticalGroups
         {
             get
             {
-                this.pawns.RemoveAll(x => x.GetCaravan() != this.caravan);
+                DisbandAllNonCaravanPawns();
                 return this.pawns;
             }
         }
+
         public override List<Pawn> VisiblePawns
         {
             get
             {
-                this.pawns.RemoveAll(x => x.GetCaravan() != this.caravan);
+                DisbandAllNonCaravanPawns();
                 return this.pawns;
             }
         }
+        private void DisbandAllNonCaravanPawns()
+        {
+            for (var i = this.pawns.Count - 1; i >= 0; i--)
+            {
+                if (this.pawns[i].GetCaravan() != this.caravan)
+                {
+                    this.Disband(this.pawns[i]);
+                }
+            }
+        }
+
 
         public CaravanGroup(Pawn pawn)
         {
