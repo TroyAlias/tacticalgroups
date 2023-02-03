@@ -58,8 +58,22 @@ namespace TacticalGroups
             this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }
 
-        public override List<Pawn> ActivePawns => this.pawns;
-        public override List<Pawn> VisiblePawns => this.pawns;
+        public override List<Pawn> ActivePawns
+        {
+            get
+            {
+                this.pawns.RemoveAll(x => x.GetCaravan() != this.caravan);
+                return this.pawns;
+            }
+        }
+        public override List<Pawn> VisiblePawns
+        {
+            get
+            {
+                this.pawns.RemoveAll(x => x.GetCaravan() != this.caravan);
+                return this.pawns;
+            }
+        }
 
         public CaravanGroup(Pawn pawn)
         {
