@@ -93,10 +93,10 @@ namespace TacticalGroups
 		}
 		public virtual void Disband(Pawn pawn)
 		{
-			if (pawns.Contains(pawn))
+			if (pawns != null && pawns.Contains(pawn))
 			{
 				pawns.Remove(pawn);
-				pawnIcons.Remove(pawn);
+				pawnIcons?.Remove(pawn);
 				Sort();
 				UpdateData();
 				TacticUtils.TacticalColonistBar.MarkColonistsDirty();

@@ -83,7 +83,7 @@ namespace TacticalGroups
         public override void Disband(Pawn pawn)
         {
             base.Disband(pawn);
-			if (this.pawns.Count == 0)
+			if (this.pawns is null || this.pawns.Count == 0)
             {
 				TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
 			}
