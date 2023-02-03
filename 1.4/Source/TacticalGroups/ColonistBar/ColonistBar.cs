@@ -351,7 +351,11 @@ namespace TacticalGroups
                     {
                         if (caravanGroup.pawns.Contains(pawns[i]))
                         {
-                            if (caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && !TacticalGroupsSettings.HidePawnsWhenOffMap)
+                            if (TacticalGroupsSettings.HidePawnsWhenOffMap)
+                            {
+                                pawns.RemoveAt(i);
+                            }
+                            else if (caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar)
                             {
                                 visiblePawns.Add(pawns[i]);
                             }
@@ -363,6 +367,7 @@ namespace TacticalGroups
                     }
                 }
             }
+
 
             nonVisiblePawns.RemoveWhere(x => visiblePawns.Contains(x));
             return pawns.Where(x => visiblePawns.Contains(x) && !nonVisiblePawns.Contains(x) 
