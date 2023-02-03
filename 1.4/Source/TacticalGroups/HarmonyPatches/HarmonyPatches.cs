@@ -194,7 +194,7 @@ namespace TacticalGroups
 
         private static void PostfixLogMethod(MethodBase __originalMethod)
         {
-            Log.Message("Running " + __originalMethod.FullDescription() + " - " + new StackTrace());
+            Log.Message("Running " + __originalMethod.FullDescription());
             Log.ResetMessageCount();
         }
 
