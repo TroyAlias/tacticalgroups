@@ -3,6 +3,7 @@ using RimWorld;
 using RimWorld.Planet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -172,6 +173,29 @@ namespace TacticalGroups
                 prefix: new HarmonyMethod(typeof(HarmonyPatches_GroupBills), "SetPawnRestriction")
             );
             #endregion
+
+            var PostfixLogMethod = AccessTools.Method(typeof(HarmonyPatches), "PostfixLogMethod");
+            foreach (var type in typeof(HarmonyPatches).Assembly.GetTypes())
+            {
+                foreach (var method in AccessTools.GetDeclaredMethods(type))
+                {
+                    if (method != PostfixLogMethod && method.Name != "ReorderableWidgetOnGUI_AfterWindowStack" && method.Name.Contains("MessagesDoGUI") is false)
+                    {
+                        try
+                        {
+                            Log.Message("Patching " + method.FullDescription());
+                            harmony.Patch(method, postfix: new HarmonyMethod(PostfixLogMethod));
+                        }
+                        catch { }
+                    }
+                }
+            }
+        }
+
+        private static void PostfixLogMethod(MethodBase __originalMethod)
+        {
+            Log.Message("Running " + __originalMethod.FullDescription() + " - " + new StackTrace());
+            Log.ResetMessageCount();
         }
 
         private static IEnumerable<CodeInstruction> HandleLowPriorityShortcuts_Transpiler(IEnumerable<CodeInstruction> instructions)
