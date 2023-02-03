@@ -294,15 +294,22 @@ namespace TacticalGroups
                 for (int i = pawns.Count - 1; i >= 0; i--)
                 {
                     var pawn = pawns[i];
-                    var pawnGroups = TacticUtils.AllPawnGroups.Where(x => x.pawns.Contains(pawn)).ToList();
-                    foreach (var pawnGroup in pawnGroups)
+                    if (TacticalGroupsSettings.HidePawnsWhenOffMap && pawn.GetCaravan() != null)
                     {
-                        if (pawnGroup.entireGroupIsVisible is false)
+                        pawns.RemoveAt(i);
+                    }
+                    else 
+                    {
+                        var pawnGroups = TacticUtils.AllPawnGroups.Where(x => x.pawns.Contains(pawn)).ToList();
+                        foreach (var pawnGroup in pawnGroups)
                         {
-                            pawns.RemoveAt(i);
-                            break;
-                            //if (Find.Selector.IsSelected(pawns[i]))
-                            //    Log.Message("1 nonVisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
+                            if (pawnGroup.entireGroupIsVisible is false)
+                            {
+                                pawns.RemoveAt(i);
+                                break;
+                                //if (Find.Selector.IsSelected(pawns[i]))
+                                //    Log.Message("1 nonVisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
+                            }
                         }
                     }
                 }
