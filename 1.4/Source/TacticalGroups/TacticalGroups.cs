@@ -185,6 +185,13 @@ namespace TacticalGroups
         public override void WorldComponentTick()
         {
             base.WorldComponentTick();
+            if (Find.TickManager.TicksGame % 1000 == 0)
+            {
+                foreach (ColonistGroup group in TacticUtils.AllGroups)
+                {
+                    group.Sort();
+                }
+            }
             if (Find.TickManager.TicksGame % 60 == 0)
             {
                 foreach (var colonyGroup in this.colonyGroups.Values)
@@ -201,7 +208,6 @@ namespace TacticalGroups
                 }
             }
         }
-
 
         public override void FinalizeInit()
         {
