@@ -294,22 +294,15 @@ namespace TacticalGroups
                 for (int i = pawns.Count - 1; i >= 0; i--)
                 {
                     var pawn = pawns[i];
-                    if (TacticalGroupsSettings.HidePawnsWhenOffMap && pawn.GetCaravan() != null)
+                    var pawnGroups = TacticUtils.AllPawnGroups.Where(x => x.pawns.Contains(pawn)).ToList();
+                    foreach (var pawnGroup in pawnGroups)
                     {
-                        pawns.RemoveAt(i);
-                    }
-                    else 
-                    {
-                        var pawnGroups = TacticUtils.AllPawnGroups.Where(x => x.pawns.Contains(pawn)).ToList();
-                        foreach (var pawnGroup in pawnGroups)
+                        if (pawnGroup.entireGroupIsVisible is false)
                         {
-                            if (pawnGroup.entireGroupIsVisible is false)
-                            {
-                                pawns.RemoveAt(i);
-                                break;
-                                //if (Find.Selector.IsSelected(pawns[i]))
-                                //    Log.Message("1 nonVisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
-                            }
+                            pawns.RemoveAt(i);
+                            break;
+                            //if (Find.Selector.IsSelected(pawns[i]))
+                            //    Log.Message("1 nonVisiblePawns: " + pawns[i] + " - " + pawnGroup.curGroupName);
                         }
                     }
                 }
@@ -358,11 +351,7 @@ namespace TacticalGroups
                     {
                         if (caravanGroup.pawns.Contains(pawns[i]))
                         {
-                            if (TacticalGroupsSettings.HidePawnsWhenOffMap)
-                            {
-                                pawns.RemoveAt(i);
-                            }
-                            else if (caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar)
+                            if (caravanGroup.pawnIcons[pawns[i]].isVisibleOnColonistBar && !TacticalGroupsSettings.HidePawnsWhenOffMap)
                             {
                                 visiblePawns.Add(pawns[i]);
                             }
@@ -374,7 +363,6 @@ namespace TacticalGroups
                     }
                 }
             }
-
 
             nonVisiblePawns.RemoveWhere(x => visiblePawns.Contains(x));
             return pawns.Where(x => visiblePawns.Contains(x) && !nonVisiblePawns.Contains(x) 

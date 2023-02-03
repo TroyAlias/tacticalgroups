@@ -8,6 +8,26 @@ using Verse.AI;
 
 namespace TacticalGroups
 {
+    public class FormerGroup : IExposable
+    {
+		public Pawn pawn;
+		public List<PawnGroup> pawnGroups;
+		public FormerGroup()
+        {
+
+        }
+
+		public FormerGroup(Pawn pawn, List<PawnGroup> pawnGroups)
+		{
+			this.pawn = pawn;
+			this.pawnGroups = pawnGroups;
+		}
+		public void ExposeData()
+        {
+			Scribe_References.Look(ref pawn, "pawn");
+			Scribe_Collections.Look(ref pawnGroups, "pawnGroups", LookMode.Deep);
+		}
+	}
     public class CaravanGroup : ColonistGroup
 	{
         public override Map Map => null;
@@ -60,17 +80,6 @@ namespace TacticalGroups
 
         public override List<Pawn> ActivePawns => this.pawns;
         public override List<Pawn> VisiblePawns => this.pawns;
-        public void DisbandAllNonCaravanPawns()
-        {
-            for (var i = this.pawns.Count - 1; i >= 0; i--)
-            {
-                if (this.pawns[i].GetCaravan() != this.caravan)
-                {
-                    this.Disband(this.pawns[i]);
-                }
-            }
-        }
-
 
         public CaravanGroup(Pawn pawn)
         {
@@ -83,7 +92,7 @@ namespace TacticalGroups
         public override void Disband(Pawn pawn)
         {
             base.Disband(pawn);
-			if (this.pawns is null || this.pawns.Count == 0)
+			if (this.pawns.Count == 0)
             {
 				TacticUtils.TacticalGroups.caravanGroups.Remove(caravan);
 			}

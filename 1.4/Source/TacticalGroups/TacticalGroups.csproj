@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="ColonistGroup\ColorOption.cs" />
     <Compile Include="ColonistGroup\Formation.cs" />
-    <Compile Include="ColonistGroup\FormerGroup.cs" />
     <Compile Include="ColonistGroup\GroupColor.cs" />
     <Compile Include="ColonistGroup\PawnDot.cs" />
     <Compile Include="ColonistGroup\PawnDownedStateCache.cs" />

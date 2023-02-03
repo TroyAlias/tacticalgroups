@@ -57,7 +57,6 @@ namespace TacticalGroups
 
         public CaravanGroup AddCaravanGroup(Caravan caravan)
         {
-            RecheckCaravanGroups();
             this.caravanGroups[caravan] = new CaravanGroup(caravan);
             for (int num = colonyGroups.Values.Count - 1; num >= 0; num--)
             {
@@ -94,7 +93,6 @@ namespace TacticalGroups
                 this.caravanGroups.Remove(caravan);
                 TacticUtils.TacticalColonistBar.MarkColonistsDirty();
             }
-            RecheckCaravanGroups();
         }
 
         public ColonyGroup CreateOrJoinColony(List<Pawn> pawns, Map map)
@@ -146,10 +144,6 @@ namespace TacticalGroups
                 if (!group.Key.PawnsListForReading.Any(x => group.Value.pawns.Contains(x)))
                 {
                     caravanKeysToRemove.Add(group.Key);
-                }
-                else
-                {
-                    group.Value.DisbandAllNonCaravanPawns();
                 }
             }
 
@@ -353,10 +347,6 @@ namespace TacticalGroups
                 try
                 {
                     RemoveAllNullPawns();
-                    foreach (var caravanGroup in caravanGroups)
-                    {
-                        caravanGroup.Value.DisbandAllNonCaravanPawns();
-                    }
                 }
                 catch { }
             }
