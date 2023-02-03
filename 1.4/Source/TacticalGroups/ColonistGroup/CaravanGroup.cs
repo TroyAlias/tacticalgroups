@@ -58,24 +58,9 @@ namespace TacticalGroups
             this.curGroupName = this.defaultGroupName + " " + this.groupID;
         }
 
-        public override List<Pawn> ActivePawns
-        {
-            get
-            {
-                DisbandAllNonCaravanPawns();
-                return this.pawns;
-            }
-        }
-
-        public override List<Pawn> VisiblePawns
-        {
-            get
-            {
-                DisbandAllNonCaravanPawns();
-                return this.pawns;
-            }
-        }
-        private void DisbandAllNonCaravanPawns()
+        public override List<Pawn> ActivePawns => this.pawns;
+        public override List<Pawn> VisiblePawns => this.pawns;
+        public void DisbandAllNonCaravanPawns()
         {
             for (var i = this.pawns.Count - 1; i >= 0; i--)
             {
