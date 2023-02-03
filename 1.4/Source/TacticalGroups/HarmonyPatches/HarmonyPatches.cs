@@ -179,7 +179,12 @@ namespace TacticalGroups
             {
                 foreach (var method in AccessTools.GetDeclaredMethods(type))
                 {
-                    if (method != PostfixLogMethod && method.Name != "ReorderableWidgetOnGUI_AfterWindowStack" && method.Name.Contains("MessagesDoGUI") is false)
+                    if (method != PostfixLogMethod && method.Name != "ReorderableWidgetOnGUI_AfterWindowStack" 
+                        && method.Name.Contains("MessagesDoGUI") is false && method.Name.Contains("Scale") is false
+                        && method.Name.Contains("Size") is false
+                        && method.Name.Contains("GetPawnDots") is false
+                        && method.Name.Contains("DrawOverlays") is false
+                        && method.Name.Contains("DrawLoc") is false && method.Name.Contains("ShowDrafteesWeapon") is false)
                     {
                         try
                         {
