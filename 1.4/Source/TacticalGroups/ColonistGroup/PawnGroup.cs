@@ -290,10 +290,10 @@ namespace TacticalGroups
         {
             base.ExposeData();
 			Scribe_Collections.Look(ref formerPawns, "formerPawns", LookMode.Reference);
-			Scribe_Values.Look(ref autoDisbandWithoutPawns, "autoDisbandWithoutPawns");
+			Scribe_Values.Look(ref autoDisbandWithoutPawns, "autoDisbandWithoutPawns", true);
 			Scribe_References.Look(ref prevColonyGroup, "prevColonyGroup");
 		}
 
-		public bool autoDisbandWithoutPawns;
+		public bool autoDisbandWithoutPawns = true;
 	}
 }
