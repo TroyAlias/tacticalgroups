@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+	<SoundDef>
+		<defName>TG_RenameSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>RenameSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange> 
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_RallySFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>RallySFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_BattleStationsSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>BattleStationsSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_MenuButtonOpenMenus</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>MenuButtonOpenMenus</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_ClickSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>ClickSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_HoverSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>HoverSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_AttackOrdersSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>AttackOrders</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_WorkSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Work</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_UpgradeArmorWeaponsSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>UpgradeArmorWeapons</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_TakeBuffSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>TakeBuff</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_SortOptionsSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SortOptions</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_ResearchSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Research</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_LightsOutSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>LightsOut</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_DisbandGroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>DisbandGroup</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_CreateGroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>CreateGroup</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_ChowTimeSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>ChowTime</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_LeftClickGroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>LeftClickGroup</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	<SoundDef>
+		<defName>TG_RegroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Regroup</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	<SoundDef>
+		<defName>TG_SlaveLaborSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SlaveLabor</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	<SoundDef>
+		<defName>TG_UpgradeWeaponSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>UpgradeWeapon</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_SlideMenuOptionSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SlideMenuOptionSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+
+	<SoundDef>
+		<defName>TG_SubGroupSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>SubGroupSFX</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+	<SoundDef>
+		<defName>TG_ArrestSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Arrest</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+	
+	<SoundDef>
+		<defName>TG_ExecuteSFX</defName>  
+		<maxSimultaneous>1</maxSimultaneous>  
+		<subSounds>
+			<li>
+				<onCamera>True</onCamera>      
+				<grains>
+					<li Class="AudioGrain_Clip">
+						<clipPath>Execute</clipPath>
+					</li>
+				</grains>      
+				<volumeRange>30~30</volumeRange>
+			</li>
+		</subSounds>
+	</SoundDef>
+</Defs>
