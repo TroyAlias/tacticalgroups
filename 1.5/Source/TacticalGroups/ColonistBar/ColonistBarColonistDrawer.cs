@@ -1,3 +1,4 @@
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System;
@@ -9,7 +10,17 @@ using Verse.Sound;
 
 namespace TacticalGroups
 {
-	[HotSwappable]
+	[HarmonyPatch(typeof(ColonistBar), "Scale", MethodType.Getter)]
+	public static class ColonistBar_Scale_Patch
+	{
+		public static bool Prefix(ref float __result)
+		{
+			__result = TacticUtils.TacticalColonistBar.Scale;
+			return false;
+        }
+	}
+
+    [HotSwappable]
 	[StaticConstructorOnStartup]
 	public class TacticalGroups_ColonistBarColonistDrawer : ColonistBarColonistDrawer
     {
@@ -26,17 +37,6 @@ namespace TacticalGroups
 		private static Vector2[] bracketLocs = new Vector2[4];
 		public new void DrawColonist(Rect rect, Pawn colonist, Map pawnMap, bool highlight, bool reordering)
 		{
-			if (!(ModCompatibility.alteredCarbonDrawColonist_PatchMethod is null))
-            {
-				bool prefixValue = (bool)ModCompatibility.alteredCarbonDrawColonist_PatchMethod.Invoke(this, new object[]
-				{
-					this, rect, colonist, pawnMap, highlight, reordering, pawnLabelsCache, PawnTextureSize, MoodBGTex
-				});
-				if (!prefixValue)
-				{
-					return;
-				}
-            }
 			float alpha = TacticUtils.TacticalColonistBar.GetEntryRectAlpha(rect);
 			ApplyEntryInAnotherMapAlphaFactor(pawnMap, ref alpha);
 			if (reordering)
@@ -351,126 +351,7 @@ namespace TacticalGroups
 			}
 			return pawnTexture;
 		}
-
-		public new void DrawIcons(Rect rect, Pawn colonist)
-		{
-			if (colonist.Dead)
-			{
-				return;
-			}
-			tmpIconsToDraw.Clear();
-			bool flag = false;
-			if (colonist.CurJob != null)
-			{
-				JobDef def = colonist.CurJob.def;
-				if (def == JobDefOf.AttackMelee || def == JobDefOf.AttackStatic)
-				{
-					flag = true;
-				}
-				else if (def == JobDefOf.Wait_Combat)
-				{
-					Stance_Busy stance_Busy = colonist.stances.curStance as Stance_Busy;
-					if (stance_Busy != null && stance_Busy.focusTarg.IsValid)
-					{
-						flag = true;
-					}
-				}
-			}
-			
-			if (colonist.IsFormingCaravan())
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_FormingCaravan, Strings.ActivityIconFormingCaravan));
-			}
-			if (colonist.InAggroMentalState)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_MentalStateAggro, colonist.MentalStateDef.LabelCap));
-			}
-			else if (colonist.InMentalState)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_MentalStateNonAggro, colonist.MentalStateDef.LabelCap));
-			}
-			else if (colonist.InBed() && colonist.CurrentBed().Medical)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_MedicalRest, Strings.ActivityIconMedicalRest));
-			}
-			else if (colonist.CurJob != null && colonist.jobs.curDriver.asleep)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Sleeping, Strings.ActivityIconSleeping));
-			}
-			else if (colonist.CurJob != null && colonist.CurJob.def == JobDefOf.FleeAndCower)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Fleeing, Strings.ActivityIconFleeing));
-			}
-			else if (flag)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Attacking, Strings.ActivityIconAttacking));
-			}
-			else if (colonist.mindState.IsIdle && GenDate.DaysPassed >= 1)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Idle, Strings.ActivityIconIdle));
-			}
-			if (colonist.IsBurning())
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Burning, Strings.ActivityIconBurning));
-			}
-			
-			if (colonist.Inspired)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(Icon_Inspired, colonist.InspirationDef.LabelCap));
-			}
-			
-			if (colonist.IsSlaveOfColony)
-			{
-				tmpIconsToDraw.Add(new IconDrawCall(colonist.guest.GetIcon()));
-			}
-			else
-			{
-				bool flag2 = false;
-				if (colonist.Ideo != null)
-				{
-					Ideo ideo = colonist.Ideo;
-					Precept_Role role = ideo.GetRole(colonist);
-					if (role != null)
-					{
-						tmpIconsToDraw.Add(new IconDrawCall(role.Icon, null, ideo.Color));
-						flag2 = true;
-					}
-				}
-				if (!flag2)
-				{
-					Faction faction = null;
-					if (colonist.HasExtraMiniFaction())
-					{
-						faction = colonist.GetExtraMiniFaction();
-					}
-					else if (colonist.HasExtraHomeFaction())
-					{
-						faction = colonist.GetExtraHomeFaction();
-					}
-					if (faction != null)
-					{
-						tmpIconsToDraw.Add(new IconDrawCall(faction.def.FactionIcon, null, faction.Color));
-					}
-				}
-			}
-			
-			if (!(ModCompatibility.rimworldOfMagicDrawMethod is null))
-			{
-				ModCompatibility.rimworldOfMagicDrawMethod.Invoke(this, new object[]
-				{
-					this, rect, colonist
-				});
-			}
-			
-			float num = Mathf.Min(BaseIconAreaWidth / (float)tmpIconsToDraw.Count, BaseIconMaxSize) * TacticUtils.TacticalColonistBar.Scale;
-			Vector2 pos = new Vector2(rect.x + 1f, rect.yMax - num - 1f);
-			foreach (IconDrawCall item in tmpIconsToDraw)
-			{
-				GUI.color = item.color ?? Color.white;
-				DrawIcon(item.texture, ref pos, num, item.tooltip);
-				GUI.color = Color.white;
-			}
-		}
+	
 
 		public new void DrawSelectionOverlayOnGUI(Pawn colonist, Rect rect)
 		{

@@ -387,6 +387,7 @@ namespace TacticalGroups
                     var oldCount = cachedEntries.Count;
                     tmpPawns.Clear();
                     tmpPawns.AddRange(tmpMaps[i].mapPawns.FreeColonistsAndPrisoners.Where(x => x.Faction == Faction.OfPlayer));
+                    tmpPawns.AddRange(tmpMaps[i].mapPawns.ColonyMutantsPlayerControlled);
                     List<Thing> list = tmpMaps[i].listerThings.ThingsInGroup(ThingRequestGroup.Corpse);
                     for (int j = 0; j < list.Count; j++)
                     {
@@ -408,6 +409,7 @@ namespace TacticalGroups
                         }
                     }
                     tmpPawns = GetNonHiddenPawns(tmpPawns);
+                    tmpPawns = tmpPawns.Distinct().ToList();
                     PlayerPawnsDisplayOrderUtility.Sort(tmpPawns);
                     for (int l = 0; l < tmpPawns.Count; l++)
                     {
