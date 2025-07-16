@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<DutyDef>
+		<defName>TG_AssaultThingsStrongest</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesStrongest">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<DutyDef>
+		<defName>TG_AssaultThingsWeakest</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesWeakest">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+	<DutyDef>
+		<defName>TG_AssaultThingsFleeing</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="JobGiver_TakeCombatEnhancingDrug" />
+				<li Class="TacticalGroups.JobGiver_AIFightEnemiesFleeing">
+					<targetAcquireRadius>20</targetAcquireRadius>
+					<targetKeepRadius>23</targetKeepRadius>
+				</li>
+				<li Class="JobGiver_AITrashDutyFocus" /> 
+				<li Class="JobGiver_AISapper" />
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+	
+	<DutyDef>
+		<defName>TG_RescueFallen</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="TacticalGroups.JobGiver_RescueNearby">
+				<radius>75</radius>
+				</li>
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+	
+	<DutyDef>
+		<defName>TG_TendWounded</defName>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+		<thinkNode Class="ThinkNode_Priority">
+			<subNodes>
+				<li Class="TacticalGroups.JobGiver_TendWounded">
+				<radius>75</radius>
+				</li>
+			</subNodes>
+		</thinkNode>
+	</DutyDef>
+
+</Defs>
